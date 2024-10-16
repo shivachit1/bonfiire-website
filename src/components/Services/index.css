@@ -17,13 +17,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 40px;
 }
 
 .service-card {
   background-color: rgba(91, 99, 104, 0.178);
   border-radius: 8px;
   padding: 20px;
-  margin: 15px;
   width: 250px;
   min-width: 250px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

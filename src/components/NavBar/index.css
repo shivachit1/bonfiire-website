@@ -22,7 +22,6 @@ nav h1 {
   flex-direction: row;
   justify-content: space-between;
   margin: 10px;
-  margin-right: 30px;
 }
 
 .nav-link {
