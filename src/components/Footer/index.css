@@ -1,0 +1,35 @@
+.footer {
+  color: white;
+  padding: 40px 20px;
+  align-self: flex-start;
+}
+
+.footer-content {
+  margin-bottom: 20px;
+}
+
+.footer-content h4 {
+  margin-bottom: 10px;
+}
+
+.footer-links,
+.footer-social {
+  margin-bottom: 15px;
+}
+
+.footer-links a,
+.footer-social a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}

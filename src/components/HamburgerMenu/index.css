@@ -1,0 +1,37 @@
+.menu {
+  padding: 10px;
+  float: right;
+  display: none;
+  margin-right: 16px;
+  z-index: 100;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 30px;
+  height: 3px;
+  background-color: rgb(117, 185, 130);
+  margin: 6px 0;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.change .bar1 {
+  transform: rotate(-45deg) translate(-6px, 3px);
+}
+
+.change .bar2 {
+  opacity: 0;
+}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+@media (max-width: 700px) {
+  .menu {
+    display: inline;
+  }
+}
