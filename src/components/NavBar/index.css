@@ -1,7 +1,6 @@
 nav {
   background-color: rgb(43, 47, 49);
-  width: 100%;
-  padding: 20px;
+  width: 90%;
   top: 0;
   position: fixed;
   display: flex;
@@ -17,6 +16,7 @@ nav h1 {
 }
 
 .nav-links {
+  display: inline-block;
   text-align: center;
   flex-direction: row;
   justify-content: space-between;
