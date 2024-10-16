@@ -5,27 +5,27 @@ const servicesData = [
   {
     title: "Bookkeeping",
     description:
-      "Comprehensive bookkeeping services to keep your financial records organized and accurate.",
+      "Comprehensive bookkeeping services to keep your financial records organized and accurate",
   },
   {
     title: "Tax Preparation",
     description:
-      "Expert tax preparation services to maximize deductions and ensure compliance with tax laws.",
+      "Expert tax preparation services to maximize deductions and ensure compliance with tax laws",
   },
   {
     title: "Financial Consulting",
     description:
-      "Tailored financial consulting to help your business grow and achieve its financial goals.",
+      "Tailored financial consulting to help your business grow and achieve its financial goals",
   },
   {
     title: "Payroll Services",
     description:
-      "Efficient payroll processing to save you time and ensure accuracy.",
+      "Efficient payroll processing to save you time and ensure accuracy",
   },
   {
     title: "Audit Services",
     description:
-      "Thorough audit services to provide assurance and enhance financial transparency.",
+      "Thorough audit services to provide assurance and enhance financial transparency",
   },
 ];
 
