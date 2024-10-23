@@ -37,6 +37,10 @@ nav h1 {
   font-weight: bold;
 }
 
+.nav-link:hover {
+  color: rgb(117, 185, 130);
+}
+
 @media only screen and (max-width: 700px) {
   .nav-links {
     display: none;

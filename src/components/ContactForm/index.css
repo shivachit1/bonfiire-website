@@ -30,6 +30,14 @@
   margin-top: 10px;
 }
 
+.link:hover {
+  color: rgb(117, 185, 130);
+}
+
+.link:hover p:hover {
+  color: rgb(117, 185, 130);
+}
+
 .link p {
   margin: 0px;
   margin-left: 10px;

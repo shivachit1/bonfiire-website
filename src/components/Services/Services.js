@@ -24,7 +24,7 @@ const servicesData = [
     icon: <MdArticle className="icon" />,
     title: "Accounting & VAT Services",
     description:
-      "We offer complete accounting and VAT solutions tailored to your financial requirements. Our skilled team ensures your financial records are precise, current, and in full compliance with legal regulations. VAT services are always included as part of our offering",
+      "We offer complete accounting and VAT solutions tailored to your financial requirements. Our skilled team ensures your financial records are precise, current, and in full compliance with legal regulations. VAT services are always included as part of our offering.",
   },
 
   {
