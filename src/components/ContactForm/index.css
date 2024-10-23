@@ -1,7 +1,7 @@
 .contact {
   width: 100%;
   padding: 20px 20px;
-  text-align: center;
+  text-align: left;
 }
 .divider {
   width: 100%;
@@ -9,7 +9,7 @@
   background-color: rgba(91, 99, 104, 0.178);
   border-radius: 10px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 .contact h2 {
   font-size: 2rem;
@@ -18,8 +18,21 @@
 
 .contact p {
   font-size: 1.2rem;
-  margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
+}
+
+.email-div {
+  display: flex;
+}
+
+.link {
+  display: inline; /* or inline-block */
+  margin-top: 10px;
+}
+
+.link p {
+  margin: 0px;
+  margin-left: 10px;
 }
 
 @media only screen and (max-width: 900px) {

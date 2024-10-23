@@ -9,8 +9,8 @@ export const CompanyInfo = () => {
       <div className="heroSection_content">
         <h1>Trusted Partner in Financial Success</h1>
         <p>
-          At Record Keep, we offer tailored accounting solutions designed to
-          meet the unique needs of your business. From bookkeeping to tax
+          At RecordKeep, we offer tailored accounting solutions designed to meet
+          the unique needs of your business. From bookkeeping to tax
           preparation, our expert team is here to help you thrive.
         </p>
         <button>

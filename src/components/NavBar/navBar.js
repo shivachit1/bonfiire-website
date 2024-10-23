@@ -13,7 +13,10 @@ const Navbar = () => {
 
   return (
     <nav>
-      <h1>Recordkeep</h1>
+      <a href="/">
+        <h1>Recordkeep</h1>
+      </a>
+
       <div className="nav-links">
         <ul>
           <li className="nav-link">

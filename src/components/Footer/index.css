@@ -1,7 +1,7 @@
 .footer {
+  width: 100%;
   color: white;
   padding: 40px 20px;
-  align-self: flex-start;
 }
 
 .footer-content {
@@ -32,4 +32,6 @@
 .footer-bottom {
   margin-top: 20px;
   font-size: 0.9rem;
+
+  text-align: right;
 }
