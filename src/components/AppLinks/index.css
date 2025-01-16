@@ -1,24 +1,24 @@
-.services {
+.appLinks {
   padding: 60px 20px;
 }
 
-.services .icon {
-  font-size: 30px;
+.icon {
+  font-size: 80px;
   margin-bottom: 6px;
   color: rgb(117, 185, 130);
 }
 
-.services h2 {
+.appLinks h2 {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
-.services p {
+.appLinks p {
   text-align: center;
 }
 
-.services-list {
+.appLinks-list {
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
@@ -26,33 +26,33 @@
   gap: 40px;
 }
 
-.services .service-card {
+.appLinks-card {
   background-color: rgba(91, 99, 104, 0.08);
   border-radius: 8px;
-  padding: 30px;
+  padding: 10px;
   width: 330px;
   min-width: 300px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
   transition: transform 0.3s;
 }
 
-.service-card:hover {
+.appLinks-card:hover {
   transform: translateY(-5px); /* Lift effect on hover */
 }
 
-.service-card h3 {
+.appLinks-card h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
-.service-card p {
+.appLinks-card p {
   font-size: 1.2rem;
   margin-bottom: 10px;
   text-align: left;
 }
 
 @media only screen and (max-width: 900px) {
-  .service-card {
+  .appLinks-card {
     flex: 1;
   }
 }

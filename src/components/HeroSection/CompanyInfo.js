@@ -7,23 +7,14 @@ export const CompanyInfo = () => {
   return (
     <div className="heroSection">
       <div className="heroSection_content">
-        <h1>Trusted Partner in Financial Success</h1>
+        <h1>Effortless Event Planning, Seamless Management</h1>
         <p>
-          At RecordKeep, we offer tailored accounting solutions designed to meet
-          the unique needs of your business. From bookkeeping to tax
-          preparation, our expert team is here to help you thrive.
+          Whether you're managing a festival, conference, or private gathering,
+          our platform is designed to make event organization smooth and
+          efficient. With real-time updates, streamlined ticketing, and
+          user-friendly tools, organizing events has never been easier. Join us
+          and take your events to the next level!
         </p>
-        <button>
-          <Link
-            to="contact"
-            spy={true}
-            smooth={true}
-            offset={-100}
-            duration={500}
-          >
-            Contact Us
-          </Link>
-        </button>
       </div>
 
       <SvgImage className="hero-icon" />

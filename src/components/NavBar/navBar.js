@@ -14,44 +14,8 @@ const Navbar = () => {
   return (
     <nav>
       <a href="/">
-        <h1>Recordkeep</h1>
+        <h1>Bonfiire</h1>
       </a>
-
-      <div className="nav-links">
-        <ul>
-          <li className="nav-link">
-            <Link
-              className="nav-link"
-              to="services"
-              activeClass="active"
-              smooth={true}
-              offset={-100}
-              duration={500}
-              ignoreCancelEvents={true}
-              onClick={() => hideResponsiveNav()}
-            >
-              Services
-            </Link>
-          </li>
-
-          <li className="nav-link">
-            <Link
-              className="nav-link"
-              activeClass="active"
-              to="contact"
-              spy={true}
-              smooth={true}
-              offset={-100}
-              duration={500}
-              onClick={() => hideResponsiveNav()}
-            >
-              Contact
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      <HamburgerMenu />
     </nav>
   );
 };
