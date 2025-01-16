@@ -2,12 +2,13 @@ import React from "react";
 import "./index.css";
 import { ReactComponent as SvgImage } from "./svgImage.svg"; // Adjust the path to your SVG
 import { Link } from "react-scroll";
+import AppLinks from "../AppLinks/AppLinks";
 
 export const CompanyInfo = () => {
   return (
     <div className="heroSection">
       <div className="heroSection_content">
-        <h1>Effortless Event Planning, Seamless Management</h1>
+        <h1>Social network for events</h1>
         <p>
           Whether you're managing a festival, conference, or private gathering,
           our platform is designed to make event organization smooth and
@@ -17,7 +18,7 @@ export const CompanyInfo = () => {
         </p>
       </div>
 
-      <SvgImage className="hero-icon" />
+      <AppLinks />
     </div>
   );
 };

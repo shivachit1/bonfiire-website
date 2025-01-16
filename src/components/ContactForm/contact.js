@@ -6,12 +6,11 @@ const Contact = () => {
     <div className="contact">
       <div className="divider"></div>
       <div>
-        <h2>Contact us</h2>
-        <p>Bonfiire Oy</p>
+        <h3>Contact us</h3>
         <div className="email-div">
           <p>Email :</p>
           <a className="link" href="mailto:support@bonfiire.io">
-            <p>info@gmail.com</p>
+            <p>support@bonfiire.io</p>
           </a>
         </div>
       </div>

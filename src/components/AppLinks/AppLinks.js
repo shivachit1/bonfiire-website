@@ -6,11 +6,12 @@ import "./index.css"; // Optional CSS for styling
 const linkData = [
   {
     icon: <IoLogoAndroid className="icon" />,
-    title: "Android app",
+    title: "Android",
     link: "Android app",
   },
   {
     icon: <FaAppStoreIos className="icon" />,
+    title: "iOS",
     link: "iOS App",
   },
 ];
@@ -24,7 +25,7 @@ const AppLinks = () => {
         {linkData.map((link, index) => (
           <div className="appLinks-card" key={index}>
             {link.icon}
-            <h3>{link.title}</h3>
+            <h4>{link.title}</h4>
           </div>
         ))}
       </div>
