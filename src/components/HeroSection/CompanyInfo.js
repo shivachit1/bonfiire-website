@@ -1,7 +1,5 @@
 import React from "react";
 import "./index.css";
-import { ReactComponent as SvgImage } from "./svgImage.svg"; // Adjust the path to your SVG
-import { Link } from "react-scroll";
 import AppLinks from "../AppLinks/AppLinks";
 
 export const CompanyInfo = () => {
