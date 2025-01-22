@@ -1,6 +1,5 @@
 import React from "react";
 import "./index.css";
-import Contact from "../ContactForm/contact";
 import AppLinks from "../AppLinks/AppLinks";
 
 const HomePage = () => {
