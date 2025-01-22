@@ -13,9 +13,9 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/terms" component={TermsPage} />
+          <Route path="/" exact element={<HomePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsPage />} />
         </Routes>
         <Footer />
       </Router>

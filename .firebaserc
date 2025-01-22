@@ -1,7 +1,5 @@
 {
   "projects": {
     "default": "bonfiire-38fad"
-  },
-  "targets": {},
-  "etags": {}
+  }
 }
