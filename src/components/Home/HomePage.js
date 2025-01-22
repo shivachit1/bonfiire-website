@@ -4,7 +4,7 @@ import AppLinks from "../AppLinks/AppLinks";
 
 const HomePage = () => {
   return (
-    <div className="heroSection">
+    <div className="homeSection">
       <section>
         <h2 style={{ marginTop: "30px" }}>Bonfiire</h2>
         <div className="pDiv">

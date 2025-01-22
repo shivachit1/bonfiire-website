@@ -1,10 +1,9 @@
 .termsContainer {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  padding: 70px;
   max-width: 1000px;
-  margin: auto;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 80px;
+  margin-bottom: 80px;
 }
 
 .termsContainer li {
@@ -22,4 +21,17 @@
 .termsContainer p {
   font-size: 20px;
   color: rgb(176, 173, 173);
+}
+
+@media only screen and (max-width: 700px) {
+  .termsContainer {
+    margin-top: 120;
+    padding: 30px;
+  }
+  .termsContainer p {
+    font-size: 18px;
+  }
+  .termsContainer li {
+    font-size: 16px;
+  }
 }

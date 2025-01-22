@@ -6,14 +6,10 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="links">
-        <Link className="link" to="/terms" style={{ textDecoration: "none" }}>
+        <Link className="link" to="/terms">
           Terms
         </Link>
-        <Link
-          className="link"
-          to="/privacy-policy"
-          style={{ textDecoration: "none" }}
-        >
+        <Link className="link" to="/privacy-policy">
           Privacy
         </Link>
       </div>

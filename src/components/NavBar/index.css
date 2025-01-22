@@ -1,19 +1,20 @@
-nav {
+.nav {
+  position: fixed;
+  max-width: 1000px;
   width: 100%;
   top: 0;
-  position: fixed;
+}
+
+.nav_links {
+  padding: 20px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  z-index: 10;
 }
 
-nav a {
+.nav a {
+  margin: 0;
   text-decoration: none;
   z-index: 100;
-}
-
-nav h1 {
-  padding: 10px;
 }

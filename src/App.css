@@ -37,18 +37,40 @@ h4 {
   color: rgb(238, 236, 236);
 }
 
+a {
+  color: #27ae60;
+  text-decoration: none;
+}
+
 button {
   width: fit-content;
   background-color: transparent;
-  padding: 12px;
+  padding: 8px;
   border-radius: 6px;
   text-decoration: none;
   cursor: pointer;
-  margin-top: 20px;
   font-weight: bold;
   outline: none;
   z-index: 5;
+  background-color: #27ae60;
+  border-width: 0;
 }
+
 button:hover {
   color: rgba(44, 42, 42, 0.915);
+}
+
+@media only screen and (max-width: 700px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
 }

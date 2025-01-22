@@ -1,11 +1,13 @@
 .footer {
-  width: 1000px;
+  max-width: 1000px;
   position: static;
   align-self: center;
   bottom: 0px;
   padding: 20px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -16,10 +18,14 @@
 }
 
 .link {
-  margin-left: 10px;
+  font-size: 1.2rem;
+  margin-right: 20px;
+  color: rgb(175, 175, 177);
+  text-decoration: none;
+  text-decoration-color: #27ae60;
 }
 
 .footer-bottom {
   text-align: right;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }

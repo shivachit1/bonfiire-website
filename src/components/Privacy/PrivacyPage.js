@@ -361,7 +361,13 @@ const PrivacyPolicy = () => {
             automatically collect information from you using cookies or similar
             technologies (such as web beacons, pixel tags, and device
             identifiers). For more information on cookies, please visit:{" "}
-            <a href="allaboutcookies.org">allaboutcookies.org</a>
+            <a
+              href="https://allaboutcookies.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              allaboutcookies.org
+            </a>
           </p>
         </div>
 
@@ -427,10 +433,7 @@ const PrivacyPolicy = () => {
         <div className="pDiv">
           <p>
             If you have any questions about this Privacy Policy, please email us
-            at
-          </p>
-          <p>
-            {" "}
+            at{" "}
             <a href="mailto:support@bonfiire.fi" style={{ color: "green" }}>
               support@bonfiire.fi
             </a>
