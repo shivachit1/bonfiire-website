@@ -1,17 +1,16 @@
 {
-  "name": "client",
+  "name": "bonfiire",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "jquery": "^3.5.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-icons": "^4.12.0",
-    "react-router-dom": "^5.3.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^7.1.3",
     "react-scripts": "^5.0.1",
-    "react-scroll": "^1.8.1",
-    "sass": "^1.79.5",
-    "typescript": "^3.9.5"
+    "react-scroll": "^1.8.0",
+    "typescript": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
