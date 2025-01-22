@@ -1,0 +1,40 @@
+.heroSection {
+  height: 95vh;
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.heroSection section {
+  width: 80%;
+}
+
+.heroSection .pDiv {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.heroSection h2 {
+  font-size: 35px;
+}
+
+.heroSection p {
+  font-size: 24px;
+  color: rgb(176, 173, 173);
+}
+
+@media only screen and (max-width: 700px) {
+  .heroSection {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .heroSection_content {
+    width: 100%;
+  }
+}

@@ -1,0 +1,25 @@
+.termsContainer {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.termsContainer li {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: rgb(211, 210, 210);
+}
+
+.termsContainer .pDiv {
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.termsContainer p {
+  font-size: 20px;
+  color: rgb(176, 173, 173);
+}

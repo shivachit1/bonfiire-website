@@ -1,9 +1,22 @@
 import React from "react";
 import "./index.css"; // Optional CSS for styling
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="footer">
+      <div className="links">
+        <Link className="link" to="/terms" style={{ textDecoration: "none" }}>
+          Terms
+        </Link>
+        <Link
+          className="link"
+          to="/privacy-policy"
+          style={{ textDecoration: "none" }}
+        >
+          Privacy
+        </Link>
+      </div>
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} Bonfiire. All rights reserved.</p>
       </div>

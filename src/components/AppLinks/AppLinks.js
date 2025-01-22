@@ -19,7 +19,6 @@ const linkData = [
 const AppLinks = () => {
   return (
     <div id="services" className="appLinks">
-      <h2>Download App</h2>
       <p>Our app are available for Android and iOS mobile devices.</p>
       <div className="appLinks-list">
         {linkData.map((link, index) => (
