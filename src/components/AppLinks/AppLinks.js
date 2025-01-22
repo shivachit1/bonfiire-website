@@ -1,6 +1,6 @@
 import React from "react";
-import { IoLogoAndroid } from "react-icons/io";
-import { FaAppStoreIos } from "react-icons/fa";
+/* import { IoLogoAndroid } from "react-icons/io";
+import { FaAppStoreIos } from "react-icons/fa"; */
 import "./index.css"; // Optional CSS for styling
 
 /* const linkData = [
