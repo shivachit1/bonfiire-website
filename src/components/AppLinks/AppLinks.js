@@ -3,7 +3,7 @@ import { IoLogoAndroid } from "react-icons/io";
 import { FaAppStoreIos } from "react-icons/fa";
 import "./index.css"; // Optional CSS for styling
 
-const linkData = [
+/* const linkData = [
   {
     icon: <IoLogoAndroid className="icon" />,
     title: "Android",
@@ -14,7 +14,7 @@ const linkData = [
     title: "iOS",
     link: "iOS App",
   },
-];
+]; */
 
 const AppLinks = () => {
   return (
