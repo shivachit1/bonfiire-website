@@ -142,7 +142,7 @@ const TermsPage = () => {
         </article>
 
         <section>
-          <h3 style={{ textAlign: "left" }}>5.1 Respect Other Users</h3>
+          <h3 style={{ textAlign: "left" }}>6.1 Respect Other Users</h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
               <p>
