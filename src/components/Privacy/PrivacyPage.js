@@ -29,8 +29,8 @@ const PrivacyPolicy = () => {
         </h2>
         <div className="pDiv">
           <p>
-            When you register or use Bonfiire services, we may collect the
-            following types of information:
+            When you use Bonfiire services, we may collect the following types
+            of data:
           </p>
         </div>
 
@@ -62,7 +62,7 @@ const PrivacyPolicy = () => {
             <li>Gender</li>
             <div className="pDiv">
               <p>
-                Used to filter events, hangouts, and services based on your
+                Used for filter events, hangouts, and services based on your
                 preferences
               </p>
             </div>
@@ -295,30 +295,29 @@ const PrivacyPolicy = () => {
             manage your information:
           </p>
         </div>
-
         <section style={{ textAlign: "left", marginTop: "20px" }}>
-          <h3>4.1 Account Deactivation</h3>
-          <div className="pDiv">
-            <p>
-              If you wish to deactivate your account, you can do so directly
-              through the app. Your account will be scheduled for deletion after
-              30 days. If you log back in within this period, your account and
-              data will be restored.
-            </p>
-          </div>
-        </section>
+          <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
+            <li>Account Deactivation</li>
+            <div className="pDiv">
+              <p>
+                If you wish to deactivate your account, you can do so directly
+                through the app. Your account will be scheduled for deletion
+                after 30 days. If you log back in within this period, your
+                account and data will be restored.
+              </p>
+            </div>
 
-        <section style={{ textAlign: "left", marginTop: "10px" }}>
-          <h3>4.2 Data Access and Deletion</h3>
-          <div className="pDiv">
-            <p>
-              You can request access to your personal data or ask for its
-              deletion at any time. To do so, please contact our support team,
-              and we will assist you in accessing, updating, or deleting your
-              information. If your account is deactivated, you can confirm the
-              status of your data or request deletion through support as well.
-            </p>
-          </div>
+            <li>Data Access and Deletion</li>
+            <div className="pDiv">
+              <p>
+                You can request access to your personal data or ask for its
+                deletion at any time. To do so, please contact our support team,
+                and we will assist you in accessing, updating, or deleting your
+                information. If your account is deactivated, you can confirm the
+                status of your data or request deletion through support as well.
+              </p>
+            </div>
+          </ul>
         </section>
       </section>
 
@@ -343,10 +342,11 @@ const PrivacyPolicy = () => {
         <h2>6. UnderAge Users privacy</h2>
         <div className="pDiv">
           <p>
-            Bonfiire is not intended for users under the age of 18. We do not
-            knowingly collect personal information from those users. If we learn
-            that we have collected data from a user under 18, we will delete
-            that information immediately.
+            Bonfiire is not intended for users under 18. We do not knowingly
+            collect personal information from minors. If we learn that we have
+            inadvertently collected information from a child under 18, we will
+            take steps to delete such information. If you believe we have
+            collected data from a user under 18, please contact us immediately.
           </p>
         </div>
       </section>
@@ -418,7 +418,66 @@ const PrivacyPolicy = () => {
       </section>
 
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>8. Changes to This Privacy Policy</h2>
+        <h2>8. GDPR Compliance</h2>
+        <div className="pDiv">
+          <p>
+            If you are located in the European Union (EU), you have certain
+            rights under the General Data Protection Regulation (GDPR) regarding
+            your personal data. These rights include:
+          </p>
+        </div>
+        <section style={{ textAlign: "left", marginTop: "20px" }}>
+          <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
+            <li>
+              <p>The right to access your personal data.</p>
+            </li>
+            <li>
+              <p>
+                The right to request the correction of inaccurate or incomplete
+                personal data.
+              </p>
+            </li>
+            <li>
+              <p>The right to request the deletion of your personal data.</p>
+            </li>
+            <li>
+              <p>
+                The right to restrict or object to the processing of your
+                personal data.
+              </p>
+            </li>
+            <li>
+              <p>The right to data portability.</p>
+            </li>
+          </ul>
+        </section>
+        <div className="pDiv">
+          <p>
+            To exercise these rights or if you have any questions regarding how
+            we process your data, please contact us at{" "}
+            <a href="mailto:support@bonfiire.io" style={{ color: "green" }}>
+              support@bonfiire.io
+            </a>
+          </p>
+        </div>
+      </section>
+
+      <section style={{ textAlign: "left", marginTop: "30px" }}>
+        <h2>9. Data Retention</h2>
+        <div className="pDiv">
+          <p>
+            We retain your personal data only for as long as necessary to
+            fulfill the purposes for which it was collected, including for any
+            legal, accounting, or reporting requirements. If you deactivate your
+            account, your personal data will be retained for 30 days before
+            deletion. In some cases, we may retain certain data for longer
+            periods if required by law or for legitimate business purposes.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ textAlign: "left", marginTop: "30px" }}>
+        <h2>10. Changes to This Privacy Policy</h2>
         <div className="pDiv">
           <p>
             We may update this policy periodically. Significant changes will be
@@ -434,8 +493,8 @@ const PrivacyPolicy = () => {
           <p>
             If you have any questions about this Privacy Policy, please email us
             at{" "}
-            <a href="mailto:support@bonfiire.fi" style={{ color: "green" }}>
-              support@bonfiire.fi
+            <a href="mailto:support@bonfiire.io" style={{ color: "green" }}>
+              support@bonfiire.io
             </a>
           </p>
         </div>
