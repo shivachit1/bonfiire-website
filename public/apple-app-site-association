@@ -16,7 +16,7 @@
             "comment": "Matches any URL with a path that starts with /event/."
           },
           {
-            "/": "/userProfile/*",
+            "/": "/userprofile/*",
             "comment": "Matches any URL with a path that starts with /userProfile/."
           }
         ]
