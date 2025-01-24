@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp -R ./public/.well-known/ ./build/ && cp -R ./public/.well-known/apple-app-site-association ./build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
