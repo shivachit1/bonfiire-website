@@ -12,7 +12,7 @@ const Footer = () => {
         <Link className="link" to="/privacy-policy">
           Privacy
         </Link>
-        <Link className="link" to="/download">
+        <Link className="link" to="/applink">
           Download
         </Link>
       </div>

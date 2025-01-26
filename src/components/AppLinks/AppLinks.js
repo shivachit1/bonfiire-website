@@ -11,7 +11,7 @@ const AppLinks = () => {
           {androidData.icon}
           <h4>{androidData.title}</h4>
         </Link>
-        <Link className="appLinks-card" to="/download">
+        <Link className="appLinks-card" to={iosData.downloadLink}>
           {iosData.icon}
           <h4>{iosData.title}</h4>
         </Link>

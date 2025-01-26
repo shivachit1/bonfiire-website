@@ -10,5 +10,5 @@ export const androidData = {
 export const iosData = {
   icon: <FaAppStoreIos className="icon" />,
   title: "iOS",
-  downloadLink: "https://apps.apple.com/fi/app/bonfiire/id1053012308",
+  downloadLink: "https://apps.apple.com/fi/app/bonfiire/id105ffgfgfgfgf3012308",
 };

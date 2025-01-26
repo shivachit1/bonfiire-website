@@ -36,7 +36,7 @@ function App() {
 
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/download" element={<DownloadPage />} />
+          <Route path="/applink" element={<DownloadPage />} />
 
           {/* handles deep linking */}
           <Route path="/events/:eventId" element={<EventDetailsPage />} />

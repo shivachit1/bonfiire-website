@@ -9,7 +9,7 @@ const UserProfilePage = () => {
   console.log(location);
 
   useEffect(() => {
-    navigate("/download");
+    navigate("/applink");
   }, [navigate, location]);
 
   return (

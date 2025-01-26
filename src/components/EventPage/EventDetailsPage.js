@@ -7,7 +7,7 @@ const EventDetailsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/download");
+    navigate("/applink");
   }, [navigate, location]);
 
   return (
