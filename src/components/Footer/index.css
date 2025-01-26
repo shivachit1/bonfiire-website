@@ -21,7 +21,13 @@
   font-size: 1.2rem;
   margin-right: 20px;
   color: rgb(175, 175, 177);
+  color: #27ae60;
   text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #27ae60;
   text-decoration-color: #27ae60;
 }
 

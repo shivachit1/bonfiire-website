@@ -1,4 +1,4 @@
-.homeSection {
+.userProfileSection {
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -7,20 +7,20 @@
   align-content: center;
 }
 
-.homeSection section {
+.userProfileSection section {
   width: 100%;
 }
 
-.homeSection .pDiv {
+.userProfileSection .pDiv {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.homeSection h2 {
+.userProfileSection h2 {
   font-size: 60px;
 }
 
-.homeSection p {
+.userProfileSection p {
   font-size: 24px;
   color: rgb(176, 173, 173);
 }
@@ -30,7 +30,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-  .homeSection {
+  .userProfileSection {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -38,16 +38,16 @@
 }
 
 @media only screen and (max-width: 700px) {
-  .homeSection h2 {
+  .userProfileSection h2 {
     font-size: 40px;
   }
-  .homeSection {
+  .userProfileSection {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .homeSection p {
+  .userProfileSection p {
     font-size: 18px;
     color: rgb(176, 173, 173);
   }

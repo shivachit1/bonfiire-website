@@ -1,6 +1,5 @@
 import React from "react";
 import "./index.css";
-import AppLinks from "../AppLinks/AppLinks";
 
 const HomePage = () => {
   return (
@@ -18,7 +17,13 @@ const HomePage = () => {
         </div>
       </section>
 
-      <AppLinks />
+      <div className="appLinks">
+        <h1 style={{ color: "#27AE60" }}>Stay tuned.....</h1>
+        <p>
+          Our app will soon be available for download on both Android and iOS
+          devices. Keep checking back for the latest updates and links!
+        </p>
+      </div>
     </div>
   );
 };
