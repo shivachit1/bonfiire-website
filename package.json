@@ -14,7 +14,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp -R ./public/.well-known/ ./build/.well-known/ && cp -R ./public/.well-known/apple-app-site-association ./build/",
+    "build:dev": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/development/* ./build/.well-known/",
+    "build:staging": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/staging/* ./build/.well-known/",
+    "build:prod": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/production/* ./build/.well-known/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

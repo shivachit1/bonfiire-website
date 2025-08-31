@@ -5,6 +5,27 @@
     "staging": "bonfiirestage",
     "production": "bonfiire-38fad"
   },
-  "targets": {},
-  "etags": {}
+  "targets": {
+    "bonfiiredev": {
+      "hosting": {
+        "development": [
+          "development"
+        ]
+      }
+    },
+    "bonfiirestage": {
+      "hosting": {
+        "staging": [
+          "staging"
+        ]
+      }
+    },
+    "bonfiire-38fad": {
+      "hosting": {
+        "production": [
+          "production"
+        ]
+      }
+    }
+  }
 }

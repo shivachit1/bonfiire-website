@@ -1,0 +1,31 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "L66SB6T5RY.com.bonfiire"
+        ],
+        "components": [
+          {
+            "#": "no_universal_links",
+            "exclude": true,
+            "comment": "Matches any URL with a fragment that equals no_universal_links and instructs the system not to open it as a universal link."
+          },
+          {
+            "/": "/events/*",
+            "comment": "Matches any URL with a path that starts with /event/."
+          },
+          {
+            "/": "/userprofile/*",
+            "comment": "Matches any URL with a path that starts with /userProfile/."
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "L66SB6T5RY.com.bonfiire"
+    ]
+  }
+}
