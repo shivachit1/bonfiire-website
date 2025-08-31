@@ -5,14 +5,22 @@
     "production": "bonfiire-38fad"
   },
   "targets": {
-    "bonfiire-38fad": {
+    "bonfiiredev": {
       "hosting": {
         "development": [
           "bonfiiredev"
-        ],
+        ]
+      }
+    },
+    "bonfiirestage": {
+      "hosting": {
         "staging": [
           "bonfiirestage"
-        ],
+        ]
+      }
+    },
+    "bonfiire-38fad": {
+      "hosting": {
         "production": [
           "bonfiire-38fad"
         ]
