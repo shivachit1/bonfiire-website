@@ -1,31 +1,23 @@
 {
   "projects": {
-    "default": "bonfiire-38fad",
     "development": "bonfiiredev",
     "staging": "bonfiirestage",
     "production": "bonfiire-38fad"
   },
   "targets": {
-    "bonfiiredev": {
-      "hosting": {
-        "development": [
-          "development"
-        ]
-      }
-    },
-    "bonfiirestage": {
-      "hosting": {
-        "staging": [
-          "staging"
-        ]
-      }
-    },
     "bonfiire-38fad": {
       "hosting": {
+        "development": [
+          "bonfiiredev"
+        ],
+        "staging": [
+          "bonfiirestage"
+        ],
         "production": [
-          "production"
+          "bonfiire-38fad"
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }
