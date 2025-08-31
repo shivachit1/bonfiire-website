@@ -4,13 +4,6 @@ import { Button } from "../Button/Button";
 import { FaDownload } from "react-icons/fa";
 
 const Navbar = () => {
-  const hideResponsiveNav = () => {
-    const menu = document.querySelector(".menu");
-    const links = document.querySelector(".nav-links");
-    links.classList.toggle("active");
-    menu.classList.toggle("change");
-  };
-
   const scrollToElement = () => {
     const element = document.getElementById("footer");
     if (element) {
