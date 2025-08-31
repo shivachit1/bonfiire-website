@@ -1,8 +1,9 @@
 .termsContainer {
   font-family: Arial, sans-serif;
   padding: 70px;
-  max-width: 1000px;
-  margin-top: 80px;
+  margin: auto;
+  max-width: 1400px;
+  margin-top: 90px;
   margin-bottom: 80px;
 }
 
@@ -10,7 +11,6 @@
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 18px;
-  color: rgb(211, 210, 210);
 }
 
 .termsContainer .pDiv {
@@ -20,7 +20,6 @@
 
 .termsContainer p {
   font-size: 20px;
-  color: rgb(176, 173, 173);
 }
 
 @media only screen and (max-width: 700px) {

@@ -1,16 +1,45 @@
 import "./index.css";
-import React from "react";
 import IconPNG from "./icon.png";
+import { Button } from "../Button/Button";
+import { FaDownload } from "react-icons/fa";
 
 const Navbar = () => {
+  const hideResponsiveNav = () => {
+    const menu = document.querySelector(".menu");
+    const links = document.querySelector(".nav-links");
+    links.classList.toggle("active");
+    menu.classList.toggle("change");
+  };
+
+  const scrollToElement = () => {
+    const element = document.getElementById("footer");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <nav className="nav">
-      <div className="nav_links">
-        <a href="/">
-          <img style={{ width: 40, height: 40 }} src={IconPNG} alt="icon" />
-        </a>
-      </div>
-    </nav>
+    <div className="navDiv">
+      <nav>
+        <div>
+          <a href="/" className="logo">
+            <img className="icon_image" src={IconPNG} alt="icon" />
+            <h2>Bonfiire</h2>
+          </a>
+        </div>
+        <div>
+          <Button text="Get the App" onPress={scrollToElement}>
+            <FaDownload
+              style={{
+                backgroundColor: "transparent",
+                color: "white",
+                fontSize: "1rem",
+              }}
+            />
+          </Button>
+        </div>
+      </nav>
+    </div>
   );
 };
 

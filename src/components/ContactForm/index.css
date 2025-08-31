@@ -24,22 +24,8 @@
   display: flex;
 }
 
-.link {
-  display: inline; /* or inline-block */
-  margin-top: 10px;
-}
-
-.link:hover {
-  color: rgb(117, 185, 130);
-}
-
 .link:hover p:hover {
-  color: rgb(117, 185, 130);
-}
-
-.link p {
-  margin: 0px;
-  margin-left: 10px;
+  color: var(--secondary-color);
 }
 
 @media only screen and (max-width: 900px) {

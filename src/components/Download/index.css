@@ -22,7 +22,6 @@
 
 .downloadSection p {
   font-size: 24px;
-  color: rgb(176, 173, 173);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -45,6 +44,5 @@
 
   .downloadSection p {
     font-size: 18px;
-    color: rgb(176, 173, 173);
   }
 }

@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "bonfiire-38fad"
-  }
+    "default": "bonfiire-38fad",
+    "development": "bonfiiredev",
+    "staging": "bonfiirestage",
+    "production": "bonfiire-38fad"
+  },
+  "targets": {},
+  "etags": {}
 }

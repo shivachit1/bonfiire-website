@@ -1,0 +1,24 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+}
+
+.button:hover {
+  background-color: var(--primary-color1);
+}
+
+.text {
+  font-size: 1em;
+  color: white;
+  margin-left: 8px;
+  align-self: center;
+}

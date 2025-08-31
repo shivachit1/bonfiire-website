@@ -495,7 +495,7 @@ const TermsPage = () => {
           </p>
           <p>
             {" "}
-            <a href="mailto:support@bonfiire.io" style={{ color: "green" }}>
+            <a href="mailto:support@bonfiire.io">
               support@bonfiire.io
             </a>
           </p>

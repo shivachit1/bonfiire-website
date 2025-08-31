@@ -11,7 +11,7 @@
 .bar3 {
   width: 30px;
   height: 3px;
-  background-color: rgb(117, 185, 130);
+  background-color: var(--primary-text-color);
   margin: 6px 0;
   transition: 0.4s;
   border-radius: 10px;

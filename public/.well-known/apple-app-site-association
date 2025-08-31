@@ -3,7 +3,9 @@
     "details": [
       {
         "appIDs": [
-          "L66SB6T5RY.com.bonfiire"
+          "L66SB6T5RY.com.bonfiire",
+          "L66SB6T5RY.com.bonfiire.dev",
+          "L66SB6T5RY.com.bonfiire.stage"
         ],
         "components": [
           {
@@ -25,7 +27,9 @@
   },
   "webcredentials": {
     "apps": [
-      "L66SB6T5RY.com.bonfiire"
+      "L66SB6T5RY.com.bonfiire",
+      "L66SB6T5RY.com.bonfiire.dev",
+      "L66SB6T5RY.com.bonfiire.stage"
     ]
   }
 }

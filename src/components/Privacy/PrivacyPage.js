@@ -455,9 +455,7 @@ const PrivacyPolicy = () => {
           <p>
             To exercise these rights or if you have any questions regarding how
             we process your data, please contact us at{" "}
-            <a href="mailto:support@bonfiire.io" style={{ color: "green" }}>
-              support@bonfiire.io
-            </a>
+            <a href="mailto:support@bonfiire.io">support@bonfiire.io</a>
           </p>
         </div>
       </section>
@@ -492,10 +490,7 @@ const PrivacyPolicy = () => {
         <div className="pDiv">
           <p>
             If you have any questions about this Privacy Policy, please email us
-            at{" "}
-            <a href="mailto:support@bonfiire.io" style={{ color: "green" }}>
-              support@bonfiire.io
-            </a>
+            at <a href="mailto:support@bonfiire.io">support@bonfiire.io</a>
           </p>
         </div>
       </section>

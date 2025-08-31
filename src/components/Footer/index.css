@@ -1,7 +1,14 @@
+.footerContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  z-index: 9;
+}
+
 .footer {
-  max-width: 1000px;
-  position: static;
-  align-self: center;
+  width: 1400px;
   bottom: 0px;
   padding: 20px;
   display: flex;
@@ -20,18 +27,11 @@
 .link {
   font-size: 1.2rem;
   margin-right: 20px;
-  color: rgb(175, 175, 177);
-  color: #27ae60;
-  text-decoration: none;
-}
-
-.link:hover {
+  margin-top: 8px;
+  color: var(--primary-color1);
   text-decoration: underline;
-  color: #27ae60;
-  text-decoration-color: #27ae60;
 }
 
-.footer-bottom {
-  text-align: right;
-  font-size: 1rem;
+.footer-bottom p {
+  font-size: 0.9rem;
 }

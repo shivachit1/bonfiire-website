@@ -9,9 +9,8 @@ import {
 import Navbar from "./components/NavBar/navBar.js";
 import Footer from "./components/Footer/Footer.js";
 import TermsPage from "./components/Terms/TermsPage.js";
-import HomePage from "./components/Home/HomePage.js";
+import HomePage from "./pages/Home/HomePage.js";
 import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
-import DownloadPage from "./components/Download/Download.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
 import UserProfilePage from "./components/UserProfile/UserProfile.js";
 
@@ -36,7 +35,6 @@ function App() {
 
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/applink" element={<DownloadPage />} />
 
           {/* handles deep linking */}
           <Route path="/events/:eventId" element={<EventDetailsPage />} />
