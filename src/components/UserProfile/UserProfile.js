@@ -1,17 +1,6 @@
-import React, { useEffect } from "react";
 import "./index.css";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  console.log(location);
-
-  useEffect(() => {
-    navigate("/applink");
-  }, [navigate, location]);
-
   return (
     <div className="userProfileSection">
       <section>
