@@ -14,9 +14,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:dev": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/development/* ./build/.well-known/",
-    "build:staging": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/staging/* ./build/.well-known/",
-    "build:prod": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/production/* ./build/.well-known/",
+    "build:dev": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/development/* ./build/.well-known/ && cp ./public/.well-known/development/apple-app-site-association ./build/apple-app-site-association",
+    "build:staging": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/staging/* ./build/.well-known/ && cp ./public/.well-known/staging/apple-app-site-association ./build/apple-app-site-association",
+    "build:prod": "react-scripts build && mkdir -p ./build/.well-known && cp -R ./public/.well-known/production/* ./build/.well-known/ && cp ./public/.well-known/production/apple-app-site-association ./build/apple-app-site-association",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
