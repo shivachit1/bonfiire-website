@@ -1,11 +1,15 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.bonfiire.stage",
       "sha256_cert_fingerprints": [
-        "34:27:6F:81:14:23:1C:57:19:DB:76:DE:C0:0A:A6:52:B8:F3:41:D9:B5:1A:43:79:F5:95:2A:A4:93:61:AC:CE"
+        "34:27:6F:81:14:23:1C:57:19:DB:76:DE:C0:0A:A6:52:B8:F3:41:D9:B5:1A:43:79:F5:95:2A:A4:93:61:AC:CE",
+        "15:1C:96:77:DC:AA:27:4C:21:99:45:46:D3:1D:18:23:1B:E7:B3:1B:3B:A8:DB:2D:21:29:51:3A:09:C4:88:38"
       ]
     }
   }
