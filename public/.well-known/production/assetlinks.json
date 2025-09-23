@@ -1,11 +1,15 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.bonfiire",
       "sha256_cert_fingerprints": [
-        "C4:6F:15:A8:ED:5A:9F:F7:4F:4D:51:04:BC:DD:4A:8A:67:C0:28:F5:D9:79:43:A7:1E:60:CC:9B:0A:12:A7:B2"
+        "C4:6F:15:A8:ED:5A:9F:F7:4F:4D:51:04:BC:DD:4A:8A:67:C0:28:F5:D9:79:43:A7:1E:60:CC:9B:0A:12:A7:B2",
+        "05:A6:F8:15:B2:13:E4:4D:0D:6B:6C:74:74:4C:9F:D3:5F:38:16:FB:D2:7F:BB:AB:B0:B2:AA:2E:EC:C9:3B:68"
       ]
     }
   }
