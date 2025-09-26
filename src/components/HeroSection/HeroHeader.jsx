@@ -9,26 +9,26 @@ const HeroHeader = ({ infoText, title, subtitle, button, className = "" }) => {
   let titleContent;
 
   if (parts) {
-    const [beforeText, highlightText, afterText] = parts;
+    const [_, beforeText, highlightText, afterText] = parts;
     const cleanHighlight = highlightText.replace(/\{|\}/g, " "); // Use space instead of strong for clean output
-
-    titleContent = (
-      <>
-        {beforeText.split("<br />").map((line, index) => (
-          <React.Fragment key={index}>
-            {line}
-            {index < beforeText.split("<br />").length - 1 && <br />}
-          </React.Fragment>
-        ))}
-        <strong className="hight_light">{cleanHighlight}</strong>
-        {afterText.split("<br />").map((line, index) => (
-          <React.Fragment key={index}>
-            {line}
-            {index < afterText.split("<br />").length - 1 && <br />}
-          </React.Fragment>
-        ))}
-      </>
-    );
+    if (_)
+      titleContent = (
+        <>
+          {beforeText.split("<br />").map((line, index) => (
+            <React.Fragment key={index}>
+              {line}
+              {index < beforeText.split("<br />").length - 1 && <br />}
+            </React.Fragment>
+          ))}
+          <strong className="hight_light">{cleanHighlight}</strong>
+          {afterText.split("<br />").map((line, index) => (
+            <React.Fragment key={index}>
+              {line}
+              {index < afterText.split("<br />").length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </>
+      );
   } else {
     // Render the title as plain text, respecting <br /> tags
     titleContent = title.split("<br />").map((line, index) => (

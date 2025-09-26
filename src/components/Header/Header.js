@@ -18,16 +18,17 @@ const SectionHeader = ({ title, subtitle, className = "" }) => {
   let titleContent;
 
   if (parts) {
-    const [ beforeText, highlightText, afterText] = parts;
+    const [_, beforeText, highlightText, afterText] = parts;
     const cleanHighlight = highlightText.replace(/\{|\}/g, ""); // Remove the braces
 
-    titleContent = (
-      <>
-        {beforeText}
-        <span className="highlight-text">{cleanHighlight}</span>
-        {afterText}
-      </>
-    );
+    if (_)
+      titleContent = (
+        <>
+          {beforeText}
+          <span className="highlight-text">{cleanHighlight}</span>
+          {afterText}
+        </>
+      );
   } else {
     // If no curly braces are found, render the title as plain text
     titleContent = title;
