@@ -9,7 +9,7 @@ const HeroHeader = ({ infoText, title, subtitle, button, className = "" }) => {
   let titleContent;
 
   if (parts) {
-    const [_, beforeText, highlightText, afterText] = parts;
+    const [beforeText, highlightText, afterText] = parts;
     const cleanHighlight = highlightText.replace(/\{|\}/g, " "); // Use space instead of strong for clean output
 
     titleContent = (
