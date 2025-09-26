@@ -1,4 +1,3 @@
-import React from "react";
 import "./index.css"; // Don't forget to create this CSS file
 
 // Import icons (you'll need to define these or get them from a library like react-icons)

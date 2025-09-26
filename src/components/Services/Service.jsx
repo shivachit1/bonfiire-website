@@ -1,4 +1,3 @@
-import React from "react";
 import { servicesData } from "./servicesData"; // Adjust the path as needed
 import "./index.css"; // Import the CSS file
 

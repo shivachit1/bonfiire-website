@@ -1,4 +1,3 @@
-import React from "react";
 import "./index.css"; // Optional CSS for styling
 import { Link } from "react-router-dom";
 

@@ -1,5 +1,4 @@
 // HeroHeader.jsx
-import React from "react";
 import "./index.css"; // Dedicated CSS for this large heading
 
 const HighLightText = ({ text }) => {

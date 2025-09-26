@@ -1,5 +1,4 @@
 // StepCard.jsx
-import React from "react";
 import "./index.css";
 
 const StepCard = ({ item }) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaDownload } from "react-icons/fa";
 import HeroHeader from "./HeroHeader.jsx"; // Import the new component
 // import GatheringImage from '...'; // Assuming this path is correct

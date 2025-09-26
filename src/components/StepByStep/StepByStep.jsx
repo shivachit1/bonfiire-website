@@ -1,4 +1,3 @@
-import React from "react";
 import "./index.css"; // Don't forget to create this CSS file
 
 const StepByStep = () => {

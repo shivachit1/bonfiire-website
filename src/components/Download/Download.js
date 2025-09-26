@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./index.css";
 import AppLinks from "../AppLinks/AppLinks";
 import { androidData, iosData } from "../../downloadData";

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaEnvelope } from "react-icons/fa";
 import "./index.css"; // Dedicated CSS for this section
 import SectionHeader from "../Header/Header";

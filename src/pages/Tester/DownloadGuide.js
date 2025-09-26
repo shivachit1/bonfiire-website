@@ -1,14 +1,10 @@
 // DownloadAppGuide.jsx
-import React from "react";
-import { FaApple, FaGooglePlay } from "react-icons/fa";
-// Assuming Button and the following files are correctly imported from their paths
-import { Button } from "../../components/Button/Button";
+
 import { androidDownloadSteps, iosDownloadSteps } from "./services";
 // Note: featuresData is not used in the provided JSX, so it's omitted here.
 import StepCard from "./StepCard";
 import "./index.css";
 import HighLightText from "../../components/HighLight/HighLightText";
-import HeroHeader from "../../components/HeroSection/HeroHeader";
 import SectionHeader from "../../components/Header/Header";
 import ContactSupport from "../../components/ContactForm/contact";
 
