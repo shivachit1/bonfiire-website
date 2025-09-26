@@ -29,7 +29,7 @@ const DownloadAppGuide = () => {
             subtitle={
               <p>
                 Install the <b>Bonfiire</b> iOS beta instantly via Apple{" "}
-                <b>TestFlight</b> and start testing today.
+                <b>TestFlight</b> and start using today.
               </p>
             }
           />

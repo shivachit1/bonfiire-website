@@ -112,8 +112,8 @@ export const androidDownloadSteps = [
     icon: ScreenImage,
     description: (
       <p>
-        In the TestFlight app, tap <b>'Install'</b>. You're all set! Open the
-        app and start exploring."
+        Tap <b>'Install'</b>. <br />
+        You're all set! Open the app and start exploring."
       </p>
     ),
   },
