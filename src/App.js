@@ -13,6 +13,7 @@ import HomePage from "./pages/Home/HomePage.js";
 import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
 import UserProfilePage from "./components/UserProfile/UserProfile.js";
+import DownloadAppGuide from "./pages/Tester/DownloadGuide.js";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<HomePage />} />
 
+          <Route path="/download" element={<DownloadAppGuide />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 

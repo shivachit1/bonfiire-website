@@ -1,0 +1,14 @@
+.highlight {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 12px; /* added px */
+  border: 1px dashed var(--primary-color1); /* added px */
+}
+
+.highlighted_text {
+  font-size: 0.8rem;
+  color: var(--primary-color1);
+}

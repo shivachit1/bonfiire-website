@@ -1,36 +1,18 @@
 import "./index.css";
 import IconPNG from "./icon.png";
-import { Button } from "../Button/Button";
-import { FaDownload } from "react-icons/fa";
+import { DownLoadLink } from "../AppLinks/AppLinks";
 
 const Navbar = () => {
-  const scrollToElement = () => {
-    const element = document.getElementById("footer");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="navDiv">
       <nav>
         <div>
           <a href="/" className="logo">
             <img className="icon_image" src={IconPNG} alt="icon" />
-            <h2>Bonfiire</h2>
+            <h3 style={{ marginLeft: 8 }}>Bonfiire.io</h3>
           </a>
         </div>
-        <div>
-          <Button text="Get the App" onPress={scrollToElement}>
-            <FaDownload
-              style={{
-                backgroundColor: "transparent",
-                color: "white",
-                fontSize: "1rem",
-              }}
-            />
-          </Button>
-        </div>
+        <div><DownLoadLink/></div>
       </nav>
     </div>
   );

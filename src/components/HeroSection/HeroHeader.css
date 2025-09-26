@@ -1,0 +1,41 @@
+/* --- Custom Hero Styles (Larger Heading) --- */
+.hero-header-title {
+  font-size: 3.5rem; /* Large font size for the main hero heading */
+  line-height: 1.1;
+  color: #333333;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.hero-header-subtitle-wrapper {
+  margin-top: 0.5rem; /* Spacing below the h1 */
+}
+
+.hero-header-subtitle {
+  font-size: 1.1rem;
+  color: #666666;
+  line-height: 1.5;
+  margin-bottom: 1.5rem; /* Space before the button */
+}
+
+/* Highlight Tag */
+.highlight-tag {
+  background-color: #fce4d4; /* Light background for the tag */
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+/* Responsive adjustment for title size */
+@media (max-width: 1200px) {
+  .hero-header-title {
+    font-size: 3rem;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  .hero-header-title {
+    font-size: 2.5rem;
+  }
+}

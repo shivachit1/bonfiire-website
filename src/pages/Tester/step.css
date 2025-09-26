@@ -1,0 +1,75 @@
+/* --- Individual Step Card Container --- */
+.steps-card {
+  /* Inherited: flex: 0 1 300px; max-width: 300px; from the parent's CSS */
+  padding: 30px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* 💡 CRITICAL: Enable Flexbox to manage vertical alignment of content */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally */
+}
+
+.steps-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Image and Media Styling --- */
+.steps-image {
+  /* 💡 CRITICAL FIX: Set a fixed size for uniformity */
+  width: 80px;
+  height: 80px;
+  margin: 15px 0;
+
+  /* 💡 CRITICAL FIX: Ensures the image covers the fixed area without stretching */
+  object-fit: contain;
+}
+
+/* --- Text Styling --- */
+.steps-header-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff7b42;
+  margin-bottom: 10px;
+}
+
+.steps-title {
+  font-size: 1.4rem;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.steps-description {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+
+  /* 💡 CRITICAL: Pushes the button to the bottom of the card */
+  margin-bottom: auto;
+}
+
+/* --- Button Styling --- */
+.steps-button {
+  display: inline-block;
+
+  /* Ensure space from the description is consistent */
+  margin-top: 20px;
+
+  padding: 10px 20px;
+  background-color: #007aff;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.steps-button:hover {
+  background-color: #005bb5;
+}

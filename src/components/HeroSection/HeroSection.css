@@ -1,0 +1,63 @@
+/* --- Hero Layout --- */
+.homeSection {
+  padding: 60px 20px;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center; /* Vertically centers items */
+  justify-content: space-between; /* Puts space between content and image */
+  max-width: 1200px;
+  margin: auto;
+}
+
+.hero-header {
+  flex: 1; /* Allows the text/button content to take up space */
+  max-width: 50%; /* Limits the width of the content column */
+  padding-right: 40px; /* Space between text and image */
+}
+
+.svg-icon {
+  flex: 1; /* Allows the image to take up space */
+  max-width: 60%; /* Limits the width of the image column */
+  height: auto;
+}
+
+/* --- Responsive Stacking (Critical) --- */
+@media (max-width: 992px) {
+  .headerInfo {
+    flex-direction: column; /* Stacks items vertically */
+    text-align: center; /* Centers text content when stacked */
+  }
+
+  .hero-header,
+  .svg-icon {
+    max-width: 100%; /* Allows both to use full width */
+    padding-right: 0;
+  }
+
+  .hero-header {
+    order: 1; /* Puts the text content first */
+    margin-bottom: 30px;
+  }
+
+  .svg-icon {
+    max-width: 100%;
+    order: 2; /* Puts the image second */
+    margin-top: 20px;
+  }
+}
+
+/* Re-center specific elements that were aligned left on desktop */
+@media (max-width: 992px) {
+  .hero-header .storeDiv {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%; /* Required for centering */
+  }
+  .hero-header .hero-header-subtitle-wrapper {
+    margin-top: 0.5rem; /* Restore spacing */
+  }
+}

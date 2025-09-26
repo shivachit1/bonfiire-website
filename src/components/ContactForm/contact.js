@@ -1,21 +1,33 @@
 import React from "react";
-import "./index.css";
+import { FaEnvelope } from "react-icons/fa";
+import "./index.css"; // Dedicated CSS for this section
+import SectionHeader from "../Header/Header";
 
-const Contact = () => {
+const ContactSupport = ({ title, subtitle }) => {
+  const SUPPORT_EMAIL = "support@bonfiire.io"; // 💡 Change this to your actual support email
+  const EMAIL_SUBJECT = "Bonfiire App Download Assistance";
+
+  // Construct the mailto link
+  const mailtoLink = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
+    EMAIL_SUBJECT
+  )}`;
+
   return (
-    <div className="contact">
-      <div className="divider"></div>
-      <div>
-        <h3>Contact us</h3>
-        <div className="email-div">
-          <p>Email :</p>
-          <a className="link" href="mailto:support@bonfiire.io">
-            <p>support@bonfiire.io</p>
-          </a>
-        </div>
-      </div>
-    </div>
+    <article className="contact-support-article">
+      <section className="contact-support-section">
+        <SectionHeader title={title} subtitle={subtitle} />
+
+        <a href={mailtoLink} className="contact-support-button">
+          <FaEnvelope className="button-icon" />
+          <span>Email Our Support Team</span>
+        </a>
+
+        <p className="contact-support-note">
+          Average response time: 15-30 minutes.
+        </p>
+      </section>
+    </article>
   );
 };
 
-export default Contact;
+export default ContactSupport;

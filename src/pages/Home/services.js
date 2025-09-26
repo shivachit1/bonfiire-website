@@ -3,27 +3,27 @@ import { LuUsers, LuCalendarDays, LuLocateFixed, LuBell } from "react-icons/lu";
 
 export const servicesData = [
   {
-    title: "Connect with Your Community",
+    title: "Discover Events",
     icon: <LuUsers className="icon" />,
     description:
-      "Find people who share your interests and passions. Build meaningful connections that last beyond the screen.",
+      "Find exciting local activities and events happening around you. From coffee meetups to adventure sports.",
   },
   {
-    title: "Discover Local Events",
+    title: "Connect with People",
     icon: <LuCalendarDays className="icon" />,
     description:
-      "Browse through a curated list of events happening near you. From casual meetups to organized activities.",
+      "Meet like-minded individuals who share your interests. Build genuine friendships that last.",
   },
   {
-    title: "Location-Based Matching",
+    title: "Create Your Bonfiire",
     icon: <LuLocateFixed className="icon" />,
     description:
-      "Find people who share your interests and passions. Build meaningful connections that last beyond the screen.",
+      "Host your own events and bring your community together. Be the spark that ignites connections.",
   },
   {
-    title: "Real-time Notifications",
+    title: "Build Community",
     icon: <LuBell className="icon" />,
     description:
-      "Never miss an opportunity to connect. Get notified about new events, messages, and connection requests.",
+      "Join interest-based groups and create lasting bonds with people who get you.",
   },
 ];

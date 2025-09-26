@@ -10,7 +10,7 @@
 } */
 
 :root {
-  --primary-color: #f7f7f7;
+  --primary-color: #fcf8f5;
   --secondary-color: #59412b;
   --primary-color1: #e56822;
 
@@ -53,7 +53,7 @@ p,
 li {
   color: var(--secondary-text-color);
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   flex: 1;
 }
 

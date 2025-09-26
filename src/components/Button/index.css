@@ -9,11 +9,12 @@
   padding-right: 16px;
   border-radius: 6px;
   cursor: pointer;
-  background-color: var(--secondary-color);
+
+  background-color: var(--primary-color1);
 }
 
 .button:hover {
-  background-color: var(--primary-color1);
+  scale: 1.02;
 }
 
 .text {

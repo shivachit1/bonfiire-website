@@ -13,6 +13,9 @@ const Footer = () => {
           <Link className="link" to="/privacy-policy">
             Privacy
           </Link>
+          <Link className="link" to="/download">
+            Download
+          </Link>
         </div>
         <div className="footer-bottom">
           <p>

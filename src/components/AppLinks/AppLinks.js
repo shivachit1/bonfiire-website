@@ -20,4 +20,12 @@ const AppLinks = () => {
   );
 };
 
+export const DownLoadLink = () => {
+  return (
+    <Link to={"/download"} className="button">
+      Installation Guide
+    </Link>
+  );
+};
+
 export default AppLinks;
