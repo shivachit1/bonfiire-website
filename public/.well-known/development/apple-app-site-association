@@ -13,11 +13,23 @@
           },
           {
             "/": "/events/*",
-            "comment": "Matches any URL with a path that starts with /event/."
+            "comment": "Covers /events/:eventId."
+          },
+          {
+            "/": "/events/*/invitations/*",
+            "comment": "Covers /events/:eventId/invitations/:screen (Going, Requests, Not Going, etc.)."
+          },
+          {
+            "/": "/messages/*",
+            "comment": "Covers /messages/:chatRoomId."
+          },
+          {
+            "/": "/user/*",
+            "comment": "Covers /user/:screen/:userId? (Followers, Followings)."
           },
           {
             "/": "/userprofile/*",
-            "comment": "Matches any URL with a path that starts with /userProfile/."
+            "comment": "Keep this only if your buildDeepLink function still generates /userprofile/ links. Otherwise, remove it."
           }
         ]
       }
