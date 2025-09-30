@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import { useCallback, useEffect } from "react";
 
-const UserProfilePage = () => {
+const ChatRoomPage = () => {
   const navigate = useNavigate();
 
   const handleDeepLinkFallback = useCallback(() => {
@@ -30,7 +30,7 @@ const UserProfilePage = () => {
   return (
     <div className="userProfileSection">
       <section>
-        <h2 style={{ marginTop: "30px" }}>User profile</h2>
+        <h2 style={{ marginTop: "30px" }}>Chat room</h2>
         <div className="pDiv">
           <p>Opening Bonfiire app in mobile or redirecting to download link</p>
         </div>
@@ -39,4 +39,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default ChatRoomPage;

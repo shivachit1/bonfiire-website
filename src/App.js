@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,6 +14,7 @@ import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
 import UserProfilePage from "./components/UserProfile/UserProfile.js";
 import DownloadAppGuide from "./pages/Tester/DownloadGuide.js";
+import ChatRoomPage from "./components/ChatRoom/ChatRoom.js";
 
 const ScrollToTop = () => {
   const location = useLocation();
@@ -41,6 +42,7 @@ function App() {
           {/* handles deep linking */}
           <Route path="/events/:eventId" element={<EventDetailsPage />} />
           <Route path="/userprofile/:userId" element={<UserProfilePage />} />
+          <Route path="/messages/:chatRoomId" element={<ChatRoomPage />} />
         </Routes>
         <Footer />
       </Router>
