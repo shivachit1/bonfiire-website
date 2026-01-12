@@ -8,14 +8,14 @@
 }
 
 .privacyContainer li {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   font-size: 18px;
 }
 
 .privacyContainer .pDiv {
   margin-top: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .privacyContainer p {

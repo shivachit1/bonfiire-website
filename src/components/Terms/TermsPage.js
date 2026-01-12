@@ -27,9 +27,9 @@ const TermsPage = () => {
         </h2>
         <div className="pDiv">
           <p>
-            By accessing or using our Services, you acknowledge that you have
-            read, understood, and agree to be bound by these Terms. If you do
-            not agree to these Terms, you must refrain from using our Services.
+            By creating an account or using our Services, you acknowledge that
+            you have read, understood, and agree to be bound by these Terms. If
+            you do not agree, you must cease using our Services immediately.
           </p>
         </div>
       </section>
@@ -39,41 +39,46 @@ const TermsPage = () => {
         <article className="pDiv">
           <p>
             Bonfiire acts as a platform that enables individual users to
-            organize and manage their events/hangouts, but we are not directly
-            involved in the planning or execution of these events/hangouts. As
-            such, we are not responsible or liable for:
+            organize and manage their events/hangouts, and create social
+            connections. Bonfiire is not an event organizer or host. As such, we
+            do not take responsibility for any issues, disputes, or liabilities
+            arising from events/hangouts organized by users on our platform.
+            This includes, but is not limited to:
           </p>
         </article>
 
         <section>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>Cancellations made by the event/hangouts host</p>
-            </li>
-            <li>
               <p>
-                The content, conduct, or any activities related to the
-                event/hangouts
+                We are not directly involved in the planning, execution, or
+                safety of any events/hangouts.
               </p>
             </li>
             <li>
               <p>
-                The accuracy of event/hangout information, such as the timing,
-                location, or connection details provided by the host.
+                You acknowledge that Bonfiire does not vet users or event
+                locations. You attend any event or hangout found via the
+                platform entirely at your own risk.
+              </p>
+            </li>
+            <li>
+              <p>
+                Event hosts are solely responsible for the accuracy of event
+                details and for ensuring their events comply with local laws and
+                safety regulations.
+              </p>
+            </li>
+            <li>
+              <p>
+                If you have any questions or issues with an event/hangout,
+                please reach out to the event host directly. Hosts are in charge
+                of their events/hangouts and are responsible for sharing any
+                specific terms or policies that might apply to you.
               </p>
             </li>
           </ul>
         </section>
-
-        <article className="pDiv">
-          <p>
-            If you have any questions or issues with an event/hangout, please
-            reach out to the event host directly. Hosts are in charge of their
-            events/hangouts and are responsible for sharing any specific terms
-            or policies that might apply to you. They’re also the ones to talk
-            to if you need help resolving any issues related to the event.
-          </p>
-        </article>
       </section>
 
       <section>
@@ -105,15 +110,15 @@ const TermsPage = () => {
                 secure access to your account.
               </p>
             </li>
+            <li>
+              <p>
+                You are solely responsible for all activities that occur under
+                your account. If you suspect unauthorized access or a security
+                breach, you agree to notify us immediately.
+              </p>
+            </li>
           </ul>
         </section>
-        <article className="pDiv">
-          <p>
-            You are solely responsible for all activities that occur under your
-            account. If you suspect unauthorized access or a security breach,
-            you agree to notify us immediately.
-          </p>
-        </article>
       </section>
 
       <section>
@@ -135,7 +140,7 @@ const TermsPage = () => {
       </section>
 
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>6. User Responsibilities</h2>
+        <h2>6. User Conduct and Responsibilities</h2>
         <article className="pDiv">
           <p>You agree to the following user responsibilities:</p>
         </article>
@@ -494,9 +499,7 @@ const TermsPage = () => {
           </p>
           <p>
             {" "}
-            <a href="mailto:support@bonfiire.io">
-              support@bonfiire.io
-            </a>
+            <a href="mailto:support@bonfiire.io">support@bonfiire.io</a>
           </p>
         </div>
       </section>

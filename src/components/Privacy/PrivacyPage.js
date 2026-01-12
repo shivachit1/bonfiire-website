@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
     <div className="privacyContainer">
       <header>
         <h1 style={{ textAlign: "left", marginTop: "30px" }}>Privacy Policy</h1>
-        <i>Created: 2025-01-22</i>
+        <i>Last updated: 2026-01-10</i>
       </header>
 
       <section>
@@ -15,10 +15,9 @@ const PrivacyPolicy = () => {
           <p>
             Welcome to Bonfiire! We value your privacy and are committed to
             protecting your personal information. This Privacy Policy outlines
-            how we collect, use, disclose, and safeguard your information when
-            you use Bonfiire’s services (referred to as “Bonfiire,” “we,” or
-            “our”). By using Bonfiire, you agree to the practices described in
-            this Privacy Policy.
+            how we collect, use, and safeguard your information when you use
+            Bonfiire’s services (referred to as “Bonfiire,” “we,” or “our”). By
+            using Bonfiire, you agree to the practices described here.
           </p>
         </div>
       </section>
@@ -29,55 +28,68 @@ const PrivacyPolicy = () => {
         </h2>
         <div className="pDiv">
           <p>
-            When you use Bonfiire services, we may collect the following types
-            of data:
+            We collect data to provide a functional, safe, and social
+            experience. We categorize the data we process as follows:
           </p>
         </div>
 
         <section style={{ textAlign: "left", marginTop: "20px" }}>
           <h3>2.1 Personal Data</h3>
+          <p>To create a social ecosystem, we require specific identifiers:</p>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-            <li>Name</li>
+            <li>
+              <h3>Name</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Your name will be displayed in your profile, shared with other
-                users on the Bonfiire platform, and will be used to contact you
-                via email for important updates, offers, or notifications.
+                Displayed on your profile, shared with other users on the
+                Bonfiire platform, and used in email while communicating with
+                you.
               </p>
             </div>
-            <li>Email Address</li>
+            <li>
+              <h3>Email Address</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Used for signing in, identifying you while using our services,
-                and sending you updates, offers, and usage instructions via
-                email.
+                Serves as your primary account identifier, used for secure
+                login, and sending critical service updates or usage
+                instructions.
               </p>
             </div>
-            <li>Phone Number</li>
+            <li>
+              <h3>Phone Number</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Used for signing in, and identify you while using our services.
+                Utilized as a secondary authentication factor to ensure account
+                uniqueness and security.
               </p>
             </div>
-            <li>Gender</li>
+            <li>
+              <h3>Gender</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Used for filter events, hangouts, and services based on your
-                preferences
+                Used for filtering events, hangouts based on your preferences
               </p>
             </div>
-            <li>Date of Birth</li>
+            <li>
+              <h3>Date of Birth</h3>
+            </li>
             <div className="pDiv">
               <p>
                 Used for age verification and filtering events, hangouts, and
                 services based on your criteria.
               </p>
             </div>
-            <li>Profile Picture</li>
+            <li>
+              <h3>Profile Picture</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Profile picture will be displayed in your profile and shared
-                with other users on the Bonfiire platform.
+                Displayed in your profile and shared with other users on the
+                Bonfiire platform to showcase your presence.
               </p>
             </div>
           </ul>
@@ -88,49 +100,49 @@ const PrivacyPolicy = () => {
             <h3>2.2 Device Information</h3>
             <div className="pDiv">
               <p>
-                We automatically collect information about your device when you
-                use our app, including:
+                When you access Bonfiire services, our servers automatically log
+                technical data to ensure stability and security:
               </p>
             </div>
           </div>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              Device Type (e.g., iPhone, Android):
-              <div className="pDiv">
-                <p>
-                  Identifies the manufacturer and model of your device to
-                  optimize app functionality and provide the best user
-                  experience for your device type.
-                </p>
-              </div>
+              <h3>Device Type (e.g., iPhone, Android):</h3>
             </li>
+            <div className="pDiv">
+              <p>
+                Identifies the manufacturer and model of your device to optimize
+                app functionality and provide the best user experience for your
+                device type.
+              </p>
+            </div>
             <li>
-              Operating System Version:
-              <div className="pDiv">
-                <p>
-                  Helps ensure compatibility with your OS version and resolve
-                  issues specific to certain operating systems.
-                </p>
-              </div>
+              <h3>Operating System (OS):</h3>
             </li>
+            <div className="pDiv">
+              <p>
+                Helps ensure compatibility with your OS version and resolve
+                issues specific to certain operating systems.
+              </p>
+            </div>
             <li>
-              Unique Device Identifier:
-              <div className="pDiv">
-                <p>
-                  Used for internal logging to identify and troubleshoot issues
-                  without storing sensitive data.
-                </p>
-              </div>
+              <h3>Unique Device Identifier:</h3>
             </li>
+            <div className="pDiv">
+              <p>
+                Used for internal logging to identify and troubleshoot issues
+                without storing sensitive data.
+              </p>
+            </div>
             <li>
-              IP Address:
-              <div className="pDiv">
-                <p>
-                  Used for security purposes, such as detecting malicious
-                  activity and understanding geographical usage patterns.
-                </p>
-              </div>
+              <h3> IP Address:</h3>
             </li>
+            <div className="pDiv">
+              <p>
+                Processed for security auditing, DDoS protection, and to infer
+                general geographical usage patterns (city/country level).
+              </p>
+            </div>
           </ul>
         </section>
 
@@ -138,149 +150,181 @@ const PrivacyPolicy = () => {
           <h3>2.3 Location Data</h3>
           <div className="pDiv">
             <p>
-              With your permission, we use your real-time location to provide
-              services like location-sharing with event participants and
-              suggesting nearby events. We also collect location data when you
-              open and close the app to enhance functionality. You can enable or
-              disable location services at any time through your device
-              settings.
-            </p>
-          </div>
-        </section>
-
-        <section style={{ textAlign: "left", marginTop: "30px" }}>
-          <h3>2.4 Events/hangouts data</h3>
-          <div className="pDiv">
-            <p>
-              Here are the some measure which we strictly carry out for you
-              events/hangouts
+              We prioritize a "Privacy-First" approach to location. Unlike other
+              apps, we do not maintain a historical database of your movements.
             </p>
           </div>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-            <li>Public events/hangouts</li>
+            <li>
+              <h3>Real-Time Interaction:</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Public events and hangouts will be shared on maps based on
-                location. Users will see these events if they meet their
-                criteria and preferences.
+                With your permission, the app uses your device's GPS to center
+                the map on your current location.
               </p>
             </div>
-            <li>Private events/hangouts</li>
+
+            <li>
+              <h3>Map Bounds Processing:</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                When you navigate the map, the app sends the coordinates of the
+                visible map area (bounds) to our server. Our server queries the
+                database to return events/hangouts within those specific
+                boundaries.
+              </p>
+            </div>
+
+            <li>
+              <h3>Non-Persistent Storage:</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                These coordinate requests are processed in real-time. We do not
+                store or "track" where you have been; the data is discarded once
+                the event list is delivered to your device.
+              </p>
+            </div>
+
+            <li>
+              <h3>Map Providers:</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                Our map features are powered by Google Maps. By using our map
+                services, you also agree to be bound by their respective Privacy
+                Policies.
+              </p>
+            </div>
+
+            <li>
+              <h3>Future Opt-In Features:</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                We may implement features for real-time location sharing between
+                friends or event organizers. These will always require a
+                separate, explicit "Opt-In" from you.
+              </p>
+            </div>
+          </ul>
+        </section>
+
+        <section style={{ textAlign: "left", marginTop: "30px" }}>
+          <h3>2.4 Events, hangouts & Social Content</h3>
+          <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
+            <li>
+              <h3>Public events/hangouts</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                Data related to public events/hangouts (location, description,
+                time) is broadcast to all users whose map bounds overlap with
+                the event location, and matches their filter preferences.
+              </p>
+            </div>
+
+            <li>
+              <h3>Private events/hangouts</h3>
+            </li>
             <div className="pDiv">
               <p>
                 Private events and hangouts will only be shared with invited
                 users and will remain hidden from others on the platform.
               </p>
             </div>
+
+            <li>
+              <h3>Chat & Messaging</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                Chat messages between users are securely encrypted and stored.
+                These are treated as private data and are not accessed by us
+                except for legal compliance or reported violations.
+              </p>
+            </div>
           </ul>
         </section>
-
-        <section style={{ textAlign: "left", marginTop: "30px" }}>
-          <h3>2.5 Chat room and messages</h3>
-          <div className="pDiv">
-            <p>
-              Chat messages between users are securely encrypted and stored. In
-              rare cases, such as legal investigations, messages may be reviewed
-              if required by law, but your privacy and security remain our top
-              priorities.
-            </p>
-          </div>
-        </section>
-
-        <section style={{ textAlign: "left", marginTop: "30px" }}>
-          <h3>2.6 Activity Data</h3>
-          <div className="pDiv">
-            <p>
-              We collect information about how often you use the app and your
-              activities within it. This helps us understand which features you
-              enjoy, improve your experience, and enhance the app’s
-              functionality.
-            </p>
-          </div>
-        </section>
-
-        <section style={{ textAlign: "left", marginTop: "30px" }}>
-          <h3>2.7 Payment Information</h3>
-          <div className="pDiv">
-            <p>
-              Currently, our app does not process payments or handle payment
-              data. In the future, we may introduce features involving in-app
-              purchases or payment processing. When this occurs, payment
-              information (e.g., credit card details) will be securely handled
-              by trusted third-party payment processors, and we will update this
-              policy to provide full details.
-            </p>
-          </div>
-        </section>
-
-        <section style={{ textAlign: "left", marginTop: "30px" }}>
-          <h3>2.8 Analytics and Functional Data</h3>
-          <div className="pDiv">
-            <p>
-              We use analytics to understand how our services are being used and
-              identify areas for improvement:
-            </p>
-          </div>
-
-          <div style={{ textAlign: "left", marginTop: "20px" }}>
-            <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-              <li>App Usage Frequency</li>
-              <div className="pDiv">
-                <p>
-                  We track how often you open the app to understand our active
-                  user base.
-                </p>
-              </div>
-              <li>Platform Activity</li>
-              <div className="pDiv">
-                <p>
-                  Monitoring your activity helps us improve features, tailor
-                  recommendations, and provide a personalized experience.
-                </p>
-              </div>
-              <li>Email Interaction</li>
-              <div className="pDiv">
-                <p>
-                  We analyze email open rates and link clicks to determine the
-                  effectiveness of our communications and provide more relevant
-                  updates and offers.
-                </p>
-              </div>
-              <li>Website Visits (Anonymous)</li>
-              <div className="pDiv">
-                <p>
-                  We track website visits to measure the success of campaigns
-                  and improve content relevance.
-                </p>
-              </div>
-            </ul>
-          </div>
-        </section>
       </section>
+
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>3. Third Parties</h2>
+        <h2>3. Authentication & Tracking Technologies</h2>
+
+        <div style={{ textAlign: "left", marginTop: "20px" }}>
+          <h3>3.1 JSON Web Tokens (JWT)</h3>
+          <p>
+            We do not use traditional browser-based tracking cookies. Instead,
+            we utilize JSON Web Tokens (JWT).
+          </p>
+          <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
+            <li>
+              <h3>Purpose</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                These tokens are stored securely on your device to keep you
+                authenticated. They allow you to use the app without re-entering
+                your credentials for every session.
+              </p>
+            </div>
+            <li>
+              <h3>Security</h3>
+            </li>
+            <div className="pDiv">
+              <p>
+                These tokens are cryptographically signed to prevent tampering.
+              </p>
+            </div>
+          </ul>
+        </div>
+
+        <div style={{ textAlign: "left", marginTop: "20px" }}>
+          <h3>3.2 Analytics & Functional Data</h3>
+          <div className="pDiv">
+            <p>
+              Currently, we do not utilize any in-house or third-party
+              behavioral tracking. However, in future updates, we may implement
+              basic analytics to monitor app performance and user engagement. We
+              will always prioritize user privacy and provide clear options to
+              opt-out of any tracking features.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ textAlign: "left", marginTop: "30px" }}>
+        <h2>4. Third-Party Data Sharing</h2>
         <div className="pDiv">
           <p>
-            We do not sell your data. Your information is shared only in the
-            following cases:
+            We do not sell, rent, or trade your personal data to third parties
+            for marketing purposes. We only disclose data in the following
+            scenarios:
           </p>
         </div>
 
         <div style={{ textAlign: "left", marginTop: "20px" }}>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-            <li>Service Providers:</li>
+            <li>
+              <h3>Core Service Providers:</h3>
+            </li>
             <div className="pDiv">
               <p>
-                We may share information with trusted service providers who
-                assist with app functionality (e.g., firebase, amazon web
-                services).
+                We use trusted infrastructure partners like Firebase and Amazon
+                Web Services (AWS) to host our database and facilitate app
+                functionality.
               </p>
             </div>
-            <li>Legal Compliance:</li>
+            <li>
+              <h3>Legal Mandates:</h3>
+            </li>
             <div className="pDiv">
               <p>
-                Your information may be shared if required by law, such as for
-                legal investigations or compliance with applicable regulations.
+                We may disclose your information if we believe in good faith
+                that such action is necessary to comply with a legal obligation,
+                protect our rights, or ensure the safety of our users.
               </p>
             </div>
           </ul>
@@ -288,33 +332,41 @@ const PrivacyPolicy = () => {
       </section>
 
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>4. Your Data Rights and Choices</h2>
+        <h2>5. Your Data Rights and Choices</h2>
         <div className="pDiv">
           <p>
-            You have full control over your personal data. Here’s how you can
-            manage your information:
+            Our users in any country or regions have the right to access,
+            correct, or delete their personal data. You can manage your
+            information through the account settings or by contacting our
+            support team.
           </p>
         </div>
         <section style={{ textAlign: "left", marginTop: "20px" }}>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-            <li>Account Deactivation</li>
+            <li>
+              <h3>Request a copy of your personal data</h3>
+            </li>
             <div className="pDiv">
               <p>
-                If you wish to deactivate your account, you can do so directly
-                through the app. Your account will be scheduled for deletion
-                after 30 days. If you log back in within this period, your
-                account and data will be restored.
+                Through our app, you can view and download the personal data we
+                have collected about you. This includes your profile
+                information, events/hangouts you have created or joined, and
+                chat messages. Upon receiving your request, we will compile the
+                data and provide it to you in a commonly used JSON format within
+                1-4 days depending upon the volume of data requested.
               </p>
             </div>
 
-            <li>Data Access and Deletion</li>
+            <li>
+              <h3>Account Deletion</h3>
+            </li>
             <div className="pDiv">
               <p>
-                You can request access to your personal data or ask for its
-                deletion at any time. To do so, please contact our support team,
-                and we will assist you in accessing, updating, or deleting your
-                information. If your account is deactivated, you can confirm the
-                status of your data or request deletion through support as well.
+                You can delete your Bonfiire account and all associated data at
+                any time via the account settings within the app. Upon a
+                deletion request, we will immediately deactivate your account
+                and remove your personal data from our active databases within
+                30 days.
               </p>
             </div>
           </ul>
@@ -322,103 +374,7 @@ const PrivacyPolicy = () => {
       </section>
 
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>5. Security</h2>
-        <div className="pDiv">
-          <p>
-            We take the security of your personal information seriously and use
-            commercially reasonable measures to protect it. However, please note
-            that no method of transmission over the internet or electronic
-            storage is completely secure. While we strive to implement strong
-            security protocols, we cannot guarantee 100% protection against all
-            potential threats, including unauthorized access, data breaches, or
-            loss. We are continuously working to enhance the security of our
-            systems, but users should also take precautions to protect their own
-            information.
-          </p>
-        </div>
-      </section>
-
-      <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>6. UnderAge Users privacy</h2>
-        <div className="pDiv">
-          <p>
-            Bonfiire is not intended for users under 18. We do not knowingly
-            collect personal information from minors. If we learn that we have
-            inadvertently collected information from a child under 18, we will
-            take steps to delete such information. If you believe we have
-            collected data from a user under 18, please contact us immediately.
-          </p>
-        </div>
-      </section>
-
-      <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>7. Cookies and Tracking Technologies</h2>
-        <div className="pDiv">
-          <p>
-            Cookies are small text files that are placed on your device to
-            collect standard internet log information and visitor behavior
-            information. When you visit our website or use our services, we may
-            automatically collect information from you using cookies or similar
-            technologies (such as web beacons, pixel tags, and device
-            identifiers). For more information on cookies, please visit:{" "}
-            <a
-              href="https://allaboutcookies.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              allaboutcookies.org
-            </a>
-          </p>
-        </div>
-
-        <section style={{ textAlign: "left", marginTop: "20px" }}>
-          <h3>How Do We Use Cookies?</h3>
-          <div className="pDiv">
-            <p>
-              We use cookies in several ways to enhance your experience on our
-              website and services. This includes:
-            </p>
-          </div>
-          <div style={{ textAlign: "left", marginTop: "20px" }}>
-            <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
-              <li>Authentication and Sessions:</li>
-              <div className="pDiv">
-                <p>
-                  To keep you signed in and ensure you don’t have to log in
-                  repeatedly during your session.
-                </p>
-              </div>
-              <li>Personalization:</li>
-              <div className="pDiv">
-                <p>
-                  To store your preferred language, locale, and other
-                  customization settings for a better user experience.
-                </p>
-              </div>
-
-              <li>Performance and Analytics:</li>
-              <div className="pDiv">
-                <p>
-                  To understand how you interact with our website, track user
-                  behavior, and improve our content and functionality.
-                </p>
-              </div>
-
-              <li>Campaign Tracking:</li>
-              <div className="pDiv">
-                <p>
-                  To determine where visitors came from (e.g., advertising
-                  campaigns or social media), so we can evaluate the
-                  effectiveness of our marketing efforts.
-                </p>
-              </div>
-            </ul>
-          </div>
-        </section>
-      </section>
-
-      <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>8. GDPR Compliance</h2>
+        <h2>6. GDPR or International Compliance</h2>
         <div className="pDiv">
           <p>
             If you are located in the European Union (EU), you have certain
@@ -461,15 +417,39 @@ const PrivacyPolicy = () => {
       </section>
 
       <section style={{ textAlign: "left", marginTop: "30px" }}>
-        <h2>9. Data Retention</h2>
+        <h2>7. Data Retention</h2>
         <div className="pDiv">
           <p>
-            We retain your personal data only for as long as necessary to
-            fulfill the purposes for which it was collected, including for any
-            legal, accounting, or reporting requirements. If you deactivate your
-            account, your personal data will be retained for 30 days before
-            deletion. In some cases, we may retain certain data for longer
-            periods if required by law or for legitimate business purposes.
+            We retain your personal data only for as long as your account is
+            active or as needed to provide you with services. We may retain
+            certain data longer if required for legal or accounting purposes.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ textAlign: "left", marginTop: "30px" }}>
+        <h2>8. Security Measures</h2>
+        <div className="pDiv">
+          <p>
+            We take the security of your personal information seriously and use
+            commercially reasonable measures (including SSL/TLS encryption) to
+            protect it. However, please note that no method of transmission over
+            the internet or electronic storage is 100% secure. We cannot
+            guarantee absolute protection, and we encourage users to take
+            precautions to protect their own account information.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ textAlign: "left", marginTop: "30px" }}>
+        <h2>9. Age Restriction</h2>
+        <div className="pDiv">
+          <p>
+            Bonfiire is not intended for users under 18. We do not knowingly
+            collect personal information from minors. If we learn that we have
+            inadvertently collected information from a child under 18, we will
+            take immediate steps to delete such information and terminate the
+            associated account.
           </p>
         </div>
       </section>
@@ -489,8 +469,9 @@ const PrivacyPolicy = () => {
         <h2>Contact Us</h2>
         <div className="pDiv">
           <p>
-            If you have any questions about this Privacy Policy, please email us
-            at <a href="mailto:support@bonfiire.io">support@bonfiire.io</a>
+            For questions, privacy inquiries, or any other concerns, please
+            contact us at:{" "}
+            <a href="mailto:support@bonfiire.io">support@bonfiire.io</a>
           </p>
         </div>
       </section>
