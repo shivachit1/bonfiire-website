@@ -7,6 +7,7 @@ import SectionHeader from "../../components/Header/Header";
 import HomeSection from "../../components/HeroSection/HeroSection";
 import HighLightText from "../../components/HighLight/HighLightText";
 import { DownLoadLink } from "../../components/AppLinks/AppLinks";
+import ContactSupport from "../../components/ContactForm/contact";
 
 const HomePage = () => {
   return (
@@ -38,6 +39,15 @@ const HomePage = () => {
               away."
           />
           <DownLoadLink />
+        </section>
+      </article>
+
+      <article className="servicesArticle">
+        <section className="servicesSection">
+          <ContactSupport
+            title="Trouble with {Bonfiire}?"
+            subtitle="Reach out to our support team directly. We'll quickly resolve any issues you may have."
+          />
         </section>
       </article>
     </div>
