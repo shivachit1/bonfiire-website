@@ -1,36 +1,95 @@
+/* Container for the Terms & Conditions - Matching your Privacy style */
 .termsContainer {
-  font-family: Arial, sans-serif;
-  padding: 70px;
-  margin: auto;
-  max-width: 1400px;
-  margin-top: 90px;
-  margin-bottom: 80px;
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 50px 70px;
+  border-radius: 12px;
+  line-height: 1.7;
+  font-family:
+    "Inter",
+    -apple-system,
+    Arial,
+    sans-serif;
+}
+
+/* Header Section */
+.termsContainer header {
+  border-bottom: 2px solid #eee;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+}
+
+.termsContainer h1 {
+  margin-bottom: 10px !important;
+}
+
+.termsContainer i {
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* Main Numbered Sections (1., 2., 3...) */
+.termsContainer section h2 {
+  border-left: 5px solid #e56822; /* Bonfiire Orange */
+  padding-left: 20px;
+  margin-top: 50px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Sub-sections (6.1, 6.2, etc.) */
+.termsContainer h3 {
+  font-size: 1.35rem !important;
+  color: #444;
+  margin-top: 30px !important;
+  margin-bottom: 15px !important;
+}
+
+/* Paragraph Dividers and Article Wrappers */
+.pDiv p,
+.pDiv span {
+  font-size: 20px !important;
+  margin-bottom: 15px;
+}
+
+/* Bulleted Lists */
+.termsContainer ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
 
 .termsContainer li {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
-.termsContainer .pDiv {
-  margin-top: 4px;
-  margin-bottom: 20px;
+/* Specific styling for the Contact Link */
+.termsContainer a {
+  color: #e56822;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.termsContainer p {
-  font-size: 20px;
+.termsContainer a:hover {
+  text-decoration: underline;
 }
 
-@media only screen and (max-width: 700px) {
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
   .termsContainer {
-    margin-top: 120;
-    padding: 30px;
+    padding: 30px 20px;
+    margin: 20px auto;
   }
-  .termsContainer p {
-    font-size: 18px;
+
+  .termsContainer h1 {
+    font-size: 1.8rem !important;
   }
-  .termsContainer li {
-    font-size: 16px;
+
+  .termsContainer h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .pDiv p {
+    font-size: 18px !important;
   }
 }

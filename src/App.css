@@ -43,7 +43,6 @@ body {
 h1,
 h2,
 h3 {
-  color: var(--secondary-color);
   margin: 0;
   line-height: 1.2;
 }
@@ -57,7 +56,6 @@ h2 {
 
 p,
 li {
-  color: var(--secondary-text-color);
   font-size: 1.2rem;
   line-height: 1.6;
   margin-top: 8px;
