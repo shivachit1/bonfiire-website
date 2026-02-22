@@ -52,7 +52,6 @@
   font-weight: 500;
   opacity: 0.6; /* Increased from 0.5 for better accessibility/readability */
   text-transform: uppercase;
-  letter-spacing: 0.8px;
 }
 
 .main-label {

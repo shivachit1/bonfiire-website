@@ -39,8 +39,7 @@
 .logo-text {
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--secondary-color, #1a1a1a);
-  letter-spacing: -1px;
+  color: var(--primary-color1, #1a1a1a);
 }
 
 .nav-cta {
@@ -54,9 +53,8 @@
   border-radius: 12px;
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   min-width: 180px;
   -webkit-tap-highlight-color: transparent;
 }

@@ -10,10 +10,9 @@
 
 .section-header-title {
   color: var(--secondary-color, #1a1a1a);
-  font-size: clamp(2rem, 4vw, 3rem); /* Responsive font sizing */
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -1px;
+  font-size: clamp(1.7rem, 4vw, 2.5rem); /* Responsive font sizing */
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 /* Matching your Bonfiire brand orange */
@@ -39,6 +38,5 @@
 
   .section-header-title {
     font-size: 1.8rem;
-    letter-spacing: -0.5px;
   }
 }

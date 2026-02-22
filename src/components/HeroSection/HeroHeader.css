@@ -8,10 +8,8 @@
 
 .hero-header-title {
   color: var(--secondary-color);
-  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: -1.5px;
   margin: 15px 0 0 0;
 }
 
@@ -34,6 +32,5 @@
 
   .hero-header-title {
     font-size: clamp(1.8rem, 8vw, 2.8rem);
-    letter-spacing: -0.5px;
   }
 }
