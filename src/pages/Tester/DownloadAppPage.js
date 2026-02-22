@@ -29,7 +29,7 @@ const DownloadAppPage = () => {
 
     // Cleanup: if the user leaves the page before the timer hits, cancel it
     return () => clearTimeout(timer);
-  }, [isSharedLinked]);
+  }, [waitingTime]);
 
   return (
     <div className="download-page">

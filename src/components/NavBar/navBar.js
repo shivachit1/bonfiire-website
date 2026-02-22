@@ -1,7 +1,6 @@
 import "./index.css";
 import IconPNG from "./icon.png";
 import { Link } from "react-router-dom";
-import { BsCloudDownload } from "react-icons/bs";
 
 const Navbar = () => {
   return (
@@ -11,7 +10,6 @@ const Navbar = () => {
           <img className="nav-icon" src={IconPNG} alt="Bonfiire Icon" />
           <span className="logo-text">Bonfiire.io</span>
         </Link>
-
       </nav>
     </header>
   );
