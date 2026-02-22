@@ -12,12 +12,6 @@ const Navbar = () => {
           <span className="logo-text">Bonfiire.io</span>
         </Link>
 
-        <div className="nav-links">
-          <Link to="/download" className="nav-cta">
-            <span>Download</span>
-            <BsCloudDownload size={20} className="cta-arrow" />
-          </Link>
-        </div>
       </nav>
     </header>
   );
