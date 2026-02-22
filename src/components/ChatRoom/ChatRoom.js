@@ -6,11 +6,11 @@ const ChatRoomPage = () => {
   const navigate = useNavigate();
 
   const handleDeepLinkFallback = useCallback(() => {
-    const fallbackDelay = 10000;
+    const fallbackDelay = 1000;
 
     const fallbackTimer = setTimeout(() => {
       // Redirect to download if the app doesn't intercept the link
-      navigate("/download", { replace: true });
+      navigate("/download", { isSharedLinked: true });
     }, fallbackDelay);
 
     return () => clearTimeout(fallbackTimer);

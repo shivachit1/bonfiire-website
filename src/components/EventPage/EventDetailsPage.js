@@ -6,10 +6,10 @@ const EventDetailsPage = () => {
   const navigate = useNavigate();
 
   const handleDeepLinkFallback = useCallback(() => {
-    const fallbackDelay = 3000;
+    const fallbackDelay = 1000;
 
     const fallbackTimer = setTimeout(() => {
-      navigate("/download", { replace: true });
+      navigate("/download", { isSharedLinked: true });
     }, fallbackDelay);
 
     return () => clearTimeout(fallbackTimer);
