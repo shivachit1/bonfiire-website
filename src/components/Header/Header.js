@@ -7,7 +7,7 @@ const SectionHeader = ({ title, subtitle, className = "" }) => {
   let titleContent;
 
   if (parts) {
-    const [_, beforeText, highlightText, afterText] = parts;
+    const [, beforeText, highlightText, afterText] = parts;
     const cleanHighlight = highlightText.replace(/\{|\}/g, "");
 
     titleContent = (

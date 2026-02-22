@@ -6,7 +6,7 @@ import WhyJoinSection from "../../components/WhyUs/WhyUs";
 import SectionHeader from "../../components/Header/Header";
 import HomeSection from "../../components/HeroSection/HeroSection";
 import HighLightText from "../../components/HighLight/HighLightText";
-import AppLinks, { DownLoadLink } from "../../components/AppLinks/AppLinks";
+import AppLinks from "../../components/AppLinks/AppLinks";
 import ContactSupport from "../../components/ContactForm/contact";
 
 const HomePage = () => {

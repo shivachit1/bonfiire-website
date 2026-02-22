@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: var(--secondary-color, #1a1a1a);
+  background-color: black;
   color: #ffffff !important;
   padding: 12px 24px;
   border-radius: 12px;
@@ -69,10 +69,6 @@
 /* Arrow nudge animation */
 .cta-arrow {
   transition: transform 0.3s ease;
-}
-
-.nav-cta:hover .cta-arrow {
-  transform: translateX(4px);
 }
 
 .nav-cta:active {
