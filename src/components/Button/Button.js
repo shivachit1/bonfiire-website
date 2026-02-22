@@ -1,10 +1,13 @@
 import "./index.css";
 
-export const Button = ({ text, onPress, children }) => {
+export const Button = ({ text, infoText, onPress, children }) => {
   return (
     <div className="button" onClick={onPress}>
       {children}
-      <p className="text">{text}</p>
+      <div>
+        {infoText && <p>{infoText}</p>}
+        <p className="text">{text}</p>
+      </div>
     </div>
   );
 };

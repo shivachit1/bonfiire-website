@@ -1,52 +1,36 @@
-.userProfileSection {
-  height: 90vh;
+.chat-fallback-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 80vh;
   text-align: center;
-  align-content: center;
+  padding: 20px;
 }
 
-.userProfileSection section {
-  width: 100%;
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(0, 0, 0, 0.05);
+  border-top: 4px solid var(--primary-color1, #e56822);
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.userProfileSection .pDiv {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.fallback-content h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--secondary-color, #1a1a1a);
+  margin-bottom: 12px;
 }
 
-.userProfileSection h2 {
-  font-size: 60px;
+.fallback-subtext {
+  font-size: 0.85rem;
+  color: #999;
 }
 
-.userProfileSection p {
-  font-size: 24px;
-}
-
-.appLinks {
-  padding: 60px 20px;
-}
-
-@media only screen and (max-width: 1000px) {
-  .userProfileSection {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  .userProfileSection h2 {
-    font-size: 40px;
-  }
-  .userProfileSection {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .userProfileSection p {
-    font-size: 18px;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

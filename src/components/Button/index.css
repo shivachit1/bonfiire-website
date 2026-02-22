@@ -9,7 +9,7 @@
   padding-right: 16px;
   border-radius: 6px;
   cursor: pointer;
-
+  gap: 12;
   background-color: var(--primary-color1);
 }
 
@@ -18,7 +18,7 @@
 }
 
 .text {
-  font-size: 1em;
+  font-size: 1.2em;
   color: white;
   margin-left: 8px;
   align-self: center;

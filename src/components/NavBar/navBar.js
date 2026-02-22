@@ -1,20 +1,25 @@
 import "./index.css";
 import IconPNG from "./icon.png";
-import { DownLoadLink } from "../AppLinks/AppLinks";
+import { Link } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <div className="navDiv">
-      <nav>
-        <div>
-          <a href="/" className="logo">
-            <img className="icon_image" src={IconPNG} alt="icon" />
-            <h3 style={{ marginLeft: 8 }}>Bonfiire.io</h3>
-          </a>
+    <header className="navbar-container">
+      <nav className="navbar">
+        <Link to="/" className="nav-logo">
+          <img className="nav-icon" src={IconPNG} alt="Bonfiire Icon" />
+          <span className="logo-text">Bonfiire</span>
+        </Link>
+
+        <div className="nav-links">
+          <Link to="/download" className="nav-cta">
+            <span>Get App</span>
+            <FaArrowRight size={14} className="cta-arrow" />
+          </Link>
         </div>
-        <div><DownLoadLink/></div>
       </nav>
-    </div>
+    </header>
   );
 };
 

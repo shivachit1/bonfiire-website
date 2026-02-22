@@ -13,7 +13,7 @@ import HomePage from "./pages/Home/HomePage.js";
 import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
 import UserProfilePage from "./components/UserProfile/UserProfile.js";
-import DownloadAppGuide from "./pages/Tester/DownloadGuide.js";
+import DownloadAppPage from "./pages/Tester/DownloadAppPage.js";
 import ChatRoomPage from "./components/ChatRoom/ChatRoom.js";
 
 const ScrollToTop = () => {
@@ -28,22 +28,24 @@ const ScrollToTop = () => {
 
 function App() {
   return (
-    <div className="App">
+    <div className="app-main-layout">
       <Router>
         <ScrollToTop />
         <Navbar />
-        <Routes>
-          <Route path="/" exact element={<HomePage />} />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" exact element={<HomePage />} />
 
-          <Route path="/download" element={<DownloadAppGuide />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/download" element={<DownloadAppPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-          {/* handles deep linking */}
-          <Route path="/events/:eventId" element={<EventDetailsPage />} />
-          <Route path="/userprofile/:userId" element={<UserProfilePage />} />
-          <Route path="/messages/:chatRoomId" element={<ChatRoomPage />} />
-        </Routes>
+            {/* handles deep linking */}
+            <Route path="/events/:eventId" element={<EventDetailsPage />} />
+            <Route path="/userprofile/:userId" element={<UserProfilePage />} />
+            <Route path="/messages/:chatRoomId" element={<ChatRoomPage />} />
+          </Routes>
+        </main>
         <Footer />
       </Router>
     </div>

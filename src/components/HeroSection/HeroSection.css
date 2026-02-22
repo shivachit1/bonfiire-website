@@ -1,64 +1,55 @@
-/* --- Hero Layout --- */
 .homeSection {
-  padding: 60px 20px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  padding: 80px 24px;
+  overflow: hidden;
+  margin-top: 140px;
+  margin-bottom: 100px;
 }
 
 .headerInfo {
+  width: 95%;
+  max-width: 1440px;
   display: flex;
-  align-items: center; /* Vertically centers items */
-  justify-content: space-between; /* Puts space between content and image */
-  max-width: 1200px;
-  margin: auto;
+  flex-direction: row;
+  align-items: center; /* Vertically centers text and image */
+  justify-content: space-between;
+  gap: 40px;
 }
 
-.hero-header {
-  flex: 1; /* Allows the text/button content to take up space */
-  max-width: 50%; /* Limits the width of the content column */
-  padding-right: 40px; /* Space between text and image */
+/* The left side container */
+.headerInfo > div:first-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns HeroHeader + AppLinks to the left */
+  text-align: left;
 }
 
+/* The right side image */
 .svg-icon {
-  max-width: 60%; /* Limits the width of the image column */
+  flex: 1;
+  max-width: 50%;
   height: auto;
+  object-fit: contain;
+  border-radius: 20px; /* Optional: rounds the corners of your gathering image */
 }
 
-/* --- Responsive Stacking (Critical) --- */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .headerInfo {
-    flex-direction: column; /* Stacks items vertically */
-    text-align: center; /* Centers text content when stacked */
+    flex-direction: column; /* Stacks image under text on tablets */
+    text-align: center;
   }
 
-  .hero-header,
-  .svg-icon {
-    max-width: 100%; /* Allows both to use full width */
-    padding-right: 0;
-    height: auto;
-  }
-
-  .hero-header {
-    order: 1; /* Puts the text content first */
-    margin-bottom: 30px;
-  }
-
-  .svg-icon {
-    max-width: 100%;
-    order: 2; /* Puts the image second */
-    margin-top: 20px;
-    height: auto;
-  }
-}
-
-/* Re-center specific elements that were aligned left on desktop */
-@media (max-width: 992px) {
-  .hero-header .storeDiv {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+  .headerInfo > div:first-child {
     align-items: center;
-    width: 100%; /* Required for centering */
+    text-align: center;
   }
-  .hero-header .hero-header-subtitle-wrapper {
-    margin-top: 0.5rem; /* Restore spacing */
+
+  .svg-icon {
+    max-width: 80%;
+    margin-top: 40px;
   }
 }

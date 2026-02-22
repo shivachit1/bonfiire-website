@@ -1,54 +1,70 @@
-/* --- Container and Layout --- */
-.contact-support-article {
-    padding: 60px 20px;
-    background-color: #ffffff; /* Or whatever background suits your layout */
-    text-align: center;
+.contact-support-wrapper {
+  padding: 80px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .contact-support-section {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* Space between header, button, and note */
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-/* --- Mailto Button Styling --- */
+.contact-action-area {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .contact-support-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Appearance */
-    background-color: #FF7B42; /* Primary app color */
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    
-    /* Spacing and Shape */
-    padding: 12px 30px;
-    border-radius: 8px;
-    
-    /* Hover Effect */
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #e56822, #ffa05a);
+  color: white;
+  padding: 16px 36px;
+  border-radius: 50px; /* Consistent pill shape */
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(229, 104, 34, 0.3);
 }
 
 .contact-support-button:hover {
-    background-color: #e56d39; /* Slightly darker orange */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(229, 104, 34, 0.4);
+  filter: brightness(1.05);
 }
 
 .button-icon {
-    margin-right: 10px;
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
-/* --- Note Text --- */
 .contact-support-note {
-    font-size: 0.9rem;
-    color: #999;
-    margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.contact-support-note strong {
+  color: var(--secondary-color, #1a1a1a);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .contact-support-wrapper {
+    padding: 60px 20px;
+  }
+
+  .contact-support-button {
+    width: 100%; /* Full width on mobile for easier tapping */
+    justify-content: center;
+  }
 }

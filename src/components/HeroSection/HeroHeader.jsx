@@ -1,52 +1,44 @@
-// HeroHeader.jsx
 import React from "react";
-import "./HeroHeader.css"; // Dedicated CSS for this large heading
+import "./HeroHeader.css";
 import HighLightText from "../HighLight/HighLightText";
 
-const HeroHeader = ({ infoText, title, subtitle, button, className = "" }) => {
-  // Logic to handle the highlight part (e.g., 'Light the <br /> {Bonfiire}')
+const HeroHeader = ({ infoText, title, subtitle, className = "" }) => {
   const parts = title.match(/(.*?)(\{.*?\})(.*)/);
-  let titleContent;
 
-  if (parts) {
-    const [_, beforeText, highlightText, afterText] = parts;
-    const cleanHighlight = highlightText.replace(/\{|\}/g, " "); // Use space instead of strong for clean output
-    if (_)
-      titleContent = (
-        <>
-          {beforeText.split("<br />").map((line, index) => (
-            <React.Fragment key={index}>
-              {line}
-              {index < beforeText.split("<br />").length - 1 && <br />}
-            </React.Fragment>
-          ))}
-          <strong className="hight_light">{cleanHighlight}</strong>
-          {afterText.split("<br />").map((line, index) => (
-            <React.Fragment key={index}>
-              {line}
-              {index < afterText.split("<br />").length - 1 && <br />}
-            </React.Fragment>
-          ))}
-        </>
-      );
-  } else {
-    // Render the title as plain text, respecting <br /> tags
-    titleContent = title.split("<br />").map((line, index) => (
+  const renderTextWithBreaks = (text) => {
+    return text.split("<br />").map((line, index, array) => (
       <React.Fragment key={index}>
         {line}
-        {index < title.split("<br />").length - 1 && <br />}
+        {index < array.length - 1 && <br />}
       </React.Fragment>
     ));
+  };
+
+  let titleContent;
+  if (parts) {
+    const [_, beforeText, highlightText, afterText] = parts;
+    const cleanHighlight = highlightText.replace(/\{|\}/g, "").trim();
+
+    titleContent = (
+      <>
+        {renderTextWithBreaks(beforeText)}
+        <strong className="hight_light">{cleanHighlight}</strong>
+        {renderTextWithBreaks(afterText)}
+      </>
+    );
+  } else {
+    titleContent = renderTextWithBreaks(title);
   }
 
   return (
     <div className={`hero-header ${className}`}>
-      <HighLightText text={infoText} />
+      <div className="hero-badge-wrapper">
+        <HighLightText text={infoText} />
+      </div>
       <h1 className="hero-header-title">{titleContent}</h1>
       <div className="hero-header-subtitle-wrapper">
-        <p className="hero-header-subtitle">{subtitle}</p>
+        <p>{subtitle}</p>
       </div>
-      {button && <div className="storeDiv">{button}</div>}
     </div>
   );
 };

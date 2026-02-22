@@ -6,22 +6,21 @@ import WhyJoinSection from "../../components/WhyUs/WhyUs";
 import SectionHeader from "../../components/Header/Header";
 import HomeSection from "../../components/HeroSection/HeroSection";
 import HighLightText from "../../components/HighLight/HighLightText";
-import { DownLoadLink } from "../../components/AppLinks/AppLinks";
+import AppLinks, { DownLoadLink } from "../../components/AppLinks/AppLinks";
 import ContactSupport from "../../components/ContactForm/contact";
 
 const HomePage = () => {
   return (
-    <div className="homeContainer">
+    <div className="hp-container">
       <HomeSection imageUrl={GatheringImage} />
 
-      <article className="servicesArticle">
-        <section className="servicesSection">
+      {/* Background spans 100%, content stays in 1440px */}
+      <article className="hp-article-wrapper hp-bg-white">
+        <section className="hp-content-limit">
           <HighLightText text="Core Features" />
           <SectionHeader
             title="How {Bonfiire} Works"
-            subtitle="We make it easy to turn online connections into real-world
-              friendships. Here's how we're changing the way people meet and
-              connect."
+            subtitle="We make it easy to turn online connections into real-world friendships."
           />
           <ServiceCards />
         </section>
@@ -30,20 +29,18 @@ const HomePage = () => {
 
       <WhyJoinSection />
 
-      <article className="servicesArticle">
-        <section className="servicesSection">
+      <article className="hp-article-wrapper hp-bg-white">
+        <section className="hp-content-limit">
           <SectionHeader
             title="Get your {Bonfiire}"
-            subtitle=" Download the Bonfiire app now and start discovering events and
-              people in your area. Your next great connection is just a tap
-              away."
+            subtitle="Download the app now and start discovering events and connect with people."
           />
-          <DownLoadLink />
+          <AppLinks />
         </section>
       </article>
 
-      <article className="servicesArticle">
-        <section className="servicesSection">
+      <article className="hp-article-wrapper">
+        <section className="hp-content-limit">
           <ContactSupport
             title="Trouble with {Bonfiire}?"
             subtitle="Reach out to our support team directly. We'll quickly resolve any issues you may have."

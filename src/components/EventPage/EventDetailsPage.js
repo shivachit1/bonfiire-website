@@ -1,25 +1,17 @@
+import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-import { useCallback, useEffect } from "react";
 
 const EventDetailsPage = () => {
   const navigate = useNavigate();
 
   const handleDeepLinkFallback = useCallback(() => {
-    // We rely ONLY on the automatic Universal/App Link interception by the OS.
-
-    // Schedule the fallback redirect (the delayed check).
-    const fallbackDelay = 1500; // 1.5 seconds delay
+    const fallbackDelay = 3000;
 
     const fallbackTimer = setTimeout(() => {
-      console.log(
-        `Universal Link failed to open app after ${fallbackDelay}ms. Redirecting to /download.`
-      );
-      // Redirect to the download page, replacing the current history entry.
       navigate("/download", { replace: true });
     }, fallbackDelay);
 
-    // Cleanup the timer on unmount/path change.
     return () => clearTimeout(fallbackTimer);
   }, [navigate]);
 
@@ -28,13 +20,15 @@ const EventDetailsPage = () => {
   }, [handleDeepLinkFallback]);
 
   return (
-    <div className="userProfileSection">
-      <section>
-        <h2 style={{ marginTop: "30px" }}>Event Details</h2>
-        <div className="pDiv">
-          <p>Opening Bonfiire app in mobile or redirecting to download link</p>
+    <div className="event-details-fallback-container">
+      <div className="fallback-content">
+        <div className="loading-spinner"></div>
+        <h2>Opening Bonfiire...</h2>
+        <p>We're looking for the app on your device.</p>
+        <div className="fallback-hint">
+          <p>Don't have the app yet? We'll take you to the store shortly.</p>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

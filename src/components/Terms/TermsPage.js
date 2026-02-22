@@ -5,7 +5,7 @@ const TermsPage = () => {
     <div className="termsContainer">
       <header>
         <h1 style={{ textAlign: "left" }}>Terms and Conditions</h1>
-        <i>Effective Date: 2025-01-22</i>
+        <i>Last updated: 2026-01-10</i>
       </header>
 
       <section>

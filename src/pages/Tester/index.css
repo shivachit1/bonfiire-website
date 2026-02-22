@@ -1,177 +1,27 @@
-.download-guide-container {
-  margin: auto;
-  margin-top: 140px;
+/* 1. Main Page Container */
+.download-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-}
-
-.center-text {
+  justify-content: center; /* Vertically centers content */
+  padding: 40px 20px;
   text-align: center;
-  max-width: 650px;
-  margin: 0 auto;
 }
 
-.main-app-heading,
-.platform-heading {
-  text-align: center;
-  margin: 10px auto 20px;
-  color: #333;
+/* 2. Content Wrapper */
+.download-content {
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.main-app-heading {
-  font-size: 3rem;
-}
-
-.platform-heading {
-  font-size: 2rem;
+/* 3. Links Wrapper */
+.download-links-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-}
-
-.platform-icon {
-  font-size: 2rem;
-  color: #ff7b42;
-}
-
-/* --- Download Header Section (Top of Page) --- */
-.download-guide-header-section {
-  background-color: #f7f7f7;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.header-content {
-  max-width: 800px;
-}
-
-/* --- Platform Guide Articles --- */
-.download-guide-article {
-  padding: 60px 20px;
-}
-
-.ios-article {
-  background-color: #ffffff;
-}
-
-.android-article {
-  background-color: #fcf8f5;
-}
-
-/* --- Download Steps Container (Flexbox Grid) --- */
-.download-steps-container {
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  /* Ensures all cards are the same height, crucial for the layout */
-  align-items: stretch;
-  padding: 40px 0;
-  flex-wrap: wrap;
-  margin: 0 auto;
-}
-
-/* --- Individual Step Card Styling (StepCard Component) --- */
-.steps-card {
-  flex: 0 1 300px; /* Target 3 cards per row */
-  padding: 30px;
-  text-align: center;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  /* Internal Flex for content alignment */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  /* FIX 2: Removed 'justify-content: space-between'. 
-     It conflicts with 'margin-bottom: auto' on the description, 
-     which is the preferred method for pushing the button down consistently. */
-}
-
-.steps-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.steps-header-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #ff7b42;
-  margin-bottom: 10px;
-}
-
-.steps-image {
-  /* Using fixed size with object-fit for uniformity (based on your previous request) */
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  margin: 15px 0;
-}
-
-.steps-title {
-  font-size: 1.4rem;
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-.steps-description {
-  font-size: 0.95rem;
-  color: #666;
-  line-height: 1.5;
-
-  /* CRITICAL: Pushes the following element (the button) to the bottom */
-  margin-bottom: auto;
-}
-
-/* Button Styling */
-.steps-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007aff;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
-
-.steps-button:hover {
-  background-color: #005bb5;
-}
-
-/* --- Responsive Breakpoints --- */
-@media (max-width: 992px) {
-  .download-guide-header-section {
-    padding: 40px 10px;
-  }
-  .steps-card {
-    /* Two cards per row on tablets */
-    flex: 0 1 45%;
-    max-width: 45%;
-  }
-}
-
-@media (max-width: 600px) {
-  .steps-card {
-    /* One card per row on mobile */
-    flex: 0 1 100%;
-    max-width: 100%;
-  }
-
-  .main-app-heading {
-    font-size: 2.5rem;
-  }
-
-  .platform-heading {
-    font-size: 1.8rem;
-  }
+  gap: 16px;
 }

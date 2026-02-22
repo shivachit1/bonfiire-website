@@ -1,52 +1,79 @@
-.appLinks {
-  padding: 20px 20px;
-}
-
-.appLinks h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.appLinks p {
-  text-align: center;
-}
-
 .appLinks-list {
-  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
-.appLinks-card {
-  border-radius: 8px;
-  padding: 10px;
-  width: 80px;
-  min-width: 100px;
-  text-align: center;
-  transition: transform 0.3s;
+.download-card {
+  display: flex;
+  align-items: center;
+  background-color: var(--secondary-color);
+  color: #ffffff !important;
+  padding: 12px 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 190px;
+  -webkit-tap-highlight-color: transparent;
+  gap: 10px;
 }
 
-.appLinks-card:hover {
-  transform: translateY(-5px); /* Lift effect on hover */
+/* The "Whole Button" Hover Effect - Brand Spark */
+.download-card:hover {
+  background-color: var(--primary-color1); /* Switches to Bonfiire Orange */
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(229, 104, 34, 0.25);
+  border-color: transparent;
 }
 
-.appLinks-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.download-card:active {
+  transform: translateY(-1px);
+  filter: brightness(1);
 }
 
-.appLinks-card p {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  text-align: left;
+.icon-wrapper {
+  font-size: 26px;
+  display: flex;
+  align-items: center;
 }
 
-@media only screen and (max-width: 900px) {
-  .appLinks-card {
-    flex: 1;
+.label-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ensures text stays left inside the card */
+  line-height: 1.1;
+  gap: 2px;
+}
+
+.sub-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.6; /* Increased from 0.5 for better accessibility/readability */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.main-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Responsive Fixes */
+@media (max-width: 1024px) {
+  .appLinks-list {
+    justify-content: center; /* Centers buttons when hero stacks on tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .download-card {
+    width: 100%; /* Full width on mobile for easy thumb tapping */
+    justify-content: center;
+  }
+
+  .appLinks-list {
+    gap: 12px;
   }
 }

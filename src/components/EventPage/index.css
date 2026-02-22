@@ -1,52 +1,41 @@
-.userProfileSection {
-  height: 90vh;
+.event-details-fallback-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
   text-align: center;
-  align-content: center;
 }
 
-.userProfileSection section {
-  width: 100%;
-}
-
-.userProfileSection .pDiv {
-  margin-top: 10px;
+.fallback-content h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--secondary-color, #1a1a1a);
   margin-bottom: 10px;
 }
 
-.userProfileSection h2 {
-  font-size: 60px;
+.fallback-content p {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 5px;
 }
 
-.userProfileSection p {
-  font-size: 24px;
+/* A simple spinner to show activity */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color1, #e56822);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
 }
 
-.appLinks {
-  padding: 60px 20px;
-}
-
-@media only screen and (max-width: 1000px) {
-  .userProfileSection {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-}
-
-@media only screen and (max-width: 700px) {
-  .userProfileSection h2 {
-    font-size: 40px;
-  }
-  .userProfileSection {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .userProfileSection p {
-    font-size: 18px;
+  100% {
+    transform: rotate(360deg);
   }
 }

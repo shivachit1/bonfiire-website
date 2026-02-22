@@ -1,71 +1,92 @@
-/* Container for the entire step-by-step section */
-.step-by-step-container {
+.steps-outer-wrapper {
+  width: 100%;
   display: flex;
-  justify-content: space-around; /* Distribute items evenly with space around them */
-  align-items: flex-start; /* Align items to the top (important for text) */
-  padding: 40px 20px;
-  border-radius: 15px; /* Slightly rounded corners for the container */
-  max-width: 1000px; /* Max width to keep it contained */
-  margin: 40px auto; /* Center the container on the page */
+  justify-content: center;
+  padding: 40px 10px;
 }
 
-/* Individual step item styling */
-.step-item {
+.steps-inner-container {
   display: flex;
-  flex-direction: column; /* Stack number, title, and description vertically */
-  align-items: center; /* Center content horizontally within each step */
-  text-align: center;
-  flex: 1; /* Allows each step to take equal space */
-  padding: 0 15px; /* Add some horizontal padding inside each step */
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  position: relative; /* Container holds the line */
 }
 
-/* Numbered circle styling */
+/* THE SHARED LINE */
+/* This line sits behind all cards, perfectly centered vertically with the circles */
+.steps-inner-container::before {
+  content: "";
+  position: absolute;
+  top: 49px; /* Centered with 50px circle + 24px padding */
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.08);
+  z-index: 0;
+}
+
+.step-card-centered {
+  flex: 1 1 240px;
+  max-width: 300px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers circle and text */
+  text-align: center; /* Centers the text lines */
+  position: relative;
+  z-index: 1;
+}
+
 .step-number-circle {
-  width: 50px; /* Fixed width and height for a perfect circle */
+  width: 50px;
   height: 50px;
-  border-radius: 50%; /* Makes it a circle */
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white; /* White text for the number */
-  font-size: 1.5rem; /* Larger font size for the number */
-  font-weight: 700; /* Bold number */
-  margin-bottom: 15px; /* Space below the number */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 20px;
+  background-color: white; /* Ensures line doesn't show through the circle */
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Step title styling */
+.step-orange {
+  background: linear-gradient(135deg, #e56822, #ffa05a);
+}
+
+.step-yellow {
+  background: linear-gradient(135deg, #ffc83f, #ffda6b);
+}
+
 .step-title {
+  color: var(--secondary-color);
   font-size: 1.25rem;
-  font-weight: 700; /* Bold title */
-  color: #333333;
-  margin-top: 0;
-  margin-bottom: 8px; /* Space below the title */
-  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 10px 0;
 }
 
-/* Step description styling */
 .step-description {
+  color: #666;
   font-size: 0.95rem;
-  color: #666666;
-  margin: 0;
   line-height: 1.5;
+  margin: 0;
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .step-by-step-container {
-    flex-direction: column; /* Stack steps vertically on smaller screens */
-    align-items: center; /* Center entire column */
-    padding: 30px 15px;
+/* RESPONSIVENESS */
+@media (max-width: 850px) {
+  /* Hide the line on mobile as items stack vertically */
+  .steps-inner-container::before {
+    display: none;
   }
 
-  .step-item {
-    margin-bottom: 30px; /* Add vertical space between stacked steps */
-    padding: 0; /* Remove horizontal padding when stacked */
-  }
-
-  .step-item:last-child {
-    margin-bottom: 0; /* No margin below the last item */
+  .step-card-centered {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }

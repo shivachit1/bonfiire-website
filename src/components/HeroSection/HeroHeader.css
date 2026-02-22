@@ -1,41 +1,39 @@
-/* --- Custom Hero Styles (Larger Heading) --- */
+.hero-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
 .hero-header-title {
-  font-size: 3.5rem; /* Large font size for the main hero heading */
+  color: var(--secondary-color);
+  font-size: clamp(2.2rem, 4vw, 3rem);
   line-height: 1.1;
-  color: #333333;
-  margin-top: 10px;
-  margin-bottom: 0;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin: 15px 0 0 0;
+}
+
+/* Your signature brand highlight */
+.hight_light {
+  color: var(--primary-color1);
+  font-weight: 800;
 }
 
 .hero-header-subtitle-wrapper {
-  margin-top: 0.5rem; /* Spacing below the h1 */
+  max-width: 600px;
 }
 
-.hero-header-subtitle {
-  font-size: 1.1rem;
-  color: #666666;
-  line-height: 1.5;
-  margin-bottom: 1.5rem; /* Space before the button */
-}
-
-/* Highlight Tag */
-.highlight-tag {
-  background-color: #fce4d4; /* Light background for the tag */
-  display: inline-block;
-  padding: 5px 15px;
-  border-radius: 20px;
-}
-
-/* Responsive adjustment for title size */
-@media (max-width: 1200px) {
-  .hero-header-title {
-    font-size: 3rem;
+/* Responsive Alignment */
+@media (max-width: 1024px) {
+  .hero-header {
+    align-items: center;
+    text-align: center;
   }
-  
-}
 
-@media (max-width: 768px) {
   .hero-header-title {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    letter-spacing: -0.5px;
   }
 }

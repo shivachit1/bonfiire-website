@@ -1,23 +1,23 @@
-import "./index.css"; // Optional CSS for styling
+import "./index.css";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="footerContainer">
-      <footer id="footer" className="footer">
-        <div className="links">
-          <Link className="link" to="/terms">
+    <div className="footer-container">
+      <footer id="footer" className="footer-content">
+        <div className="footer-links">
+          <Link className="footer-link" to="/terms">
             Terms
           </Link>
-          <Link className="link" to="/privacy-policy">
+          <Link className="footer-link" to="/privacy-policy">
             Privacy
           </Link>
-          <Link className="link" to="/download">
+          <Link className="footer-link" to="/download">
             Download
           </Link>
         </div>
         <div className="footer-bottom">
-          <p>
+          <p className="footer-copyright">
             &copy; {new Date().getFullYear()} Bonfiire. All rights reserved.
           </p>
         </div>

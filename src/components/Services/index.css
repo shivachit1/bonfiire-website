@@ -1,84 +1,74 @@
-/* CONTAINER: The Flexbox Grid */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px; /* Reduced gap for a more compact look */
+  gap: 30px;
   margin-top: 40px;
   padding: 10px;
   justify-content: center;
-  align-items: stretch; /* Ensures all cards stretch to the same height */
+  align-items: stretch;
 }
 
-/* INDIVIDUAL CARD STYLING */
 .service-card {
-  /* KEY: On larger screens, the flex-basis is set to roughly 25% (less the gap) */
-  /* This ensures four cards fit neatly in one row. */
-  flex: 1 1 200px; /* flex-grow: 1, flex-shrink: 1, flex-basis: 200px (approx 25% of a row) */
-  max-width: 250px; /* Limits individual card size */
-  max-height: 230px; /* Limits individual card size */
+  flex: 1 1 240px; /* Slightly wider base for better readability */
+  max-width: 300px;
+  /* Removed fixed max-height to prevent text overflow; used min-height instead */
+  min-height: 220px;
 
-  /* Compact Appearance and Spacing */
-  padding: 20px; /* Reduced padding */
-  border-radius: 8px; /* Slightly smaller border-radius */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Lighter shadow */
-  background-color: var(
-    --primary-color
-  ); /* Slightly off-white background for contrast */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  background-color: #ffffff; /* Or var(--card-bg) */
+  border: 1px solid rgba(0, 0, 0, 0.05); /* Soft border for definition */
 
-  /* Flex for Content Alignment */
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Center text within the card */
+  text-align: left;
 }
 
 .service-card:hover {
-  transform: translateY(-3px); /* Less dramatic lift */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* ICON STYLING */
 .card-icon-wrapper {
+  /* Using your brand orange for the icon background */
+  background-color: var(--primary-color1);
   color: white;
-  padding: 12px; /* Slightly more padding for the icon */
-  border-radius: 50%; /* Circle shape for the icon background */
-  margin-bottom: 10px; /* Reduced margin */
-  font-size: 24px;
-  width: 48px; /* Fixed size for uniform circles */
-  height: 48px;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 10px; /* Squircle looks more modern than a circle */
+  margin-bottom: 16px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 20px;
 }
 
-/* TEXT STYLING */
 .card-title {
-  color: #222222;
-  margin-top: 0;
-  margin-bottom: 8px; /* Reduced margin */
+  color: var(--secondary-color);
+  font-size: 1.25rem;
+  margin: 0 0 10px 0;
   font-weight: 700;
 }
 
 .card-description {
-  font-size: 0.9rem; /* Smaller font for compactness */
-  color: #555555;
-  line-height: 1.4; /* Slightly tighter line height */
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* RESPONSIVENESS: Stacking for smaller screens */
-@media (max-width: 992px) {
-  .service-card {
-    /* Switch to 2 cards per row on tablets/mid-size screens */
-    flex: 1 1 calc(50% - 75px); /* Ensures 2 cards per row with gap consideration */
-    max-width: calc(50% -75px);
-  }
-}
-
+/* RESPONSIVENESS */
 @media (max-width: 768px) {
+  .cards-container {
+    gap: 20px;
+  }
+
   .service-card {
-    /* Switch to 1 card per row on mobile screens */
-    flex: 1 1 100%;
+    flex: 1 1 100%; /* Single column on mobile */
     max-width: 100%;
   }
 }
