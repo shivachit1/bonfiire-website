@@ -10,7 +10,7 @@
 
 .service-card {
   flex: 1 1 240px; /* Slightly wider base for better readability */
-  max-width: 300px;
+  max-width: 320px;
   /* Removed fixed max-height to prevent text overflow; used min-height instead */
   min-height: 220px;
 
@@ -55,10 +55,8 @@
 }
 
 .card-description {
-  font-size: 0.95rem;
-  color: #666;
-  line-height: 1.5;
   margin: 0;
+  color: #666;
 }
 
 /* RESPONSIVENESS */

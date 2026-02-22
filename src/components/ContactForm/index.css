@@ -23,33 +23,34 @@
 }
 
 .contact-support-button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  background: linear-gradient(135deg, #e56822, #ffa05a);
-  color: white;
-  padding: 16px 36px;
-  border-radius: 50px; /* Consistent pill shape */
-  font-weight: 700;
-  font-size: 1.1rem;
+  background-color: var(--secondary-color);
+  color: #ffffff !important;
+  padding: 12px 22px;
+  border-radius: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(229, 104, 34, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 190px;
+  -webkit-tap-highlight-color: transparent;
+  gap: 10px;
 }
 
 .contact-support-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(229, 104, 34, 0.4);
-  filter: brightness(1.05);
+  background-color: var(--primary-color1); /* Switches to Bonfiire Orange */
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(229, 104, 34, 0.25);
+  border-color: transparent;
 }
 
-.button-icon {
-  font-size: 1.2rem;
+.contact-support-button:active {
+  transform: translateY(-1px);
+  filter: brightness(1);
 }
 
 .contact-support-note {
   color: #666;
-  font-size: 0.9rem;
   margin: 0;
 }
 

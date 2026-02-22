@@ -37,7 +37,7 @@
   font-size: 1.6rem;
   color: white;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #e56822, #ffa05a);
+  background-color: var(--primary-color1);
   box-shadow: 0 6px 15px rgba(229, 104, 34, 0.2);
 }
 
@@ -50,8 +50,7 @@
 
 .why-join-description {
   color: #555;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  margin-top: 0;
 }
 
 /* CHIPS SECTION */
