@@ -50,32 +50,41 @@ const TermsPage = () => {
         <section>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                We are not directly involved in the planning, execution, or
-                safety of any events/hangouts.
-              </p>
+              <div className="pDiv">
+                <p>
+                  We are not directly involved in the planning, execution, or
+                  safety of any events/hangouts.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                You acknowledge that Bonfiire does not vet users or event
-                locations. You attend any event or hangout found via the
-                platform entirely at your own risk.
-              </p>
+              <div className="pDiv">
+                <p>
+                  You acknowledge that Bonfiire does not vet users or event
+                  locations. You attend any event or hangout found via the
+                  platform entirely at your own risk.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Event hosts are solely responsible for the accuracy of event
-                details and for ensuring their events comply with local laws and
-                safety regulations.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Event hosts are solely responsible for the accuracy of event
+                  details and for ensuring their events comply with local laws
+                  and safety regulations.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                If you have any questions or issues with an event/hangout,
-                please reach out to the event host directly. Hosts are in charge
-                of their events/hangouts and are responsible for sharing any
-                specific terms or policies that might apply to you.
-              </p>
+              <div className="pDiv">
+                <p>
+                  If you have any questions or issues with an event/hangout,
+                  please reach out to the event host directly. Hosts are in
+                  charge of their events/hangouts and are responsible for
+                  sharing any specific terms or policies that might apply to
+                  you.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -94,28 +103,36 @@ const TermsPage = () => {
         <section>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Provide accurate, up-to-date, and complete information about
-                yourself during registration.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Provide accurate, up-to-date, and complete information about
+                  yourself during registration.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Update your information as necessary to ensure its accuracy.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Update your information as necessary to ensure its accuracy.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Maintain the confidentiality of your account credentials and
-                secure access to your account.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Maintain the confidentiality of your account credentials and
+                  secure access to your account.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                You are solely responsible for all activities that occur under
-                your account. If you suspect unauthorized access or a security
-                breach, you agree to notify us immediately.
-              </p>
+              <div className="pDiv">
+                <p>
+                  You are solely responsible for all activities that occur under
+                  your account. If you suspect unauthorized access or a security
+                  breach, you agree to notify us immediately.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -149,16 +166,20 @@ const TermsPage = () => {
           <h3 style={{ textAlign: "left" }}>6.1 Respect Other Users</h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Avoid any behavior or content that could harm, harass, bully, or
-                discriminate against other users.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Avoid any behavior or content that could harm, harass, bully,
+                  or discriminate against other users.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Treat all users with courtesy and dignity, irrespective of their
-                background, beliefs, or opinions.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Treat all users with courtesy and dignity, irrespective of
+                  their background, beliefs, or opinions.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -169,16 +190,20 @@ const TermsPage = () => {
           </h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Refrain from sharing content that promotes violence, hate
-                speech, or any form of abuse.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Refrain from sharing content that promotes violence, hate
+                  speech, or any form of abuse.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Do not threaten or intimidate other users through messages, or
-                any interaction on the platform.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Do not threaten or intimidate other users through messages, or
+                  any interaction on the platform.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -189,16 +214,20 @@ const TermsPage = () => {
           </h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Respect the privacy of others by not sharing their personal
-                information without consent.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Respect the privacy of others by not sharing their personal
+                  information without consent.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Do not engage in doxxing or any activity that compromises the
-                safety of other users.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Do not engage in doxxing or any activity that compromises the
+                  safety of other users.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -209,16 +238,20 @@ const TermsPage = () => {
           </h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Avoid posting or transmitting content that incites conflict,
-                spreads misinformation, or creates a hostile atmosphere.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Avoid posting or transmitting content that incites conflict,
+                  spreads misinformation, or creates a hostile atmosphere.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Report any inappropriate or harmful behavior to the platform
-                administrators immediately.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Report any inappropriate or harmful behavior to the platform
+                  administrators immediately.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -229,16 +262,20 @@ const TermsPage = () => {
           </h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Do not engage in cyberbullying, such as sending malicious
-                messages, or targeting individuals repeatedly.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Do not engage in cyberbullying, such as sending malicious
+                  messages, or targeting individuals repeatedly.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Help maintain a supportive and positive community by addressing
-                issues constructively and respectfully.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Help maintain a supportive and positive community by
+                  addressing issues constructively and respectfully.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -249,22 +286,28 @@ const TermsPage = () => {
           </h3>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>
-                Do not misuse the platform or its features to harm, disrupt, or
-                exploit Bonfiire’s services or other users.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Do not misuse the platform or its features to harm, disrupt,
+                  or exploit Bonfiire’s services or other users.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Avoid any attempts to hack, interfere with, or undermine the
-                proper functioning of Bonfiire’s infrastructure.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Avoid any attempts to hack, interfere with, or undermine the
+                  proper functioning of Bonfiire’s infrastructure.
+                </p>
+              </div>
             </li>
             <li>
-              <p>
-                Use the platform for its intended purposes and refrain from
-                actions that violate its terms of service.
-              </p>
+              <div className="pDiv">
+                <p>
+                  Use the platform for its intended purposes and refrain from
+                  actions that violate its terms of service.
+                </p>
+              </div>
             </li>
           </ul>
         </section>
@@ -351,19 +394,23 @@ const TermsPage = () => {
         <h2>12. Disclaimers and Limitations of Liability</h2>
         <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
           <li>
-            <p>
-              No Warranty: Our Services are provided "as is," without any
-              warranty or representation of any kind, express or implied. We do
-              not guarantee the accuracy, reliability, or availability of the
-              Services, and users use the Services at their own risk.
-            </p>
+            <div className="pDiv">
+              <p>
+                No Warranty: Our Services are provided "as is," without any
+                warranty or representation of any kind, express or implied. We
+                do not guarantee the accuracy, reliability, or availability of
+                the Services, and users use the Services at their own risk.
+              </p>
+            </div>
           </li>
           <li>
-            <p>
-              Limitation of Liability: Bonfiire will not be liable for any
-              indirect, incidental, special, or consequential damages arising
-              from your use or inability to use the Services.
-            </p>
+            <div className="pDiv">
+              <p>
+                Limitation of Liability: Bonfiire will not be liable for any
+                indirect, incidental, special, or consequential damages arising
+                from your use or inability to use the Services.
+              </p>
+            </div>
           </li>
         </ul>
       </section>

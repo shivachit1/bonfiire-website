@@ -34,7 +34,11 @@ const PrivacyPolicy = () => {
 
         <section style={{ textAlign: "left", marginTop: "20px" }}>
           <h3>2.1 Personal Data</h3>
-          <p>To create a social ecosystem, we require specific identifiers:</p>
+          <div className="pDiv">
+            <p>
+              To create a social ecosystem, we require specific identifiers:
+            </p>
+          </div>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
               <h3>Name</h3>
@@ -254,10 +258,12 @@ const PrivacyPolicy = () => {
 
         <div style={{ textAlign: "left", marginTop: "20px" }}>
           <h3>3.1 JSON Web Tokens (JWT)</h3>
-          <p>
-            We do not use traditional browser-based tracking cookies. Instead,
-            we utilize JSON Web Tokens (JWT).
-          </p>
+          <div className="pDiv">
+            <p>
+              We do not use traditional browser-based tracking cookies. Instead,
+              we utilize JSON Web Tokens (JWT).
+            </p>
+          </div>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
               <h3>Purpose</h3>
@@ -384,25 +390,35 @@ const PrivacyPolicy = () => {
         <section style={{ textAlign: "left", marginTop: "20px" }}>
           <ul style={{ paddingLeft: "40px", marginTop: "10px" }}>
             <li>
-              <p>The right to access your personal data.</p>
+              <div className="pDiv">
+                <p>The right to access your personal data.</p>
+              </div>
             </li>
             <li>
-              <p>
-                The right to request the correction of inaccurate or incomplete
-                personal data.
-              </p>
+              <div className="pDiv">
+                <p>
+                  The right to request the correction of inaccurate or
+                  incomplete personal data.
+                </p>
+              </div>
             </li>
             <li>
-              <p>The right to request the deletion of your personal data.</p>
+              <div className="pDiv">
+                <p>The right to request the deletion of your personal data.</p>
+              </div>
             </li>
             <li>
-              <p>
-                The right to restrict or object to the processing of your
-                personal data.
-              </p>
+              <div className="pDiv">
+                <p>
+                  The right to restrict or object to the processing of your
+                  personal data.
+                </p>
+              </div>
             </li>
             <li>
-              <p>The right to data portability.</p>
+              <div className="pDiv">
+                <p>The right to data portability.</p>
+              </div>
             </li>
           </ul>
         </section>

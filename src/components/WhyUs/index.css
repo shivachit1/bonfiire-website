@@ -104,6 +104,10 @@
     padding: 60px 20px;
   }
 
+  .why-join-card {
+    padding: 0px;
+  }
+
   .chips-wrapper {
     gap: 10px;
   }

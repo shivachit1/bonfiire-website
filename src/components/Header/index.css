@@ -32,10 +32,6 @@
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .section-header-container {
-    margin-bottom: 30px;
-  }
-
   .section-header-title {
     font-size: 1.8rem;
   }

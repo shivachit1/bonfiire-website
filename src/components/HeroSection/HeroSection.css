@@ -30,7 +30,6 @@
 
 /* The right side image */
 .svg-icon {
-  flex: 1;
   max-width: 50%;
   height: auto;
   object-fit: contain;
@@ -51,5 +50,12 @@
   .svg-icon {
     max-width: 80%;
     margin-top: 40px;
+  }
+}
+
+@media (max-width: 780px) {
+  .homeSection {
+    margin-top: 0px;
+    margin-bottom: 40px;
   }
 }

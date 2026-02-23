@@ -78,7 +78,9 @@
 
 /* RESPONSIVENESS */
 @media (max-width: 850px) {
-  /* Hide the line on mobile as items stack vertically */
+  .step-card-centered {
+    padding: 0px;
+  }
   .steps-inner-container::before {
     display: none;
   }
