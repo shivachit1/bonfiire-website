@@ -1,5 +1,5 @@
 import "./index.css";
-import GatheringImage from "./gathering.png";
+import GatheringImage from "./Picture1.webp";
 import ServiceCards from "../../components/Services/Service";
 import StepByStep from "../../components/StepByStep/StepByStep";
 import WhyJoinSection from "../../components/WhyUs/WhyUs";
