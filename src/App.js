@@ -44,6 +44,14 @@ function App() {
             <Route path="/events/:eventId" element={<EventDetailsPage />} />
             <Route path="/userprofile/:userId" element={<UserProfilePage />} />
             <Route path="/messages/:chatRoomId" element={<ChatRoomPage />} />
+            <Route
+              path="/events/:eventId/invitations/:invitationId/e-ticket"
+              element={<EventDetailsPage />}
+            />
+            <Route
+              path="/events/:eventId/locations/:locationId/self-check-in"
+              element={<EventDetailsPage />}
+            />
           </Routes>
         </main>
         <Footer />

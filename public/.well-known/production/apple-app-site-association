@@ -13,23 +13,19 @@
           },
           {
             "/": "/events/*",
-            "comment": "Covers /events/:eventId."
+            "comment": "Covers /events/:eventId and opens up event detail page"
           },
           {
-            "/": "/events/*/invitations/*",
-            "comment": "Covers /events/:eventId/invitations/:screen (Going, Requests, Not Going, etc.)."
+            "/": "/events/*/invitations/*/e-ticket",
+            "comment": "Opens-up user ticket info if handler is event manager"
           },
           {
-            "/": "/messages/*",
-            "comment": "Covers /messages/:chatRoomId."
-          },
-          {
-            "/": "/user/*",
-            "comment": "Covers /user/:screen/:userId? (Followers, Followings)."
+            "/": "/events/*/locations/*/self-check-in",
+            "comment": "Auto check-ins event participants to given check point location"
           },
           {
             "/": "/userprofile/*",
-            "comment": "Keep this only if your buildDeepLink function still generates /userprofile/ links. Otherwise, remove it."
+            "comment": "Covers /userprofile/:userId and opens up user profile view"
           }
         ]
       }

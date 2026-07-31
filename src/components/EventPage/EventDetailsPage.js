@@ -23,7 +23,7 @@ const EventDetailsPage = () => {
     <div className="event-details-fallback-container">
       <div className="fallback-content">
         <div className="loading-spinner"></div>
-        <h2>Opening Bonfiire...</h2>
+        <h2>Opening Bonfiire app...</h2>
         <p>We're looking for the app on your device.</p>
         <div className="fallback-hint">
           <p>Don't have the app yet? We'll take you to the store shortly.</p>
