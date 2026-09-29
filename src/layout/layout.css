@@ -478,6 +478,8 @@
   .route-viewport::-webkit-scrollbar {
     display: none;
   }
+  /* Flat on phones: the tilt makes browsers draw the map as a low-resolution
+     image, which blurs it at this size. */
   .route-plane {
     width: 820px;
     transform: rotateX(14deg);

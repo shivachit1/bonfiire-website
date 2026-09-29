@@ -5,7 +5,7 @@ import Intro from "../../layout/Intro";
 import Chapter from "../../layout/Chapter";
 import FeatureGrid from "../../layout/FeatureGrid";
 import LogoStrip from "../../layout/LogoStrip";
-import RouteMap from "../../layout/RouteMap";
+import RouteMap from "../../layout/ParkEventMap";
 import Testimonials from "../../layout/Testimonials";
 import Faq from "../../layout/Faq";
 import CallToAction from "../../layout/CallToAction";

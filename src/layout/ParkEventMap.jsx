@@ -18,17 +18,18 @@ const MEETING_POINT = [140, 482];
 // at     where the signpost stands, beside the activity
 // host   which side of the signpost the checkpoint host stands on (-1 left, 1 right)
 // entry  the point on a street where groups turn off towards it
-// stand  where a group stops next to the host to check in
+// stand  where a group stops next to the host to check in, a little in front of
+//        the signpost so the board never covers their heads
 // Games: 1 tug-of-war, 2 Mölkky, 3 ball toss, 4 photo challenge, 5 sack race,
 // 6 quiz, 7 rope jump.
 const CHECKPOINTS = [
-  { at: [720, 236], host: -1, entry: [650, 170], stand: [668, 236] },
-  { at: [360, 525], host: -1, entry: [250, 528], stand: [308, 525] },
-  { at: [1148, 300], host: -1, entry: [1040, 300], stand: [1096, 300] },
-  { at: [462, 118], host: 1, entry: [470, 170], stand: [514, 118] },
-  { at: [610, 492], host: 1, entry: [680, 430], stand: [662, 492] },
-  { at: [128, 282], host: 1, entry: [250, 282], stand: [180, 282] },
-  { at: [985, 110], host: -1, entry: [1040, 126], stand: [933, 110] },
+  { at: [720, 236], host: -1, entry: [650, 170], stand: [668, 250] },
+  { at: [360, 525], host: -1, entry: [250, 528], stand: [308, 539] },
+  { at: [1148, 300], host: -1, entry: [1040, 300], stand: [1096, 314] },
+  { at: [462, 118], host: 1, entry: [470, 170], stand: [514, 132] },
+  { at: [610, 492], host: 1, entry: [680, 430], stand: [662, 506] },
+  { at: [128, 282], host: 1, entry: [250, 282], stand: [180, 296] },
+  { at: [985, 110], host: -1, entry: [1040, 126], stand: [933, 124] },
 ];
 
 // City blocks [x, y, width, height], parks and trees, laid out between the streets.
@@ -59,7 +60,7 @@ const PARKS = [
   [560, 205, 210, 125],
 ];
 const TREES = [
-  [56, 556],
+  [196, 556],
   [982, 250],
   [975, 330],
   [430, 250],
@@ -191,12 +192,13 @@ const TOUR = [2, 6, 4, 1, 7, 3, 5];
 // People in each group, in the order they set off (2 or 3 each, to suit every game).
 const GROUP_SIZES = [3, 2, 3, 2, 2, 3, 2, 3, 2, 2, 3, 2, 3, 2, 2, 3];
 
-// Where groups leave from and come back to, on the street by the meeting point.
-const HOME = [140, 430];
-// The meeting point's host, just inside the park, and where returning groups stand
-// beside them to check in.
-const MEETING_HOST = [112, 472];
-const MEETING_STAND = [140, 472];
+// The meeting point's host, beside its signpost like a checkpoint host, and where
+// returning groups stand beside them to check in (in front of the board).
+const MEETING_HOST = [MEETING_POINT[0] - 22, MEETING_POINT[1] + 36];
+const MEETING_STAND = [MEETING_POINT[0] - 60, MEETING_POINT[1] + 52];
+// Where groups leave from and come back to: the street right above where they stand
+// at the meeting point, so they walk straight down past the signpost, not through it.
+const HOME = [MEETING_STAND[0], 430];
 // Streets: horizontal ones at these y, vertical ones at these x.
 const STREETS_Y = [170, 430];
 const STREETS_X = [250, 520, 800, 1040];
@@ -465,10 +467,10 @@ const PIN_SPOTS = [
 ];
 // Ball toss (Checkpoint 3): two throw a ball back and forth, a third watches.
 const BALL_TOSS = [
-  [1098, 228],
-  [1152, 228],
+  [1090, 228],
+  [1160, 228],
 ];
-const BALL_WATCHER = [1090, 262];
+const BALL_WATCHER = [1092, 266];
 // Photo challenge (Checkpoint 4): the group poses; the host takes the photo.
 const PHOTO_GROUP = [
   [310, 92],
@@ -494,7 +496,7 @@ const ROPE_JUMP = { x: 885, ground: 100, reach: 40 };
 const SIGNS = [
   ["tugOfWar", 630, 318],
   ["molkky", 420, 560],
-  ["ballToss", 1125, 196],
+  ["ballToss", 1125, 262],
   ["photo", 340, 128],
   ["sackRace", 660, 590],
   ["quiz", 110, 394],
@@ -957,7 +959,7 @@ const BallToss = ({ members, unit }) => (
     </Ball>
     <ScorePop
       x={BALL_REST[0]}
-      y={BALL_TOSS[0][1] - 58}
+      y={BALL_TOSS[0][1] - 6}
       text={`+10 ${unit}`}
       every={4}
       delay={-2.5}
@@ -1054,7 +1056,7 @@ const SackRace = ({ members, unit }) => (
     ))}
     <ScorePop
       x={SACK_FINISH}
-      y={SACK_LANES[0] - 18}
+      y={SACK_LANES[0] - 28}
       text={`+15 ${unit}`}
       every={5.5}
       delay={-4}
@@ -1195,8 +1197,8 @@ const RopeJump = ({ members, unit }) => {
         />
       </path>
       <ScorePop
-        x={x}
-        y={ground - 70}
+        x={x + 65}
+        y={ground - 40}
         text={`+8 ${unit}`}
         every={5}
         delay={-1.5}
@@ -1363,7 +1365,7 @@ const RouteMap = ({ imageAlt, labels, feed }) => (
           {/* Things that stay: the sack race finish line, the quiz card, the host's camera */}
           <line
             x1={SACK_FINISH}
-            y1={SACK_LANES[0] - 28}
+            y1={SACK_LANES[0] - 20}
             x2={SACK_FINISH}
             y2={SACK_LANES[SACK_LANES.length - 1] + 16}
             stroke="#59412b"
