@@ -1,38 +1,33 @@
-/* The navbar is a rounded white card (the same shadow as the other cards), as wide as
-   the page's content column, a little below the top, floating over the page as it
-   scrolls. The band behind it matches the top of the page (light on the home page,
-   the warm background elsewhere) and clears once the page scrolls. */
+/* A plain full-width bar with a soft blur, its content lined up with the page's
+   content column; a hairline appears under it once the page scrolls. Its colour
+   matches the page (light on the home page, the warm background elsewhere). */
 .navbar-container {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  padding: 12px 24px 8px;
-  background: var(--primary-color);
-  transition: background-color 0.2s ease;
+  padding: 0 24px;
+  background: rgba(239, 230, 221, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
 }
 .app-main-layout:has(.sections--light-first) .navbar-container {
-  background: #fff;
+  background: rgba(253, 251, 248, 0.85);
 }
-.navbar-container.is-scrolled,
-.app-main-layout:has(.sections--light-first) .navbar-container.is-scrolled {
-  background: transparent;
+.navbar-container.is-scrolled {
+  border-bottom-color: rgba(89, 65, 43, 0.1);
 }
 
 .navbar {
   position: relative;
   max-width: var(--content-width);
-  height: 64px;
+  height: 72px;
   margin: 0 auto;
-  padding: 0 12px 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: var(--card-shadow);
 }
 
 .nav-logo {
@@ -211,11 +206,10 @@
 /* ---------- Mobile menu ---------- */
 @media (max-width: 800px) {
   .navbar-container {
-    padding: 8px 12px 6px;
+    padding: 0 16px;
   }
   .navbar {
-    height: 60px;
-    padding: 0 8px 0 14px;
+    height: 64px;
   }
   .logo-text {
     font-size: 1.3rem;
@@ -228,16 +222,16 @@
   .nav-menu {
     display: none;
     position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+    top: 100%;
+    left: -16px;
+    right: -16px;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     padding: 8px 16px 20px;
-    border-radius: 16px;
-    background: #fff;
-    box-shadow: var(--card-shadow-hover);
+    background: var(--page-light, #fdfbf8);
+    border-bottom: 1px solid rgba(89, 65, 43, 0.1);
+    box-shadow: 0 16px 24px rgba(89, 65, 43, 0.08);
   }
   .nav-menu.is-open {
     display: flex;

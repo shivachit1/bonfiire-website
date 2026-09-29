@@ -1,17 +1,17 @@
 import "./layout.css";
-import ScrollPose from "./ScrollPose";
+import Doodles from "./Doodles";
 
 // Full-width band with a centered container, on the site's cream background.
 // width: "wide" (the shared content column, --content-width) | "narrow" (centred text)
-// `pose` makes the content lean with scrolling (see ScrollPose), as a whole
-// (a boxed section's box moves with it).
-const Section = ({ id, width = "wide", className = "", pose, children }) => {
+// `doodles` (a preset name from Doodles) scatters small drifting drawings beside it.
+const Section = ({ id, width = "wide", className = "", doodles, children }) => {
   const container = (
     <div className={`container container--${width}`}>{children}</div>
   );
   return (
     <section id={id} className={`section ${className}`}>
-      {pose ? <ScrollPose>{container}</ScrollPose> : container}
+      {doodles && <Doodles preset={doodles} />}
+      {container}
     </section>
   );
 };

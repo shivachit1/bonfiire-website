@@ -776,8 +776,7 @@ export const LiveFeed = ({ feed, games }) => {
   );
 };
 
-// The frame every map sits in, swipeable on phones. (On the home page the map moves
-// with scrolling together with its title and text: see ScrollPose.) The shadow is its
+// The frame every map sits in, swipeable on phones. The shadow is its
 // own layer under the map.
 // `view` ("x y width height" of the 1200 × 600 map) shows just that part, filling its
 // box, with no frame or swipe hint: a close-up, e.g. on a card.
