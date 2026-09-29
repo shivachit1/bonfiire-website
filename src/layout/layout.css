@@ -26,6 +26,43 @@
   padding: var(--section-space) 24px;
   background: var(--primary-color);
 }
+/* Small drifting drawings beside a section (Doodles): faint, behind the content,
+   floating up and down slowly. Hidden on narrow screens, still for reduced motion. */
+.section {
+  position: relative;
+}
+.doodles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.section > .container {
+  position: relative;
+}
+.doodle {
+  position: absolute;
+  opacity: 0.55;
+  animation: doodle-float 8s ease-in-out infinite alternate;
+}
+@keyframes doodle-float {
+  from {
+    transform: translate(0, 0) rotate(-6deg);
+  }
+  to {
+    transform: translate(6px, -14px) rotate(8deg);
+  }
+}
+@media (max-width: 900px) {
+  .doodles {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doodle {
+    animation: none;
+  }
+}
 .section--compact {
   padding-top: 40px;
   padding-bottom: 40px;
@@ -35,71 +72,33 @@
 .section:nth-child(even of .section:not(.section--compact)) {
   background: #fff;
 }
-/* The home page is light throughout; a section only gets cream when it's asked for
-   (e.g. the rounded Why Bonfiire box, see below). */
-.sections--light-first > .section {
-  background: #fff;
+/* The home page: one calm light background throughout; the warm colour only where
+   it's asked for (the map's panel, the closing band). */
+:root {
+  --page-light: #fdfbf8;
 }
-/* A cream band, when a section asks for it (e.g. Prompt). */
-.sections--light-first > .section.section--cream,
+/* (Specific enough to win over the alternating rule above.) */
+.sections--light-first > section.section:nth-child(n of .section) {
+  background: var(--page-light);
+}
+/* A warm band, when a section asks for it (e.g. the home page's closing band). */
+.sections--light-first > section.section.section--cream:nth-child(n of .section),
 .section--cream {
   background: var(--primary-color);
 }
-/* Boxed: the section's content sits in a rounded cream box as wide as the content
-   column, on a light background, instead of a band across the whole screen. */
-.sections--light-first > .section.section--boxed {
-  background: #fff;
-  padding-top: 0;
-}
-/* A boxed section as a white card instead: the same shadow as the other cards. */
-.section--boxed.section--card .container {
-  background: #fff;
-  box-shadow: var(--card-shadow);
-}
-.section--boxed .container {
-  padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 64px);
-  border-radius: var(--radius);
-  background: var(--primary-color);
-}
-/* A map with its heading, as one white card: the heading on white, the map right under
-   it with no gap, both the content column's width, framed by the cards' shadow with
-   corners matching the map's (40 of its 1200 width). White fills in behind the map's
-   rounded top corners, so the two read as one. */
-/* Its top corners match the map's bottom ones: the map's corners are 40 of its 1200
-   width, so the panel's are the same share of the (same) width. */
-.section--map-head .scroll-pose-stage {
-  container-type: inline-size;
-}
-.section--map-head .scroll-pose {
-  border-radius: calc(100cqw * 40 / 1200);
-  background: #fff;
-  box-shadow: var(--card-shadow);
-}
+/* A map with its heading: the heading on the page like any section's, the map right
+   under it, as wide as the content column. */
 .map-head {
-  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 48px);
-  border-radius: calc(100cqw * 40 / 1200) calc(100cqw * 40 / 1200) 0 0;
-  background: #fff;
+  padding: 0;
+}
+/* The heading and the map are two blocks in the section; keep them close. */
+.section--map-head > .container {
+  gap: clamp(20px, 2.5vw, 28px);
 }
 .section--map-head .route-map {
   width: 100%;
   margin: 0;
   transform: none;
-}
-.section--map-head .route-plane {
-  background: linear-gradient(#fff 0 60px, transparent 60px);
-}
-@media (max-width: 800px) {
-  .section--map-head .route-viewport {
-    padding-top: 0;
-  }
-  /* On phones the map is a fixed 820 wide (you swipe across it), so its corners
-     are 40 × 820 / 1200 ≈ 27px. */
-  .map-head {
-    border-radius: 27px 27px 0 0;
-  }
-  .section--map-head .scroll-pose {
-    border-radius: 27px;
-  }
 }
 
 .container {
@@ -209,16 +208,6 @@
   }
 }
 
-/* Content that moves with scrolling (ScrollPose sets its transform): leaning back as
-   it comes up the screen, flat in the middle, leaning forward as it leaves. On its own
-   layer, so moving it doesn't redraw it. */
-.scroll-pose-stage {
-  perspective: 1400px;
-}
-.scroll-pose {
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
 
 /* An event section on the home page (park crawl, bar crawl): the map sits close under
    its title and text, about a line's gap. */
@@ -1129,10 +1118,11 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px 0;
+  padding: 18px 0;
   cursor: pointer;
   list-style: none;
-  font-size: var(--text-item);
+  /* The same size as the answers, set apart by weight. */
+  font-size: var(--text-info);
   font-weight: 700;
 }
 .faq-item summary::-webkit-details-marker {
@@ -1270,41 +1260,14 @@
   height: 100%;
 }
 
-/* Buttons (Prompt): a solid warm-charcoal one and outlined ones. Flat, no shine. */
-.prompt-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin: 32px 0 0;
-}
-.button {
-  display: inline-flex;
-  align-items: center;
-  padding: 13px 26px;
-  border: 1.5px solid #2f2723;
-  border-radius: 12px;
-  background: #2f2723;
-  color: #fff;
+/* The home page's pieces: the closing band's text link; the FAQ lined up with its
+   left-aligned title. */
+.cta-link {
+  margin: 20px 0 0;
   font-size: var(--text-info);
-  font-weight: 700;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
 }
-.button:hover {
-  background: #4a3c33;
-  border-color: #4a3c33;
-  color: #fff;
-}
-.button--outline {
-  background: transparent;
-  color: var(--secondary-color);
-}
-.button--outline:hover {
-  background: #fff;
-  border-color: #2f2723;
-  color: var(--secondary-color);
+.intro--left .faq {
+  margin-left: 0;
 }
 
 /* An Appro page's title is the page's own heading, so it's the page title size. */
@@ -1761,14 +1724,9 @@
 }
 
 /* ---------- Reveal on scroll (see useReveal.js) ---------- */
+/* Sections sit still: no fade or slide as they scroll into view. (The `.reveal` class
+   stays on intros and chapters, so an effect can come back here in one place.) */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
-}
-.reveal.is-visible {
   opacity: 1;
   transform: none;
 }

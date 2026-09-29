@@ -1,7 +1,6 @@
 import { Navigate, useParams } from "react-router-dom";
 import Section from "../../layout/Section";
 import Intro from "../../layout/Intro";
-import ScrollPose from "../../layout/ScrollPose";
 import FeatureGrid from "../../layout/FeatureGrid";
 import CallToAction from "../../layout/CallToAction";
 import approMaps from "../../layout/approMaps";
@@ -24,11 +23,9 @@ const ApproPage = () => {
   return (
     <>
       <Section className="section--event section--appro">
-        <ScrollPose>
-          <Intro as="h1" layout="left" title={event.title} text={page.intro}>
-            <Map {...event} />
-          </Intro>
-        </ScrollPose>
+        <Intro as="h1" layout="left" title={event.title} text={page.intro}>
+          <Map {...event} />
+        </Intro>
       </Section>
 
       <Section>

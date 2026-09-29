@@ -14,7 +14,7 @@
   --text-page: clamp(1.9rem, 4vw, 3rem); /* page title (hero) */
   --text-section: clamp(1.5rem, 3vw, 2.1rem); /* section title */
   --text-item: clamp(1.15rem, 2vw, 1.35rem); /* titles inside a section: blocks, cards, questions, steps */
-  --text-info: clamp(1rem, 1.6vw, 1.1rem); /* all info text */
+  --text-info: clamp(1rem, 1.6vw, 1.15rem); /* all info text */
   --text-chip: 0.9rem; /* labels, badges, tags */
   /* Modern System Font Stack */
   --font-stack:

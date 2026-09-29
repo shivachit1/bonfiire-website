@@ -48,9 +48,7 @@
     "text": [
       "Whether it's a small meetup or an Appro across the city, Bonfiire helps you plan it, invite your people and check everyone in. Our step-by-step guides show you how."
     ],
-    "actions": [
-      { "label": "See instructions", "to": "/help?tab=organizing" }
-    ]
+    "link": { "label": "See instructions →", "to": "/help?tab=organizing" }
   },
   "photoBreak": {
     "image": "tug-of-war",

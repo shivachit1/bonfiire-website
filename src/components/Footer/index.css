@@ -1,26 +1,22 @@
-/* Like the navbar: a rounded white card (the cards' shadow) as wide as the page's
-   content column, a little above the bottom. Around it, the page's own colour carries
-   on (light on the home page, the warm background elsewhere). */
+/* A plain full-width footer with a hairline on top, in the page's colour (light on
+   the home page, the warm background elsewhere). */
 .footer-container {
   width: 100%;
-  padding: 0 24px 24px;
+  padding: 40px 24px;
   background: var(--primary-color);
+  border-top: 1px solid rgba(89, 65, 43, 0.1);
 }
 .app-main-layout:has(.sections--light-first) .footer-container {
-  background: #fff;
+  background: var(--page-light, #fdfbf8);
 }
 
 .footer-content {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: var(--card-shadow);
 }
 
 .footer-links {
@@ -54,10 +50,7 @@
 /* Mobile responsive */
 @media (max-width: 768px) {
   .footer-container {
-    padding: 0 12px 12px;
-  }
-  .footer-content {
-    padding: 26px 16px;
+    padding: 30px 20px;
   }
 
   .footer-links {
