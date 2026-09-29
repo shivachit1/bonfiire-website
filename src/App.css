@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #fcf8f5;
+  --primary-color: #efe6dd; /* warm light brown, the same as the maps' ground */
   --secondary-color: #59412b;
   --primary-color1: #e56822;
   --accent-text-color: #b8501a; /* brand orange darkened for small text on light backgrounds */
@@ -8,7 +8,7 @@
   --night-color: #1c1410;
   --night-text-color: #f3e9df;
   --radius: 20px;
-  --section-space: clamp(64px, 10vw, 120px);
+  --section-space: clamp(48px, 7vw, 88px);
   --content-width: 1280px;
   /* Type scale: every text on the site uses one of these five sizes. */
   --text-page: clamp(1.9rem, 4vw, 3rem); /* page title (hero) */
@@ -29,7 +29,6 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--primary-color);
   font-family: var(--font-stack);
   color: var(--primary-text-color);
   overflow-x: hidden;

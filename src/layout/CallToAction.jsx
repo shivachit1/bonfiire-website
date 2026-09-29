@@ -4,8 +4,11 @@ import Intro from "./Intro";
 import AppLinks from "../components/AppLinks/AppLinks";
 import { useContent } from "../i18n";
 
-// Closing download section. `trust` is an optional list of short points.
+// Closing download section. `trust` is an optional list of short points; `id` lets
+// links jump to it (e.g. the home hero's "Get the app").
 const CallToAction = ({
+  id,
+  pose,
   title,
   text,
   trust = [],
@@ -14,7 +17,7 @@ const CallToAction = ({
   const { cta } = useContent("ui");
 
   return (
-    <Section width="narrow">
+    <Section id={id} width="narrow" pose={pose}>
       <Intro title={title} text={text}>
         <AppLinks />
         {trust.length > 0 && (

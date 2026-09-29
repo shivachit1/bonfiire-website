@@ -1,22 +1,38 @@
+/* The navbar is a rounded white card (the same shadow as the other cards), as wide as
+   the page's content column, a little below the top, floating over the page as it
+   scrolls. The band behind it matches the top of the page (light on the home page,
+   the warm background elsewhere) and clears once the page scrolls. */
 .navbar-container {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: rgba(252, 248, 245, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 12px 24px 8px;
+  background: var(--primary-color);
+  transition: background-color 0.2s ease;
+}
+.app-main-layout:has(.sections--light-first) .navbar-container {
+  background: #fff;
+}
+.navbar-container.is-scrolled,
+.app-main-layout:has(.sections--light-first) .navbar-container.is-scrolled {
+  background: transparent;
 }
 
 .navbar {
-  max-width: 1440px;
-  height: 72px;
+  position: relative;
+  max-width: var(--content-width);
+  height: 64px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 12px 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--card-shadow);
 }
 
 .nav-logo {
@@ -194,9 +210,12 @@
 
 /* ---------- Mobile menu ---------- */
 @media (max-width: 800px) {
+  .navbar-container {
+    padding: 8px 12px 6px;
+  }
   .navbar {
-    height: 64px;
-    padding: 0 16px;
+    height: 60px;
+    padding: 0 8px 0 14px;
   }
   .logo-text {
     font-size: 1.3rem;
@@ -209,16 +228,16 @@
   .nav-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     padding: 8px 16px 20px;
-    background: var(--primary-color);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--card-shadow-hover);
   }
   .nav-menu.is-open {
     display: flex;
@@ -232,9 +251,7 @@
   /* Groups are always expanded in the mobile menu; the heading is just a label. */
   .nav-group-toggle {
     pointer-events: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.9rem;
     color: var(--secondary-text-color);
     padding-bottom: 4px;
   }

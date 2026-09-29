@@ -1,0 +1,324 @@
+{
+  "learnMore": "Learn more →",
+  "howTitle": "How it works",
+  "tipsTitle": "Good to know",
+  "events": {
+    "inNature": {
+      "slug": "in-nature",
+      "summary": "Games across the park, points at every stop.",
+      "snippet": "560 60 480 360",
+      "map": "park",
+      "title": "Appro {(In nature)}",
+      "text": [
+        "Take your Appro outdoors. Fresh air, open green space and games spread across the park: tug-of-war by the trees, Mölkky on the grass, a quiz in the shade.",
+        "Put a host at every checkpoint and let teams make their way from stop to stop. They check in with a QR code, play for points and follow the scores on the live feed."
+      ],
+      "page": {
+        "intro": [
+          "An Appro in the park: a day outside with your people, moving from game to game. It works for a class, a student association or a group of friends, and it's easy to set up with Bonfiire."
+        ],
+        "steps": [
+          {
+            "icon": "route",
+            "title": "Plan your stops",
+            "text": "Pick a park, then add a checkpoint in the app for every game on the route."
+          },
+          {
+            "icon": "invite",
+            "title": "Put a host at each one",
+            "text": "Invite a checkpoint host for every stop. They run the game and welcome each team."
+          },
+          {
+            "icon": "scan",
+            "title": "Check in with a QR code",
+            "text": "Teams show their ticket's QR code at every stop, and the host scans it in a second."
+          },
+          {
+            "icon": "score",
+            "title": "Play for points",
+            "text": "Hosts give points after each game, and everyone follows the scores on the live feed."
+          }
+        ],
+        "ideas": {
+          "title": "Games for your stops",
+          "text": [
+            "A few favourites to get you started."
+          ],
+          "items": [
+            "Tug-of-war",
+            "Mölkky",
+            "Ball toss",
+            "Photo challenge",
+            "Sack race",
+            "Quiz",
+            "Rope jump"
+          ]
+        },
+        "tips": [
+          {
+            "icon": "location",
+            "title": "Choose a park with room",
+            "text": "Open grass, a few trees for shade and space between stops keep teams moving without queues."
+          },
+          {
+            "icon": "list",
+            "title": "Bring the gear",
+            "text": "Ropes, balls, sacks and a Mölkky set: give each host what their game needs."
+          },
+          {
+            "icon": "sparkle",
+            "title": "Have a plan B",
+            "text": "Keep a sheltered spot or an indoor option in mind in case the weather turns."
+          }
+        ]
+      },
+      "imageAlt": "Illustration of a small city with a meeting point and seven checkpoints, each with a host and a game: tug-of-war, Mölkky, ball toss, a photo challenge, a sack race, a quiz and a rope jump. Groups leave the meeting point, check in with the host at each checkpoint by scanning a QR code on their phone, and come back.",
+      "labels": {
+        "meetingPoint": "Meeting point",
+        "checkpoint": "Checkpoint",
+        "swipe": "Swipe to explore the map",
+        "games": {
+          "tugOfWar": "Tug-of-war",
+          "molkky": "Mölkky",
+          "ballToss": "Ball toss",
+          "photo": "Photo challenge",
+          "sackRace": "Sack race",
+          "quiz": "Quiz",
+          "ropeJump": "Rope jump"
+        }
+      },
+      "feed": {
+        "title": "Live feed",
+        "unit": "pts",
+        "items": [
+          ["Team Kiuas", 20, "tugOfWar"],
+          ["Team Löyly", 30, "ropeJump"],
+          ["Team Vihta", 15, "sackRace"],
+          ["Team Sauna", 25, "molkky"],
+          ["Team Kiuas", 10, "quiz"],
+          ["Team Löyly", 20, "photo"],
+          ["Team Vihta", 30, "ballToss"],
+          ["Team Sauna", 15, "tugOfWar"]
+        ]
+      }
+    },
+    "barCrawl": {
+      "slug": "bar-crawl",
+      "summary": "From bar to bar, a stamp and points at each one.",
+      "snippet": "560 40 480 360",
+      "map": "barCrawl",
+      "title": "Appro {(Bar crawl)}",
+      "text": [
+        "Take the fun into the city, from one lively bar to the next: karaoke at one, darts or beer pong at another, cocktails and a dance-off to finish.",
+        "Every bar has a host at the door and a quick QR check-in. Teams collect a stamp at every stop, earn points along the way and see it all on the live feed."
+      ],
+      "page": {
+        "intro": [
+          "The classic student Appro: a route through the city's bars, with something fun happening at every stop. Teams collect a stamp at each bar and points along the way."
+        ],
+        "steps": [
+          {
+            "icon": "route",
+            "title": "Plan your bars",
+            "text": "Pick the bars and the order, then add each one as a checkpoint in the app."
+          },
+          {
+            "icon": "invite",
+            "title": "Put a host at every door",
+            "text": "Each bar gets a checkpoint host who welcomes teams and runs the activity."
+          },
+          {
+            "icon": "stamp",
+            "title": "Check in and collect stamps",
+            "text": "Teams show their QR code at the door and collect the bar's stamp."
+          },
+          {
+            "icon": "score",
+            "title": "Play for points",
+            "text": "Karaoke, darts or beer pong: hosts give points, and it all shows up on the live feed."
+          }
+        ],
+        "ideas": {
+          "title": "Ideas for your bars",
+          "text": [
+            "Give every bar its own thing to do."
+          ],
+          "items": [
+            "Karaoke",
+            "Darts",
+            "Pool",
+            "Bingo",
+            "Cocktails",
+            "Beer pong",
+            "Dance-off"
+          ]
+        },
+        "tips": [
+          {
+            "icon": "location",
+            "title": "Agree with the bars",
+            "text": "Let each bar know you're coming, and roughly when, so they're ready for the teams."
+          },
+          {
+            "icon": "people",
+            "title": "Keep groups moving",
+            "text": "Stagger the start times so every bar has a team, but none has a queue."
+          },
+          {
+            "icon": "community",
+            "title": "Look after each other",
+            "text": "Offer drinks without alcohol too, and make sure everyone gets home safely."
+          }
+        ]
+      },
+      "imageAlt": "Illustration of a city with a meeting point on a square and seven bars, each with a host at the door and something happening on its terrace: karaoke, darts, pool, bingo, a cocktail bar, beer pong and a dance-off. Groups leave the meeting point, check in with the host at each bar by scanning a QR code on their phone, collect a stamp and come back.",
+      "labels": {
+        "meetingPoint": "Meeting point",
+        "checkpoint": "Checkpoint",
+        "swipe": "Swipe to explore the map",
+        "bars": [
+          "Echo Bar",
+          "Bullseye",
+          "Cue & Brew",
+          "Lucky 7",
+          "The Shaker",
+          "Hoppy Hour",
+          "Disco Lounge"
+        ],
+        "games": {
+          "karaoke": "Karaoke",
+          "darts": "Darts",
+          "pool": "Pool",
+          "bingo": "Bingo",
+          "cocktails": "Cocktails",
+          "beerPong": "Beer pong",
+          "danceOff": "Dance-off"
+        }
+      },
+      "feed": {
+        "title": "Live feed",
+        "unit": "pts",
+        "stamp": "+1 stamp",
+        "items": [
+          ["Team Kiuas", 15, "karaoke"],
+          ["Team Löyly", "stamp 5/7", "cocktails"],
+          ["Team Vihta", 10, "beerPong"],
+          ["Team Sauna", "stamp 6/7", "pool"],
+          ["Team Kiuas", 25, "bingo"],
+          ["Team Löyly", 20, "darts"],
+          ["Team Vihta", "stamp 3/7", "danceOff"],
+          ["Team Sauna", 15, "karaoke"]
+        ]
+      }
+    },
+    "cityHopper": {
+      "slug": "city-hopper",
+      "summary": "Museum, market, food, drinks and games, all in one route.",
+      "snippet": "300 40 480 360",
+      "map": "cityHopper",
+      "title": "Appro {(City hopper)}",
+      "text": [
+        "Mix it all up. Admire the art at a museum, wander through the market, share a meal at a restaurant, play games in the park and raise a glass at the bar.",
+        "Each place has a host and a quick QR check-in. Teams collect stamps at the museum, market, restaurant and bar, win points at the park games, and follow it all on the live feed."
+      ],
+      "page": {
+        "intro": [
+          "The mixed Appro: a route across the city through all kinds of places. A museum, a market, a restaurant, a bar and a park or two, each with its own host and check-in."
+        ],
+        "steps": [
+          {
+            "icon": "route",
+            "title": "Mix your stops",
+            "text": "Add museums, markets, restaurants, bars and parks as checkpoints, in any order you like."
+          },
+          {
+            "icon": "invite",
+            "title": "Put a host at each place",
+            "text": "Every stop gets a checkpoint host who welcomes teams and checks them in."
+          },
+          {
+            "icon": "stamp",
+            "title": "Collect stamps",
+            "text": "Teams collect a stamp at the museum, market, restaurant and bar."
+          },
+          {
+            "icon": "score",
+            "title": "Win points at the games",
+            "text": "Park games give points, and the live feed keeps everyone up to date."
+          }
+        ],
+        "ideas": {
+          "title": "Places to hop between",
+          "text": [
+            "Mix culture, food, drinks and games."
+          ],
+          "items": [
+            "Museum",
+            "Market",
+            "Restaurant",
+            "Café",
+            "Bar",
+            "Park games",
+            "Photo spot"
+          ]
+        },
+        "tips": [
+          {
+            "icon": "checkin",
+            "title": "Check opening hours",
+            "text": "Plan stops around museum and market hours, and book a table at the restaurant."
+          },
+          {
+            "icon": "ticket",
+            "title": "Sort tickets early",
+            "text": "If a stop needs an entry ticket, include it or let teams know before the day."
+          },
+          {
+            "icon": "route",
+            "title": "Keep the walk short",
+            "text": "Pick places close together so teams spend their time at the stops, not between them."
+          }
+        ]
+      },
+      "imageAlt": "Illustration of a city with a meeting point on a square and seven places to visit: a market with stalls, a restaurant terrace, a bar, a cocktail bar, a museum with a statue in its courtyard, and two parks with frisbee and tug-of-war. Groups leave the meeting point, check in with a host at each place by scanning a QR code on their phone, collect stamps at the market, restaurant, bars and museum, win points in the parks, and come back.",
+      "labels": {
+        "meetingPoint": "Meeting point",
+        "checkpoint": "Checkpoint",
+        "swipe": "Swipe to explore the map",
+        "places": [
+          "Old Market",
+          "Trattoria",
+          "The Taproom",
+          "City Museum",
+          "East Park",
+          "West Park",
+          "Cocktail Club"
+        ],
+        "games": {
+          "market": "Market",
+          "lunch": "Lunch",
+          "cheers": "Cheers",
+          "museum": "Museum",
+          "frisbee": "Frisbee",
+          "tugOfWar": "Tug-of-war",
+          "cocktails": "Cocktails"
+        }
+      },
+      "feed": {
+        "title": "Live feed",
+        "unit": "pts",
+        "stamp": "+1 stamp",
+        "items": [
+          ["Team Kiuas", "stamp 2/7", "museum"],
+          ["Team Löyly", 15, "frisbee"],
+          ["Team Vihta", "stamp 4/7", "market"],
+          ["Team Sauna", 10, "tugOfWar"],
+          ["Team Kiuas", "stamp 3/7", "lunch"],
+          ["Team Löyly", "stamp 5/7", "cocktails"],
+          ["Team Vihta", 15, "frisbee"],
+          ["Team Sauna", "stamp 7/7", "lunch"]
+        ]
+      }
+    }
+  }
+}

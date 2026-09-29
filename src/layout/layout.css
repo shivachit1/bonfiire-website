@@ -4,6 +4,20 @@
    PhotoBreak.
    Colours come from the tokens in App.css. */
 
+/* ---------- Card shadow ---------- */
+/* Shared by every shadowed card: a very fine outline for a clear edge (even on
+   white), a tight shadow under it and a soft one further out. Deeper on hover. */
+:root {
+  --card-shadow:
+    0 0 0 1px rgba(89, 65, 43, 0.07),
+    0 2px 4px rgba(89, 65, 43, 0.06),
+    0 12px 28px rgba(89, 65, 43, 0.1);
+  --card-shadow-hover:
+    0 0 0 1px rgba(89, 65, 43, 0.09),
+    0 4px 8px rgba(89, 65, 43, 0.08),
+    0 20px 40px rgba(89, 65, 43, 0.14);
+}
+
 /* ---------- Section ---------- */
 /* The navbar spans up to 1440px; every section's content lines up on one
    slightly narrower column (--content-width), so left edges match page-wide. */
@@ -20,6 +34,72 @@
    partner row) belongs to the section above it, so it stays cream and is skipped. */
 .section:nth-child(even of .section:not(.section--compact)) {
   background: #fff;
+}
+/* The home page is light throughout; a section only gets cream when it's asked for
+   (e.g. the rounded Why Bonfiire box, see below). */
+.sections--light-first > .section {
+  background: #fff;
+}
+/* A cream band, when a section asks for it (e.g. Prompt). */
+.sections--light-first > .section.section--cream,
+.section--cream {
+  background: var(--primary-color);
+}
+/* Boxed: the section's content sits in a rounded cream box as wide as the content
+   column, on a light background, instead of a band across the whole screen. */
+.sections--light-first > .section.section--boxed {
+  background: #fff;
+  padding-top: 0;
+}
+/* A boxed section as a white card instead: the same shadow as the other cards. */
+.section--boxed.section--card .container {
+  background: #fff;
+  box-shadow: var(--card-shadow);
+}
+.section--boxed .container {
+  padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 64px);
+  border-radius: var(--radius);
+  background: var(--primary-color);
+}
+/* A map with its heading, as one white card: the heading on white, the map right under
+   it with no gap, both the content column's width, framed by the cards' shadow with
+   corners matching the map's (40 of its 1200 width). White fills in behind the map's
+   rounded top corners, so the two read as one. */
+/* Its top corners match the map's bottom ones: the map's corners are 40 of its 1200
+   width, so the panel's are the same share of the (same) width. */
+.section--map-head .scroll-pose-stage {
+  container-type: inline-size;
+}
+.section--map-head .scroll-pose {
+  border-radius: calc(100cqw * 40 / 1200);
+  background: #fff;
+  box-shadow: var(--card-shadow);
+}
+.map-head {
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 48px);
+  border-radius: calc(100cqw * 40 / 1200) calc(100cqw * 40 / 1200) 0 0;
+  background: #fff;
+}
+.section--map-head .route-map {
+  width: 100%;
+  margin: 0;
+  transform: none;
+}
+.section--map-head .route-plane {
+  background: linear-gradient(#fff 0 60px, transparent 60px);
+}
+@media (max-width: 800px) {
+  .section--map-head .route-viewport {
+    padding-top: 0;
+  }
+  /* On phones the map is a fixed 820 wide (you swipe across it), so its corners
+     are 40 × 820 / 1200 ≈ 27px. */
+  .map-head {
+    border-radius: 27px 27px 0 0;
+  }
+  .section--map-head .scroll-pose {
+    border-radius: 27px;
+  }
 }
 
 .container {
@@ -71,16 +151,93 @@
 .intro {
   text-align: center;
 }
-/* Keep intro text at a readable width, even inside wide sections. */
+/* Keep intro text at a readable width, even inside wide sections, with its lines
+   balanced so no word or two is left alone on the last line. */
 .intro .title,
 .intro .lead {
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
+  text-wrap: balance;
 }
 .intro .appLinks-list {
   justify-content: center;
   margin-top: 32px;
+}
+
+/* (After the centred rules above, so it wins.) */
+/* Left: stacked like the centred intro, but aligned left. */
+.intro--left {
+  text-align: left;
+}
+.intro--left .title,
+.intro--left .lead {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* A small highlighted link with a bobbing down arrow (ScrollCue). */
+.scroll-cue {
+  margin: 28px 0 0;
+  font-size: var(--text-info);
+}
+.scroll-cue a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--primary-color1);
+}
+.scroll-cue a:hover {
+  color: var(--secondary-color);
+}
+.scroll-cue-arrow {
+  animation: scroll-cue 1.6s ease-in-out infinite;
+}
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(-1px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-arrow {
+    animation: none;
+  }
+}
+
+/* Content that moves with scrolling (ScrollPose sets its transform): leaning back as
+   it comes up the screen, flat in the middle, leaning forward as it leaves. On its own
+   layer, so moving it doesn't redraw it. */
+.scroll-pose-stage {
+  perspective: 1400px;
+}
+.scroll-pose {
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* An event section on the home page (park crawl, bar crawl): the map sits close under
+   its title and text, about a line's gap. */
+.section--event .route-map {
+  margin-top: 28px;
+}
+/* The map is wider than the text column (see .route-map), so its title and text
+   start where the map starts rather than further in. */
+@media (min-width: 801px) {
+  .section--event .intro--left > .title,
+  .section--event .intro--left > .lead,
+  .section--event .intro--left > .chapter-link {
+    margin-left: calc((100% - min(1440px, 100vw - 32px)) / 2);
+  }
+}
+@media (max-width: 800px) {
+  .section--event .route-map {
+    margin-top: 0;
+  }
 }
 
 /* ---------- Page header (pages without a hero photo) ---------- */
@@ -92,16 +249,16 @@
 /* More room above the hero than below, so it leads into the partner strip. */
 @media (min-width: 801px) {
   .hero {
-    padding-top: clamp(96px, 11vw, 160px);
-    padding-bottom: clamp(48px, 5vw, 72px);
+    padding-top: clamp(136px, 14vw, 208px);
+    padding-bottom: clamp(72px, 7vw, 112px);
   }
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
   align-items: center;
-  gap: clamp(40px, 6vw, 96px);
+  gap: clamp(32px, 5vw, 72px);
 }
 
 .hero-title {
@@ -121,74 +278,91 @@
   margin-top: 32px;
 }
 
-/* Two ways in: "Explore events" / "Host an event". */
-.hero-paths {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 28px 0 0;
-  padding: 0;
-  list-style: none;
+/* The hero illustration: friends round a bonfire (BonfireScene). */
+.bonfire-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
 }
-.hero-paths li {
-  margin: 0;
+/* People sitting round the fire: a slow, slight rise and fall, like breathing. */
+.person-breathe {
+  animation: person-breathe 2.8s ease-in-out infinite alternate;
 }
-.hero-path {
-  display: flex;
-  gap: 12px;
-  height: 100%;
-  padding: 16px;
-  border: 1px solid rgba(89, 65, 43, 0.14);
-  border-radius: 16px;
-  background: #fff;
-  text-align: left;
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-.hero-path:hover {
-  border-color: rgba(229, 104, 34, 0.5);
-  transform: translateY(-2px);
-}
-.hero-path-icon {
-  display: flex;
-  flex-shrink: 0;
-  font-size: 1.4rem;
-  color: var(--primary-color1);
-}
-.hero-path-body {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.hero-path-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--text-info);
-  font-weight: 700;
-  color: var(--secondary-color);
-}
-.hero-path-arrow {
-  color: var(--primary-color1);
-  transition: transform 0.2s ease;
-}
-.hero-path:hover .hero-path-arrow {
-  transform: translateX(3px);
-}
-.hero-path-text {
-  font-size: var(--text-info);
-  line-height: 1.5;
-  color: var(--secondary-text-color);
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-path:hover {
-    transform: none;
+@keyframes person-breathe {
+  to {
+    transform: translateY(-0.7px);
   }
 }
-@media (max-width: 480px) {
-  .hero-paths {
-    grid-template-columns: minmax(0, 1fr);
+/* The fire rises and falls slowly from its base; sparks drift up and fade; the glow
+   breathes. (The flames' swaying shapes are SVG animations in BonfireScene.) */
+.flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flame-rise 3.4s ease-in-out infinite alternate;
+}
+@keyframes flame-rise {
+  from {
+    transform: scale(1, 0.97);
+  }
+  to {
+    transform: scale(0.98, 1.04);
+  }
+}
+.spark {
+  opacity: 0;
+  animation: spark-rise 4s ease-out infinite;
+}
+@keyframes spark-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), -34px);
+  }
+}
+/* Steam curling up off the toasting marshmallow. */
+.steam {
+  opacity: 0;
+  animation: steam-rise 1.8s ease-out infinite;
+}
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(1px);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+.fire-glow {
+  opacity: 0.55;
+  animation: fire-glow 3.4s ease-in-out infinite alternate;
+}
+@keyframes fire-glow {
+  to {
+    opacity: 0.8;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .person-breathe,
+  .steam,
+  .flame,
+  .spark,
+  .fire-glow {
+    animation: none;
+  }
+  .spark {
+    display: none;
   }
 }
 
@@ -213,13 +387,19 @@
 .route-hint {
   display: none;
 }
-/* The map leans back a little, like a table seen from the front. */
 .route-plane {
-  transform: rotateX(16deg);
-  transform-origin: 50% 100%;
-  filter: drop-shadow(0 30px 40px rgba(89, 65, 43, 0.18));
+  position: relative;
+}
+/* A soft shadow under the map, the map's own shape (its corners are 40 of 1200 × 600). */
+.route-shadow {
+  display: none; /* trying the maps without a shadow; remove this line to bring it back */
+  position: absolute;
+  inset: 0;
+  border-radius: 3.33% / 6.67%;
+  box-shadow: 0 30px 40px rgba(89, 65, 43, 0.18);
 }
 .route-plane svg {
+  position: relative;
   display: block;
   width: 100%;
   height: auto;
@@ -405,6 +585,38 @@
   }
 }
 
+/* Bar crawl: dancing and swaying, music notes drifting up. */
+.person-dance {
+  animation: person-dance 0.9s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@keyframes person-dance {
+  from {
+    transform: rotate(-8deg) translateY(0);
+  }
+  to {
+    transform: rotate(8deg) translateY(-3px);
+  }
+}
+.note-float {
+  opacity: 0;
+  animation: note-float 2.4s ease-out infinite;
+}
+@keyframes note-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), -22px);
+  }
+}
+
 /* Live feed text on the map: slides in from the right, moves up, fades out. */
 .map-feed text {
   font-size: 11px;
@@ -478,11 +690,8 @@
   .route-viewport::-webkit-scrollbar {
     display: none;
   }
-  /* Flat on phones: the tilt makes browsers draw the map as a low-resolution
-     image, which blurs it at this size. */
   .route-plane {
     width: 820px;
-    transform: rotateX(14deg);
   }
   .route-hint {
     display: flex;
@@ -503,6 +712,8 @@
   .person-wander,
   .person-pose,
   .person-catch,
+  .person-dance,
+  .note-float,
   .quiz-bubble,
   .sack-run,
   .sack-hop,
@@ -705,18 +916,14 @@
   padding: 32px 28px;
   border: none;
   background: transparent;
-  box-shadow:
-    0 1px 2px rgba(89, 65, 43, 0.06),
-    0 8px 24px rgba(89, 65, 43, 0.08);
+  box-shadow: var(--card-shadow);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
 }
 .feature-grid--plain .card:hover {
   transform: translateY(-4px);
-  box-shadow:
-    0 2px 4px rgba(89, 65, 43, 0.06),
-    0 16px 36px rgba(89, 65, 43, 0.14);
+  box-shadow: var(--card-shadow-hover);
 }
 .feature-grid--plain .feature-icon {
   margin-bottom: 16px;
@@ -966,6 +1173,149 @@
   }
 }
 
+/* Ways to bring people together: two cards side by side (stacked on phones), each a
+   kind of event with example tags and a link. */
+.way-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.way-cards li {
+  margin: 0;
+}
+.way-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius);
+  color: inherit;
+  box-shadow: var(--card-shadow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.way-card:hover {
+  color: inherit;
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+/* The card's small map (WayMap) across its whole top, edge to edge; the text below
+   keeps its padding. */
+.way-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.way-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(24px, 3.5vw, 36px) clamp(28px, 4vw, 40px) clamp(28px, 4vw, 40px);
+}
+/* The multi-checkpoint map's dashed route flows gently along. */
+.way-route {
+  animation: way-route 1.6s linear infinite;
+}
+@keyframes way-route {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .way-route {
+    animation: none;
+  }
+}
+.way-card-title {
+  font-size: var(--text-item);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+.way-card-text {
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+.way-card .tags {
+  margin: 4px 0 0;
+}
+.way-card-more {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: var(--text-info);
+  font-weight: 700;
+  color: var(--accent-text-color);
+}
+@media (max-width: 800px) {
+  .way-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .way-card:hover {
+    transform: none;
+  }
+}
+
+/* A map close-up (MapFrame's `view`) fills its box. */
+.map-snippet {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Buttons (Prompt): a solid warm-charcoal one and outlined ones. Flat, no shine. */
+.prompt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 32px 0 0;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 26px;
+  border: 1.5px solid #2f2723;
+  border-radius: 12px;
+  background: #2f2723;
+  color: #fff;
+  font-size: var(--text-info);
+  font-weight: 700;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.button:hover {
+  background: #4a3c33;
+  border-color: #4a3c33;
+  color: #fff;
+}
+.button--outline {
+  background: transparent;
+  color: var(--secondary-color);
+}
+.button--outline:hover {
+  background: #fff;
+  border-color: #2f2723;
+  color: var(--secondary-color);
+}
+
+/* An Appro page's title is the page's own heading, so it's the page title size. */
+.section--appro .intro h1.title {
+  font-size: var(--text-page);
+}
+.tags--center {
+  justify-content: center;
+  margin-top: 28px;
+}
+
 /* Small labels under a chapter, e.g. example event types. */
 .tags {
   display: flex;
@@ -976,7 +1326,8 @@
   list-style: none;
 }
 /* Soft filled chips (no outline), so they don't compete with the dashed labels. */
-.tags li {
+.tags li,
+.tags .tag {
   margin: 0;
   padding: 2px 14px;
   border-radius: 999px;
@@ -1251,7 +1602,7 @@
   top: 72px;
   z-index: 900;
   padding: 0 24px;
-  background: rgba(252, 248, 245, 0.92);
+  background: rgba(239, 230, 221, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(89, 65, 43, 0.1);

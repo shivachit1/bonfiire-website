@@ -13,6 +13,7 @@ import TermsPage from "./components/Terms/TermsPage.js";
 import HomePage from "./pages/Home/HomePage.js";
 import GuidePage from "./pages/Guide/GuidePage.js";
 import HelpCenterPage from "./pages/Help/HelpCenterPage.js";
+import ApproPage from "./pages/Appro/ApproPage";
 import { LanguageProvider } from "./i18n";
 import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
@@ -54,6 +55,8 @@ function App() {
                 element={<GuidePage key="features" page="features" />}
               />
               <Route path="/help" element={<HelpCenterPage />} />
+              {/* One page per Appro event, with its map (see content/appro.json) */}
+              <Route path="/appro/:slug" element={<ApproPage />} />
               {/* Old per-role help pages now open the matching help center tab. */}
               {[
                 ["participants", "attending"],

@@ -15,6 +15,15 @@ const Navbar = () => {
   const [openGroup, setOpenGroup] = useState(null);
   const { pathname } = useLocation();
   const navRef = useRef(null);
+  // Once the page scrolls, the band behind the navbar clears, so the rounded bar
+  // floats over the page.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close after navigating to another page.
   useEffect(() => {
@@ -39,7 +48,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="navbar-container" ref={navRef}>
+    <header
+      className={`navbar-container ${scrolled ? "is-scrolled" : ""}`}
+      ref={navRef}
+    >
       <nav className="navbar" aria-label={nav.label}>
         <Link to="/" className="nav-logo">
           <img className="nav-icon" src={IconPNG} alt="" />
