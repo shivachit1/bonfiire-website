@@ -1,4 +1,5 @@
-import { LuMoveHorizontal, LuTrophy } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { LuMoveHorizontal } from "react-icons/lu";
 import "./layout.css";
 
 // An illustrated multi-checkpoint event: a small drawn city with a meeting point and
@@ -7,7 +8,7 @@ import "./layout.css";
 // (checking in with the host at each), come back, check in and start again.
 // Everything is drawn in code (SVG), so it stays sharp and light.
 // Text comes from the content file: { imageAlt, labels: { meetingPoint, checkpoint,
-// swipe, games }, leaderboard: { title, unit, rows } }
+// swipe, games }, feed: { title, unit, items: [[team, points, game]] } }
 // The map is 1200 × 600; positions are [x, y] from its top left corner.
 
 // Streets run along y = 170 and 430, and x = 250, 520, 800 and 1040.
@@ -63,7 +64,6 @@ const TREES = [
   [975, 330],
   [430, 250],
   [465, 285],
-  [1120, 520],
 ];
 
 // People: a little figure with a head, hair and shirt. Colours rotate through
@@ -79,10 +79,95 @@ const SHIRTS = [
 const SKIN = ["#f1c7a5", "#d9a27c", "#a9714b", "#7a4b2c"];
 const HAIR = ["#3b2a1d", "#6b4a2b", "#1f1a17", "#c98b4f"];
 
-const Person = ({ index, x = 0, y = 0, motion = "person-bob", delay = 0 }) => (
+// `legs`: "stand" (still), "walk" (legs swing in step) or "none" (e.g. inside
+// a sack). `moving` (walkers only) is when they're on the
+// move: { keyTimes, loop }; they swing their limbs then and stand still at stops.
+// Legs: hip → knee → foot. Walking, each leg in turn lifts with its knee bent outwards
+// while the other stays planted, then steps back down.
+const legPath = (x, bend) => {
+  const side = Math.sign(x);
+  return bend
+    ? `M ${x} 11 L ${x + side * 0.9} 14.5 L ${x} 17.3`
+    : `M ${x} 11 L ${x} 14.75 L ${x} 18.5`;
+};
+const STEP_SECONDS = 0.8;
+const Limbs = ({ walk }) => (
+  <>
+    {[-3, 3].map((legX, i) => (
+      <path
+        key={legX}
+        d={legPath(legX, false)}
+        fill="none"
+        stroke="#3b2a1d"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {walk && (
+          <animate
+            attributeName="d"
+            values={[
+              legPath(legX, false),
+              legPath(legX, true),
+              legPath(legX, false),
+              legPath(legX, false),
+            ].join(";")}
+            keyTimes="0;0.25;0.5;1"
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0 0 1 1"
+            dur={`${STEP_SECONDS}s`}
+            begin={`${-i * (STEP_SECONDS / 2)}s`}
+            repeatCount="indefinite"
+          />
+        )}
+      </path>
+    ))}
+  </>
+);
+
+const Person = ({
+  index,
+  x = 0,
+  y = 0,
+  motion = "person-bob",
+  delay = 0,
+  legs = "stand",
+  moving,
+}) => (
   <g transform={`translate(${x} ${y})`}>
     <g className={motion} style={{ animationDelay: `${delay}s` }}>
-      <ellipse cy="13" rx="8" ry="2.5" fill="rgba(89,65,43,0.2)" />
+      <ellipse
+        cy={legs === "none" ? 13 : 19}
+        rx="8"
+        ry="2.5"
+        fill="rgba(89,65,43,0.2)"
+      />
+      {legs !== "none" && !moving && <Limbs walk={legs === "walk"} />}
+      {moving && (
+        <>
+          {/* Swinging while walking, still while stopped: two sets, one shown at a time. */}
+          <g>
+            <Limbs walk />
+            <animate
+              attributeName="opacity"
+              values={moving.walking}
+              keyTimes={moving.keyTimes}
+              calcMode="discrete"
+              {...moving.loop}
+            />
+          </g>
+          <g>
+            <Limbs />
+            <animate
+              attributeName="opacity"
+              values={moving.standing}
+              keyTimes={moving.keyTimes}
+              calcMode="discrete"
+              {...moving.loop}
+            />
+          </g>
+        </>
+      )}
       <path
         d="M -8 13 Q -8 0 0 0 Q 8 0 8 13 Z"
         fill={SHIRTS[index % SHIRTS.length]}
@@ -96,25 +181,15 @@ const Person = ({ index, x = 0, y = 0, motion = "person-bob", delay = 0 }) => (
   </g>
 );
 
-// Groups on the move. Each visits a few checkpoints (numbers from 1, as on the map)
-// and returns to the meeting point. The route along the streets is worked out for
-// them; at each checkpoint they stop next to the host, their QR code is scanned and
-// a tick pops up. (Points come from the games, not from checking in.)
-// size = people walking together, pace = walking speed (1 = normal),
-// phase = how far into its loop the group starts (0–1).
-const GROUPS = [
-  { size: 3, pace: 1, phase: 0, visits: [4, 2] },
-  { size: 2, pace: 1.1, phase: 0.35, visits: [1, 6] },
-  { size: 1, pace: 1.05, phase: 0.65, visits: [3, 1] },
-  { size: 2, pace: 0.95, phase: 0.2, visits: [5, 4] },
-  { size: 3, pace: 0.9, phase: 0.5, visits: [6, 3] },
-  { size: 2, pace: 1, phase: 0.8, visits: [7, 1] },
-  { size: 1, pace: 1.1, phase: 0.1, visits: [2, 5] },
-  { size: 2, pace: 0.95, phase: 0.45, visits: [7, 3] },
-  { size: 1, pace: 1.05, phase: 0.9, visits: [6, 4] },
-  { size: 3, pace: 0.9, phase: 0.7, visits: [1, 2] },
-  { size: 1, pace: 1, phase: 0.3, visits: [3, 5] },
-];
+// Groups on the move. Every group walks the same event route, one after another:
+// through all seven checkpoints in TOUR order, then back to the meeting point. At each
+// checkpoint they check in with the host (QR code, then a tick) and then play its game,
+// taking over from the group before them, who head off to the next checkpoint. Groups
+// are evenly spaced, so a new one arrives just as the last one finishes, and every game
+// always has someone playing it.
+const TOUR = [2, 6, 4, 1, 7, 3, 5];
+// People in each group, in the order they set off (2 or 3 each, to suit every game).
+const GROUP_SIZES = [3, 2, 3, 2, 2, 3, 2, 3, 2, 2, 3, 2, 3, 2, 2, 3];
 
 // Where groups leave from and come back to, on the street by the meeting point.
 const HOME = [140, 430];
@@ -125,8 +200,6 @@ const MEETING_STAND = [140, 472];
 // Streets: horizontal ones at these y, vertical ones at these x.
 const STREETS_Y = [170, 430];
 const STREETS_X = [250, 520, 800, 1040];
-// Marks a point on a route where the group stops to check in.
-const STOP = true;
 
 // The shortest way along the streets from a to b (both on a street).
 const streetPath = (a, b) => {
@@ -170,116 +243,216 @@ const streetPath = (a, b) => {
   return path;
 };
 
-// A group's full loop: out along the streets, a stop by each host, back home.
-const buildRoute = (visits) => {
-  const route = [HOME];
-  const walkTo = (point) => {
-    const last = route[route.length - 1];
-    streetPath([last[0], last[1]], point)
-      .slice(1)
-      .forEach((p) => route.push(p));
-  };
-  visits.forEach((number) => {
-    const { entry, stand } = CHECKPOINTS[number - 1];
-    walkTo(entry);
-    if (stand[0] === entry[0] && stand[1] === entry[1]) {
-      route[route.length - 1] = [...entry, STOP];
-    } else {
-      route.push([...stand, STOP], entry);
-    }
-  });
-  walkTo(HOME);
-  route.push([...MEETING_STAND, STOP], HOME);
-  return route;
-};
-
-// Walking speed in map units per second at pace 1, and how long a stop lasts.
+// Timing, in seconds.
+const CHECK_SECONDS = 3.5; // QR code, then the host's tick
+const MEETING_WAIT = 6; // chatting at the meeting point before setting off again
+// Walking speed in map units per second.
 const WALK_SPEED = 15.4;
-const STOP_SECONDS = 3.5;
 // Ease while walking between stops (slow start, slow arrival), steady while waiting.
 const WALK_EASE = "0.3 0.1 0.7 0.9";
 const WAIT_EASE = "0 0 1 1";
 
-// Works out one group's loop: its path, how long it takes, where along it (0–1) the
-// group is at each moment, and when each stop begins and ends.
-const planLoop = ({ visits, pace, phase }) => {
-  const route = buildRoute(visits);
-  const speed = WALK_SPEED * pace;
-  const lengths = route
+// The event route: out along the streets to each checkpoint's host in TOUR order,
+// then back to the meeting point's host.
+// Stops: { at (point index), kind: "checkpoint" | "meeting", checkpoint }.
+const ROUTE = (() => {
+  const points = [HOME];
+  const stops = [];
+  const walkTo = (point) =>
+    streetPath(points[points.length - 1], point)
+      .slice(1)
+      .forEach((p) => points.push(p));
+  const stopAt = (point, kind, checkpoint) => {
+    points.push(point);
+    stops.push({ at: points.length - 1, kind, checkpoint });
+  };
+  TOUR.forEach((number) => {
+    const { entry, stand } = CHECKPOINTS[number - 1];
+    walkTo(entry);
+    stopAt(stand, "checkpoint", number);
+    points.push(entry);
+  });
+  walkTo(HOME);
+  stopAt(MEETING_STAND, "meeting");
+  points.push(HOME);
+  const lengths = points
     .slice(1)
-    .map(([x, y], i) => Math.hypot(x - route[i][0], y - route[i][1]));
-  const total = lengths.reduce((sum, length) => sum + length, 0);
-  const stopCount = route.filter((point) => point.length > 2).length;
-  const seconds = total / speed + stopCount * STOP_SECONDS;
+    .map(([x, y], i) => Math.hypot(x - points[i][0], y - points[i][1]));
+  return { points, stops, lengths, total: lengths.reduce((a, b) => a + b, 0) };
+})();
 
+// Groups set off every GAP seconds. A group stays at a checkpoint for GAP + check-in,
+// so it plays until the next group has checked in, then hands over. That makes
+// LOOP = walking + checkpoints × (GAP + check-in) + meeting stop, and LOOP = groups × GAP.
+const MEETING_STOP = CHECK_SECONDS + MEETING_WAIT;
+const GAP =
+  (ROUTE.total / WALK_SPEED + TOUR.length * CHECK_SECONDS + MEETING_STOP) /
+  (GROUP_SIZES.length - TOUR.length);
+const LOOP = GAP * GROUP_SIZES.length;
+
+// The timeline every group follows, in seconds from the start of its loop.
+const TIMELINE = (() => {
+  const seconds = { checkpoint: GAP + CHECK_SECONDS, meeting: MEETING_STOP };
   const points = [0];
   const times = [0];
   const splines = [];
   const stops = [];
   let walked = 0;
   let clock = 0;
-  route.forEach((point, i) => {
+  ROUTE.points.forEach((_, i) => {
     if (i > 0) {
-      walked += lengths[i - 1];
-      clock += lengths[i - 1] / speed;
+      walked += ROUTE.lengths[i - 1];
+      clock += ROUTE.lengths[i - 1] / WALK_SPEED;
     }
-    if (point.length > 2) {
-      points.push(walked / total, walked / total);
-      times.push(
-        clock / seconds,
-        Math.min(1, (clock + STOP_SECONDS) / seconds),
-      );
+    const stop = ROUTE.stops.find((s) => s.at === i);
+    if (stop) {
+      const length = seconds[stop.kind];
+      points.push(walked / ROUTE.total, walked / ROUTE.total);
+      times.push(clock / LOOP, (clock + length) / LOOP);
       splines.push(WALK_EASE, WAIT_EASE);
-      stops.push({ from: clock, to: clock + STOP_SECONDS });
-      clock += STOP_SECONDS;
+      stops.push({ ...stop, from: clock, to: clock + length });
+      clock += length;
     }
   });
-  // Walk on to the end of the route, unless the loop already ends with a stop there.
-  if (times[times.length - 1] < 0.9999) {
-    points.push(1);
-    times.push(1);
-    splines.push(WALK_EASE);
-  }
+  points.push(1);
+  times.push(1);
+  splines.push(WALK_EASE);
+  return { route: ROUTE, points, times, splines, stops };
+})();
 
-  const fixed = (values) => values.map((value) => value.toFixed(4)).join(";");
-  // A stop's popup: hidden, fades in just after arriving, fades out just before leaving.
-  const showDuring = (from, to) =>
-    fixed([
-      0,
-      from / seconds,
-      (from + 0.3) / seconds,
-      (to - 0.4) / seconds,
-      to / seconds,
-      1,
-    ]);
+// Loop time → time on the shared clock, wrapped into [0, LOOP).
+const wrap = (t) => ((t % LOOP) + LOOP) % LOOP;
+// Split an interval on the shared clock into pieces that don't wrap past the end.
+const pieces = (a, b) => {
+  const start = wrap(a);
+  const end = start + (b - a);
+  return end <= LOOP
+    ? [[start, end]]
+    : [
+        [start, LOOP],
+        [0, end - LOOP],
+      ];
+};
+
+// Group g sets off g × GAP seconds after group 0.
+const PLANS = GROUP_SIZES.map((_, g) => ({
+  ...TIMELINE,
+  phase: g / GROUP_SIZES.length,
+}));
+
+const fixed = (values) => values.map((value) => value.toFixed(4)).join(";");
+
+// Opacity keyframes that are `inside` during the given windows (seconds within a loop
+// of LOOP), `outside` elsewhere, fading over `fade` seconds at each edge.
+const windows = (spans, inside = 1, outside = 0, fade = 0.35) => {
+  const merged = [];
+  [...spans]
+    .sort((p, q) => p[0] - q[0])
+    .forEach(([a, b]) => {
+      const last = merged[merged.length - 1];
+      if (last && a <= last[1] + 2 * fade) last[1] = Math.max(last[1], b);
+      else merged.push([a, b]);
+    });
+  const frames = [];
+  const at = (t) =>
+    merged.some(([a, b]) => t >= a && t <= b) ? inside : outside;
+  frames.push([0, at(0)]);
+  merged.forEach(([a, b]) => {
+    if (a > 0) frames.push([a, outside], [Math.min(a + fade, b), inside]);
+    if (b < LOOP) frames.push([Math.max(b - fade, a), inside], [b, outside]);
+  });
+  frames.push([LOOP, at(LOOP)]);
+  frames.sort((p, q) => p[0] - q[0]);
   return {
-    d: route.map(([x, y], i) => `${i ? "L" : "M"} ${x} ${y}`).join(" "),
-    dur: `${seconds.toFixed(2)}s`,
-    begin: `${(-phase * seconds).toFixed(2)}s`,
-    keyPoints: fixed(points),
-    keyTimes: fixed(times),
-    keySplines: splines.join(";"),
-    stops: stops.map((stop) => ({
-      // The group holds up their QR code; once the host scans it, a tick shows by the host.
-      // First the QR code (0–1.8s after arriving), then, once it's gone, the tick.
-      qr: showDuring(stop.from, stop.from + 1.8),
-      tick: showDuring(stop.from + 1.9, stop.to),
-    })),
+    keyTimes: fixed(frames.map(([t]) => Math.min(1, Math.max(0, t / LOOP)))),
+    values: frames.map(([, v]) => v).join(";"),
   };
 };
 
-// People waiting at the meeting point; the rest are out walking.
-const CROWD_SPOTS = [
-  [-46, 26],
-  [46, 24],
-  [22, 58],
-];
+// Everything the SVG animations for one group need.
+const animationFor = (plan) => {
+  const loop = {
+    dur: `${LOOP}s`,
+    begin: `${(-plan.phase * LOOP).toFixed(2)}s`,
+    repeatCount: "indefinite",
+  };
+  const checkins = plan.stops;
+  const plays = plan.stops.filter((stop) => stop.kind === "checkpoint");
+  return {
+    loop,
+    d: plan.route.points
+      .map(([x, y], i) => `${i ? "L" : "M"} ${x} ${y}`)
+      .join(" "),
+    keyPoints: fixed(plan.points),
+    keyTimes: fixed(plan.times),
+    keySplines: plan.splines.join(";"),
+    // Legs swing while walking and stay still at every stop.
+    moving: (() => {
+      const { keyTimes, values } = windows(
+        plan.stops.map((stop) => [stop.from, stop.to]),
+        0,
+        1,
+        0,
+      );
+      const standing = values
+        .split(";")
+        .map((v) => 1 - v)
+        .join(";");
+      return { keyTimes, walking: values, standing };
+    })(),
+    // The walkers step into the game while they play, so they're hidden meanwhile.
+    shown: windows(
+      plays.map((stop) => [stop.from + CHECK_SECONDS, stop.to]),
+      0,
+      1,
+    ),
+    checkins: checkins.map((stop) => ({
+      ...stop,
+      // First the group's QR code, then, once it's gone, the host's tick.
+      qr: windows([[stop.from, stop.from + 1.8]], 1, 0, 0.3),
+      tick: windows([[stop.from + 1.9, stop.from + CHECK_SECONDS]], 1, 0, 0.3),
+    })),
+    plays: plays.map((stop) => ({
+      ...stop,
+      shown: windows([[stop.from + CHECK_SECONDS, stop.to]]),
+    })),
+  };
+};
+const ANIMATIONS = PLANS.map(animationFor);
 
-// Games at every checkpoint.
-// Tug-of-war (Checkpoint 1): two against two, swaying back and forth.
+// When nobody is playing a checkpoint's game (on the shared clock), so its props can
+// lie ready: [checkpoint number] → opacity keyframes.
+const idleFor = (number) =>
+  windows(
+    PLANS.flatMap((plan) =>
+      plan.stops
+        .filter(
+          (stop) => stop.kind === "checkpoint" && stop.checkpoint === number,
+        )
+        .flatMap((stop) =>
+          pieces(
+            stop.from + CHECK_SECONDS - plan.phase * LOOP,
+            stop.to - plan.phase * LOOP,
+          ),
+        ),
+    ),
+    0,
+    1,
+  );
+
+// The people in each group: colour indices, the same while walking and playing.
+const membersOf = (groupIndex) =>
+  Array.from({ length: GROUP_SIZES[groupIndex] }, (_, i) => groupIndex * 3 + i);
+
+// Games, one per checkpoint.
+// Tug-of-war (Checkpoint 1): the group splits into two sides and pulls.
 const TUG_OF_WAR = [630, 285];
-// Mölkky (Checkpoint 2): a thrower, a stick flying at the pins, some pins toppling.
+// Mölkky (Checkpoint 2): one throws, the others watch; the stick flies at the pins.
 const MOLKKY_THROWER = [372, 540];
+const MOLKKY_WATCHERS = [
+  [350, 512],
+  [334, 540],
+];
 const MOLKKY_PINS = [455, 530];
 // [dx, dy, how far it tips]
 const PIN_SPOTS = [
@@ -290,31 +463,30 @@ const PIN_SPOTS = [
   [5, 4, 80],
   [15, 4, 0],
 ];
-// Ball toss (Checkpoint 3): two players throwing a ball back and forth.
+// Ball toss (Checkpoint 3): two throw a ball back and forth, a third watches.
 const BALL_TOSS = [
   [1098, 228],
   [1152, 228],
 ];
-// Photo challenge (Checkpoint 4, top row): a group posing, a camera flash, a photo popping out.
+const BALL_WATCHER = [1090, 262];
+// Photo challenge (Checkpoint 4): the group poses; the host takes the photo.
 const PHOTO_GROUP = [
   [310, 92],
   [334, 88],
   [358, 92],
 ];
-const PHOTO_CAMERA = [400, 70];
-
 // Sack race (Checkpoint 5): racers hopping in sacks towards a finish line.
-const SACK_LANES = [530, 556];
+const SACK_LANES = [528, 548, 568];
 const SACK_START = 578;
 const SACK_FINISH = 745;
-
 // Quiz (Checkpoint 6): the host holds a question card, players think and answer.
 const QUIZ_PLAYERS = [
   [70, 340, "?"],
   [120, 352, "!"],
+  [48, 376, "?"],
 ];
-
-// Rope jump (Checkpoint 7): two people turn a long rope, one jumps in the middle.
+// Rope jump (Checkpoint 7): two turn a long rope (or one, with the other end tied to
+// a post), one jumps in the middle.
 // x is the jumper, ground is where they stand, reach is how far each turner stands.
 const ROPE_JUMP = { x: 885, ground: 100, reach: 40 };
 
@@ -503,8 +675,8 @@ const HostTick = ({ x, y, times, loop }) => (
     />
     <animate
       attributeName="opacity"
-      values="0;0;1;1;0;0"
-      keyTimes={times}
+      values={times.values}
+      keyTimes={times.keyTimes}
       {...loop}
     />
   </g>
@@ -546,8 +718,8 @@ const Phone = ({ y, qr, loop }) => (
     </g>
     <animate
       attributeName="opacity"
-      values="0;0;1;1;0;0"
-      keyTimes={qr}
+      values={qr.values}
+      keyTimes={qr.keyTimes}
       {...loop}
     />
   </g>
@@ -577,7 +749,554 @@ const ScorePop = ({ x, y, text, every, delay = 0 }) => (
   </g>
 );
 
-const RouteMap = ({ imageAlt, labels, leaderboard }) => (
+// Each game has a Cast (the visiting group playing it, in their own colours) and an
+// Idle version (its props lying ready while nobody's playing).
+const tugAt = `translate(${TUG_OF_WAR[0]} ${TUG_OF_WAR[1]})`;
+const TugRope = ({ y = 4 }) => (
+  <>
+    <line
+      x1="-30"
+      y1={y}
+      x2="30"
+      y2={y}
+      stroke="#a9714b"
+      strokeWidth="3"
+      strokeLinecap="round"
+    />
+    <rect x="-3" y={y - 6} width="6" height="12" rx="2" fill="#e56822" />
+  </>
+);
+const TugOfWar = ({ members, unit }) => {
+  const left = members.slice(0, Math.ceil(members.length / 2));
+  const right = members.slice(left.length);
+  return (
+    <>
+      <g transform={tugAt}>
+        <g className="tug-pull">
+          <TugRope />
+          {left.map((m, i) => (
+            <Person
+              key={m}
+              index={m}
+              x={-22 - i * 16}
+              motion="person-lean-left"
+              delay={i * 0.1}
+            />
+          ))}
+          {right.map((m, i) => (
+            <Person
+              key={m}
+              index={m}
+              x={22 + i * 16}
+              motion="person-lean-right"
+              delay={i * 0.1}
+            />
+          ))}
+        </g>
+      </g>
+      <ScorePop
+        x={TUG_OF_WAR[0]}
+        y={TUG_OF_WAR[1] - 30}
+        text={`+10 ${unit}`}
+        every={4}
+        delay={-1}
+      />
+    </>
+  );
+};
+const TugIdle = () => (
+  <g transform={tugAt}>
+    <TugRope y={14} />
+  </g>
+);
+
+const Pin = ({ dx, dy, tip, animated }) => (
+  <g transform={`translate(${MOLKKY_PINS[0] + dx} ${MOLKKY_PINS[1] + dy})`}>
+    <g>
+      {animated && tip !== 0 && (
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          values={`0 0 2;0 0 2;${tip} 0 2;${tip} 0 2;0 0 2;0 0 2`}
+          keyTimes="0;0.41;0.47;0.85;0.92;1"
+          dur="4s"
+          repeatCount="indefinite"
+        />
+      )}
+      <rect
+        x="-3.5"
+        y="-12"
+        width="7"
+        height="14"
+        rx="2"
+        fill="#e3c296"
+        stroke="#a9714b"
+        strokeWidth="1.5"
+      />
+    </g>
+  </g>
+);
+// The stick, the throw and the pins all run on one 4-second clock (the SVG's own),
+// so the pins only fall once the stick has hit them.
+const Molkky = ({ members, unit }) => (
+  <>
+    <g>
+      <Person
+        index={members[0]}
+        x={MOLKKY_THROWER[0]}
+        y={MOLKKY_THROWER[1]}
+        motion=""
+      />
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        values={[0, -14, 10, 0, 0]
+          .map((a) => `${a} ${MOLKKY_THROWER[0]} ${MOLKKY_THROWER[1] + 13}`)
+          .join(";")}
+        keyTimes="0;0.06;0.11;0.18;1"
+        dur="4s"
+        repeatCount="indefinite"
+      />
+    </g>
+    {members.slice(1).map((m, i) => (
+      <Person
+        key={m}
+        index={m}
+        x={MOLKKY_WATCHERS[i][0]}
+        y={MOLKKY_WATCHERS[i][1]}
+        delay={i * 0.3}
+      />
+    ))}
+    {PIN_SPOTS.map(([dx, dy, tip], i) => (
+      <Pin key={i} dx={dx} dy={dy} tip={tip} animated />
+    ))}
+    <rect
+      className="molkky-stick"
+      x="-8"
+      y="-2.5"
+      width="16"
+      height="5"
+      rx="2"
+      fill="#a9714b"
+    >
+      <animateMotion
+        path={`M ${MOLKKY_THROWER[0] + 10} ${MOLKKY_THROWER[1] - 8} Q ${(MOLKKY_THROWER[0] + MOLKKY_PINS[0]) / 2} ${MOLKKY_THROWER[1] - 50} ${MOLKKY_PINS[0] - 12} ${MOLKKY_PINS[1] - 4}`}
+        keyPoints="0;0;1;1"
+        keyTimes="0;0.11;0.4;1"
+        calcMode="linear"
+        rotate="auto"
+        dur="4s"
+        repeatCount="indefinite"
+      />
+      <animate
+        attributeName="opacity"
+        values="0;1;1;0;0"
+        keyTimes="0;0.1;0.42;0.5;1"
+        dur="4s"
+        repeatCount="indefinite"
+      />
+    </rect>
+    <ScorePop
+      x={MOLKKY_PINS[0] + 28}
+      y={MOLKKY_PINS[1] - 26}
+      text={`+12 ${unit}`}
+      every={4}
+      delay={-2.2}
+    />
+  </>
+);
+const MolkkyIdle = () => (
+  <>
+    {PIN_SPOTS.map(([dx, dy], i) => (
+      <Pin key={i} dx={dx} dy={dy} tip={0} />
+    ))}
+    <rect
+      x={MOLKKY_THROWER[0] + 6}
+      y={MOLKKY_THROWER[1] + 14}
+      width="16"
+      height="5"
+      rx="2"
+      fill="#a9714b"
+      transform={`rotate(-20 ${MOLKKY_THROWER[0] + 14} ${MOLKKY_THROWER[1] + 16})`}
+    />
+  </>
+);
+
+const BALL_REST = [
+  (BALL_TOSS[0][0] + BALL_TOSS[1][0]) / 2,
+  BALL_TOSS[0][1] + 14,
+];
+const Ball = (props) => (
+  <circle r="6" fill="#e56822" stroke="#fff" strokeWidth="2" {...props} />
+);
+const BallToss = ({ members, unit }) => (
+  <>
+    {members.slice(0, 2).map((m, i) => (
+      <Person
+        key={m}
+        index={m}
+        x={BALL_TOSS[i][0]}
+        y={BALL_TOSS[i][1]}
+        motion="person-catch"
+        delay={i * 0.8}
+      />
+    ))}
+    {members[2] !== undefined && (
+      <Person index={members[2]} x={BALL_WATCHER[0]} y={BALL_WATCHER[1]} />
+    )}
+    <Ball className="route-ball">
+      <animateMotion
+        path={`M ${BALL_TOSS[0][0] + 6} ${BALL_TOSS[0][1] - 10} Q ${(BALL_TOSS[0][0] + BALL_TOSS[1][0]) / 2} ${BALL_TOSS[0][1] - 50} ${BALL_TOSS[1][0] - 6} ${BALL_TOSS[1][1] - 10}`}
+        keyPoints="0;1;0"
+        keyTimes="0;0.5;1"
+        calcMode="spline"
+        keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+        dur="1.6s"
+        repeatCount="indefinite"
+      />
+    </Ball>
+    <ScorePop
+      x={BALL_REST[0]}
+      y={BALL_TOSS[0][1] - 58}
+      text={`+10 ${unit}`}
+      every={4}
+      delay={-2.5}
+    />
+  </>
+);
+const BallIdle = () => <Ball cx={BALL_REST[0]} cy={BALL_REST[1]} />;
+
+// The photo checkpoint's host holds the camera; it flashes while a group poses.
+// Checkpoint 4 has a second host, the photographer, standing clear of the signpost
+// and pointing the camera at the posing group. CAMERA_AT is the camera's centre.
+const PHOTOGRAPHER = [398, 110];
+const CAMERA_AT = [PHOTOGRAPHER[0] - 12, PHOTOGRAPHER[1] - 8];
+const Camera = () => (
+  <g transform={`translate(${CAMERA_AT[0]} ${CAMERA_AT[1]})`}>
+    {/* Body with a viewfinder hump on top, a big lens facing the group, a flash and a button */}
+    <rect x="-3" y="-8.5" width="7" height="3.5" rx="1" fill="#3b2a1d" />
+    <rect x="-8" y="-6" width="16" height="11" rx="2.5" fill="#3b2a1d" />
+    <rect x="-8" y="-6" width="16" height="2.5" rx="1.2" fill="#59412b" />
+    <circle
+      cx="-1"
+      cy="0"
+      r="4"
+      fill="#59412b"
+      stroke="#fcf8f5"
+      strokeWidth="1"
+    />
+    <circle cx="-1" cy="0" r="2" fill="#7fa7c9" />
+    <circle cx="-1.8" cy="-0.8" r="0.7" fill="#fff" />
+    <rect x="4.5" y="-4.5" width="2.5" height="1.6" rx="0.5" fill="#f2b27d" />
+    <circle cx="5.5" cy="-7.3" r="1" fill="#e56822" />
+  </g>
+);
+const Photo = ({ members, unit }) => (
+  <>
+    {members.slice(0, 3).map((m, i) => (
+      <Person
+        key={m}
+        index={m}
+        x={PHOTO_GROUP[i][0]}
+        y={PHOTO_GROUP[i][1]}
+        motion={i % 2 ? "person-pose" : "person-bob"}
+        delay={i * 0.2}
+      />
+    ))}
+    <g transform={`translate(${CAMERA_AT[0]} ${CAMERA_AT[1]})`}>
+      <circle className="photo-flash" cx="-1" cy="0" r="14" fill="#fff" />
+      <g className="photo-print">
+        <rect
+          x="-20"
+          y="-32"
+          width="16"
+          height="18"
+          rx="1.5"
+          fill="#fff"
+          stroke="rgba(89,65,43,0.3)"
+        />
+        <rect x="-18" y="-30" width="12" height="10" fill="#d7e7c3" />
+      </g>
+    </g>
+    <ScorePop
+      x={PHOTO_GROUP[1][0]}
+      y={PHOTO_GROUP[1][1] - 34}
+      text={`+10 ${unit}`}
+      every={5}
+      delay={-3.5}
+    />
+  </>
+);
+
+const Sack = ({ x = 0, y = 0, rotate = 0 }) => (
+  <g transform={`translate(${x} ${y}) rotate(${rotate})`}>
+    <rect x="-9" y="2" width="18" height="13" rx="4" fill="#b08a5a" />
+    <path d="M -9 4 H 9" stroke="#8a6a44" strokeWidth="1.5" />
+  </g>
+);
+const SackRace = ({ members, unit }) => (
+  <>
+    {members.slice(0, SACK_LANES.length).map((m, i) => (
+      <g key={m} transform={`translate(${SACK_START} ${SACK_LANES[i]})`}>
+        <g
+          className="sack-run"
+          style={{
+            "--distance": `${SACK_FINISH - SACK_START - 6}px`,
+            animationDelay: `${-i * 1.7}s`,
+          }}
+        >
+          <g className="sack-hop" style={{ animationDelay: `${i * 0.12}s` }}>
+            <Person index={m} legs="none" />
+            <Sack />
+          </g>
+        </g>
+      </g>
+    ))}
+    <ScorePop
+      x={SACK_FINISH}
+      y={SACK_LANES[0] - 18}
+      text={`+15 ${unit}`}
+      every={5.5}
+      delay={-4}
+    />
+  </>
+);
+const SackIdle = () =>
+  SACK_LANES.map((y) => (
+    <Sack key={y} x={SACK_START - 4} y={y + 6} rotate={-80} />
+  ));
+
+const Quiz = ({ members, unit }) => (
+  <>
+    {members.slice(0, QUIZ_PLAYERS.length).map((m, i) => {
+      const [x, y, mark] = QUIZ_PLAYERS[i];
+      return (
+        <g key={m}>
+          <Person index={m} x={x} y={y} delay={i * 0.3} />
+          <g transform={`translate(${x + 10} ${y - 26})`}>
+            <g
+              className="quiz-bubble"
+              style={{ animationDelay: `${i * 0.9}s` }}
+            >
+              <circle
+                r="8"
+                fill="#fff"
+                stroke="rgba(89,65,43,0.3)"
+                strokeWidth="1.5"
+              />
+              <text
+                y="4"
+                textAnchor="middle"
+                fontSize="11"
+                fontWeight="800"
+                fill="#e56822"
+              >
+                {mark}
+              </text>
+            </g>
+          </g>
+        </g>
+      );
+    })}
+    <ScorePop
+      x={QUIZ_PLAYERS[0][0] + 24}
+      y={QUIZ_PLAYERS[0][1] - 44}
+      text={`+5 ${unit}`}
+      every={4.5}
+      delay={-0.5}
+    />
+  </>
+);
+// The quiz host always holds the question card.
+const QuizCard = () => (
+  <g
+    transform={`translate(${CHECKPOINTS[5].at[0] + CHECKPOINTS[5].host * 22 + 12} ${CHECKPOINTS[5].at[1] - 6})`}
+  >
+    <rect
+      x="-7"
+      y="-10"
+      width="14"
+      height="11"
+      rx="2"
+      fill="#fff"
+      stroke="#59412b"
+      strokeWidth="1.5"
+    />
+    <text
+      y="-1.5"
+      textAnchor="middle"
+      fontSize="8"
+      fontWeight="700"
+      fill="#e56822"
+    >
+      ?
+    </text>
+  </g>
+);
+
+// The rope swings over the jumper's head and under their feet; they hop as it passes.
+const ropeCurve = (dip) => {
+  const { x, ground, reach } = ROPE_JUMP;
+  return `M ${x - reach + 8} ${ground - 8} Q ${x} ${dip} ${x + reach - 8} ${ground - 8}`;
+};
+const RopeJump = ({ members, unit }) => {
+  const { x, ground, reach } = ROPE_JUMP;
+  const turn = { dur: "1.2s", repeatCount: "indefinite" };
+  return (
+    <>
+      {/* Three: two turn, one jumps. Two: one turns, the rope's other end is tied to a post. */}
+      <Person index={members[0]} x={x - reach} y={ground} motion="" />
+      {members.length > 2 ? (
+        <Person index={members[1]} x={x + reach} y={ground} motion="" />
+      ) : (
+        <line
+          x1={x + reach - 6}
+          y1={ground - 10}
+          x2={x + reach - 6}
+          y2={ground + 16}
+          stroke="#8a6a44"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+        />
+      )}
+      <g>
+        <Person
+          index={members[members.length - 1]}
+          x={x}
+          y={ground}
+          motion=""
+        />
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="0 0;0 0;0 -11;0 0;0 0"
+          keyTimes="0;0.34;0.5;0.66;1"
+          calcMode="spline"
+          keySplines="0 0 1 1;0.2 0 0.4 1;0.6 0 0.8 1;0 0 1 1"
+          {...turn}
+        />
+      </g>
+      <path
+        d={ropeCurve(ground - 58)}
+        fill="none"
+        stroke="#e56822"
+        strokeWidth="2"
+        strokeLinecap="round"
+      >
+        <animate
+          attributeName="d"
+          values={[ground - 58, ground + 22, ground - 58]
+            .map(ropeCurve)
+            .join(";")}
+          keyTimes="0;0.5;1"
+          calcMode="spline"
+          keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+          {...turn}
+        />
+      </path>
+      <ScorePop
+        x={x}
+        y={ground - 70}
+        text={`+8 ${unit}`}
+        every={5}
+        delay={-1.5}
+      />
+    </>
+  );
+};
+const RopeIdle = () => {
+  const { x, ground, reach } = ROPE_JUMP;
+  return (
+    <path
+      d={`M ${x - reach + 6} ${ground + 16} Q ${x} ${ground + 26} ${x + reach - 6} ${ground + 16}`}
+      fill="none"
+      stroke="#e56822"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  );
+};
+
+// Checkpoint number → its game.
+const GAMES = {
+  1: { Cast: TugOfWar, Idle: TugIdle },
+  2: { Cast: Molkky, Idle: MolkkyIdle },
+  3: { Cast: BallToss, Idle: BallIdle },
+  4: { Cast: Photo, Idle: () => null },
+  5: { Cast: SackRace, Idle: SackIdle },
+  6: { Cast: Quiz, Idle: () => null },
+  7: { Cast: RopeJump, Idle: RopeIdle },
+};
+
+// The live feed, drawn on the map in its bottom-right corner: plain text, no card,
+// under a "Live feed" header. Every few seconds a new score slides in from the right on
+// the bottom line, the others move up a line, and the oldest fades away. At most
+// FEED_SHOWN at once.
+const FEED_SHOWN = 3;
+const FEED_SECONDS = 3.2;
+const FEED_AT = [1178, 566]; // right edge and bottom line of the feed
+const FEED_LINE = 18;
+const LiveFeed = ({ feed, games }) => {
+  const [count, setCount] = useState(FEED_SHOWN - 1);
+  useEffect(() => {
+    const still = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (still) return undefined;
+    const timer = setInterval(
+      () => setCount((n) => n + 1),
+      FEED_SECONDS * 1000,
+    );
+    return () => clearInterval(timer);
+  }, []);
+  // The newest item is `count`; one extra, older item is kept so it can fade out.
+  const rows = Array.from(
+    { length: FEED_SHOWN + 1 },
+    (_, age) => count - age,
+  ).filter((n) => n >= 0);
+  return (
+    <g
+      className="map-feed"
+      transform={`translate(${FEED_AT[0]} ${FEED_AT[1]})`}
+    >
+      {/* Header above the lines: a pulsing "live" dot and the title */}
+      <g transform={`translate(0 ${-FEED_SHOWN * FEED_LINE - 6})`}>
+        <text className="map-feed-title" textAnchor="end">
+          {feed.title}
+        </text>
+        <circle
+          className="live-dot"
+          cx={-feed.title.length * 6.6 - 8}
+          cy="-4"
+          r="3.5"
+          fill="#e0442b"
+        />
+      </g>
+      {rows.map((n) => {
+        const [team, points, game] = feed.items[n % feed.items.length];
+        const age = count - n;
+        return (
+          <g
+            key={n}
+            className={`map-feed-row${age >= FEED_SHOWN ? " is-leaving" : ""}`}
+            style={{ "--y": `${-age * FEED_LINE}px` }}
+          >
+            <text textAnchor="end">
+              <tspan className="map-feed-team">{team}</tspan>
+              <tspan className="map-feed-points">
+                {" "}
+                +{points} {feed.unit}
+              </tspan>
+              <tspan className="map-feed-game"> · {games[game]}</tspan>
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+};
+
+const RouteMap = ({ imageAlt, labels, feed }) => (
   <div className="route-map">
     {/* On phones the map keeps a readable size and scrolls sideways inside this. */}
     <div className="route-viewport">
@@ -629,17 +1348,7 @@ const RouteMap = ({ imageAlt, labels, leaderboard }) => (
             </g>
           ))}
 
-          {/* People waiting at the meeting point, and a host beside every checkpoint */}
-          {CROWD_SPOTS.map(([dx, dy], i) => (
-            <Person
-              key={`m${i}`}
-              index={i}
-              x={MEETING_POINT[0] + dx}
-              y={MEETING_POINT[1] + dy}
-              motion={i % 2 ? "person-wander" : "person-bob"}
-              delay={i * 0.35}
-            />
-          ))}
+          {/* Hosts: one at the meeting point and one beside every checkpoint, always there */}
           <Person index={5} x={MEETING_HOST[0]} y={MEETING_HOST[1]} />
           {CHECKPOINTS.map(({ at: [x, y], host }, i) => (
             <Person
@@ -651,185 +1360,7 @@ const RouteMap = ({ imageAlt, labels, leaderboard }) => (
             />
           ))}
 
-          {/* Tug-of-war (Checkpoint 1) */}
-          <g transform={`translate(${TUG_OF_WAR[0]} ${TUG_OF_WAR[1]})`}>
-            <g className="tug-pull">
-              <line
-                x1="-30"
-                y1="4"
-                x2="30"
-                y2="4"
-                stroke="#a9714b"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-              <rect x="-3" y="-2" width="6" height="12" rx="2" fill="#e56822" />
-              <Person index={0} x={-38} motion="person-lean-left" />
-              <Person index={1} x={-22} motion="person-lean-left" delay={0.1} />
-              <Person index={4} x={22} motion="person-lean-right" />
-              <Person index={3} x={38} motion="person-lean-right" delay={0.1} />
-            </g>
-          </g>
-
-          {/* Mölkky (Checkpoint 2). The stick, the throw and the pins all run on one
-              4-second clock (the SVG's own), so pins only fall once the stick hits. */}
-          <g>
-            <Person
-              index={5}
-              x={MOLKKY_THROWER[0]}
-              y={MOLKKY_THROWER[1]}
-              motion=""
-            />
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              values={[0, -14, 10, 0, 0]
-                .map(
-                  (angle) =>
-                    `${angle} ${MOLKKY_THROWER[0]} ${MOLKKY_THROWER[1] + 13}`,
-                )
-                .join(";")}
-              keyTimes="0;0.06;0.11;0.18;1"
-              dur="4s"
-              repeatCount="indefinite"
-            />
-          </g>
-          {PIN_SPOTS.map(([dx, dy, tip], i) => (
-            <g
-              key={`pin${i}`}
-              transform={`translate(${MOLKKY_PINS[0] + dx} ${MOLKKY_PINS[1] + dy})`}
-            >
-              <g>
-                {tip !== 0 && (
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    values={`0 0 2;0 0 2;${tip} 0 2;${tip} 0 2;0 0 2;0 0 2`}
-                    keyTimes="0;0.41;0.47;0.85;0.92;1"
-                    dur="4s"
-                    repeatCount="indefinite"
-                  />
-                )}
-                <rect
-                  x="-3.5"
-                  y="-12"
-                  width="7"
-                  height="14"
-                  rx="2"
-                  fill="#e3c296"
-                  stroke="#a9714b"
-                  strokeWidth="1.5"
-                />
-              </g>
-            </g>
-          ))}
-          <rect
-            className="molkky-stick"
-            x="-8"
-            y="-2.5"
-            width="16"
-            height="5"
-            rx="2"
-            fill="#a9714b"
-          >
-            <animateMotion
-              path={`M ${MOLKKY_THROWER[0] + 10} ${MOLKKY_THROWER[1] - 8} Q ${(MOLKKY_THROWER[0] + MOLKKY_PINS[0]) / 2} ${MOLKKY_THROWER[1] - 50} ${MOLKKY_PINS[0] - 12} ${MOLKKY_PINS[1] - 4}`}
-              keyPoints="0;0;1;1"
-              keyTimes="0;0.11;0.4;1"
-              calcMode="linear"
-              rotate="auto"
-              dur="4s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="opacity"
-              values="0;1;1;0;0"
-              keyTimes="0;0.1;0.42;0.5;1"
-              dur="4s"
-              repeatCount="indefinite"
-            />
-          </rect>
-          <ScorePop
-            x={MOLKKY_PINS[0] + 28}
-            y={MOLKKY_PINS[1] - 26}
-            text={`+12 ${leaderboard.unit}`}
-            every={4}
-            delay={-2.2}
-          />
-
-          {/* Ball toss (Checkpoint 3) */}
-          {BALL_TOSS.map(([x, y], i) => (
-            <Person
-              key={`ball${i}`}
-              index={i + 4}
-              x={x}
-              y={y}
-              motion="person-catch"
-              delay={i * 0.8}
-            />
-          ))}
-          <circle
-            className="route-ball"
-            r="6"
-            fill="#e56822"
-            stroke="#fff"
-            strokeWidth="2"
-          >
-            <animateMotion
-              path={`M ${BALL_TOSS[0][0] + 6} ${BALL_TOSS[0][1] - 10} Q ${(BALL_TOSS[0][0] + BALL_TOSS[1][0]) / 2} ${BALL_TOSS[0][1] - 50} ${BALL_TOSS[1][0] - 6} ${BALL_TOSS[1][1] - 10}`}
-              keyPoints="0;1;0"
-              keyTimes="0;0.5;1"
-              calcMode="spline"
-              keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
-              dur="1.6s"
-              repeatCount="indefinite"
-            />
-          </circle>
-          <ScorePop
-            x={(BALL_TOSS[0][0] + BALL_TOSS[1][0]) / 2}
-            y={BALL_TOSS[0][1] - 58}
-            text={`+10 ${leaderboard.unit}`}
-            every={4}
-            delay={-2.5}
-          />
-
-          {/* Photo challenge (Checkpoint 4) */}
-          {PHOTO_GROUP.map(([x, y], i) => (
-            <Person
-              key={`photo${i}`}
-              index={i + 1}
-              x={x}
-              y={y}
-              motion={i % 2 ? "person-pose" : "person-bob"}
-              delay={i * 0.2}
-            />
-          ))}
-          <g transform={`translate(${PHOTO_CAMERA[0]} ${PHOTO_CAMERA[1]})`}>
-            <Person index={3} x={4} y={10} />
-            <rect x="-14" y="-6" width="14" height="10" rx="2" fill="#59412b" />
-            <circle cx="-14" cy="-1" r="3" fill="#7fa7c9" />
-            <circle
-              className="photo-flash"
-              cx="-16"
-              cy="-1"
-              r="16"
-              fill="#fff"
-            />
-            <g className="photo-print">
-              <rect
-                x="-22"
-                y="-34"
-                width="16"
-                height="18"
-                rx="1.5"
-                fill="#fff"
-                stroke="rgba(89,65,43,0.3)"
-              />
-              <rect x="-20" y="-32" width="12" height="10" fill="#d7e7c3" />
-            </g>
-          </g>
-
-          {/* Sack race (Checkpoint 5) */}
+          {/* Things that stay: the sack race finish line, the quiz card, the host's camera */}
           <line
             x1={SACK_FINISH}
             y1={SACK_LANES[0] - 28}
@@ -839,145 +1370,49 @@ const RouteMap = ({ imageAlt, labels, leaderboard }) => (
             strokeWidth="3"
             strokeDasharray="6 5"
           />
-          {SACK_LANES.map((y, i) => (
-            <g key={`sack${i}`} transform={`translate(${SACK_START} ${y})`}>
-              <g
-                className="sack-run"
-                style={{
-                  "--distance": `${SACK_FINISH - SACK_START - 6}px`,
-                  animationDelay: `${-i * 1.7}s`,
-                }}
-              >
-                <g
-                  className="sack-hop"
-                  style={{ animationDelay: `${i * 0.12}s` }}
-                >
-                  <Person index={i + 3} />
-                  <rect
-                    x="-9"
-                    y="2"
-                    width="18"
-                    height="13"
-                    rx="4"
-                    fill="#b08a5a"
-                  />
-                  <path d="M -9 4 H 9" stroke="#8a6a44" strokeWidth="1.5" />
-                </g>
-              </g>
-            </g>
-          ))}
-          <ScorePop
-            x={SACK_FINISH}
-            y={SACK_LANES[0] - 18}
-            text={`+15 ${leaderboard.unit}`}
-            every={5.5}
-            delay={-4}
-          />
+          <QuizCard />
+          <Person index={1} x={PHOTOGRAPHER[0]} y={PHOTOGRAPHER[1]} />
+          <Camera />
 
-          {/* Quiz (Checkpoint 6): the host's question card, and players answering */}
-          <g
-            transform={`translate(${CHECKPOINTS[5].at[0] + CHECKPOINTS[5].host * 22 + 12} ${CHECKPOINTS[5].at[1] - 6})`}
-          >
-            <rect
-              x="-7"
-              y="-10"
-              width="14"
-              height="11"
-              rx="2"
-              fill="#fff"
-              stroke="#59412b"
-              strokeWidth="1.5"
-            />
-            <text
-              y="-1.5"
-              textAnchor="middle"
-              fontSize="8"
-              fontWeight="700"
-              fill="#e56822"
-            >
-              ?
-            </text>
-          </g>
-          {QUIZ_PLAYERS.map(([x, y, mark], i) => (
-            <g key={`quiz${i}`}>
-              <Person index={i + 2} x={x} y={y} delay={i * 0.3} />
-              <g transform={`translate(${x + 10} ${y - 26})`}>
-                <g
-                  className="quiz-bubble"
-                  style={{ animationDelay: `${i * 0.9}s` }}
-                >
-                  <circle
-                    r="8"
-                    fill="#fff"
-                    stroke="rgba(89,65,43,0.3)"
-                    strokeWidth="1.5"
-                  />
-                  <text
-                    y="4"
-                    textAnchor="middle"
-                    fontSize="11"
-                    fontWeight="800"
-                    fill="#e56822"
-                  >
-                    {mark}
-                  </text>
-                </g>
-              </g>
-            </g>
-          ))}
-
-          {/* Rope jump (Checkpoint 7): the rope swings over the jumper's head and
-              under their feet; they hop just as it passes below. */}
-          {(() => {
-            const { x, ground, reach } = ROPE_JUMP;
-            const hand = ground - 8;
-            const rope = (dip) =>
-              `M ${x - reach + 8} ${hand} Q ${x} ${dip} ${x + reach - 8} ${hand}`;
-            const turn = { dur: "1.2s", repeatCount: "indefinite" };
+          {/* Each game's props lying ready, shown whenever nobody is playing it */}
+          {Object.entries(GAMES).map(([number, { Idle }]) => {
+            const idle = idleFor(Number(number));
             return (
-              <g>
-                <Person index={4} x={x - reach} y={ground} motion="" />
-                <Person index={0} x={x + reach} y={ground} motion="" />
-                <g>
-                  <Person index={2} x={x} y={ground} motion="" />
-                  <animateTransform
-                    attributeName="transform"
-                    type="translate"
-                    values="0 0;0 0;0 -11;0 0;0 0"
-                    keyTimes="0;0.34;0.5;0.66;1"
-                    calcMode="spline"
-                    keySplines="0 0 1 1;0.2 0 0.4 1;0.6 0 0.8 1;0 0 1 1"
-                    {...turn}
-                  />
-                </g>
-                <path
-                  d={rope(ground - 58)}
-                  fill="none"
-                  stroke="#e56822"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                >
-                  <animate
-                    attributeName="d"
-                    values={[ground - 58, ground + 22, ground - 58]
-                      .map(rope)
-                      .join(";")}
-                    keyTimes="0;0.5;1"
-                    calcMode="spline"
-                    keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
-                    {...turn}
-                  />
-                </path>
+              <g key={`idle${number}`} data-idle={number}>
+                <Idle />
+                <animate
+                  attributeName="opacity"
+                  values={idle.values}
+                  keyTimes={idle.keyTimes}
+                  dur={`${LOOP.toFixed(2)}s`}
+                  repeatCount="indefinite"
+                />
               </g>
             );
-          })()}
-          <ScorePop
-            x={ROPE_JUMP.x}
-            y={ROPE_JUMP.ground - 70}
-            text={`+8 ${leaderboard.unit}`}
-            every={5}
-            delay={-1.5}
-          />
+          })}
+
+          {/* Each visiting group playing a game, in their own colours, while they're there */}
+          {ANIMATIONS.flatMap((animation, groupIndex) =>
+            animation.plays.map((play) => {
+              const { Cast } = GAMES[play.checkpoint];
+              return (
+                <g
+                  key={`play${groupIndex}-${play.checkpoint}`}
+                  data-cast={play.checkpoint}
+                  data-group={groupIndex}
+                  opacity="0"
+                >
+                  <Cast members={membersOf(groupIndex)} unit={feed.unit} />
+                  <animate
+                    attributeName="opacity"
+                    values={play.shown.values}
+                    keyTimes={play.shown.keyTimes}
+                    {...animation.loop}
+                  />
+                </g>
+              );
+            }),
+          )}
 
           {/* The meeting point: the same signpost, in orange */}
           <CheckpointSign
@@ -998,102 +1433,81 @@ const RouteMap = ({ imageAlt, labels, leaderboard }) => (
             />
           ))}
 
-          {/* Groups walking their routes, checking in and scoring at each stop */}
-          {GROUPS.map((group, groupIndex) => {
-            const plan = planLoop(group);
-            const loop = {
-              dur: plan.dur,
-              begin: plan.begin,
-              repeatCount: "indefinite",
-            };
-            return (
-              <g key={groupIndex} className="route-walker">
-                {Array.from({ length: group.size }, (_, i) => (
+          {/* Groups walking their routes and checking in; hidden while they're playing */}
+          {ANIMATIONS.map((animation, groupIndex) => (
+            <g key={groupIndex} className="route-walker">
+              <g>
+                {membersOf(groupIndex).map((m, i, all) => (
                   <Person
-                    key={i}
-                    index={groupIndex * 3 + i}
-                    x={(i - (group.size - 1) / 2) * 16}
-                    y={-14}
+                    key={m}
+                    index={m}
+                    x={(i - (all.length - 1) / 2) * 16}
+                    y={-20}
                     delay={i * 0.15}
+                    motion=""
+                    legs="walk"
+                    moving={{ ...animation.moving, loop: animation.loop }}
                   />
                 ))}
-                {plan.stops.map((stop, i) => (
-                  <Phone key={i} y={-46} qr={stop.qr} loop={loop} />
-                ))}
-                <animateMotion
-                  path={plan.d}
-                  calcMode="spline"
-                  keyPoints={plan.keyPoints}
-                  keyTimes={plan.keyTimes}
-                  keySplines={plan.keySplines}
-                  {...loop}
+                <animate
+                  attributeName="opacity"
+                  values={animation.shown.values}
+                  keyTimes={animation.shown.keyTimes}
+                  {...animation.loop}
                 />
               </g>
-            );
-          })}
+              {animation.checkins.map((checkin, i) => (
+                <Phone key={i} y={-46} qr={checkin.qr} loop={animation.loop} />
+              ))}
+              <animateMotion
+                path={animation.d}
+                calcMode="spline"
+                keyPoints={animation.keyPoints}
+                keyTimes={animation.keyTimes}
+                keySplines={animation.keySplines}
+                {...animation.loop}
+              />
+            </g>
+          ))}
 
           {/* The host's phone with a tick, once they've scanned a group's QR code */}
-          {GROUPS.map((group, groupIndex) => {
-            const plan = planLoop(group);
-            const loop = {
-              dur: plan.dur,
-              begin: plan.begin,
-              repeatCount: "indefinite",
-            };
-            // Stops are the visited checkpoints in order, then back at the meeting point.
-            const hostAt = (i) => {
-              if (i >= group.visits.length)
-                return [MEETING_HOST[0], MEETING_HOST[1] - 32];
-              // Above the host's head.
-              const { at, host } = CHECKPOINTS[group.visits[i] - 1];
-              return [at[0] + host * 22, at[1] - 32];
-            };
-            return (
-              <g key={`tick${groupIndex}`} className="route-walker">
-                {plan.stops.map((stop, i) => {
-                  const [x, y] = hostAt(i);
-                  return (
-                    <HostTick
-                      key={i}
-                      x={x}
-                      y={y}
-                      times={stop.tick}
-                      loop={loop}
-                    />
-                  );
-                })}
-              </g>
-            );
-          })}
+          {ANIMATIONS.map((animation, groupIndex) => (
+            <g key={`tick${groupIndex}`} className="route-walker">
+              {animation.checkins.map((checkin, i) => {
+                const [x, y] =
+                  checkin.kind === "meeting"
+                    ? [MEETING_HOST[0], MEETING_HOST[1] - 32]
+                    : [
+                        CHECKPOINTS[checkin.checkpoint - 1].at[0] +
+                          CHECKPOINTS[checkin.checkpoint - 1].host * 22,
+                        CHECKPOINTS[checkin.checkpoint - 1].at[1] - 32,
+                      ];
+                return (
+                  <HostTick
+                    key={i}
+                    x={x}
+                    y={y}
+                    times={checkin.tick}
+                    loop={animation.loop}
+                  />
+                );
+              })}
+            </g>
+          ))}
 
           {/* Game names */}
           {SIGNS.map(([game, x, y]) => (
             <GameName key={game} x={x} y={y} text={labels.games[game]} />
           ))}
+
+          {/* Live feed of scores, bottom-right corner */}
+          <LiveFeed feed={feed} games={labels.games} />
         </svg>
       </div>
     </div>
     <p className="route-hint" aria-hidden="true">
       <LuMoveHorizontal /> {labels.swipe}
     </p>
-
-    {/* Floating cards, like the app's own screens */}
-    <div className="route-card route-card--leaderboard" aria-hidden="true">
-      <p className="route-card-label">
-        <LuTrophy /> {leaderboard.title}
-      </p>
-      <ol className="route-leaderboard">
-        {leaderboard.rows.map(([name, points], index) => (
-          <li key={name}>
-            <span className="route-rank">{index + 1}</span>
-            <span className="route-team">{name}</span>
-            <span className="route-points">
-              {points} {leaderboard.unit}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </div>
   </div>
 );
 

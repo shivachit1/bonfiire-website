@@ -40,10 +40,19 @@
         "ropeJump": "Rope jump"
       }
     },
-    "leaderboard": {
-      "title": "Leaderboard",
+    "feed": {
+      "title": "Live feed",
       "unit": "pts",
-      "rows": [["Team Kiuas", "42"], ["Team Löyly", "38"], ["Team Vihta", "31"]]
+      "items": [
+        ["Team Kiuas", 20, "tugOfWar"],
+        ["Team Löyly", 30, "ropeJump"],
+        ["Team Vihta", 15, "sackRace"],
+        ["Team Sauna", 25, "molkky"],
+        ["Team Kiuas", 10, "quiz"],
+        ["Team Löyly", 20, "photo"],
+        ["Team Vihta", 30, "ballToss"],
+        ["Team Sauna", 15, "tugOfWar"]
+      ]
     }
   },
 

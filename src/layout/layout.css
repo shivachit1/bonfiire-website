@@ -405,69 +405,56 @@
   }
 }
 
-/* Floating cards on top of the map. */
-.route-card {
-  position: absolute;
-  display: flex;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 16px 36px rgba(89, 65, 43, 0.16);
-  text-align: left;
-}
-.route-card--leaderboard {
-  right: 2%;
-  bottom: 6%;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 210px;
-}
-.route-card-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0;
-  font-size: var(--text-chip);
-  color: var(--secondary-text-color);
-}
-.route-card-label svg {
-  color: var(--primary-color1);
-}
-.route-leaderboard {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.route-leaderboard li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  padding: 4px 0;
-  font-size: var(--text-chip);
-  color: var(--secondary-color);
-}
-.route-rank {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(89, 65, 43, 0.08);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-.route-leaderboard li:first-child .route-rank {
-  background: var(--primary-color1);
-  color: #fff;
-}
-.route-team {
-  flex: 1;
+/* Live feed text on the map: slides in from the right, moves up, fades out. */
+.map-feed text {
+  font-size: 11px;
   font-weight: 600;
+  stroke: #fcf8f5;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke;
 }
-.route-points {
-  color: var(--secondary-text-color);
+.map-feed .map-feed-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  fill: var(--secondary-color);
+}
+/* A small red dot that pulses, like a "live" light. */
+.live-dot {
+  animation: live-dot 1.6s ease-in-out infinite;
+}
+@keyframes live-dot {
+  50% {
+    opacity: 0.3;
+  }
+}
+.map-feed-team {
+  font-weight: 800;
+  fill: var(--secondary-color);
+}
+.map-feed-points {
+  font-weight: 800;
+  fill: var(--primary-color1);
+}
+.map-feed-game {
+  fill: #8a6a44;
+}
+.map-feed-row {
+  transform: translate(0, var(--y));
+  transition:
+    transform 0.6s ease,
+    opacity 0.6s ease;
+  animation: map-feed-in 0.6s ease;
+}
+.map-feed-row.is-leaving {
+  opacity: 0;
+}
+@keyframes map-feed-in {
+  from {
+    opacity: 0;
+    transform: translate(48px, var(--y));
+  }
 }
 
 @media (max-width: 800px) {
@@ -504,16 +491,12 @@
     font-size: var(--text-chip);
     color: var(--secondary-text-color);
   }
-  /* Phones: the cards sit under the map instead of covering it. */
-  .route-card {
-    position: static;
-    margin-top: 12px;
-    box-shadow: 0 8px 20px rgba(89, 65, 43, 0.12);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .route-pulse,
+  .map-feed-row,
+  .live-dot,
   .person-bob,
   .person-wander,
   .person-pose,
