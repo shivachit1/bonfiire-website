@@ -1,0 +1,157 @@
+{
+  "hero": {
+    "eyebrow": "Features",
+    "title": "Run a flawless {event.}",
+    "text": "Whether it's an Appro crawl across the city, a Fuksiaiset event for freshmen, a spontaneous park hangout, or a house party.",
+    "image": "gathering",
+    "imageAlt": "A group of students gathering outside on an autumn evening",
+    "link": {
+      "label": "Setting one up? Read the organizer help →",
+      "to": "/help?tab=organizing"
+    }
+  },
+  "sections": [
+    {
+      "type": "chapters",
+      "numbered": false,
+      "eyebrow": "Types of events",
+      "title": "What can you host on Bonfiire?",
+      "text": [
+        "Every event happens either in one place or along a route of checkpoints. Bonfiire is built for both."
+      ],
+      "items": [
+        {
+          "label": "Single location",
+          "title": "One place, everyone together.",
+          "text": [
+            "Most events happen in one spot: a meetup, a house party, an afternoon in the park. Pin the place, invite your people and welcome them in at the door."
+          ],
+          "tags": [
+            "Meetup",
+            "House party",
+            "Park hangout",
+            "Birthday",
+            "Game night"
+          ],
+          "image": "group-meetup",
+          "imageAlt": "A small group meeting up on a sunny autumn day",
+          "id": "single-location"
+        },
+        {
+          "label": "Multiple checkpoints",
+          "title": "A route, stop by stop.",
+          "text": [
+            "Some events move. Map out the route, put a host at each checkpoint, and participants collect a stamp at every stop."
+          ],
+          "tags": [
+            "Appro",
+            "Fuksiaiset"
+          ],
+          "image": "friends-phones",
+          "imageAlt": "Two friends checking the route on their phones",
+          "id": "multiple-checkpoints",
+          "badge": "Where Bonfiire shines",
+          "highlight": true
+        }
+      ]
+    },
+    {
+      "type": "featureGroups",
+      "eyebrow": "How Bonfiire helps",
+      "title": "What you get as an organizer.",
+      "groups": [
+        {
+          "title": "Included in every event",
+          "items": [
+            {
+              "title": "E-tickets & check-in",
+              "text": "Everyone who joins gets an e-ticket, checked in when they arrive."
+            },
+            {
+              "title": "Invites & sharing",
+              "text": "Invite people directly or share the event link."
+            },
+            {
+              "title": "Participant management",
+              "text": "See who's joined and keep your participant list in order."
+            },
+            {
+              "title": "Co-hosts",
+              "text": "Bring in help to run the event with you."
+            },
+            {
+              "title": "One event chat",
+              "text": "Communicate with all participants in one place, before and during the event."
+            },
+            {
+              "title": "Event album",
+              "text": "Everyone's photos from the event, together in one place."
+            }
+          ]
+        },
+        {
+          "title": "Extra for multi-location events",
+          "items": [
+            {
+              "title": "Route on a digital map",
+              "text": "Map out multi-location routes, every venue in the order people will visit."
+            },
+            {
+              "title": "Checkpoints & stamps",
+              "text": "Participants collect a stamp at every stop along the way."
+            },
+            {
+              "title": "Checkpoint hosts",
+              "text": "Put someone in charge of each stop on the route."
+            },
+            {
+              "title": "Scoring & leaderboard",
+              "text": "Score participants at the checkpoints and see who's leading."
+            }
+          ]
+        }
+      ],
+      "link": {
+        "label": "See how to set it up, step by step →",
+        "to": "/help?tab=organizing"
+      }
+    },
+    {
+      "type": "photo",
+      "image": "tug-of-war",
+      "imageAlt": "Participants playing tug-of-war at a checkpoint",
+      "quote": "You host the moment. Bonfiire handles the logistics."
+    },
+    {
+      "type": "features",
+      "eyebrow": "Why organizers switch",
+      "title": "One tool, not five.",
+      "text": [
+        "Everything you need to run a flawless Appro or Fuksiaiset."
+      ],
+      "items": [
+        {
+          "title": "Routes & checkpoints",
+          "text": "Map out multi-location routes with a digital map and checkpoint stamps."
+        },
+        {
+          "title": "Everyone in one place",
+          "text": "Communicate with all participants in one place, before and during the event."
+        },
+        {
+          "title": "No more patchwork",
+          "text": "Replace WhatsApp groups, Google Maps and spreadsheets with one tool."
+        }
+      ]
+    },
+    {
+      "type": "faq"
+    }
+  ],
+  "cta": {
+    "title": "Ready to host your next event?",
+    "text": [
+      "Download Bonfiire and create your first event."
+    ]
+  }
+}

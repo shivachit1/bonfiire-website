@@ -1,29 +1,39 @@
+/* Like the navbar: a rounded white card (the cards' shadow) as wide as the page's
+   content column, a little above the bottom. Around it, the page's own colour carries
+   on (light on the home page, the warm background elsewhere). */
 .footer-container {
   width: 100%;
-  background-color: #ffffff;
-  padding: 40px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle separator */
+  padding: 0 24px 24px;
+  background: var(--primary-color);
+}
+.app-main-layout:has(.sections--light-first) .footer-container {
+  background: #fff;
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: var(--content-width);
   margin: 0 auto;
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--card-shadow);
 }
 
 .footer-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
 }
 
 .footer-link {
   text-decoration: none;
-  color: #666;
-  font-weight: 500;
+  color: var(--secondary-color);
+  font-weight: 400;
   transition: color 0.2s ease;
 }
 
@@ -36,24 +46,22 @@
 }
 
 .footer-copyright {
-  color: #999;
+  color: var(--secondary-text-color);
   font-size: 0.85rem;
   margin: 0;
-}
-
-.footer-copyright strong {
-  color: var(--secondary-color, #1a1a1a);
-  font-weight: 700;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
   .footer-container {
-    padding: 30px 20px;
+    padding: 0 12px 12px;
+  }
+  .footer-content {
+    padding: 26px 16px;
   }
 
   .footer-links {
-    gap: 20px;
+    gap: 12px 20px;
   }
 
   .footer-link {

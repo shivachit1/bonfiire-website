@@ -1,0 +1,27 @@
+{
+  "eyebrow": "In their words",
+  "title": "Stories from around the fire.",
+  "items": [
+    {
+      "quote": "I moved to a new city for my studies and didn't know anyone. After my first Appro on Bonfiire, I had a group to hang out with every weekend.",
+      "name": "Sample Student",
+      "role": "First-year student",
+      "avatar": "",
+      "example": true
+    },
+    {
+      "quote": "We used to run our Appro with three WhatsApp groups and a spreadsheet. This year the route, the checkpoints and the chat all lived in one app.",
+      "name": "Sample Organizer",
+      "role": "Event lead, student association",
+      "avatar": "",
+      "example": true
+    },
+    {
+      "quote": "The event album is my favourite part. All the photos from the night in one place, not lost in someone's camera roll.",
+      "name": "Sample Student",
+      "role": "Second-year student",
+      "avatar": "",
+      "example": true
+    }
+  ]
+}

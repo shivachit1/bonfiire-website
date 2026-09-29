@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Home",
+    "to": "/"
+  },
+  {
+    "label": "Appros",
+    "children": [
+      {
+        "label": "Appro (In nature)",
+        "to": "/appro/in-nature",
+        "description": "Games across the park, points at every checkpoints."
+      },
+      {
+        "label": "Appro (Bar crawl)",
+        "to": "/appro/bar-crawl",
+        "description": "From bar to bar, a stamp and points at each one checkpoints."
+      },
+      {
+        "label": "Appro (City hopper)",
+        "to": "/appro/city-hopper",
+        "description": "Museum, market, food, drinks and games, all in one route."
+      }
+    ]
+  },
+  {
+    "label": "Features",
+    "to": "/features"
+  },
+  {
+    "label": "Help center",
+    "to": "/help"
+  }
+]

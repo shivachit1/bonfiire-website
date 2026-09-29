@@ -1,8 +1,10 @@
 import "./index.css"; // Optional CSS for styling
-import { Link } from "react-router-dom";
 import { downloadData } from "../../downloadData";
+import { useContent } from "../../i18n";
 
 const AppLinks = () => {
+  const { appLinks } = useContent("ui");
+
   return (
     <section>
       <div className="appLinks-list">
@@ -17,21 +19,13 @@ const AppLinks = () => {
           >
             <div className="icon-wrapper">{platform.icon}</div>
             <div className="label-wrapper">
-              <span className="sub-label">Download on</span>
+              <span className="sub-label">{appLinks.downloadOn}</span>
               <span className="main-label">{platform.title}</span>
             </div>
           </a>
         ))}
       </div>
     </section>
-  );
-};
-
-export const DownLoadLink = () => {
-  return (
-    <Link to={"/download"} className="button">
-      Get app
-    </Link>
   );
 };
 

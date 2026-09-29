@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "label": "Main",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
+  },
+  "footer": {
+    "features": "Features",
+    "help": "Help center",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "download": "Download",
+    "rights": "All rights reserved."
+  },
+  "cta": {
+    "needHelp": "Need a hand?"
+  },
+  "appLinks": {
+    "downloadOn": "Download on"
+  },
+  "help": {
+    "topics": "Help topics",
+    "step": "Step",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "back": "All topics"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "eyebrow": "Questions",
+  "title": "Good to know.",
+  "items": [
+    {
+      "question": "What is Bonfiire?",
+      "answer": "An app built for students who want to hang out, do things and make unforgettable memories. Find events near you, lock in plans with friends, and keep every photo in an event album."
+    },
+    {
+      "question": "What kind of events are on Bonfiire?",
+      "answer": "Anything students do together: Appro crawls, Fuksiaiset events for freshmen, spontaneous park hangouts, house parties and more."
+    },
+    {
+      "question": "Can I organize my own event?",
+      "answer": "Yes. Map out multi-location routes with a digital map and checkpoint stamps, talk to every participant in one place, and leave the WhatsApp groups, Google Maps links and spreadsheets behind."
+    },
+    {
+      "question": "Where can I download it?",
+      "answer": "Bonfiire is available on the App Store and Google Play."
+    },
+    {
+      "question": "I need help. Who do I contact?",
+      "answer": "Email us at support@bonfiire.io and we'll get back to you."
+    }
+  ]
+}
