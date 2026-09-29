@@ -1,0 +1,41 @@
+{
+  "title": "Trusted By",
+  "items": [
+    {
+      "name": "Example Student Union",
+      "logo": "",
+      "url": "",
+      "example": true
+    },
+    {
+      "name": "Example Guild",
+      "logo": "",
+      "url": "",
+      "example": true
+    },
+    {
+      "name": "Example Tutor Team",
+      "logo": "",
+      "url": "",
+      "example": true
+    },
+    {
+      "name": "Example Sports Club",
+      "logo": "",
+      "url": "",
+      "example": true
+    },
+    {
+      "name": "Example Running Club",
+      "logo": "",
+      "url": "",
+      "example": true
+    },
+    {
+      "name": "Example Board Game Society",
+      "logo": "",
+      "url": "",
+      "example": true
+    }
+  ]
+}

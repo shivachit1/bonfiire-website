@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Home",
+    "to": "/"
+  },
+  {
+    "label": "Features",
+    "to": "/features"
+  },
+  {
+    "label": "Help center",
+    "to": "/help"
+  }
+]

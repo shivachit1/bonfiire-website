@@ -1,0 +1,139 @@
+{
+  "hero": {
+    "eyebrow": "Connecting communities",
+    "title": "Find your next event.\nOr {host} your own.",
+    "text": "From park hangouts to Appro and Fuksiaiset, Bonfiire is where students find things to do and bring people together.",
+    "paths": [
+      {
+        "icon": "discover",
+        "title": "Explore events",
+        "text": "See what's happening around you and join in a tap.",
+        "to": "/help?tab=attending"
+      },
+      {
+        "icon": "create",
+        "title": "Host an event",
+        "text": "One place or many checkpoints, run it all in one app.",
+        "to": "/features"
+      }
+    ],
+    "image": "gathering",
+    "imageAlt": "A group of students chatting outside on an autumn evening"
+  },  "route": {
+    "eyebrow": "Multi-checkpoint events",
+    "title": "One event, {many stops}.",
+    "text": [
+      "Map out the route, put a host at every checkpoint, and watch everyone collect their stamps along the way."
+    ],
+    "imageAlt": "Illustration of a small city with a meeting point and seven checkpoints, each with a host and a game: tug-of-war, Mölkky, ball toss, a photo challenge, a sack race, a quiz and a rope jump. Groups leave the meeting point, check in with the host at each checkpoint by scanning a QR code on their phone, and come back.",
+    "labels": {
+      "meetingPoint": "Meeting point",
+      "checkpoint": "Checkpoint",
+      "swipe": "Swipe to explore the map",
+      "games": {
+        "tugOfWar": "Tug-of-war",
+        "molkky": "Mölkky",
+        "ballToss": "Ball toss",
+        "photo": "Photo challenge",
+        "sackRace": "Sack race",
+        "quiz": "Quiz",
+        "ropeJump": "Rope jump"
+      }
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "unit": "pts",
+      "rows": [["Team Kiuas", "42"], ["Team Löyly", "38"], ["Team Vihta", "31"]]
+    }
+  },
+
+  "goal": {
+    "eyebrow": "Our goal",
+    "title": "Why {Bonfiire}",
+    "text": [
+      "Bonfiire is the app built for students who want to hang out, do things and make unforgettable memories. Whether it's an Appro crawl across the city, a Fuksiaiset event for freshmen, a spontaneous park hangout, or a house party — Bonfiire helps you find it, organize it, and save all the moments."
+    ]
+  },
+  "why": {
+    "eyebrow": "Core Features",
+    "title": "Everything you need, in {Bonfiire}",
+    "text": [
+      "Find something to do, meet new people, host your own events and keep the friendships going. All in one app."
+    ],
+    "features": [
+      {
+        "icon": "discover",
+        "title": "Discover events",
+        "text": "Find exciting local activities and events happening around you. From coffee meetups to adventure sports."
+      },
+      {
+        "icon": "people",
+        "title": "Connect with people",
+        "text": "Meet like-minded individuals who share your interests. Build genuine friendships that last."
+      },
+      {
+        "icon": "create",
+        "title": "Host your own event",
+        "text": "Manage your own events and bring your community together. Be the spark that ignites connections."
+      },
+      {
+        "icon": "community",
+        "title": "Build community",
+        "text": "Keep in touch with the people you meet and turn one event into many."
+      }
+    ]
+  },
+  "eventTypes": {
+    "eyebrow": "Types of events",
+    "title": "Events on {Bonfiire}",
+    "text": [
+      "Whether it is locked to one cozy location or spans an entire city, Bonfiire handles it seamlessly."
+    ],
+    "items": [
+      {
+        "title": "Single Venue Event",
+        "text": [
+          "Perfect for classic gatherings. Drop a pin, send out the invites, and welcome your people in for a house party, park chill, or birthday celebration."
+        ],
+        "tags": [
+          "Meetup",
+          "House party",
+          "Park hangout",
+          "Birthday",
+          "...more"
+        ],
+        "image": "group-meetup",
+        "imageAlt": "A small group meeting up on a sunny autumn day",
+        "link": {
+          "label": "Learn more →",
+          "to": "/features#single-location"
+        },
+        "id": "single-location"
+      },
+      {
+        "title": "Multi-checkpoints event",
+        "text": [
+          "Built for movement and scale. Map out an epic route, checkpoint hosts at every stop, and let participants collect stamps along the way."
+        ],
+        "tags": ["Appro", "Fuksiaiset"],
+        "image": "friends-phones",
+        "imageAlt": "Two friends checking the route on their phones",
+        "link": {
+          "label": "Learn more →",
+          "to": "/features#multiple-checkpoints"
+        },
+        "id": "multiple-checkpoints"
+      }
+    ]
+  },
+
+  "photoBreak": {
+    "image": "tug-of-war",
+    "imageAlt": "Students laughing during a tug-of-war in the park",
+    "quote": "Somewhere between the first hello and the last laugh, strangers become friends."
+  },
+  "finale": {
+    "title": "Let's start making memories.",
+    "text": ["Student life goes fast. Don't waste it."]
+  }
+}

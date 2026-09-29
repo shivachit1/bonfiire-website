@@ -1,8 +1,8 @@
 {
-  "short_name": "Bonffire",
+  "short_name": "Bonfiire",
   "name": "Bonfiire Website",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#fcf8f5",
   "background_color": "#ffffff"
 }

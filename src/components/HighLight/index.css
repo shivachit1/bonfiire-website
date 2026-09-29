@@ -1,11 +1,10 @@
 .highlight {
   display: inline-block;
   width: fit-content;
-  padding: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 12px; /* added px */
-  border: 1px dashed var(--primary-color1); /* added px */
+  padding: 4px 10px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--primary-color1);
 }
 
 .highlighted_text {

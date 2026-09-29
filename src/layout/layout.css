@@ -1,0 +1,1469 @@
+/* Font sizes come from the five --text-* sizes in App.css.
+   Layout templates: Section, Intro, Hero, Chapter, FeatureGrid,
+   Testimonials, LogoStrip, Faq, FeatureGroups, Tabs, HelpTopic, HelpSteps, RouteMap, CallToAction,
+   PhotoBreak.
+   Colours come from the tokens in App.css. */
+
+/* ---------- Section ---------- */
+/* The navbar spans up to 1440px; every section's content lines up on one
+   slightly narrower column (--content-width), so left edges match page-wide. */
+.section {
+  width: 100%;
+  padding: var(--section-space) 24px;
+  background: var(--primary-color);
+}
+.section--compact {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+/* Sections alternate cream and white, starting with cream. A compact strip (the
+   partner row) belongs to the section above it, so it stays cream and is skipped. */
+.section:nth-child(even of .section:not(.section--compact)) {
+  background: #fff;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 8vw, 96px);
+}
+.container--wide {
+  max-width: var(--content-width);
+}
+/* Text-only sections, centred inside the same column. */
+.container--narrow {
+  max-width: 680px;
+}
+
+/* ---------- Shared type ---------- */
+/* Dashed badge, matching the original HighLightText component. */
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 2px 16px;
+  border: 1px dashed var(--primary-color1);
+  border-radius: 12px;
+  font-size: var(--text-chip);
+  line-height: 1.6;
+  color: var(--primary-color1);
+}
+
+.title {
+  font-size: var(--text-section);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--secondary-color);
+}
+
+.lead {
+  margin: 16px 0 0;
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+
+.accent {
+  color: var(--primary-color1);
+}
+
+/* ---------- Intro ---------- */
+.intro {
+  text-align: center;
+}
+/* Keep intro text at a readable width, even inside wide sections. */
+.intro .title,
+.intro .lead {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.intro .appLinks-list {
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* ---------- Page header (pages without a hero photo) ---------- */
+.page-header .title {
+  font-size: var(--text-page);
+}
+
+/* ---------- Hero ---------- */
+/* More room above the hero than below, so it leads into the partner strip. */
+@media (min-width: 801px) {
+  .hero {
+    padding-top: clamp(96px, 11vw, 160px);
+    padding-bottom: clamp(48px, 5vw, 72px);
+  }
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+}
+
+.hero-title {
+  font-size: var(--text-page);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--secondary-color);
+}
+
+.hero-title .accent {
+  font-weight: 800;
+}
+
+
+.hero-copy .appLinks-list {
+  justify-content: flex-start;
+  margin-top: 32px;
+}
+
+/* Two ways in: "Explore events" / "Host an event". */
+.hero-paths {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-paths li {
+  margin: 0;
+}
+.hero-path {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  border: 1px solid rgba(89, 65, 43, 0.14);
+  border-radius: 16px;
+  background: #fff;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.hero-path:hover {
+  border-color: rgba(229, 104, 34, 0.5);
+  transform: translateY(-2px);
+}
+.hero-path-icon {
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  color: var(--primary-color1);
+}
+.hero-path-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hero-path-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-info);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+.hero-path-arrow {
+  color: var(--primary-color1);
+  transition: transform 0.2s ease;
+}
+.hero-path:hover .hero-path-arrow {
+  transform: translateX(3px);
+}
+.hero-path-text {
+  font-size: var(--text-info);
+  line-height: 1.5;
+  color: var(--secondary-text-color);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-path:hover {
+    transform: none;
+  }
+}
+@media (max-width: 480px) {
+  .hero-paths {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Shown whole, in its own landscape shape, so everyone in the group stays in view. */
+.hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+/* ---------- RouteMap (illustrated multi-checkpoint event) ---------- */
+.route-map {
+  position: relative;
+  /* Wider than the content column: up to the navbar's 1440px, centred. */
+  width: min(1440px, 100vw - 32px);
+  margin: 48px 0 0 50%;
+  transform: translateX(-50%);
+}
+.route-viewport {
+  perspective: 1400px;
+}
+.route-hint {
+  display: none;
+}
+/* The map leans back a little, like a table seen from the front. */
+.route-plane {
+  transform: rotateX(16deg);
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 30px 40px rgba(89, 65, 43, 0.18));
+}
+.route-plane svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* People: a small bounce in their step, and some wander around their checkpoint. */
+.person-bob {
+  animation: person-bob 0.9s ease-in-out infinite alternate;
+}
+.person-wander {
+  animation: person-wander 3.5s ease-in-out infinite alternate;
+}
+/* Games: a tug-of-war that sways, with players leaning back. */
+.tug-pull {
+  animation: tug-pull 2.4s ease-in-out infinite;
+}
+.person-lean-left {
+  transform: rotate(-12deg);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.person-lean-right {
+  transform: rotate(12deg);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@keyframes tug-pull {
+  0%,
+  100% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+/* Photo challenge: the group poses, the camera flashes, a photo pops out. */
+.person-pose {
+  animation: person-pose 5s ease-in-out infinite;
+}
+@keyframes person-pose {
+  0%,
+  30%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  38%,
+  52% {
+    transform: translateY(-6px);
+  }
+}
+.photo-flash {
+  opacity: 0;
+  animation: photo-flash 5s ease-out infinite;
+}
+@keyframes photo-flash {
+  0%,
+  44%,
+  60%,
+  100% {
+    opacity: 0;
+  }
+  46% {
+    opacity: 0.95;
+  }
+}
+.photo-print {
+  opacity: 0;
+  animation: photo-print 5s ease-out infinite;
+}
+@keyframes photo-print {
+  0%,
+  48% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  58%,
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+/* Ball toss: the players hop a little as they catch. */
+.person-catch {
+  animation: person-catch 1.6s ease-in-out infinite;
+}
+@keyframes person-catch {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+/* Sack race: racers hop towards the finish line, then start again. */
+.sack-run {
+  animation: sack-run 5.5s linear infinite;
+}
+.sack-hop {
+  animation: sack-hop 0.5s ease-in-out infinite;
+}
+@keyframes sack-run {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  8% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(var(--distance));
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--distance));
+  }
+}
+@keyframes sack-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+/* Quiz: "?" and "!" bubbles pop up in turn. */
+.quiz-bubble {
+  opacity: 0;
+  animation: quiz-bubble 2.7s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@keyframes quiz-bubble {
+  0%,
+  60%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  12%,
+  45% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes person-bob {
+  to {
+    transform: translateY(-2.5px);
+  }
+}
+@keyframes person-wander {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, -2px);
+  }
+  100% {
+    transform: translate(-5px, 1px);
+  }
+}
+.route-pulse {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: route-pulse 2s ease-out infinite;
+}
+@keyframes route-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+/* Floating cards on top of the map. */
+.route-card {
+  position: absolute;
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(89, 65, 43, 0.16);
+  text-align: left;
+}
+.route-card--leaderboard {
+  right: 2%;
+  bottom: 6%;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 210px;
+}
+.route-card-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: var(--text-chip);
+  color: var(--secondary-text-color);
+}
+.route-card-label svg {
+  color: var(--primary-color1);
+}
+.route-leaderboard {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.route-leaderboard li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 4px 0;
+  font-size: var(--text-chip);
+  color: var(--secondary-color);
+}
+.route-rank {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(89, 65, 43, 0.08);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.route-leaderboard li:first-child .route-rank {
+  background: var(--primary-color1);
+  color: #fff;
+}
+.route-team {
+  flex: 1;
+  font-weight: 600;
+}
+.route-points {
+  color: var(--secondary-text-color);
+}
+
+@media (max-width: 800px) {
+  .route-map {
+    width: auto;
+    margin: 32px 0 0;
+    transform: none;
+  }
+  /* Phones: the map keeps a readable size and you swipe sideways across it,
+     starting at the meeting point. It runs to the screen edges, with a soft fade
+     on the right that hints there's more. */
+  .route-viewport {
+    margin: 0 -24px;
+    padding: 8px 24px 28px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 80%, transparent);
+    mask-image: linear-gradient(to right, #000 80%, transparent);
+  }
+  .route-viewport::-webkit-scrollbar {
+    display: none;
+  }
+  .route-plane {
+    width: 820px;
+    transform: rotateX(14deg);
+  }
+  .route-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0 0;
+    font-size: var(--text-chip);
+    color: var(--secondary-text-color);
+  }
+  /* Phones: the cards sit under the map instead of covering it. */
+  .route-card {
+    position: static;
+    margin-top: 12px;
+    box-shadow: 0 8px 20px rgba(89, 65, 43, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-pulse,
+  .person-bob,
+  .person-wander,
+  .person-pose,
+  .person-catch,
+  .quiz-bubble,
+  .sack-run,
+  .sack-hop,
+  .tug-pull {
+    animation: none;
+  }
+  .sack-run,
+  .quiz-bubble {
+    opacity: 1;
+  }
+  /* Walkers and score pops can't pause, so they step aside;
+     the crowds and players stay, standing still. */
+  .route-pulse,
+  .route-walker,
+  .route-score,
+  .route-ball,
+  .molkky-stick,
+  .photo-flash,
+  .photo-print {
+    display: none;
+  }
+}
+
+/* ---------- Chapter ---------- */
+/* Sections of chapters sit a little closer: intro → first chapter, and chapter → chapter. */
+.container:has(> .chapter) {
+  gap: clamp(40px, 5vw, 64px);
+}
+
+.chapter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: flex-end;
+  gap: clamp(32px, 6vw, 60px);
+}
+.chapter--reverse .chapter-media {
+  order: 2;
+}
+.chapter--text {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 680px;
+}
+
+/* Chapter titles sit one step below section titles. */
+.chapter .title {
+  font-size: var(--text-item);
+}
+
+/* Eyebrow plus an optional filled badge on one line. */
+.chapter-labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.chapter-labels .eyebrow {
+  margin: 0;
+}
+.badge {
+  margin: 0;
+  padding: 3px 12px;
+  border-radius: 12px;
+  background: var(--primary-color1);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  line-height: 1.6;
+  color: #fff;
+}
+
+/* Jump links (#id) land below the sticky navbar. */
+.chapter[id] {
+  scroll-margin-top: 96px;
+}
+
+/* A chapter on a dark card, to make it the highlight of its section. */
+.chapter--highlight {
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 28px;
+  background: var(--night-color);
+}
+.chapter--highlight .title {
+  color: var(--night-text-color);
+}
+.chapter--highlight .lead {
+  color: rgba(243, 233, 223, 0.75);
+}
+.chapter--highlight .tags li {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--night-text-color);
+}
+.chapter--highlight .text-link {
+  color: var(--primary-color1);
+}
+.chapter--highlight .text-link:hover {
+  color: var(--night-text-color);
+}
+
+.chapter-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+/* App screenshot in a phone frame. */
+.phone {
+  width: min(100%, 280px);
+  aspect-ratio: 9 / 19.5;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 10px solid var(--night-color);
+  border-radius: 40px;
+  background: var(--night-color);
+  box-shadow: 0 24px 48px rgba(28, 20, 16, 0.25);
+}
+.phone img,
+.phone video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.phone--placeholder {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--primary-color);
+  border-style: dashed;
+  border-color: var(--primary-color1);
+  text-align: center;
+  font-size: var(--text-chip);
+  color: var(--accent-text-color);
+}
+
+/* ---------- Card (FeatureGrid, Testimonials) ---------- */
+.card {
+  margin: 0;
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  color: var(--primary-text-color);
+}
+
+/* A whole card that links somewhere. */
+.card--link {
+  padding: 0;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.card--link:hover {
+  border-color: var(--primary-color1);
+  transform: translateY(-2px);
+}
+.card-link {
+  display: block;
+  height: 100%;
+  padding: 24px;
+  color: inherit;
+}
+.card-link:hover {
+  color: inherit;
+}
+.card-arrow {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 700;
+  color: var(--primary-color1);
+}
+
+/* ---------- FeatureGrid ---------- */
+.feature-grid,
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.feature-grid--fours {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 560px) {
+  .feature-grid--fours {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1000px) {
+  .feature-grid--fours {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Borderless cards on the section's own background, lifted by a soft shadow. */
+.feature-grid--plain .card {
+  padding: 32px 28px;
+  border: none;
+  background: transparent;
+  box-shadow:
+    0 1px 2px rgba(89, 65, 43, 0.06),
+    0 8px 24px rgba(89, 65, 43, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.feature-grid--plain .card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 4px rgba(89, 65, 43, 0.06),
+    0 16px 36px rgba(89, 65, 43, 0.14);
+}
+.feature-grid--plain .feature-icon {
+  margin-bottom: 16px;
+  font-size: 2rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-grid--plain .card:hover {
+    transform: none;
+  }
+}
+
+.feature-icon {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--primary-color1);
+}
+
+.feature-title {
+  font-size: var(--text-item);
+  color: var(--primary-color1);
+}
+
+.feature-text {
+  margin: 8px 0 0;
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+
+/* ---------- Testimonials ---------- */
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.testimonial-quote {
+  margin: 0;
+  font-size: var(--text-info);
+  line-height: 1.7;
+}
+
+.testimonial-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  background: var(--primary-color1);
+  color: #fff;
+  font-weight: 700;
+}
+
+.testimonial-name,
+.testimonial-role {
+  margin: 0;
+  font-size: var(--text-info);
+  color: inherit;
+}
+.testimonial-name {
+  font-weight: 700;
+}
+.testimonial-role {
+  opacity: 0.7;
+}
+
+/* ---------- LogoStrip (endless marquee) ---------- */
+.logo-strip {
+  text-align: center;
+}
+
+.logo-strip-title {
+  margin: 0 0 24px;
+  font-size: var(--text-info);
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+
+/* Faded edges so names slide in and out softly. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--duration, 30s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 56px;
+  margin: 0;
+  padding: 0 28px;
+  list-style: none;
+}
+
+.logo-list li {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.logo-list img {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+.logo-list a:hover img {
+  filter: none;
+  opacity: 1;
+}
+
+.logo-name {
+  white-space: nowrap;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  opacity: 0.6;
+}
+
+/* A still, centred row: when there are only a few partners. */
+.logo-row {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 48px;
+}
+
+/* No motion: a still, wrapped row of the original names instead. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee-track {
+    width: auto;
+    animation: none;
+  }
+  .logo-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 48px;
+  }
+  .logo-list[aria-hidden] {
+    display: none;
+  }
+}
+
+/* ---------- Faq ---------- */
+.faq {
+  max-width: 760px;
+  margin: 40px auto 0;
+  text-align: left;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.faq-item summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--text-item);
+  font-weight: 700;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: "+";
+  color: var(--primary-color1);
+}
+.faq-item[open] summary::after {
+  content: "–";
+}
+
+.faq-answer {
+  margin: 0 0 20px;
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+
+/* ---------- FeatureGroups ---------- */
+.feature-groups {
+  margin-top: 48px;
+}
+.feature-group + .feature-group {
+  margin-top: clamp(40px, 6vw, 64px);
+}
+.feature-group-title {
+  font-size: var(--text-item);
+  color: var(--secondary-color);
+}
+.feature-group .feature-grid {
+  margin-top: 20px;
+}
+@media (min-width: 801px) {
+  .feature-group .feature-grid:not(.feature-grid--fours) {
+    grid-template-columns: repeat(var(--columns, 3), minmax(0, 1fr));
+  }
+}
+
+/* Small labels under a chapter, e.g. example event types. */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+/* Soft filled chips (no outline), so they don't compete with the dashed labels. */
+.tags li {
+  margin: 0;
+  padding: 2px 14px;
+  border-radius: 999px;
+  background: rgba(89, 65, 43, 0.1);
+  font-size: var(--text-chip);
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
+/* Short list under a step (sub-steps). */
+.points {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.points li {
+  position: relative;
+  margin: 6px 0 0;
+  padding-left: 20px;
+  font-size: var(--text-info);
+  line-height: 1.6;
+  color: var(--secondary-text-color);
+}
+.points li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary-color1);
+}
+
+/* ---------- CallToAction ---------- */
+.trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.trust-list li {
+  margin: 0;
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+.trust-list li::before {
+  content: "✓ ";
+  color: var(--primary-color1);
+}
+
+.support-line {
+  margin: 24px 0 0;
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+
+/* Link under a chapter's text, e.g. "Learn more". */
+.chapter-link {
+  margin: 20px 0 0;
+  font-size: var(--text-info);
+}
+
+/* ---------- Text links ---------- */
+.text-link {
+  font-weight: 700;
+  color: var(--accent-text-color);
+}
+.text-link:hover {
+  color: var(--secondary-color);
+}
+
+.more-link {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-info);
+}
+
+.intro .more-link {
+  margin-top: 32px;
+}
+
+.hero-links {
+  margin: 32px 0 0;
+  font-size: var(--text-info);
+}
+
+/* ---------- PhotoBreak ---------- */
+.photo-break {
+  position: relative;
+  margin: 0;
+  height: clamp(360px, 70vh, 640px);
+}
+.photo-break img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-break figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 120px 20px clamp(32px, 6vw, 64px);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: #fff;
+  text-align: center;
+  font-size: var(--text-section);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ---------- Help center: Tabs, topic index, HelpTopic, HelpSteps ---------- */
+.help-center {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  /* "All topics" scrolls here; keep it clear of the navbar. */
+  scroll-margin-top: 104px;
+}
+
+/* Tabs: a soft pill row; the selected tab is filled, flat, no shadow. */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 48px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(89, 65, 43, 0.07);
+}
+.tab {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-info);
+  font-weight: 600;
+  color: var(--secondary-color);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+.tab:hover {
+  background: rgba(89, 65, 43, 0.08);
+  color: var(--secondary-color);
+  transform: none;
+}
+.tab[aria-selected="true"] {
+  background: var(--secondary-color);
+  color: #fff;
+}
+
+.help-group + .help-group {
+  margin-top: 48px;
+}
+.help-group-title {
+  margin: 0 0 16px;
+  font-size: var(--text-item);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+/* Topic index: quick links to each topic below, two per row on wide screens. */
+.help-index-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.help-index-list li {
+  margin: 0;
+}
+.help-index-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgba(89, 65, 43, 0.14);
+  border-radius: 16px;
+  color: var(--secondary-color);
+  transition: border-color 0.2s ease;
+}
+.help-index-link:hover {
+  border-color: rgba(229, 104, 34, 0.45);
+}
+.help-index-icon {
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  color: var(--primary-color1);
+}
+.help-index-title {
+  flex: 1;
+  font-size: var(--text-info);
+  font-weight: 700;
+}
+.help-index-arrow {
+  flex-shrink: 0;
+  color: var(--primary-color1);
+  transition: transform 0.2s ease;
+}
+.help-index-link:hover .help-index-arrow {
+  transform: translateX(3px);
+}
+
+/* One topic per section: icon, heading and a copy-link button, then the steps. */
+.help-topic {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 64px);
+  /* Room for the navbar and the sticky topic bar when jumping to a topic. */
+  scroll-margin-top: 140px;
+}
+.help-topic-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.help-topic-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(229, 104, 34, 0.1);
+  font-size: 1.6rem;
+  color: var(--primary-color1);
+}
+.help-topic-heading {
+  flex: 1;
+}
+.help-topic-heading .lead {
+  margin-top: 8px;
+}
+.copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border: 1px solid rgba(89, 65, 43, 0.2);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+.copy-link:hover {
+  border-color: var(--primary-color1);
+  background: transparent;
+  color: var(--accent-text-color);
+  transform: none;
+}
+
+/* Sticky bar while reading topics: "Organizing an event › Manage participants".
+   It sticks just under the navbar and stops at the last topic. */
+.help-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 900;
+  padding: 0 24px;
+  background: rgba(252, 248, 245, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(89, 65, 43, 0.1);
+}
+.help-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--content-width);
+  min-height: 56px;
+  margin: 0 auto;
+}
+.help-bar-tab,
+.help-bar-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--secondary-text-color);
+  cursor: pointer;
+}
+.help-bar-tab:hover,
+.help-bar-all:hover {
+  background: none;
+  color: var(--accent-text-color);
+  transform: none;
+}
+.help-bar-separator {
+  flex-shrink: 0;
+  color: var(--secondary-text-color);
+}
+.help-bar-topic {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem; /* same as the navbar links, so the bar reads as part of the navigation */
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.help-bar-topic svg {
+  flex-shrink: 0;
+  color: var(--primary-color1);
+}
+.help-bar-topic span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Steps with screenshots: zig-zag rows, phone and words centred on each other. */
+.help-stories {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 7vw, 88px);
+}
+.help-stories .chapter {
+  align-items: center;
+}
+
+/* Steps without screenshots (live, until they're added): a numbered list. */
+.help-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 680px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.help-step {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+}
+.help-step-number {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-color1);
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: #fff;
+}
+.help-step-title {
+  margin: 2px 0 0;
+  font-size: var(--text-info);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+.help-step-text {
+  margin: 4px 0 0;
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+
+@media (max-width: 800px) {
+  .help-index-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Phones: the navbar is 64px; the tab name sits above the topic. */
+  .help-bar {
+    top: 64px;
+    padding: 0 16px;
+  }
+  .help-bar-inner {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding: 8px 0;
+  }
+  .help-bar-separator {
+    display: none;
+  }
+  .help-bar-tab {
+    order: 0;
+  }
+  .help-bar-all {
+    order: 1;
+    margin-left: auto;
+  }
+  .help-bar-all span {
+    display: none;
+  }
+  .help-bar-topic {
+    order: 2;
+    flex-basis: 100%;
+  }
+  .help-topic-header {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .help-topic-heading {
+    flex-basis: 100%;
+    order: 1;
+  }
+  .help-topic-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .copy-link {
+    margin-left: auto;
+  }
+}
+
+/* ---------- Reveal on scroll (see useReveal.js) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Mobile: stack everything ---------- */
+@media (max-width: 800px) {
+  .hero-grid,
+  .chapter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero-copy {
+    text-align: center;
+  }
+  .hero-copy .appLinks-list {
+    justify-content: center;
+  }
+  .chapter--reverse .chapter-media {
+    order: 0;
+  }
+  .feature-grid .card {
+    padding: 20px;
+  }
+  .feature-grid--plain .card {
+    padding: 28px 24px;
+  }
+}

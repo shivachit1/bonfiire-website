@@ -1,8 +1,9 @@
+/* Same background and separator line as the navbar. */
 .footer-container {
   width: 100%;
-  background-color: #ffffff;
+  background: rgba(252, 248, 245, 0.85);
   padding: 40px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle separator */
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .footer-content {
@@ -16,14 +17,15 @@
 
 .footer-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
 }
 
 .footer-link {
   text-decoration: none;
-  color: #666;
-  font-weight: 500;
+  color: var(--secondary-color);
+  font-weight: 400;
   transition: color 0.2s ease;
 }
 
@@ -36,14 +38,9 @@
 }
 
 .footer-copyright {
-  color: #999;
+  color: var(--secondary-text-color);
   font-size: 0.85rem;
   margin: 0;
-}
-
-.footer-copyright strong {
-  color: var(--secondary-color, #1a1a1a);
-  font-weight: 700;
 }
 
 /* Mobile responsive */
@@ -53,7 +50,7 @@
   }
 
   .footer-links {
-    gap: 20px;
+    gap: 12px 20px;
   }
 
   .footer-link {
