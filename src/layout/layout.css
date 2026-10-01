@@ -9,12 +9,10 @@
    white), a tight shadow under it and a soft one further out. Deeper on hover. */
 :root {
   --card-shadow:
-    0 0 0 1px rgba(89, 65, 43, 0.07),
-    0 2px 4px rgba(89, 65, 43, 0.06),
+    0 0 0 1px rgba(89, 65, 43, 0.07), 0 2px 4px rgba(89, 65, 43, 0.06),
     0 12px 28px rgba(89, 65, 43, 0.1);
   --card-shadow-hover:
-    0 0 0 1px rgba(89, 65, 43, 0.09),
-    0 4px 8px rgba(89, 65, 43, 0.08),
+    0 0 0 1px rgba(89, 65, 43, 0.09), 0 4px 8px rgba(89, 65, 43, 0.08),
     0 20px 40px rgba(89, 65, 43, 0.14);
 }
 
@@ -82,13 +80,15 @@
   background: var(--page-light);
 }
 /* A warm band, when a section asks for it (e.g. the home page's closing band). */
-.sections--light-first > section.section.section--cream:nth-child(n of .section),
+.sections--light-first
+  > section.section.section--cream:nth-child(n of .section),
 .section--cream {
   background: var(--primary-color);
 }
 /* A featured map (home: the most popular Appro): a cream band with a centred
    heading on top and the map under it, as wide as the content column. */
-.sections--light-first > section.section.section--map-feature:nth-child(n of .section),
+.sections--light-first
+  > section.section.section--map-feature:nth-child(n of .section),
 .section--map-feature {
   background: var(--primary-color);
 }
@@ -220,7 +220,6 @@
   }
 }
 
-
 /* An event section on the home page (park crawl, bar crawl): the map sits close under
    its title and text, about a line's gap. */
 .section--event .route-map {
@@ -272,7 +271,6 @@
 .hero-title .accent {
   font-weight: 800;
 }
-
 
 .hero-copy .appLinks-list {
   justify-content: flex-start;
@@ -1218,7 +1216,8 @@
   flex: 1;
   flex-direction: column;
   gap: 12px;
-  padding: clamp(24px, 3.5vw, 36px) clamp(28px, 4vw, 40px) clamp(28px, 4vw, 40px);
+  padding: clamp(24px, 3.5vw, 36px) clamp(28px, 4vw, 40px)
+    clamp(28px, 4vw, 40px);
 }
 /* The multi-checkpoint map's dashed route flows gently along. */
 .way-route {
@@ -1267,7 +1266,8 @@
 
 /* ---------- ApproRail (Appro cards scrolled sideways) ---------- */
 /* A white band, when a section asks for it (home: the Appro cards). */
-.sections--light-first > section.section.section--white:nth-child(n of .section),
+.sections--light-first
+  > section.section.section--white:nth-child(n of .section),
 .section--white {
   background: #fff;
 }
@@ -1868,6 +1868,43 @@
     transform: translate(2px, 2px) rotate(18deg);
   }
 }
+/* Birthday: balloons bobbing gently on their strings. */
+.balloon-bob {
+  animation: balloon-bob 2.6s ease-in-out infinite alternate;
+}
+@keyframes balloon-bob {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(0.8px, -2px);
+  }
+}
+/* Birthday: glitter bursting from the banner, all at once, flying out fast and
+   slowing, spinning and fading, then a pause before the next burst. */
+.glitter-piece {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glitter-burst 5s cubic-bezier(0.1, 0.7, 0.3, 1) infinite;
+}
+@keyframes glitter-burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  2% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0.9;
+  }
+  48%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--spin));
+  }
+}
 /* Steam rising off the pot on the stove. */
 .stove-steam {
   opacity: 0;
@@ -1965,7 +2002,11 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .glitter {
+    display: none;
+  }
   .house-glow,
+  .balloon-bob,
   .shaker,
   .stove-steam,
   .tv-glow,

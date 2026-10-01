@@ -152,6 +152,12 @@ const planGathering = ({
       walker: shownDuring(plan.start, plan.join, plan.walked ? 0.5 : 0),
       settled: shownDuring(plan.join, END + FADE, FADE),
       qr: shownDuring(plan.arrive, plan.arrive + 1.6, 0.3),
+      // Closing up as they step in (for a spot with a narrow way in: `walkSpacing`).
+      closeUp: fixed(
+        [0, plan.leave, Math.min(plan.leave + 0.6, LOOP), LOOP].map(
+          (t) => t / LOOP,
+        ),
+      ),
       tick: shownDuring(plan.arrive + 1.7, plan.leave, 0.3),
     };
   });
@@ -274,8 +280,11 @@ const Tree = ({ x, y }) => (
 // other one sways along to the music). `spacing` sets how far apart they are, and
 // `facing` seats two on opposite sides of a table, each glass in front of its owner.
 // `seats` instead puts each on a chair of their own: [x, y, glass x, glass y].
-// Their drinks are beer, or a mix of beer, wine, martini and whiskey (`drinks: "mixed"`).
-const Settled = ({ spot, members, seed }) =>
+// Their drinks are beer, or a mix of beer, wine, martini and whiskey (`drinks: "mixed"`),
+// or each has a wrapped present instead (`drinks: "gift"`). With `hats` (a birthday)
+// everyone in wears a party hat.
+const HATS = ["#e56822", "#7fa7c9", "#b57ba6", "#8fbf6a", "#f2b25c"];
+const Settled = ({ spot, members, seed, hats }) =>
   members.map((m, i) => {
     const seat = spot.seats?.[i];
     const x = seat
@@ -293,9 +302,15 @@ const Settled = ({ spot, members, seed }) =>
             motion=""
             sway={(seed + i) % 2 ? ((seed + i) % 3) * 0.6 : undefined}
             hair={m % 2 ? "long" : "short"}
+            hat={hats ? HATS[m % HATS.length] : undefined}
           />
           <Drink
-            kind={spot.drinks === "mixed" ? DRINKS[m % DRINKS.length] : "beer"}
+            kind={
+              spot.drinks === "mixed"
+                ? DRINKS[m % DRINKS.length]
+                : spot.drinks || "beer"
+            }
+            variant={m}
             x={seat ? seat[2] : x + glassX}
             y={seat ? seat[3] : spot.glass}
           />
@@ -315,6 +330,7 @@ const Settled = ({ spot, members, seed }) =>
             : "person-bob"
         }
         hair={m % 2 ? "long" : "short"}
+        hat={hats ? HATS[m % HATS.length] : undefined}
       />
     );
   });
@@ -322,7 +338,7 @@ const Settled = ({ spot, members, seed }) =>
 const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
   const venue = gatheringVenues[id];
   const { plans, animations, early, counts, loop } = PLANNED[id];
-  const { gate, Ground, Front } = venue;
+  const { gate, Ground, Front, hats } = venue;
 
   // On phones the map scrolls sideways; start with the venue in view (it's in the
   // middle of the city, not at the left edge).
@@ -347,7 +363,13 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
 
           {/* Guests already there */}
           {early.map(({ spot, members }, e) => (
-            <Settled key={`early${e}`} spot={spot} members={members} seed={e} />
+            <Settled
+              key={`early${e}`}
+              spot={spot}
+              members={members}
+              seed={e}
+              hats={hats}
+            />
           ))}
 
           {/* Each arriving group at its spot once it's in */}
@@ -357,6 +379,7 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
                 spot={plans[g].spot}
                 members={plans[g].members}
                 seed={g}
+                hats={hats}
               />
               <animate
                 attributeName="opacity"
@@ -410,18 +433,36 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
           {animations.map((animation, g) => (
             <g key={`walker${g}`} className="route-walker">
               <g opacity="0">
-                {plans[g].members.map((m, i, all) => (
-                  <Person
-                    key={m}
-                    index={m}
-                    x={offset(i, all.length)}
-                    y={-20}
-                    motion=""
-                    legs="walk"
-                    hair={m % 2 ? "long" : "short"}
-                    moving={{ ...animation.moving, loop }}
-                  />
-                ))}
+                {plans[g].members.map((m, i, all) => {
+                  // Side by side; a group headed for a spot with a narrow way in
+                  // walks closer together once they're through the door.
+                  const wide = offset(i, all.length);
+                  const close = plans[g].spot.walkSpacing;
+                  return (
+                    <g key={m} transform={`translate(${wide} 0)`}>
+                      <Person
+                        index={m}
+                        y={-20}
+                        motion=""
+                        legs="walk"
+                        hair={m % 2 ? "long" : "short"}
+                        moving={{ ...animation.moving, loop }}
+                      />
+                      {close !== undefined && (
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values={[wide, wide, offset(i, all.length, close)]
+                            .concat(offset(i, all.length, close))
+                            .map((x) => `${x} 0`)
+                            .join(";")}
+                          keyTimes={animation.closeUp}
+                          {...loop}
+                        />
+                      )}
+                    </g>
+                  );
+                })}
                 <animate
                   attributeName="opacity"
                   values={animation.walker.values}

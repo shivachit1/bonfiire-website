@@ -89,15 +89,14 @@
       {
         "id": "houseParty",
         "label": "House party",
-        "imageAlt": "Illustration of a city with a house in the middle: a living room with a sofa, a rug and party lights where guests dance, an L-shaped kitchen by the front door with a pot cooking on the stove, a bedroom with a double bed, bedside lamps, a mirror and a wardrobe, a WC & bath with a bathtub, a toilet, a sink and a shower, and a small balcony with a round table, plants and fairy lights. A few guests are already there; more small groups arrive along the streets from every side; at the front door each group shows a QR code on a phone, the host just inside ticks them in, and each group heads to the living room, the kitchen or the balcony while a counter by the door goes up.",
+        "imageAlt": "Illustration of a city with a house in the middle: a living room with a sofa, a rug and party lights where guests dance, an L-shaped kitchen by the front door with a pot cooking on the stove, a bedroom with a double bed, bedside lamps, a mirror and a wardrobe, a grey-tiled WC with a small wooden sauna (benches and a stove with steam rising), a shower, a sink and a toilet, and a small balcony with a round table, plants and fairy lights. A few guests are already there; more small groups arrive along the streets from every side; at the front door each group shows a QR code on a phone, the host just inside ticks them in, and each group heads to the living room, the kitchen or the balcony while a counter by the door goes up.",
         "labels": {
           "entrance": "House party",
           "welcome": "Welcome",
           "living": "Living room",
           "kitchen": "Kitchen",
           "balcony": "Balcony",
-          "bedroom": "Bedroom",
-          "wcBath": "WC & Bath"
+          "bedroom": "Bedroom"
         }
       },
       {
@@ -109,6 +108,19 @@
           "welcome": "Welcome",
           "band": "Live band",
           "bar": "Bar"
+        }
+      },
+      {
+        "id": "birthday",
+        "label": "Birthday",
+        "imageAlt": "Illustration of a city with a house in the middle, decorated for a birthday: colourful bunting and a \"Happy birthday!\" banner along the living room wall, a birthday cake with lit candles on a small table under the banner, party hats on the tables, a pile of wrapped presents by the front door with balloons tied to it, more balloons by the walls and on the balcony, confetti over the dance floor, and bursts of confetti and gold glitter from the banner over the guests. A few guests are already there; more small groups arrive along the streets from every side; at the front door each group shows a QR code on a phone, the host just inside ticks them in, and each group heads to the living room, the kitchen or the balcony, everyone in a party hat, those who sit down putting their presents on the table, while a counter by the door goes up.",
+        "labels": {
+          "entrance": "Birthday",
+          "welcome": "Welcome",
+          "banner": "Happy birthday!",
+          "kitchen": "Kitchen",
+          "balcony": "Balcony",
+          "bedroom": "Bedroom"
         }
       }
     ],

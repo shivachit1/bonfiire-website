@@ -78,6 +78,7 @@ export const Person = ({
   moving,
   hair = "short",
   sway,
+  hat,
 }) => {
   // Swaying the head side to side at the neck (the hero illustration's music): `sway`
   // is where in the sway it starts, in seconds. Left out, the head stays still.
@@ -149,6 +150,18 @@ export const Person = ({
             d="M -6 -8 A 6 6 0 0 1 6 -8 Q 0 -11 -6 -8 Z"
             fill={HAIR[(index * 5) % HAIR.length]}
           />
+          {/* A party hat (`hat`: its colour), tilted a little, with a pompom */}
+          {hat && (
+            <g>
+              <path d="M -4.5 -11 L 4 -11.5 L 1.5 -21 Z" fill={hat} />
+              <path
+                d="M -3.2 -14 L 3.3 -14.3 M -1.8 -17.2 L 2.4 -17.4"
+                stroke="#fff"
+                strokeWidth="1"
+              />
+              <circle cx="1.5" cy="-21.3" r="1.6" fill="#ffd166" />
+            </g>
+          )}
           {headSway}
         </g>
       </g>

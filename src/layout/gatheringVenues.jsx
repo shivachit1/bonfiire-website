@@ -2,9 +2,37 @@ import { GameName, Person } from "./eventMap";
 import { Bar as BarBuilding, BarSign, COLORS, HeldPint } from "./BarCrawlMap";
 
 // Drinks, standing with their base at (x, y): a beer, a glass of red wine, a martini
-// with its olive, a whiskey on the rocks.
+// with its olive, a whiskey on the rocks. Or, at a birthday, a wrapped present
+// (`gift`; `variant` picks its shape and colours).
 export const DRINKS = ["beer", "wine", "martini", "whiskey"];
-export const Drink = ({ kind = "beer", x, y }) => {
+const GIFTS = [
+  { w: 7, h: 7, color: "#e56822", ribbon: "#ffd166" },
+  { w: 9, h: 6, color: "#7fa7c9", ribbon: "#fff" },
+  { w: 6, h: 6, color: "#b57ba6", ribbon: "#f7f1ea" },
+  { w: 9, h: 5.5, color: "#8fbf6a", ribbon: "#e56822" },
+  { w: 7, h: 7, color: "#f2b25c", ribbon: "#b57ba6" },
+];
+export const Drink = ({ kind = "beer", x, y, variant = 0 }) => {
+  if (kind === "gift") {
+    const { w, h, color, ribbon } = GIFTS[variant % GIFTS.length];
+    const left = x - w / 2;
+    const top = y - h;
+    return (
+      <g>
+        <rect x={left} y={top} width={w} height={h} rx="1" fill={color} />
+        <rect x={x - 0.7} y={top} width="1.4" height={h} fill={ribbon} />
+        <rect
+          x={left}
+          y={top + h / 2 - 0.7}
+          width={w}
+          height="1.4"
+          fill={ribbon}
+        />
+        <circle cx={x - 1.3} cy={top - 0.4} r="1.2" fill={ribbon} />
+        <circle cx={x + 1.3} cy={top - 0.4} r="1.2" fill={ribbon} />
+      </g>
+    );
+  }
   if (kind === "wine") {
     return (
       <g>
@@ -129,11 +157,15 @@ const Fries = ({ x, y }) => (
 //               in (inside), where the host stands and where the entrance sign goes
 //   spots       where the groups end up, the early guests' first: { at, via, mood }
 //               via    points to walk through on the way (e.g. a doorway)
+//               walkSpacing  how close together the group walks once inside
+//                      (for a narrow way in)
 //               mood   "dance", "chat" or "sit" (at a table: `glass` is where
-//                      their glasses stand, `glassX` how far beside each person)
+//                      their glasses stand, `glassX` how far beside each person;
+//                      `drinks`: "mixed" drinks, or "gift" for a present each)
 //   earlySizes  people in each group already there when it starts
 //   alreadyIn   people drawn into the venue itself (counted as in from the start)
 //   groupSizes  people in each arriving group, in order
+//   hats        everyone in wears a party hat (a birthday)
 //   Ground      drawn under the people; Front, over them
 // Labels come from the content file (each venue's `labels`).
 
@@ -349,12 +381,12 @@ const concert = {
   ),
 };
 
-// ---------- House party: a house with a living room and kitchen, bedroom, WC & bath, balcony ----------
+// ---------- House party: a house with a living room and kitchen, bedroom, WC & sauna, balcony ----------
 
 // The house fills the middle blocks; its front door is in the bottom wall (the gap
 // between x 638 and 682). Inside: the living room on the left, with the lounge, the
 // dance floor and an L-shaped kitchen in the corner right of the front door; on the
-// right the bedroom and the WC & bath (seen inside, furnished), and a small balcony
+// right the bedroom and the WC & sauna (seen inside, furnished), and a small balcony
 // along the front, through a gap from the living room.
 const HOUSE = { x: 548, y: 196, w: 466, h: 210 };
 // Guests wait just outside the front door to check in with the host inside, and
@@ -368,17 +400,26 @@ const HOUSE_GATE = {
   sign: [590, 402],
 };
 const WALL = "#6b5543";
-// The living room reaches x 830; right of it the bedroom and the WC & bath, the
+// The living room reaches x 830; right of it the bedroom and the WC & sauna, the
 // balcony below them [x, y, width, height].
 const LIVING_RIGHT = 830;
 const BEDROOM = [830, 196, 120, 140];
 const BATH = [950, 196, 64, 140];
 const BALCONY = [830, 336, 184, 70];
-// Onto the balcony: across the living room, through the gap in its wall.
+// Behind the kitchen table: guests heading there or to the balcony go up the room
+// from the door first and along this line, just behind the chairs on the table's
+// back side (in front of the dancers), never across the table or the people at it.
+const BEHIND_KITCHEN_TABLE = 318;
+// Onto the balcony: up the room, behind the kitchen table, straight down between
+// its right end and the wall, then through the gap in the living room's wall.
+// (That way in is narrow: groups going out there walk close together.)
 const TO_BALCONY = [
-  [790, 352],
+  [676, BEHIND_KITCHEN_TABLE],
+  [816, BEHIND_KITCHEN_TABLE],
+  [816, 352],
   [846, 352],
 ];
+const TO_BALCONY_SPACING = 6;
 // The table by the kitchen (a little way from the counter): a chair at each end, how
 // far they are from its middle, and two more along its back side.
 const KITCHEN_TABLE = { x: 764, y: 352, w: 50, h: 24, seat: 31, back: 8 };
@@ -439,6 +480,7 @@ const houseSpots = [
   {
     at: [BALCONY_TABLE.x - 10, BALCONY_TABLE.y + 4],
     via: TO_BALCONY,
+    walkSpacing: TO_BALCONY_SPACING,
     mood: "sit",
     seats: [
       [
@@ -463,11 +505,18 @@ const houseSpots = [
   },
   { at: [745, 256], mood: "dance" },
   {
-    at: [KITCHEN_TABLE.x, KITCHEN_TABLE.y + 2],
+    // Up the room, along behind the table, then into the chairs from behind,
+    // stopping on them (not at the table) and sitting straight down.
+    at: [KITCHEN_TABLE.x, KITCHEN_TABLE.y - 6],
+    via: [
+      [676, BEHIND_KITCHEN_TABLE],
+      [KITCHEN_TABLE.x, BEHIND_KITCHEN_TABLE],
+    ],
     mood: "sit",
-    spacing: 2 * KITCHEN_TABLE.back,
-    glass: KITCHEN_TABLE.y + 1,
-    glassX: 0,
+    seats: [-1, 1].map((side) => {
+      const x = KITCHEN_TABLE.x + side * KITCHEN_TABLE.back;
+      return [x, KITCHEN_TABLE.y - 26, x, KITCHEN_TABLE.y + 1];
+    }),
   },
   sofaSeat("bottom"),
   { at: [690, 256], mood: "dance" },
@@ -564,13 +613,13 @@ const WINDOWS = {
   left: [[342, 374]],
   right: [[206, 232]],
 };
-const Windows = () => (
+const Windows = ({ windows = WINDOWS }) => (
   <g>
     {[
-      ...WINDOWS.top.map(([a, b]) => [a, HOUSE.y - 3, b - a, 6]),
-      ...WINDOWS.bottom.map(([a, b]) => [a, HOUSE.y + HOUSE.h - 3, b - a, 6]),
-      ...WINDOWS.left.map(([a, b]) => [HOUSE.x - 3, a, 6, b - a]),
-      ...WINDOWS.right.map(([a, b]) => [HOUSE.x + HOUSE.w - 3, a, 6, b - a]),
+      ...windows.top.map(([a, b]) => [a, HOUSE.y - 3, b - a, 6]),
+      ...windows.bottom.map(([a, b]) => [a, HOUSE.y + HOUSE.h - 3, b - a, 6]),
+      ...windows.left.map(([a, b]) => [HOUSE.x - 3, a, 6, b - a]),
+      ...windows.right.map(([a, b]) => [HOUSE.x + HOUSE.w - 3, a, 6, b - a]),
     ].map(([x, y, w, h]) => (
       <g key={`${x}-${y}`}>
         <rect
@@ -708,41 +757,112 @@ const Bedroom = ({ label }) => (
   </g>
 );
 
-// The WC & bath: a bathtub along the back wall, the toilet, a sink with a mirror
-// above it, and a shower corner behind a glass screen.
-const Bath = ({ label }) => (
+// The sauna in the back of the WC: a wooden floor, two tiers of benches along the
+// back wall, the stove (kiuas) in the corner with hot stones and steam rising off
+// them, a wooden bucket and ladle, and a wooden wall in front with a glass door.
+const Sauna = () => (
   <g>
+    <rect x="951" y="199" width="60" height="41" fill="#e9c99b" />
+    <g stroke="#dcb886" strokeWidth="1">
+      {[961, 971, 981, 991, 1001].map((x) => (
+        <line key={x} x1={x} y1="199" x2={x} y2="240" />
+      ))}
+    </g>
+    <rect x="972" y="199" width="39" height="13" fill="#c98b4f" />
+    <rect x="972" y="211" width="39" height="9" fill="#d9a86c" />
+    <g stroke="#a9714b" strokeWidth="0.8">
+      {[203, 207, 215].map((y) => (
+        <line key={y} x1="972" y1={y} x2="1011" y2={y} />
+      ))}
+    </g>
+    <line
+      x1="972"
+      y1="220"
+      x2="1011"
+      y2="220"
+      stroke="#8a5a3a"
+      strokeWidth="1"
+    />
+    <rect x="953" y="201" width="15" height="17" rx="2" fill="#4a4a4a" />
+    {[
+      [957, 206],
+      [962, 205],
+      [965, 210],
+      [958, 211],
+      [962, 214],
+    ].map(([x, y]) => (
+      <circle key={x + y} cx={x} cy={y} r="2.2" fill="#9aa7ae" />
+    ))}
     <rect
+      className="fairy-light"
       x="956"
-      y="201"
-      width="52"
-      height="30"
-      rx="8"
-      fill="#fff"
-      stroke="#dfe6ea"
-      strokeWidth="1.5"
+      y="216.5"
+      width="9"
+      height="1.5"
+      rx="0.7"
+      fill="#e56822"
     />
-    <rect x="960" y="206" width="44" height="20" rx="6" fill="#bfe0f0" />
-    <circle cx="999" cy="216" r="1.8" fill="#9aa7ae" />
-    <rect
-      x="954"
-      y="250"
-      width="8"
-      height="18"
-      rx="2"
-      fill="#fff"
-      stroke="#dfe6ea"
+    {[0, 1].map((i) => (
+      <path
+        key={i}
+        className="stove-steam"
+        style={{ animationDelay: `${i * 0.9}s` }}
+        d={`M ${957 + i * 6} 213 q -2.5 -3 0 -6 q 2.5 -3 0 -6`}
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+    ))}
+    <circle cx="961" cy="230" r="4" fill="#b0714a" />
+    <circle cx="961" cy="230" r="2.6" fill="#9fc9df" />
+    <line
+      x1="963"
+      y1="229"
+      x2="970"
+      y2="225"
+      stroke="#8a5a3a"
+      strokeWidth="1.2"
+      strokeLinecap="round"
     />
-    <ellipse
-      cx="969"
-      cy="259"
-      rx="8"
-      ry="6.5"
-      fill="#fff"
-      stroke="#dfe6ea"
-      strokeWidth="1.5"
+    <path
+      d="M 951 240 H 980 M 996 240 H 1011"
+      stroke="#8a5a3a"
+      strokeWidth="3"
     />
-    <ellipse cx="970" cy="259" rx="4.5" ry="3.5" fill="#e6eef2" />
+    <line
+      x1="980"
+      y1="240"
+      x2="996"
+      y2="240"
+      stroke="#9fc9df"
+      strokeWidth="2"
+    />
+    <circle cx="993" cy="242.5" r="0.9" fill="#6b5543" />
+  </g>
+);
+
+// The WC & sauna, grey tiled: a small wooden sauna along the back wall (behind a
+// wooden wall with a glass door), a shower corner with a glass screen just in
+// front of it, a sink with a mirror above it, and the toilet in the far corner (no
+// label: it reads without one).
+const Bath = () => (
+  <g>
+    <Sauna />
+    {/* The shower corner by the sauna, a glass screen along its front (the way out
+        of the sauna door stays clear) */}
+    <rect x="953" y="244" width="27" height="33" rx="2" fill="#d9dde0" />
+    <circle cx="966.5" cy="260.5" r="2" fill="#9aa7ae" />
+    <line
+      x1="952"
+      y1="279"
+      x2="974"
+      y2="279"
+      stroke="#9fc9df"
+      strokeWidth="2"
+    />
+    {/* The sink, with the mirror above it */}
     <rect x="1008" y="244" width="3" height="20" rx="1" fill="#bfe0f0" />
     <rect
       x="994"
@@ -755,17 +875,26 @@ const Bath = ({ label }) => (
       strokeWidth="1.5"
     />
     <circle cx="1001" cy="254" r="3.5" fill="#e6eef2" />
-    <rect x="982" y="298" width="28" height="34" rx="2" fill="#e6eef2" />
-    <circle cx="996" cy="315" r="2" fill="#9aa7ae" />
-    <line
-      x1="980"
-      y1="298"
-      x2="980"
-      y2="334"
-      stroke="#9fc9df"
-      strokeWidth="2"
+    {/* The toilet against the side wall, in the far corner */}
+    <rect
+      x="1002"
+      y="306"
+      width="8"
+      height="18"
+      rx="2"
+      fill="#fff"
+      stroke="#dfe6ea"
     />
-    <GameName x={982} y={288} text={label} />
+    <ellipse
+      cx="995"
+      cy="315"
+      rx="8"
+      ry="6.5"
+      fill="#fff"
+      stroke="#dfe6ea"
+      strokeWidth="1.5"
+    />
+    <ellipse cx="994" cy="315" rx="4.5" ry="3.5" fill="#e6eef2" />
   </g>
 );
 
@@ -959,9 +1088,9 @@ const houseParty = {
         y={BATH[1]}
         width={BATH[2]}
         height={BATH[3]}
-        fill="#eef3f5"
+        fill="#e6e8ea"
       />
-      <g stroke="#dde6ea" strokeWidth="1">
+      <g stroke="#d5d9dc" strokeWidth="1">
         {Array.from({ length: 4 }, (_, i) => (
           <line
             key={`v${i}`}
@@ -1075,9 +1204,9 @@ const houseParty = {
       <LaptopDesk />
       <Kitchen label={labels.kitchen} />
 
-      {/* The bedroom and the WC & bath, furnished */}
+      {/* The bedroom and the WC & sauna, furnished */}
       <Bedroom label={labels.bedroom} />
-      <Bath label={labels.wcBath} />
+      <Bath />
 
       {/* Balcony: a round table with chairs round it */}
       {BALCONY_CHAIRS.map(([dx, dy]) => (
@@ -1225,23 +1354,42 @@ const houseParty = {
 // band plays on a small stage along the right wall; down the left wall a bar faces
 // the room (two bartenders, one shaking a cocktail), guests standing at it.
 const HALL = { x: 548, y: 196, w: 466, h: 210 };
-const HALL_TABLE_X = [690, 950];
+const HALL_TABLE_X = [688, 930];
 const HALL_TABLES = [
-  { top: 243, h: 22 },
-  { top: 333, h: 22 },
+  { top: 243, h: 30 },
+  { top: 333, h: 30 },
 ];
 // Where each group's places are along the tables (group centres).
-const HALL_SEAT_XS = [722, 786, 850, 914];
+const HALL_SEAT_XS = [718, 778, 838, 898];
+// The space between the chairs of a group.
+const HALL_CHAIR_GAP = 15;
 // The aisle up the left, just inside the door, and the lanes behind each row of
 // chairs (the y of guests' feet): behind the far table's back row, between the two
 // tables (behind the rows facing each other there), and behind the front row.
-const HALL_AISLE = 672;
-const HALL_LANES = { back: 233, middle: 314, front: 401 };
+const HALL_AISLE = 664;
+const HALL_LANES = { back: 233, middle: 314, front: 396 };
+// The hall's windows, evenly spaced: four along the back, three along the front
+// right of the door, and one in the middle of each side wall.
+const HALL_WINDOWS = {
+  top: [
+    [588, 624],
+    [705, 741],
+    [821, 857],
+    [938, 974],
+  ],
+  bottom: [
+    [719, 755],
+    [830, 866],
+    [941, 977],
+  ],
+  left: [[283, 319]],
+  right: [[283, 319]],
+};
 // Where people sit (their y): on the far side of a table a little way back from it,
-// on the near side close up to it, each on a chair.
+// on the near side the same small gap from it, each on a chair.
 const hallRowY = (table, side) => {
   const { top, h } = HALL_TABLES[table];
-  return side === "above" ? top - 21 : top + h + 11;
+  return side === "above" ? top - 21 : top + h + 3;
 };
 // One group's places along a table, above or below it. They come in, go up the
 // aisle, walk along the lane behind their row of chairs and only then step in to
@@ -1264,7 +1412,12 @@ const hallSeat = (table, side, x) => {
     mood: "sit",
     // Each on one of the group's three chairs, the right-hand ones first (a pair
     // leaves the left chair free).
-    seats: [x + 16, x, x - 16].map((sx) => [sx, y, sx + glassX, glassY]),
+    seats: [x + HALL_CHAIR_GAP, x, x - HALL_CHAIR_GAP].map((sx) => [
+      sx,
+      y,
+      sx + glassX,
+      glassY,
+    ]),
     drinks: "mixed",
   };
 };
@@ -1343,6 +1496,8 @@ const sitsit = {
           <feGaussianBlur stdDeviation="12" />
         </filter>
       </defs>
+      {/* The ground round the hall, so no street shows through beside it */}
+      <rect x="540" y="188" width="482" height="226" fill="#efe6dd" />
       {/* Parquet floor */}
       <rect
         x={HALL.x}
@@ -1364,10 +1519,14 @@ const sitsit = {
       </g>
 
       {/* A chair at every place along both sides of both tables, a little way back
-          from the table, its back on the far side */}
+          from the table */}
       {HALL_TABLES.flatMap((_, table) =>
         ["above", "below"].flatMap((side) =>
-          HALL_SEAT_XS.flatMap((x) => [x - 16, x, x + 16]).map((x) => {
+          HALL_SEAT_XS.flatMap((x) => [
+            x - HALL_CHAIR_GAP,
+            x,
+            x + HALL_CHAIR_GAP,
+          ]).map((x) => {
             const y = hallRowY(table, side);
             return (
               <g key={`${table}${side}${x}`}>
@@ -1386,14 +1545,6 @@ const sitsit = {
                   height="13"
                   rx="3"
                   fill="#c98b4f"
-                />
-                <rect
-                  x={x - 7}
-                  y={side === "above" ? y - 7 : y + 15}
-                  width="14"
-                  height="3"
-                  rx="1.5"
-                  fill="#8a5a3a"
                 />
               </g>
             );
@@ -1420,7 +1571,11 @@ const sitsit = {
             rx="4"
             fill="#fffdf9"
           />
-          {HALL_SEAT_XS.flatMap((x) => [x - 16, x, x + 16]).map((x) => (
+          {HALL_SEAT_XS.flatMap((x) => [
+            x - HALL_CHAIR_GAP,
+            x,
+            x + HALL_CHAIR_GAP,
+          ]).map((x) => (
             <g key={x}>
               <circle
                 cx={x}
@@ -1440,7 +1595,7 @@ const sitsit = {
               />
             </g>
           ))}
-          {[754, 882].map((x) => (
+          {[748, 868].map((x) => (
             <g key={x}>
               <rect
                 x={x - 1.5}
@@ -1461,63 +1616,67 @@ const sitsit = {
         </g>
       ))}
 
-      {/* A live band on a small stage along the right wall: an acoustic guitarist
-          on a stool, a singer at the mic, a drummer behind a small kit */}
-      <rect x="958" y="230" width="50" height="98" rx="6" fill="#8a5a3a" />
-      <rect x="958" y="226" width="50" height="98" rx="6" fill="#a9714b" />
-      <circle cx="986" cy="252" r="5" fill="#6b5543" />
-      <Person index={32} x={986} y={244} legs="none" motion="" sway={0.2} />
-      <g transform="rotate(-28 984 256)">
+      {/* A live band on a small stage in the middle of the right wall, facing the
+          tables: a step down to the room on its left, the singer at the front at a
+          mic stand, an acoustic guitarist on a stool and the drummer at the back,
+          the kit on the room side */}
+      <rect x="958" y="256" width="50" height="98" rx="6" fill="#8a5a3a" />
+      <rect x="958" y="252" width="50" height="98" rx="6" fill="#a9714b" />
+      <rect x="953" y="268" width="8" height="70" rx="2" fill="#8a5a3a" />
+      <rect x="953" y="266" width="8" height="70" rx="2" fill="#9a6642" />
+      <circle cx="994" cy="280" r="5" fill="#6b5543" />
+      <Person index={32} x={994} y={272} legs="none" motion="" sway={0.2} />
+      <g transform="rotate(-28 992 284)">
         <line
-          x1="984"
-          y1="256"
-          x2="1000"
-          y2="256"
+          x1="992"
+          y1="284"
+          x2="1008"
+          y2="284"
           stroke="#6b3e22"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <ellipse
-          cx="982"
-          cy="256"
+          cx="990"
+          cy="284"
           rx="6"
           ry="4.6"
           fill="#d89a5b"
           stroke="#a9714b"
           strokeWidth="0.8"
         />
-        <circle cx="983" cy="256" r="1.6" fill="#3b2a1d" />
+        <circle cx="991" cy="284" r="1.6" fill="#3b2a1d" />
       </g>
       <line
-        x1="968"
-        y1="270"
-        x2="968"
-        y2="294"
+        x1="966"
+        y1="296"
+        x2="966"
+        y2="320"
         stroke="#3b2a1d"
         strokeWidth="1.5"
       />
       <line
-        x1="963"
-        y1="294"
-        x2="973"
-        y2="294"
+        x1="961"
+        y1="320"
+        x2="971"
+        y2="320"
         stroke="#3b2a1d"
         strokeWidth="1.5"
       />
-      <circle cx="968" cy="269" r="2.4" fill="#2b2b2b" />
-      <Person index={26} x={980} y={280} sway={0.9} hair="long" />
-      <Person index={27} x={996} y={298} motion="person-bob" />
+      <circle cx="966" cy="295" r="2.4" fill="#2b2b2b" />
+      <Person index={26} x={978} y={300} sway={0.9} hair="long" />
+      <Person index={27} x={998} y={320} motion="person-bob" />
       <circle
         cx="984"
-        cy="314"
+        cy="340"
         r="7"
         fill="#f7f1ea"
         stroke="#8a5a3a"
         strokeWidth="1.5"
       />
       <circle
-        cx="972"
-        cy="306"
+        cx="974"
+        cy="332"
         r="4"
         fill="#e3e8ec"
         stroke="#8a969d"
@@ -1525,36 +1684,72 @@ const sitsit = {
       />
       <circle
         cx="1000"
-        cy="312"
+        cy="340"
         r="4.2"
         fill="#f2c14e"
         stroke="#c99a2e"
         strokeWidth="0.8"
       />
-      <Note x={950} y={250} />
-      <Note x={948} y={300} delay={1.1} mark="♫" />
-      <GameName x={983} y={344} text={labels.band} />
+      <Note x={946} y={288} />
+      <Note x={944} y={326} delay={1.1} mark="♫" />
+      <GameName x={983} y={370} text={labels.band} />
 
       {/* The bar down the left wall, facing the room: bottles on the wall shelf,
           two bartenders (one shaking a cocktail), the counter with beer taps,
-          glasses, a bowl of lemons and limes and the till, lamps hanging over it,
-          and guests standing at it facing the bar, drinks in front of them */}
+          glasses, a bowl of lemons and limes, a cash register and a card machine,
+          small lamps hanging over it, and guests standing at it facing the bar,
+          drinks in front of them */}
       <rect x="552" y="206" width="10" height="138" rx="2" fill="#59412b" />
-      {Array.from({ length: 12 }, (_, i) => (
-        <rect
-          key={i}
-          x="554"
-          y={211 + i * 11}
-          width="6"
-          height="5"
-          rx="1"
-          fill={
-            ["#8fbf6a", "#e56822", "#7fa7c9", "#f2b25c", "#b57ba6", "#c7771f"][
-              i % 6
-            ]
-          }
-        />
-      ))}
+      {/* Bottles standing along the shelf: cap, neck, glass body, label */}
+      {Array.from({ length: 12 }, (_, i) => {
+        const y = 211 + i * 11;
+        const glass = [
+          "#5f8f4a",
+          "#c7771f",
+          "#a9c7d8",
+          "#7a2e3b",
+          "#e0a63a",
+          "#4f6f8f",
+        ][i % 6];
+        return (
+          <g key={i}>
+            <rect
+              x="555.8"
+              y={y - 2}
+              width="2.4"
+              height="1.6"
+              rx="0.5"
+              fill="#3b2a1d"
+            />
+            <rect x="556" y={y - 0.6} width="2" height="3" fill={glass} />
+            <rect
+              x="554.5"
+              y={y + 1.8}
+              width="5"
+              height="7"
+              rx="1.4"
+              fill={glass}
+            />
+            <rect
+              x="554.5"
+              y={y + 4.3}
+              width="5"
+              height="2.2"
+              fill="#f7f1ea"
+              opacity="0.85"
+            />
+            <rect
+              x="555.2"
+              y={y + 2.4}
+              width="0.8"
+              height="5.6"
+              rx="0.4"
+              fill="#fff"
+              opacity="0.35"
+            />
+          </g>
+        );
+      })}
       <Person index={21} x={574} y={238} motion="" />
       <g className="shaker">
         <rect x="582" y="224" width="5" height="10" rx="1.5" fill="#c9d1d6" />
@@ -1599,18 +1794,43 @@ const sitsit = {
       />
       <circle cx="595" cy="335" r="1.5" fill="#f2c14e" />
       <circle cx="597.5" cy="337" r="1.5" fill="#8fbf6a" />
-      <rect x="590" y="318" width="10" height="8" rx="1.5" fill="#3b2a1d" />
-      <rect x="591.5" y="319.5" width="7" height="3" rx="0.8" fill="#9be38f" />
-      {[236, 290].map((y) => (
+      {/* The cash register (display, keypad and cash drawer) and a card machine */}
+      <rect x="589.5" y="317" width="9" height="4" rx="1" fill="#3b2a1d" />
+      <rect x="590.5" y="318" width="7" height="2" rx="0.5" fill="#9be38f" />
+      <rect x="589" y="321" width="10" height="8" rx="1.5" fill="#5b6770" />
+      {[0, 1, 2].flatMap((c) =>
+        [0, 1].map((r) => (
+          <rect
+            key={`${c}${r}`}
+            x={590.3 + c * 2.6}
+            y={322.5 + r * 2.4}
+            width="1.8"
+            height="1.6"
+            rx="0.4"
+            fill="#e3e8ec"
+          />
+        )),
+      )}
+      <rect x="590" y="327.6" width="8" height="1" rx="0.5" fill="#3b4349" />
+      <rect x="591" y="303" width="5" height="8" rx="1.2" fill="#3b2a1d" />
+      <rect
+        x="591.8"
+        y="304"
+        width="3.4"
+        height="2.4"
+        rx="0.4"
+        fill="#7fa7c9"
+      />
+      {[268, 296].map((y) => (
         <g key={y}>
-          <circle className="lamp-glow" cx="597" cy={y} r="11" fill="#ffe7a8" />
+          <circle className="lamp-glow" cx="597" cy={y} r="5" fill="#ffe7a8" />
           <circle
             cx="597"
             cy={y}
-            r="3.5"
+            r="2"
             fill="#ffd166"
             stroke="#c99a2e"
-            strokeWidth="0.8"
+            strokeWidth="0.6"
           />
         </g>
       ))}
@@ -1632,21 +1852,17 @@ const sitsit = {
       {/* A plant in the corner */}
       <Plant x={998} y={392} />
 
-      {/* Waiters carrying trays along the lanes behind the chairs */}
-      <Waiter index={1} path="M 700 318 H 944 H 700" dur={16} tray="drinks" />
+      {/* Waiters carrying trays: the front one along the lane behind the front row,
+          the middle one along the line of chair backs between the tables (the back
+          one walks the line of chair backs along the back wall, drawn after the walls
+          below so the wall doesn't cut across them) */}
+      <Waiter index={1} path="M 696 307 H 924 H 696" dur={16} tray="drinks" />
       <Waiter
         index={7}
-        path="M 944 405 H 700 H 944"
+        path="M 924 400 H 696 H 924"
         dur={15}
         begin={-5}
         tray="food"
-      />
-      <Waiter
-        index={13}
-        path="M 700 237 H 944 H 700"
-        dur={17}
-        begin={-9}
-        tray="drinks"
       />
 
       {/* Walls, with the door gap, and windows */}
@@ -1658,13 +1874,428 @@ const sitsit = {
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      <Windows />
+      <Windows windows={HALL_WINDOWS} />
+      <Waiter
+        index={13}
+        path="M 696 217 H 924 H 696"
+        dur={17}
+        begin={-9}
+        tray="drinks"
+      />
     </g>
   ),
   // The same open door and doormat as the house.
   Front: (props) => houseParty.Front(props),
 };
 
-const gatheringVenues = { concert, houseParty, sitsit };
+// ---------- Birthday: the house, decorated for a birthday party ----------
+
+// The same house, rooms, guests and check-in as the house party, with a birthday on:
+// bunting and a "Happy birthday" banner along the living room's back wall, a pile of
+// presents in the corner by the front door with balloons tied to it, more balloons
+// by the walls and on the balcony, a birthday cake with candles on a small table under
+// the banner, party hats on the tables, and confetti over the dance floor.
+const BIRTHDAY_COLORS = ["#e56822", "#f2b25c", "#7fa7c9", "#b57ba6", "#8fbf6a"];
+
+// Bunting: swags of little flags hanging from the back wall either side of the
+// banner, ending before the desk [from x, to x].
+const BUNTING = [
+  [560, 635],
+  [729, 804],
+];
+// The "Happy birthday" banner hanging from the back wall between them, in the middle.
+const BANNER = { x: 635, y: 205, w: 94, h: 12 };
+const BirthdayBanner = ({ text }) => {
+  const { x, y, w, h } = BANNER;
+  const r = x + w;
+  return (
+    <g>
+      <line
+        x1={x + 4}
+        y1="201"
+        x2={x + 8}
+        y2={y}
+        stroke="#6b5543"
+        strokeWidth="0.8"
+      />
+      <line
+        x1={r - 4}
+        y1="201"
+        x2={r - 8}
+        y2={y}
+        stroke="#6b5543"
+        strokeWidth="0.8"
+      />
+      <path
+        d={`M ${x} ${y} H ${r} L ${r - 4} ${y + h / 2} L ${r} ${y + h} H ${x} L ${x + 4} ${y + h / 2} Z`}
+        fill="#fffdf9"
+        stroke="#e56822"
+        strokeWidth="1"
+      />
+      <text
+        x={x + w / 2}
+        y={y + h / 2 + 3}
+        textAnchor="middle"
+        fontSize="8"
+        fontWeight="700"
+        fill="#e56822"
+      >
+        {text}
+      </text>
+    </g>
+  );
+};
+const Bunting = () => (
+  <g>
+    {BUNTING.map(([a, b]) => {
+      const sag = 10;
+      const n = Math.round((b - a) / 11);
+      return (
+        <g key={a}>
+          <path
+            d={`M ${a} 201 Q ${(a + b) / 2} ${201 + 2 * sag} ${b} 201`}
+            fill="none"
+            stroke="#6b5543"
+            strokeWidth="0.8"
+          />
+          {Array.from({ length: n - 1 }, (_, i) => {
+            const t = (i + 1) / n;
+            const x = a + (b - a) * t;
+            // On the curve: 4 · sag · t · (1 − t) below the ends.
+            const y = 201 + 2 * sag * 2 * t * (1 - t);
+            return (
+              <path
+                key={i}
+                d={`M ${x - 3} ${y} L ${x + 3} ${y} L ${x} ${y + 6} Z`}
+                fill={BIRTHDAY_COLORS[i % BIRTHDAY_COLORS.length]}
+              />
+            );
+          })}
+        </g>
+      );
+    })}
+  </g>
+);
+
+// A bunch of balloons on strings, tied at [x, y], bobbing gently: [dx, dy] of each
+// balloon from the knot.
+const Balloons = ({ x, y, balloons, delay = 0 }) => (
+  <g>
+    {balloons.map(([dx, dy], i) => (
+      <line
+        key={`s${i}`}
+        x1={x}
+        y1={y}
+        x2={x + dx}
+        y2={y + dy + 5}
+        stroke="#8a7a6a"
+        strokeWidth="0.6"
+      />
+    ))}
+    {balloons.map(([dx, dy], i) => (
+      <g
+        key={i}
+        className="balloon-bob"
+        style={{ animationDelay: `${delay + i * 0.4}s` }}
+      >
+        <ellipse
+          cx={x + dx}
+          cy={y + dy}
+          rx="5"
+          ry="5.8"
+          fill={BIRTHDAY_COLORS[(i * 2 + 1) % BIRTHDAY_COLORS.length]}
+        />
+        <path
+          d={`M ${x + dx - 1.2} ${y + dy + 6.6} L ${x + dx + 1.2} ${y + dy + 6.6} L ${x + dx} ${y + dy + 5.2} Z`}
+          fill={BIRTHDAY_COLORS[(i * 2 + 1) % BIRTHDAY_COLORS.length]}
+        />
+        <ellipse
+          cx={x + dx - 1.6}
+          cy={y + dy - 2}
+          rx="1.2"
+          ry="1.8"
+          fill="#fff"
+          opacity="0.5"
+        />
+      </g>
+    ))}
+  </g>
+);
+
+// One balloon resting by a wall, its string trailing on the floor.
+const Balloon = ({ x, y, color, delay = 0 }) => (
+  <g>
+    <path
+      d={`M ${x} ${y + 6} q 2 4 -1 7 q -3 3 0 6`}
+      fill="none"
+      stroke="#8a7a6a"
+      strokeWidth="0.6"
+    />
+    <g className="balloon-bob" style={{ animationDelay: `${delay}s` }}>
+      <ellipse cx={x} cy={y} rx="5" ry="5.8" fill={color} />
+      <ellipse
+        cx={x - 1.6}
+        cy={y - 2}
+        rx="1.2"
+        ry="1.8"
+        fill="#fff"
+        opacity="0.5"
+      />
+    </g>
+  </g>
+);
+
+// A party hat standing on a table: a striped cone with a pompom on top.
+const PartyHat = ({ x, y, color }) => (
+  <g>
+    <path
+      d={`M ${x - 3.5} ${y} L ${x + 3.5} ${y} L ${x} ${y - 9} Z`}
+      fill={color}
+    />
+    <path
+      d={`M ${x - 2.3} ${y - 3} L ${x + 2.3} ${y - 3} M ${x - 1.2} ${y - 6} L ${x + 1.2} ${y - 6}`}
+      stroke="#fff"
+      strokeWidth="1"
+    />
+    <circle cx={x} cy={y - 9.5} r="1.6" fill="#ffd166" />
+  </g>
+);
+
+// The birthday cake on its plate: pink icing and three candles alight.
+const Cake = ({ x, y }) => (
+  <g>
+    <circle
+      cx={x}
+      cy={y}
+      r="7.5"
+      fill="#fff"
+      stroke="#e3dbd0"
+      strokeWidth="0.8"
+    />
+    <circle cx={x} cy={y} r="5.6" fill="#f4a6b8" />
+    <circle cx={x} cy={y} r="3.6" fill="#f8c4d0" />
+    {[
+      [-2.5, -2],
+      [2.5, -2],
+      [0, 2.5],
+    ].map(([dx, dy]) => (
+      <g key={dx + dy}>
+        <rect
+          x={x + dx - 0.6}
+          y={y + dy - 3}
+          width="1.2"
+          height="3.4"
+          fill="#7fa7c9"
+        />
+        <circle
+          className="fairy-light"
+          cx={x + dx}
+          cy={y + dy - 3.8}
+          r="1.3"
+          fill="#ffd166"
+        />
+      </g>
+    ))}
+  </g>
+);
+
+// A wrapped present: the box, a ribbon both ways and a bow.
+const Present = ({ x, y, w, h, color, ribbon }) => (
+  <g>
+    <rect
+      x={x}
+      y={y + 1.5}
+      width={w}
+      height={h}
+      rx="1.5"
+      fill="#6b5543"
+      opacity="0.25"
+    />
+    <rect x={x} y={y} width={w} height={h} rx="1.5" fill={color} />
+    <rect x={x + w / 2 - 1} y={y} width="2" height={h} fill={ribbon} />
+    <rect x={x} y={y + h / 2 - 1} width={w} height="2" fill={ribbon} />
+    <circle cx={x + w / 2 - 1.8} cy={y + h / 2} r="1.6" fill={ribbon} />
+    <circle cx={x + w / 2 + 1.8} cy={y + h / 2} r="1.6" fill={ribbon} />
+  </g>
+);
+
+// Confetti on the dance floor [x, y, rotation, colour].
+const CONFETTI = Array.from({ length: 30 }, (_, i) => [
+  672 + ((i * 47) % 128),
+  216 + ((i * 29 + (i % 3) * 11) % 104),
+  (i * 53) % 180,
+  BIRTHDAY_COLORS[i % BIRTHDAY_COLORS.length],
+]);
+
+// Glitter bursting out of the "Happy birthday" banner, again and again: confetti and
+// gold glitter all at once from the middle of it, flying out in a fan downwards and
+// spreading wide, down as far as the second sofa, spinning and fading.
+const GLITTER_PIECES = 22;
+const Glitter = () => {
+  const x0 = BANNER.x + BANNER.w / 2;
+  const y0 = BANNER.y + BANNER.h;
+  return (
+    <g className="glitter" aria-hidden="true">
+      {Array.from({ length: GLITTER_PIECES }, (_, i) => {
+        // Spread across the fan below the banner, from just left of straight
+        // sideways to just right of it.
+        const angle = ((12 + (156 * i) / (GLITTER_PIECES - 1)) * Math.PI) / 180;
+        const reach = 62 + ((i * 7) % 4) * 16;
+        const x = x0 + (((i * 11) % 9) - 4) * 4;
+        const style = {
+          "--dx": `${(Math.cos(angle) * reach * 1.25).toFixed(1)}px`,
+          "--dy": `${(Math.sin(angle) * reach).toFixed(1)}px`,
+          "--spin": `${(i % 2 ? 1 : -1) * 320}deg`,
+        };
+        return i % 2 === 0 ? (
+          <circle
+            key={i}
+            className="glitter-piece"
+            style={style}
+            cx={x}
+            cy={y0}
+            r="1.4"
+            fill="#ffd166"
+            stroke="#f2b25c"
+            strokeWidth="0.4"
+          />
+        ) : (
+          <rect
+            key={i}
+            className="glitter-piece"
+            style={style}
+            x={x - 1.8}
+            y={y0 - 0.9}
+            width="3.6"
+            height="1.8"
+            rx="0.4"
+            fill={BIRTHDAY_COLORS[i % BIRTHDAY_COLORS.length]}
+          />
+        );
+      })}
+    </g>
+  );
+};
+
+const birthday = {
+  ...houseParty,
+  // The house's door and doormat, with glitter bursting from the banner over
+  // everyone.
+  Front: (props) => (
+    <g>
+      {houseParty.Front(props)}
+      <Glitter />
+    </g>
+  ),
+  // Everyone wears a party hat once they're in.
+  hats: true,
+  // Everyone sitting down has a wrapped present in front of them, not a beer.
+  spots: houseSpots.map((spot) =>
+    spot.mood === "sit" ? { ...spot, drinks: "gift" } : spot,
+  ),
+  // A smaller party than the house's: 18 in all. The six early guests and the first
+  // five groups (the sofas, the kitchen table, the balcony and two groups dancing);
+  // the last three groups, all dancers, aren't coming (the third of them would
+  // have danced where the cake table stands).
+  groupSizes: [2, 3, 2, 2, 3],
+  Ground: (props) => (
+    <g>
+      {houseParty.Ground(props)}
+
+      {/* Confetti over the dance floor */}
+      {CONFETTI.map(([x, y, r, color], i) => (
+        <rect
+          key={i}
+          x={x - 1.5}
+          y={y - 0.8}
+          width="3"
+          height="1.6"
+          rx="0.5"
+          fill={color}
+          opacity="0.85"
+          transform={`rotate(${r} ${x} ${y})`}
+        />
+      ))}
+
+      {/* The birthday cake on a table standing lengthways by the bedroom wall, on the
+          room side of the balloons: pink icing, candles alight, small plates */}
+      <rect x="796" y="250" width="17" height="48" rx="2" fill="#8a5a3a" />
+      <rect x="796" y="248" width="17" height="48" rx="2" fill="#c98b4f" />
+      <Cake x={804.5} y={272} />
+      {[256, 288].map((y) => (
+        <circle
+          key={y}
+          cx="804.5"
+          cy={y}
+          r="3"
+          fill="#fff"
+          stroke="#e3dbd0"
+          strokeWidth="0.8"
+        />
+      ))}
+
+      {/* Presents piled in the corner by the front door, balloons tied to them */}
+      <Present x={556} y={341} w={13} h={11} color="#e56822" ribbon="#ffd166" />
+      <Present x={570} y={346} w={11} h={10} color="#7fa7c9" ribbon="#fff" />
+      <Present x={558} y={353} w={10} h={8} color="#b57ba6" ribbon="#f7f1ea" />
+      <Balloons
+        x={575}
+        y={347}
+        balloons={[
+          [17, -4],
+          [27, 3],
+          [20, 9],
+        ]}
+      />
+
+      {/* A bunch of balloons by the bedroom wall */}
+      <Balloons
+        x={818}
+        y={318}
+        balloons={[
+          [-3, -26],
+          [6, -18],
+          [-6, -14],
+        ]}
+        delay={0.7}
+      />
+
+      {/* Party hats on the coffee table and the kitchen table */}
+      <PartyHat x={640} y={297} color="#7fa7c9" />
+      <PartyHat x={764} y={360} color="#e56822" />
+
+      {/* Balloons: a pair on the floor by the wall, a bunch by the bedroom wall beside
+          the cake table (only over its edge) and one tied to the balcony railing */}
+      <Balloon x={588} y={231} color="#b57ba6" />
+      <Balloon x={598} y={226} color="#f2b25c" delay={0.6} />
+      <Balloons
+        x={821}
+        y={276}
+        balloons={[
+          [-4, -20],
+          [3, -15],
+          [-2, -9],
+        ]}
+        delay={0.3}
+      />
+      <Balloons
+        x={862}
+        y={398}
+        balloons={[
+          [-6, -24],
+          [5, -20],
+          [-1, -12],
+        ]}
+        delay={1.2}
+      />
+
+      {/* Bunting along the living room's back wall, the banner in the middle */}
+      <Bunting />
+      <BirthdayBanner text={props.labels.banner} />
+    </g>
+  ),
+};
+
+const gatheringVenues = { concert, houseParty, sitsit, birthday };
 
 export default gatheringVenues;
