@@ -1,11 +1,11 @@
 {
-  "learnMore": "Learn more →",
   "howTitle": "How it works",
   "tipsTitle": "Good to know",
   "events": {
     "inNature": {
       "slug": "in-nature",
-      "summary": "Games across the park, points at every stop.",
+      "cardTitle": "Fun in nature",
+      "summary": "Games across the park, from tug-of-war to a sack race. Groups check in with a host at every stop and win points along the way.",
       "snippet": "560 60 480 360",
       "map": "park",
       "title": "Appro {(In nature)}",
@@ -104,7 +104,8 @@
     },
     "barCrawl": {
       "slug": "bar-crawl",
-      "summary": "From bar to bar, a stamp and points at each one.",
+      "cardTitle": "Bar to bar crawl",
+      "summary": "Karaoke, darts, pool and beer pong on the way from bar to bar. Every bar gives a stamp, and every game gives points.",
       "snippet": "560 40 480 360",
       "map": "barCrawl",
       "title": "Appro {(Bar crawl)}",
@@ -213,7 +214,8 @@
     },
     "cityHopper": {
       "slug": "city-hopper",
-      "summary": "Museum, market, food, drinks and games, all in one route.",
+      "cardTitle": "City hopper",
+      "summary": "Museum, market, food, drinks and park games, all on one route. Groups collect stamps at each place and points in the parks.",
       "snippet": "300 40 480 360",
       "map": "cityHopper",
       "title": "Appro {(City hopper)}",

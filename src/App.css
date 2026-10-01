@@ -20,6 +20,8 @@
   --font-stack:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
+  /* Handwritten, for the odd note (e.g. the quote under the Appro cards). */
+  --font-hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
 }
 
 * {

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { LuDownload } from "react-icons/lu";
 import Hero from "../../layout/Hero";
 import BonfireScene from "../../layout/BonfireScene";
 import Section from "../../layout/Section";
@@ -6,6 +7,10 @@ import Intro from "../../layout/Intro";
 import LogoStrip from "../../layout/LogoStrip";
 import approMaps from "../../layout/approMaps";
 import WayMap from "../../layout/WayMap";
+import ApproRail from "../../layout/ApproRail";
+import HandNote from "../../layout/HandNote";
+import HostScene from "../../layout/HostScene";
+import GatheringShowcase from "../../layout/GatheringShowcase";
 import Testimonials from "../../layout/Testimonials";
 import Faq from "../../layout/Faq";
 import CallToAction from "../../layout/CallToAction";
@@ -13,17 +18,22 @@ import AppLinks from "../../components/AppLinks/AppLinks";
 import { useContent } from "../../i18n";
 import { visible } from "../../content/content";
 
-// Home, top to bottom: the promise (hero, friends round a bonfire) → why Bonfiire
-// exists → ways to bring people together (a single-location or a multi-checkpoint
-// event) → the most popular Appro on its map (the page's highlight) → who trusts us
-// → what people say → questions → planning your next event? (see how).
-// One calm light background throughout; the warm colour only on the closing band.
-// Section titles line up on the left, like the hero. Sections sit still (no scroll
-// animation); small drawings drift beside them (`doodles`).
+// Home, top to bottom: the promise (hero, friends round a bonfire) → the most popular
+// Appro on its map (the page's highlight) → the three Appros, scrolled sideways →
+// planning the next Appro? (download, instructions) → or keep it in one place (the
+// single-location event) → why Bonfiire exists → ways to bring people together (a
+// single-location or a multi-checkpoint event) → who trusts us → what people say →
+// questions → planning your next event? (see how).
+// One calm light background throughout; the warm colour only on the map band and the
+// closing band, white behind the Appro cards.
+// Section titles line up on the left, like the hero (the Appro map's is centred).
+// Sections sit still (no scroll animation); small drawings drift beside them
+// (`doodles`).
 // Text lives in src/content/<language>/home.json (the Appro events in appro.json) and
 // the list files next to them.
 const HomePage = () => {
-  const { hero, why, ways, hostEvent, popular } = useContent("home");
+  const { hero, why, ways, hostEvent, hostAppro, onePlace, popular, appros } =
+    useContent("home");
   const appro = useContent("appro");
   const popularEvent = appro.events[popular.event];
   const PopularMap = approMaps[popularEvent.map];
@@ -40,6 +50,73 @@ const HomePage = () => {
       <Hero {...hero} media={<BonfireScene alt={hero.sceneAlt} />}>
         <AppLinks />
       </Hero>
+
+      {/* The most popular Appro: the page's highlight, right under the hero. On a cream
+          band: its heading centred on top, then the map as wide as the content
+          column. */}
+      <Section id="event-types" className="section--map-feature">
+        <Intro title={popular.title} text={popular.text}>
+          <p className="chapter-link">
+            <Link className="text-link" to={`/appro/${popularEvent.slug}`}>
+              {popular.linkLabel}
+            </Link>
+          </p>
+        </Intro>
+        <PopularMap {...popularEvent} />
+      </Section>
+
+      {/* The Appros we have, on white: cards you scroll sideways, each with a live
+          close-up of its map, opening its page. */}
+      <Section className="section--white section--appros">
+        <Intro layout="left" title={appros.title} text={appros.text}>
+          <ApproRail
+            events={Object.values(appro.events)}
+            linkLabel={appros.linkLabel}
+            dotsLabel={appros.dotsLabel}
+          />
+          <HandNote text={appros.quote} />
+        </Intro>
+      </Section>
+
+      {/* Hosting the next Appro? On white, a cream panel (the maps' colour) as wide as
+          the content column: the question, a line on how Bonfiire helps, the app
+          download and the organizing guide, beside a small animated map of an Appro
+          that fades into the panel. It follows the quote closely. */}
+      <Section className="section--white section--host">
+        <div className="host-invite">
+          <Intro layout="left" title={hostAppro.title} text={hostAppro.text}>
+            <p className="host-invite-actions">
+              <Link className="button-primary" to={hostAppro.download.to}>
+                <LuDownload aria-hidden="true" />
+                {hostAppro.download.label}
+              </Link>
+              <Link className="text-link" to={hostAppro.instructions.to}>
+                {hostAppro.instructions.label}
+              </Link>
+            </p>
+          </Intro>
+          <HostScene labels={hostAppro.sceneLabels} alt={hostAppro.sceneAlt} />
+        </div>
+      </Section>
+
+      {/* Or keep it in one place: the other kind of event, shown like the Appro map
+          above. On a cream band: its heading centred and a link, then a map of guests
+          arriving, checking in at the entrance and filling the venue, at one kind of
+          event after another (concert, house party…); the pills above it switch. */}
+      <Section className="section--map-feature">
+        <Intro title={onePlace.title} text={onePlace.text}>
+          <p className="chapter-link">
+            <Link className="text-link" to={onePlace.link.to}>
+              {onePlace.link.label}
+            </Link>
+          </p>
+        </Intro>
+        <GatheringShowcase
+          venues={onePlace.venues}
+          labels={onePlace.map.labels}
+          venuesLabel={onePlace.venuesLabel}
+        />
+      </Section>
 
       {/* Why Bonfiire: a short story, plain text */}
       <Section doodles="why">
@@ -71,21 +148,6 @@ const HomePage = () => {
             ))}
           </ul>
         </Intro>
-      </Section>
-
-      {/* The most popular Appro: the page's highlight. Its heading, then the full map
-          right under it. */}
-      <Section id="event-types" className="section--map-head" doodles="appro">
-        <div className="map-head">
-          <Intro layout="left" title={popular.title} text={popular.text}>
-            <p className="chapter-link">
-              <Link className="text-link" to={`/appro/${popularEvent.slug}`}>
-                {appro.learnMore}
-              </Link>
-            </p>
-          </Intro>
-        </div>
-        <PopularMap {...popularEvent} />
       </Section>
 
       {partnerItems.length > 0 && (
