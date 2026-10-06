@@ -1,4 +1,11 @@
-import { GameName, Person } from "./eventMap";
+import { useEffect, useRef, useState } from "react";
+import {
+  Buildings,
+  CheckpointSign,
+  GameName,
+  Person,
+  Scripted,
+} from "./eventMap";
 import { Bar as BarBuilding, BarSign, COLORS, HeldPint } from "./BarCrawlMap";
 
 // Drinks, standing with their base at (x, y): a beer, a glass of red wine, a martini
@@ -157,8 +164,8 @@ const Fries = ({ x, y }) => (
 //               in (inside), where the host stands and where the entrance sign goes
 //   spots       where the groups end up, the early guests' first: { at, via, mood }
 //               via    points to walk through on the way (e.g. a doorway)
-//               walkSpacing  how close together the group walks once inside
-//                      (for a narrow way in)
+//               walkSpacing  how close together the group walks through a
+//                      narrow way in, from its `via` point `narrowFrom` on
 //               mood   "dance", "chat" or "sit" (at a table: `glass` is where
 //                      their glasses stand, `glassX` how far beside each person;
 //                      `drinks`: "mixed" drinks, or "gift" for a present each)
@@ -166,6 +173,8 @@ const Fries = ({ x, y }) => (
 //   alreadyIn   people drawn into the venue itself (counted as in from the start)
 //   groupSizes  people in each arriving group, in order
 //   hats        everyone in wears a party hat (a birthday)
+//   empty       no one comes (no entrance, host or counter)
+//   startAtLeft on phones the map starts at its left edge, not centred
 //   Ground      drawn under the people; Front, over them
 // Labels come from the content file (each venue's `labels`).
 
@@ -412,7 +421,7 @@ const BALCONY = [830, 336, 184, 70];
 const BEHIND_KITCHEN_TABLE = 318;
 // Onto the balcony: up the room, behind the kitchen table, straight down between
 // its right end and the wall, then through the gap in the living room's wall.
-// (That way in is narrow: groups going out there walk close together.)
+// (That way in is narrow: groups going out there close up behind the table's end.)
 const TO_BALCONY = [
   [676, BEHIND_KITCHEN_TABLE],
   [816, BEHIND_KITCHEN_TABLE],
@@ -481,6 +490,8 @@ const houseSpots = [
     at: [BALCONY_TABLE.x - 10, BALCONY_TABLE.y + 4],
     via: TO_BALCONY,
     walkSpacing: TO_BALCONY_SPACING,
+    // From behind the table's right end, down beside the wall.
+    narrowFrom: 1,
     mood: "sit",
     seats: [
       [
@@ -2234,6 +2245,31 @@ const birthday = {
         />
       ))}
 
+      {/* The birthday person: waits by the cake, walks out to greet their friends,
+          up between the two groups dancing to the top of the dance floor, and back
+          the same way to the cake */}
+      <Scripted
+        from={[782, 292]}
+        script={[
+          { wait: 4 },
+          { to: [748, 306] },
+          { wait: 3 },
+          { to: [716, 300] },
+          { to: [716, 248] },
+          { to: [690, 248] },
+          { wait: 3 },
+          { to: [716, 248] },
+          { to: [716, 300] },
+          { to: [748, 306] },
+        ]}
+        skin="tan"
+        hair="curly"
+        hairColor="black"
+        shirt="#e56822"
+        top="dress"
+        hat="#ffd166"
+      />
+
       {/* Presents piled in the corner by the front door, balloons tied to them */}
       <Present x={556} y={341} w={13} h={11} color="#e56822" ribbon="#ffd166" />
       <Present x={570} y={346} w={11} h={10} color="#7fa7c9" ribbon="#fff" />
@@ -2296,6 +2332,581 @@ const birthday = {
   ),
 };
 
-const gatheringVenues = { concert, houseParty, sitsit, birthday };
+// ---------- Your event / your next Appro: an empty map, waiting ----------
+
+// A pin dropping onto the map at (x, y) after `delay` seconds, with a little bounce,
+// and ripples spreading out round it from then on.
+const DropPin = ({ x, y, delay = 0 }) => (
+  <g>
+    {[0, 1, 2].map((i) => (
+      <ellipse
+        key={i}
+        className="plot-ripple"
+        style={{ animationDelay: `${delay + 0.5 + i}s` }}
+        cx={x}
+        cy={y}
+        rx="34"
+        ry="12"
+        fill="none"
+        stroke="#e56822"
+        strokeWidth="1.5"
+      />
+    ))}
+    <g className="plot-pin" style={{ animationDelay: `${delay}s` }}>
+      <ellipse cx={x} cy={y} rx="9" ry="3" fill="rgba(89,65,43,0.2)" />
+      <path
+        d={`M ${x} ${y} C ${x - 4} ${y - 10} ${x - 14} ${y - 16} ${x - 14} ${y - 28} A 14 14 0 0 1 ${x + 14} ${y - 28} C ${x + 14} ${y - 16} ${x + 4} ${y - 10} ${x} ${y} Z`}
+        fill="#e56822"
+      />
+      <circle cx={x} cy={y - 28} r="6" fill="#fff" />
+    </g>
+  </g>
+);
+
+// Your event: the middle of the map left empty for the visitor's own event, a plot
+// marked out with a dashed line and a pin dropping into the middle of it. No one
+// comes, so there's no entrance, host or counter.
+const PLOT = { x: 560, y: 206, w: 442, h: 190 };
+const PLOT_PIN = [781, 290];
+const yourEvent = {
+  empty: true,
+  Ground: () => (
+    <g>
+      {/* The ground round the plot, so no street shows through beside it */}
+      <rect x="540" y="188" width="482" height="226" fill="#efe6dd" />
+      <rect
+        x={PLOT.x}
+        y={PLOT.y}
+        width={PLOT.w}
+        height={PLOT.h}
+        rx="18"
+        fill="#f7efe6"
+        stroke="#e56822"
+        strokeWidth="2"
+        strokeDasharray="10 8"
+        strokeLinecap="round"
+        opacity="0.9"
+      />
+      <DropPin x={PLOT_PIN[0]} y={PLOT_PIN[1]} />
+    </g>
+  ),
+};
+
+// Your next Appro: just the city (blocks in the middle too, either side of the
+// street through it), and the signs of a route dropping onto it one after another,
+// on the blocks round the middle of it, like an Appro being planned: the meeting
+// point (orange), then checkpoints 1 to 4 (`labels.signs`); then a host turns up at
+// each one and accepts; after a while it all starts again. `yourApproFull` goes
+// on: each host invites a helper who accepts too, then the guest list pops up and
+// fills (see APPRO_FLOWS). No groups walk the route yet.
+const CITY_MIDDLE = [
+  [556, 200, 100, 90],
+  [672, 200, 96, 90],
+  [556, 306, 212, 90],
+  [834, 200, 172, 90],
+  [834, 306, 80, 90],
+  [926, 306, 80, 90],
+];
+// Where each sign stands, in order: scattered up and down, not in a line, over the
+// top two rows of blocks (the home page's title goes over the bottom of the map)
+// (the map is shifted, so these run from x 181 to 1381).
+const ROUTE_SIGNS = [
+  [407, 262],
+  [604, 82],
+  [721, 204],
+  [971, 120],
+  [1156, 270],
+];
+// On phones the home page shows this map bigger, cut at the sides, with its title
+// over the bottom (see .map-hero-stage in layout.css), so the signs gather in the
+// middle and upper part, still up and down, not in a line.
+const ROUTE_SIGNS_PHONE = [
+  [611, 262],
+  [721, 110],
+  [901, 250],
+  [611, 372],
+  [971, 112],
+];
+const PHONE = "(max-width: 800px)";
+// Whether the screen is a phone's (follows it when it's resized).
+const usePhone = () => {
+  const [phone, setPhone] = useState(
+    () => typeof window !== "undefined" && !!window.matchMedia?.(PHONE).matches,
+  );
+  useEffect(() => {
+    const media = window.matchMedia?.(PHONE);
+    if (!media) return undefined;
+    const update = () => setPhone(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  return phone;
+};
+// The round, in seconds (the home page's status line follows the same steps, see
+// PHASES in ApproHero.jsx): the Appro is being created; from SIGNS_IN the signs
+// drop in one after another (the last landing at about 2.7); it's created; from
+// HOSTS_IN a host pops up beside each sign with a small "Host invited" tag, which
+// from ACCEPT_AT turns into a green "Accepted", one after another, and stays a
+// while. From HELPERS_IN each host invites a helper: a person pops out from the
+// host and walks round to the other side of the sign with an "Invited" tag, which
+// from HELPERS_ACCEPT turns into "Accepted"; at TAGS_OUT all is set and the tags
+// go. At BOX_IN the guest list pops up on the map (all at 0): from INVITE_AT the
+// invites go out ("Invited" counts up), from JOIN_AT people join ("Attending"
+// counts up), then a couple say no ("Not going"). "Checked in" stays at 0: nobody
+// has arrived yet. Then everything stays a while, fades out over the last
+// ROUND_FADE and it all starts again.
+const ROUND = 21;
+const ROUND_FADE = 0.4;
+const SIGNS_IN = 0.4;
+const SIGN_STEP = 0.35;
+const HOSTS_IN = 3.9;
+const HOST_STEP = 0.25;
+const ACCEPT_AT = 6.6;
+const ACCEPT_STEP = 0.35;
+const HOST_TAGS_OUT = 9;
+const HELPERS_IN = 9.2;
+const HELPER_STEP = 0.35;
+const HELPERS_ACCEPT = 11.2;
+const TAGS_OUT = 13.1;
+const BOX_IN = 13.6;
+const INVITE_AT = 13.9;
+const INVITE_STEP = 0.25;
+const JOIN_AT = 15.4;
+const JOIN_STEP = 0.25;
+const NOT_GOING_AT = 16.8;
+// How many invites go out from each checkpoint, and how many of those come.
+const INVITES_EACH = 6;
+const JOINS_EACH = 5;
+const NOT_GOING = 2;
+
+// The guest list's numbers through the round: [seconds, { invited, attending,
+// notGoing }], each from that moment on.
+const STATS = [
+  [0, { invited: 0, attending: 0, notGoing: 0 }],
+  ...[0, 1, 2, 3, 4].map((i) => [
+    INVITE_AT + i * INVITE_STEP,
+    { invited: (i + 1) * INVITES_EACH, attending: 0, notGoing: 0 },
+  ]),
+  ...[0, 1, 2, 3, 4].map((i) => [
+    JOIN_AT + i * JOIN_STEP,
+    { invited: 5 * INVITES_EACH, attending: (i + 1) * JOINS_EACH, notGoing: 0 },
+  ]),
+  [
+    NOT_GOING_AT,
+    {
+      invited: 5 * INVITES_EACH,
+      attending: 5 * JOINS_EACH,
+      notGoing: NOT_GOING,
+    },
+  ],
+];
+
+// What each of the route's signs shows before its name (white, about 9 across,
+// centred on 0 0): people at the meeting point, then a cocktail bar, a
+// restaurant, a park and a pub (a full mug of beer).
+const SIGN_ICONS = [
+  // People
+  <g key="people" fill="#fff">
+    <circle cx="-2.2" cy="-2.4" r="1.6" />
+    <circle cx="2.2" cy="-2.4" r="1.6" />
+    <path d="M -4.6 3.6 a 2.4 2.6 0 0 1 4.8 0 Z" />
+    <path d="M -0.2 3.6 a 2.4 2.6 0 0 1 4.8 0 Z" />
+  </g>,
+  // A cocktail glass
+  <g
+    key="cocktail"
+    fill="none"
+    stroke="#fff"
+    strokeWidth="1.1"
+    strokeLinecap="round"
+  >
+    <path d="M -4 -4 L 4 -4 L 0 0.6 Z" fill="#fff" />
+    <line x1="0" y1="0.6" x2="0" y2="3.6" />
+    <line x1="-2.2" y1="3.8" x2="2.2" y2="3.8" />
+  </g>,
+  // A fork and a knife
+  <g
+    key="restaurant"
+    fill="none"
+    stroke="#fff"
+    strokeWidth="1.1"
+    strokeLinecap="round"
+  >
+    <line x1="-2" y1="-4" x2="-2" y2="4" />
+    <path d="M -3.6 -4 V -1.6 Q -3.6 -0.4 -2 -0.4 Q -0.4 -0.4 -0.4 -1.6 V -4" />
+    <path d="M 2.6 4 V -4 Q 4.4 -2.6 4 0.4 L 2.6 0.6" fill="#fff" />
+  </g>,
+  // A tree
+  <g key="park" fill="#fff">
+    <circle cx="0" cy="-1.4" r="3.2" />
+    <rect x="-0.65" y="1" width="1.3" height="3.2" rx="0.4" />
+  </g>,
+  // A full mug of beer: amber, with a white head of foam over the rim
+  <g key="pub">
+    <rect x="-3.8" y="-2.4" width="5.4" height="6.4" rx="0.9" fill="#f2b25c" />
+    <path
+      d="M -4.2 -1.6 Q -4.4 -4 -2.6 -3.8 Q -1.6 -4.8 -0.4 -3.9 Q 1.2 -4.6 2 -3 Q 2.2 -1.6 1.4 -1.4 H -3.6 Q -4.2 -1.4 -4.2 -1.6 Z"
+      fill="#fff"
+    />
+    <path
+      d="M 1.6 -1 H 2.8 Q 4 -1 4 0.2 V 1.2 Q 4 2.4 2.8 2.4 H 1.6"
+      fill="none"
+      stroke="#fff"
+      strokeWidth="1.1"
+    />
+  </g>,
+];
+
+// A tiny tag beside someone's head, popping up with them at `appear`: `invited`
+// while their invite waits, then, at `accept` (seconds into the round), a green
+// `accepted` in its place; both go at `out`. It sits right of (x, y), or left of it
+// with `alignLeft`.
+const InviteTag = ({
+  x,
+  y,
+  invited,
+  accepted,
+  appear,
+  accept,
+  out,
+  alignLeft,
+}) => {
+  const tag = (text, fill, color) => {
+    const width = text.length * 3.5 + 8;
+    const left = alignLeft ? -width : 0;
+    return (
+      <>
+        <rect
+          x={left}
+          y="-5.5"
+          width={width}
+          height="11"
+          rx="5.5"
+          fill={fill}
+        />
+        <text
+          x={left + width / 2}
+          y="2"
+          textAnchor="middle"
+          fontSize="6"
+          fontWeight="700"
+          style={{ fill: color }}
+        >
+          {text}
+        </text>
+      </>
+    );
+  };
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <g className="plot-host" style={{ animationDelay: `${appear}s` }}>
+        <g
+          className={out !== undefined ? "plot-tags-out" : undefined}
+          style={out !== undefined ? { animationDelay: `${out}s` } : undefined}
+        >
+          <g className="plot-invite" style={{ animationDelay: `${accept}s` }}>
+            {tag(invited, "#fff", "var(--secondary-color)")}
+          </g>
+          <g
+            className="plot-accepted"
+            style={{ animationDelay: `${accept + 0.1}s` }}
+          >
+            {tag(accepted, "var(--yes-color)", "#fff")}
+          </g>
+        </g>
+      </g>
+    </g>
+  );
+};
+
+// The guest list, a white strip popping up on the map at BOX_IN: invited,
+// attending (green), not going (red) and checked in (green, always 0 here: nobody
+// has arrived yet). Each number pops as it changes.
+const StatsBox = ({ x, y, stats, labels }) => {
+  const rows = [
+    {
+      label: labels.invited || "Invited",
+      value: stats.invited,
+      color: "var(--primary-color1)",
+    },
+    {
+      label: labels.attending || "Attending",
+      value: stats.attending,
+      color: "var(--yes-color)",
+    },
+    {
+      label: labels.notGoing || "Not going",
+      value: stats.notGoing,
+      color: "var(--no-color)",
+    },
+    {
+      label: labels.checkedIn || "Checked in",
+      value: 0,
+      color: "var(--yes-color)",
+    },
+  ];
+  // Each part as wide as its words (about 5.7 per letter) and a two-digit number.
+  const widths = rows.map(({ label }) => Math.round(label.length * 5.9 + 42));
+  const total = widths.reduce((a, b) => a + b, 0);
+  let left = 0;
+  return (
+    <g transform={`translate(${x - total / 2} ${y})`}>
+      <g className="plot-host" style={{ animationDelay: `${BOX_IN}s` }}>
+        <rect x="0" y="-13" width={total} height="26" rx="8" fill="#fff" />
+        {rows.map(({ label, value, color }, i) => {
+          const at = left;
+          left += widths[i];
+          return (
+            <g key={label} transform={`translate(${at} 0)`}>
+              {i > 0 && (
+                <line
+                  x1="0"
+                  y1="-7"
+                  x2="0"
+                  y2="7"
+                  stroke="#59412b"
+                  strokeOpacity="0.15"
+                />
+              )}
+              <text
+                x="10"
+                y="3.5"
+                fontSize="10"
+                fontWeight="700"
+                fill="#59412b"
+              >
+                {label}
+              </text>
+              <text
+                key={value}
+                className="plot-count"
+                x={widths[i] - 10}
+                y="4.5"
+                textAnchor="end"
+                fontSize="13"
+                fontWeight="800"
+                style={{ fill: color }}
+              >
+                {value}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+    </g>
+  );
+};
+
+// Which round it is (counting up, to start the signs and hosts again each round)
+// and whether it's fading out. Still for reduced motion: one round that stays.
+const reduced = () =>
+  typeof window !== "undefined" &&
+  !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+const useRounds = (length) => {
+  const [round, setRound] = useState(0);
+  const [fading, setFading] = useState(false);
+  useEffect(() => {
+    if (reduced()) return undefined;
+    const fade = setTimeout(
+      () => setFading(true),
+      (length - ROUND_FADE) * 1000,
+    );
+    const next = setTimeout(() => {
+      setFading(false);
+      setRound((n) => n + 1);
+    }, length * 1000);
+    return () => {
+      clearTimeout(fade);
+      clearTimeout(next);
+    };
+  }, [round, length]);
+  return [round, fading];
+};
+// The guest list's numbers as the round goes (STATS), from 0 again each round;
+// the final ones with reduced motion.
+const useStats = (round) => {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    if (reduced()) {
+      setStep(STATS.length - 1);
+      return undefined;
+    }
+    setStep(0);
+    const timers = STATS.slice(1).map(([at], k) =>
+      setTimeout(() => setStep(k + 1), at * 1000),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [round]);
+  return STATS[step][1];
+};
+
+// Where the guest list sits (on the street under the top row of blocks, clear of
+// the signs).
+const STATS_AT = [781, 172];
+
+// The two ways the Appro round can go, each with its length and its steps for a
+// status line ([ms from the round's start, step name], from "creating"):
+//   short   (home page) the signs drop in and the hosts are invited and accept;
+//           their "Accepted" tags stay till the round ends.
+//   full    (kept for the organizing guide, to go into more detail) after the
+//           hosts, each invites a helper who accepts, then the guest list pops up
+//           and fills (see the timings above).
+const SHORT_DONE = ACCEPT_AT + 4 * ACCEPT_STEP + 0.3;
+export const APPRO_FLOWS = {
+  short: {
+    round: 12.5,
+    phases: [
+      [400, "checkpoints"],
+      [3800, "hosts"],
+      [5600, "waiting"],
+      [Math.round(SHORT_DONE * 1000), "set"],
+    ],
+  },
+  full: {
+    round: ROUND,
+    phases: [
+      [400, "checkpoints"],
+      [2800, "created"],
+      [3800, "hosts"],
+      [5600, "waiting"],
+      [9000, "helpers"],
+      [13000, "set"],
+      [13600, "inviting"],
+      [15200, "joining"],
+    ],
+  },
+};
+
+const approRound = (flow) => ({
+  empty: true,
+  // On phones it starts at the left, the meeting point first, like the Appro maps.
+  startAtLeft: true,
+  Ground: ({ labels }) => {
+    const full = flow === "full";
+    const signs = usePhone() ? ROUTE_SIGNS_PHONE : ROUTE_SIGNS;
+    const [round, fading] = useRounds(APPRO_FLOWS[flow].round);
+    const stats = useStats(round);
+    // Tells the page a new round has started (a "map-round" event bubbling up
+    // from the map), e.g. so the home page's button can wiggle once it's done.
+    const roundRef = useRef(null);
+    useEffect(() => {
+      roundRef.current?.dispatchEvent(
+        new CustomEvent("map-round", { bubbles: true }),
+      );
+    }, [round]);
+    return (
+      <g>
+        <Buildings blocks={CITY_MIDDLE} />
+        <g
+          key={round}
+          ref={roundRef}
+          className={`route-round${fading ? " is-fading" : ""}`}
+        >
+          {signs.map(([x, y], i) => (
+            <g key={i}>
+              {[0, 1].map((r) => (
+                <ellipse
+                  key={r}
+                  className="plot-ripple"
+                  style={{
+                    animationDelay: `${SIGNS_IN + 0.5 + i * SIGN_STEP + r * 1.5}s`,
+                  }}
+                  cx={x}
+                  cy={y}
+                  rx="30"
+                  ry="10"
+                  fill="none"
+                  stroke="#e56822"
+                  strokeWidth="1.5"
+                />
+              ))}
+              <g
+                className="plot-pin"
+                style={{ animationDelay: `${SIGNS_IN + i * SIGN_STEP}s` }}
+              >
+                <CheckpointSign
+                  x={x}
+                  y={y}
+                  text={labels.signs?.[i] || ""}
+                  icon={SIGN_ICONS[i]}
+                  {...(i === 0 ? { board: "#e56822", edge: "#c2541a" } : {})}
+                />
+              </g>
+              {/* The checkpoint's host, standing just right of the post, under
+                  the board's edge, with a tiny tag beside their head */}
+              <g
+                className="plot-host"
+                style={{ animationDelay: `${HOSTS_IN + i * HOST_STEP}s` }}
+              >
+                <Person index={i + 2} x={x + 16} y={y - 2} delay={i * 0.4} />
+              </g>
+              <InviteTag
+                x={x + 25}
+                y={y - 10}
+                invited={labels.hostInvited || "Host invited"}
+                accepted={labels.accepted || "Accepted"}
+                appear={HOSTS_IN + i * HOST_STEP}
+                accept={ACCEPT_AT + i * ACCEPT_STEP}
+                out={full ? HOST_TAGS_OUT : undefined}
+              />
+              {/* (full) The helper the host invites: popping out from the host
+                  and walking round to the other side of the post, with their
+                  own tag (left of them) */}
+              {full && (
+                <>
+                  <g
+                    className="plot-helper"
+                    style={{
+                      animationDelay: `${HELPERS_IN + i * HELPER_STEP}s`,
+                    }}
+                  >
+                    <Person
+                      index={i + 8}
+                      x={x - 16}
+                      y={y - 2}
+                      delay={0.2}
+                      hair={i % 2 ? "short" : "long"}
+                    />
+                  </g>
+                  <InviteTag
+                    x={x - 25}
+                    y={y - 10}
+                    alignLeft
+                    invited={labels.helperInvited || "Invited"}
+                    accepted={labels.accepted || "Accepted"}
+                    appear={HELPERS_IN + i * HELPER_STEP + 0.8}
+                    accept={HELPERS_ACCEPT + i * ACCEPT_STEP}
+                    out={TAGS_OUT}
+                  />
+                </>
+              )}
+            </g>
+          ))}
+          {full && (
+            <StatsBox
+              x={STATS_AT[0]}
+              y={STATS_AT[1]}
+              stats={stats}
+              labels={labels}
+            />
+          )}
+        </g>
+      </g>
+    );
+  },
+});
+const yourAppro = approRound("short");
+const yourApproFull = approRound("full");
+
+const gatheringVenues = {
+  concert,
+  houseParty,
+  sitsit,
+  birthday,
+  yourEvent,
+  yourAppro,
+  yourApproFull,
+};
 
 export default gatheringVenues;

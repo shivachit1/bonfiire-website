@@ -3,11 +3,13 @@ import { LuCheck, LuLink } from "react-icons/lu";
 import "./layout.css";
 import icons from "./icons";
 import HelpSteps from "./HelpSteps";
+import Heading from "./Heading";
 
 // One help topic as its own block: icon, title, a "Copy link" button, then the steps.
 // topic: { id, icon, title, text?, steps }   `link` is the full address of this topic.
-// labels: { copyLink, copied, step } from ui.json.
-const HelpTopic = ({ topic, group, link, labels }) => {
+// labels: { copyLink, copied, step } from ui.json. `as` is the title's element
+// (h2 by default; h1 when the topic is the page).
+const HelpTopic = ({ topic, link, labels, as }) => {
   const [copied, setCopied] = useState(false);
   const Icon = icons[topic.icon];
 
@@ -41,16 +43,23 @@ const HelpTopic = ({ topic, group, link, labels }) => {
           </span>
         )}
         <div className="help-topic-heading">
-          {group && <p className="eyebrow">{group}</p>}
-          <h2 className="title">{topic.title}</h2>
+          <Heading as={as} className="title">
+            {topic.title}
+          </Heading>
           {topic.text && <p className="lead">{topic.text}</p>}
         </div>
         <button type="button" className="copy-link" onClick={copy}>
-          {copied ? <LuCheck aria-hidden="true" /> : <LuLink aria-hidden="true" />}
-          <span aria-live="polite">{copied ? labels.copied : labels.copyLink}</span>
+          {copied ? (
+            <LuCheck aria-hidden="true" />
+          ) : (
+            <LuLink aria-hidden="true" />
+          )}
+          <span aria-live="polite">
+            {copied ? labels.copied : labels.copyLink}
+          </span>
         </button>
       </header>
-      <HelpSteps steps={topic.steps} stepLabel={labels.step} />
+      <HelpSteps steps={topic.steps} />
     </article>
   );
 };

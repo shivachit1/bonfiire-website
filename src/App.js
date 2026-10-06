@@ -12,8 +12,12 @@ import Footer from "./components/Footer/Footer.js";
 import TermsPage from "./components/Terms/TermsPage.js";
 import HomePage from "./pages/Home/HomePage.js";
 import GuidePage from "./pages/Guide/GuidePage.js";
+import HelpTopicPage from "./pages/Help/HelpTopicPage";
+import DocsPage from "./pages/Docs/DocsPage";
 import HelpCenterPage from "./pages/Help/HelpCenterPage.js";
 import ApproPage from "./pages/Appro/ApproPage";
+import CharacterPage from "./pages/Character/CharacterPage";
+import WorldMapPage from "./pages/World/WorldMapPage";
 import { LanguageProvider } from "./i18n";
 import PrivacyPolicy from "./components/Privacy/PrivacyPage.js";
 import EventDetailsPage from "./components/EventPage/EventDetailsPage.js";
@@ -55,6 +59,16 @@ function App() {
                 element={<GuidePage key="features" page="features" />}
               />
               <Route path="/help" element={<HelpCenterPage />} />
+              {/* One page per help topic (see content/help.json) */}
+              <Route path="/help/:topicId" element={<HelpTopicPage />} />
+              {/* The docs-style help center, alongside /help (content/docs.json) */}
+              <Route path="/help-docs" element={<DocsPage />} />
+              <Route
+                path="/help-docs/:categoryId/:pageId"
+                element={<DocsPage />}
+              />
+              <Route path="/character" element={<CharacterPage />} />
+              <Route path="/map3d" element={<WorldMapPage />} />
               {/* One page per Appro event, with its map (see content/appro.json) */}
               <Route path="/appro/:slug" element={<ApproPage />} />
               {/* Old per-role help pages now open the matching help center tab. */}

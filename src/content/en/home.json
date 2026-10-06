@@ -1,8 +1,67 @@
 {
   "hero": {
-    "title": "Light the \n{Bonfiire}\n of connection",
+    "title": "Bonfiire is {available} in\n App store and Play store",
     "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
     "sceneAlt": "Illustration of friends sitting on camping chairs and a log around a bonfire, between two trees with bunting: one sings, one plays the guitar, one roasts a marshmallow and one holds a mug, while two more sit on a log facing the fire."
+  },
+  "services": {
+    "title": "What you get\n when you host an {Appro}",
+    "dotsLabel": "Choose a feature",
+    "items": [
+      {
+        "icon": "map",
+        "scene": "map",
+        "title": "Digital Appro Map",
+        "text": "Interactive digital map for everyone, from the meeting point to every checkpoint and the way between them."
+      },
+      {
+        "icon": "pin",
+        "scene": "checkpoints",
+        "title": "Manage Checkpoint",
+        "text": "Add a checkpoint host at each checkpoint, or print out a QR code for places where no host is present."
+      },
+      {
+        "icon": "scan",
+        "scene": "scan",
+        "title": "Ticket scanner",
+        "text": "Scan participant's ticket with in-app camera, or search them through the participant list in seconds."
+      },
+      {
+        "icon": "score",
+        "scene": "score",
+        "title": "Scoring leaderboard",
+        "text": "Score every activity for each participant and group, and watch the standings change as the day goes."
+      },
+      {
+        "icon": "history",
+        "scene": "history",
+        "title": "Audit trails",
+        "text": "Clear trail of participants joins, check-ins and withdrawls, so you always know who did what and when."
+      },
+      {
+        "icon": "album",
+        "scene": "album",
+        "title": "Shared photo album",
+        "text": "Hosts and participants can share their pictures in one place, to mark the day memories.",
+        "tag": "Coming soon"
+      },
+      {
+        "icon": "ticket",
+        "scene": "tickets",
+        "title": "Paid ticket sales",
+        "text": "Sell yours Appro tickets within bonfiire app. Analyze and see how many tickets have been sold.",
+        "tag": "Coming soon"
+      }
+    ]
+  },
+  "participate": {
+    "title": "Taking part in an {Appro?}",
+    "text": [
+      "Your ticket, the date and the start time, and a live map of the whole route are all in the Bonfiire app. Follow the way from checkpoint to checkpoint, check in with a quick scan at every stop, collect your stamps and points, and see how your group is doing as the day goes on."
+    ],
+    "download": { "label": "Download the app", "to": "/download" },
+    "instructions": { "label": "See instructions →", "to": "/help?tab=attending" },
+    "sceneAlt": "Illustration of three cards fanned out: a small map of an Appro route with its checkpoints, the date and start time in the middle, and a ticket with its QR code."
   },
   "why": {
     "title": "Why {Bonfiire}?",
@@ -13,7 +72,7 @@
     "examples": "See Bonfiire event examples"
   },
   "ways": {
-    "title": "Ways to bring people {together}",
+    "title": "Services we provide for your {event}",
     "text": [
       "Host an event on Bonfiire and bring everyone together, in one place or spread out across the city."
     ],
@@ -40,39 +99,84 @@
     ]
   },
   "popular": {
-    "title": "Host your next Appro with {Bonfiire}",
+    "title": "Host your next {Appro} with Bonfiire",
     "text": [
-      "Set the checkpoints, invite the groups and let Bonfiire handle the QR check-ins, stamps and points along the route, from the first stop to the last."
+      "Set the checkpoints, invite the participants and let Bonfiire handle the check‑ins, stamps and points along the route, from the first checkpoint to the last."
     ],
-    "event": "cityHopper",
-    "linkLabel": "See instructions →"
+    "events": ["inNature", "barCrawl", "cityHopper"],
+    "next": {
+      "label": "Your next Appro",
+      "status": {
+        "creating": "Creating Appro…",
+        "checkpoints": "Adding checkpoints…",
+        "created": "Appro created",
+        "hosts": "Adding checkpoint hosts…",
+        "waiting": "Waiting for response…",
+        "accepted": "Checkpoint hosts accepted",
+        "helpers": "Hosts inviting helpers…",
+        "set": "All set",
+        "inviting": "Inviting participants…",
+        "joining": "People joining…"
+      },
+      "imageAlt": "Illustration of a city map where the signs of a route drop onto it one after another, a meeting point and then checkpoints 1 to 4, like an Appro being planned, with a handwritten title over the middle: host your next Appro with Bonfiire, a few lines and the app store buttons.",
+      "labels": {
+        "signs": [
+          "Meeting point",
+          "Checkpoint 1",
+          "Checkpoint 2",
+          "Checkpoint 3",
+          "Checkpoint 4"
+        ],
+        "hostInvited": "Host invited",
+        "helperInvited": "Invited",
+        "accepted": "Accepted",
+        "invited": "Invited",
+        "attending": "Attending",
+        "notGoing": "Not going",
+        "checkedIn": "Checked in"
+      }
+    },
+    "eventsLabel": "Kinds of Appro"
   },
   "appros": {
     "title": "Some Appro {ideas}",
     "text": [
       "Every Appro on Bonfiire has its own route, checkpoints and games. Pick the one that fits your crowd."
     ],
-    "linkLabel": "See more →",
-    "dotsLabel": "Choose an Appro",
-    "quote": "The next Appro can be {yours,}\nshaped by your own ideas."
+    "dotsLabel": "Choose an Appro"
   },
   "hostAppro": {
     "title": "Are you hosting or planning your upcoming {Appro?}",
     "text": [
       "Bonfiire walks you through it, from planning the route and inviting checkpoint hosts to checking groups in and keeping score. Everything your team needs is in the app."
     ],
-    "download": { "label": "Download the app", "to": "/download" },
     "instructions": {
       "label": "See instructions →",
       "to": "/help?tab=organizing"
     },
-    "sceneLabels": ["Meeting point", "Checkpoint 1", "Checkpoint 2", "Checkpoint 3"],
+    "sceneLabels": [
+      "Meeting point",
+      "Checkpoint 1",
+      "Checkpoint 2",
+      "Checkpoint 3"
+    ],
     "sceneAlt": "Illustration of a small city map where the stops of a route drop onto the map one after another, the meeting point, then checkpoints 1, 2 and 3, like pins being placed while planning it."
+  },
+  "hostGathering": {
+    "title": "{Planning} a company Christmas party, a house party or a birthday{?}",
+    "text": [
+      "Let Bonfiire take care of most of the work, send the invites, share the details, hand out e-tickets and check everyone in at the door, so you can enjoy it too."
+    ],
+    "instructions": {
+      "label": "See instructions →",
+      "to": "/help?tab=organizing"
+    },
+    "sceneAlt": "Illustration of a party: a striped party hat that jumps and lands with a wobble, a wrapped present with a fluttering bow and a bunch of balloons tied to its lid that lift it a little, letting out a puff of confetti that tumbles down onto the floor."
   },
   "onePlace": {
     "title": "Not just appro, \nyou can keep it in {one place} too",
     "text": [
-      "Not every event needs a route. For a house party, a sitsit or a board game night, send the invites, share the details and welcome everyone at the door with an e-ticket."
+      "Not every event needs a route. For a house party, a sitsit or an afternoon of board games, send the invites, share the details and welcome everyone at the door."
     ],
     "link": {
       "label": "See how it works →",
@@ -81,14 +185,10 @@
     "venuesLabel": "Kinds of event",
     "venues": [
       {
-        "id": "concert",
-        "label": "Concert",
-        "imageAlt": "Illustration of a city with a fenced lawn in the middle, with a stage at its back (a singer, a DJ and light beams), a bar and two portable toilets. Small groups of guests arrive along the streets from every side; at the entrance each group shows a QR code on a phone, the host standing just inside ticks them in, and each group walks to its own spot on the lawn to dance together while a counter by the gate goes up, until the lawn is full.",
-        "labels": { "entrance": "Entrance", "bar": "Bar", "wc": "WC" }
-      },
-      {
         "id": "houseParty",
         "label": "House party",
+        "summary": "Music in the living room, food in the kitchen and a table on the balcony. Everyone shows their e-ticket at the door.",
+        "about": "Invite friends and relatives for your house party or special occasion, track their RSVPs effortlessly, and host a stress-free celebration.",
         "imageAlt": "Illustration of a city with a house in the middle: a living room with a sofa, a rug and party lights where guests dance, an L-shaped kitchen by the front door with a pot cooking on the stove, a bedroom with a double bed, bedside lamps, a mirror and a wardrobe, a grey-tiled WC with a small wooden sauna (benches and a stove with steam rising), a shower, a sink and a toilet, and a small balcony with a round table, plants and fairy lights. A few guests are already there; more small groups arrive along the streets from every side; at the front door each group shows a QR code on a phone, the host just inside ticks them in, and each group heads to the living room, the kitchen or the balcony while a counter by the door goes up.",
         "labels": {
           "entrance": "House party",
@@ -100,19 +200,10 @@
         }
       },
       {
-        "id": "sitsit",
-        "label": "Sitsit",
-        "imageAlt": "Illustration of a city with a hall in the middle: two long tables running across it, set with white cloths, plates and candles; a live band on a small stage along one wall (an acoustic guitarist, a singer and a drummer); down the other wall a bar facing the room, where one bartender shakes a cocktail and another mixes drinks, with guests on stools facing it; waiters carry trays of drinks and food. A few guests are already seated; more small groups arrive along the streets from every side; outside the door each group shows a QR code on a phone, the host just inside ticks them in, and each group sits together along a table, drinks in front of them, while a counter by the door goes up.",
-        "labels": {
-          "entrance": "Entrance",
-          "welcome": "Welcome",
-          "band": "Live band",
-          "bar": "Bar"
-        }
-      },
-      {
         "id": "birthday",
-        "label": "Birthday",
+        "label": "Birthday celebration",
+        "summary": "Balloons, a cake and presents for the birthday person. Guests check in at the door and put on a party hat.",
+        "about": "Gather your favorite people to celebrate a birthday, easily keep track of who is coming, and enjoy a fun, hassle-free party from start to finish.",
         "imageAlt": "Illustration of a city with a house in the middle, decorated for a birthday: colourful bunting and a \"Happy birthday!\" banner along the living room wall, a birthday cake with lit candles on a small table under the banner, party hats on the tables, a pile of wrapped presents by the front door with balloons tied to it, more balloons by the walls and on the balcony, confetti over the dance floor, and bursts of confetti and gold glitter from the banner over the guests. A few guests are already there; more small groups arrive along the streets from every side; at the front door each group shows a QR code on a phone, the host just inside ticks them in, and each group heads to the living room, the kitchen or the balcony, everyone in a party hat, those who sit down putting their presents on the table, while a counter by the door goes up.",
         "labels": {
           "entrance": "Birthday",
@@ -122,21 +213,50 @@
           "balcony": "Balcony",
           "bedroom": "Bedroom"
         }
+      },
+      {
+        "id": "sitsit",
+        "label": "Sitsit",
+        "summary": "Long tables, a live band and waiters bringing food and drinks. Guests check in at the door and sit together.",
+        "about": "Bring your company, group, or community together for a vibrant sitsit party, easily track attendees, and host a lively, perfectly coordinated celebration.",
+        "imageAlt": "Illustration of a city with a hall in the middle: two long tables running across it, set with white cloths, plates and candles; a live band on a small stage along one wall (an acoustic guitarist, a singer and a drummer); down the other wall a bar facing the room, where one bartender shakes a cocktail and another mixes drinks, with guests on stools facing it; waiters carry trays of drinks and food. A few guests are already seated; more small groups arrive along the streets from every side; outside the door each group shows a QR code on a phone, the host just inside ticks them in, and each group sits together along a table, drinks in front of them, while a counter by the door goes up.",
+        "labels": {
+          "entrance": "Entrance",
+          "welcome": "Welcome",
+          "band": "Live band",
+          "bar": "Bar"
+        }
+      },
+      {
+        "id": "concert",
+        "label": "Live music",
+        "summary": "A stage, a bar and a lawn that fills up. Groups scan in at the entrance and head straight to the music.",
+        "about": "Invite fans and the local community to your live music event, track RSVPs effortlessly, and host a smooth, stress-free gig.",
+        "imageAlt": "Illustration of a city with a fenced lawn in the middle, with a stage at its back (a singer, a DJ and light beams), a bar and two portable toilets. Small groups of guests arrive along the streets from every side; at the entrance each group shows a QR code on a phone, the host standing just inside ticks them in, and each group walks to its own spot on the lawn to dance together while a counter by the gate goes up, until the lawn is full.",
+        "labels": {
+          "entrance": "Entrance",
+          "bar": "Bar",
+          "wc": "WC"
+        }
+      },
+      {
+        "id": "yourEvent",
+        "label": "Your next event",
+        "summary": "Host a meetup, an afternoon of board games, or something entirely new. Send invites and welcome guests smoothly with an e-ticket.",
+        "about": "Bring any idea to life, from a casual meetup to an afternoon of board games. Easily send out invites, share event details, and welcome everyone at the door with an e-ticket for a seamless experience.",
+        "imageAlt": "Illustration of a city with an empty plot in the middle, marked out with a dashed line, where a pin drops into the middle with ripples spreading out round it, waiting for an event.",
+        "labels": {}
       }
     ],
     "map": {
       "labels": {
         "swipe": "Swipe to explore the map",
+        "invited": "Invited",
+        "attending": "Attending",
+        "notGoing": "Not going",
         "checkedIn": "Checked in"
       }
     }
-  },
-  "hostEvent": {
-    "title": "Planning your next {event}?",
-    "text": [
-      "Whether it's a small meetup or an Appro across the city, Bonfiire helps you plan it, invite your people and check everyone in. Our step-by-step guides show you how."
-    ],
-    "link": { "label": "See instructions →", "to": "/help?tab=organizing" }
   },
   "photoBreak": {
     "image": "tug-of-war",

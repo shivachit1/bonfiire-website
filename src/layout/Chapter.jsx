@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "./layout.css";
 import useReveal from "./useReveal";
+import LinkLabel from "./LinkLabel";
+import Heading from "./Heading";
 
 // Screenshot placeholders only show while developing (npm start), never live.
 const showPlaceholders = process.env.NODE_ENV === "development";
@@ -11,11 +13,10 @@ const prefersReducedMotion = () =>
 
 // One step of the story: a photo, app screenshot or app video on one side, words on the other.
 // Set `reverse` to swap sides so consecutive chapters zig-zag.
-// `number` is optional; without it the label shows alone (e.g. a time of day).
 // `points` is an optional short list under the text (e.g. sub-steps).
 // `tags` is an optional row of small labels (e.g. example event types).
 // `link` ({ label, to }) adds a text link under everything, e.g. "Learn more".
-// `badge` adds a small filled label next to the eyebrow, e.g. "Where Bonfiire shines".
+// `badge` adds a small filled label above the title, e.g. "Where Bonfiire shines".
 // `highlight` puts the chapter on a dark card so it stands out from its neighbours.
 // `id` lets links jump straight to it (e.g. /features#multiple-checkpoints).
 // Media priority: `video` (short looping clip in a phone frame, `screenshot` as its
@@ -23,8 +24,6 @@ const prefersReducedMotion = () =>
 // `screenshotHint` is set → `image` (photo) → text only.
 const Chapter = ({
   id,
-  number,
-  label,
   title,
   text = [],
   points,
@@ -91,14 +90,14 @@ const Chapter = ({
     >
       {media && <div className="chapter-media">{media}</div>}
       <div className="chapter-body">
-        <div className="chapter-labels">
-          {(number || label) && (
-            <p className="eyebrow">{number ? `${number} · ${label}` : label}</p>
-          )}
-
-          {badge && <p className="badge">{badge}</p>}
-        </div>
-        <h3 className="title">{title}</h3>
+        {badge && (
+          <div className="chapter-labels">
+            <p className="badge">{badge}</p>
+          </div>
+        )}
+        <Heading size="item" className="title">
+          {title}
+        </Heading>
         {tags && (
           <ul className="tags">
             {tags.map((tag) => (
@@ -122,7 +121,7 @@ const Chapter = ({
         {link && (
           <p className="chapter-link">
             <Link className="text-link" to={link.to}>
-              {link.label}
+              <LinkLabel text={link.label} />
             </Link>
           </p>
         )}

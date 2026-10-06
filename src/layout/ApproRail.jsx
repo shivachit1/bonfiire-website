@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./layout.css";
 import approMaps from "./approMaps";
 import useReveal from "./useReveal";
+import Heading from "./Heading";
 
 // A row of Appro cards you scroll sideways (swipe or trackpad), with carousel dots
 // under it: one per card, the current one highlighted, and a click on a dot scrolls
@@ -37,7 +38,10 @@ const ApproRail = ({ events, linkLabel, dotsLabel }) => {
     }
     let nearest = 0;
     lefts.forEach((left, i) => {
-      if (Math.abs(left - rail.scrollLeft) < Math.abs(lefts[nearest] - rail.scrollLeft)) {
+      if (
+        Math.abs(left - rail.scrollLeft) <
+        Math.abs(lefts[nearest] - rail.scrollLeft)
+      ) {
         nearest = i;
       }
     });
@@ -74,7 +78,9 @@ const ApproRail = ({ events, linkLabel, dotsLabel }) => {
                     <Map {...event} view={event.snippet} />
                   </span>
                   <span className="appro-card-body">
-                    <span className="appro-card-title">{event.cardTitle}</span>
+                    <Heading size="item" as="span" className="appro-card-title">
+                      {event.cardTitle}
+                    </Heading>
                     <span className="appro-card-text">{event.summary}</span>
                     <span className="appro-card-more">{linkLabel}</span>
                   </span>

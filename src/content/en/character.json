@@ -1,0 +1,16 @@
+{
+  "eyebrow": "Character",
+  "title": "Say hi to {Kai}",
+  "text": [
+    "Built in 3D. Pick a move, then move your pointer around: Kai turns to look at you."
+  ],
+  "label": "Kai, a 3D Finnish student with brown hair, a white T-shirt and orange student overalls (haalarit) covered in patches",
+  "movesLabel": "Moves",
+  "moves": [
+    { "id": "wave", "label": "Wave" },
+    { "id": "idle", "label": "Chill" },
+    { "id": "walk", "label": "Walk" },
+    { "id": "jump", "label": "Jump" }
+  ],
+  "hint": "Drag Kai to turn them around."
+}

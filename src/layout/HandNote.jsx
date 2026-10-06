@@ -18,12 +18,18 @@ const lines = (text) =>
 // hand-drawn orange stroke that draws itself in when the note scrolls into view,
 // and the words ease up into place. A \n in the text starts a new line.
 
-const HandNote = ({ text = "" }) => {
+// `delay` (seconds) holds it back a while after it comes into view; `className`
+// adds to its own; `as` is its element (a <p>, or e.g. "h1" when it's a heading).
+const HandNote = ({ text = "", delay = 0, className = "", as: Tag = "p" }) => {
   const [ref, visible] = useReveal();
   const parts = text.split(/[{}]/);
 
   return (
-    <p ref={ref} className={`hand-note ${visible ? "is-visible" : ""}`}>
+    <Tag
+      ref={ref}
+      className={`hand-note ${visible ? "is-visible" : ""} ${className}`.trim()}
+      style={delay ? { "--hand-delay": `${delay}s` } : undefined}
+    >
       <span className="hand-note-quote" aria-hidden="true">
         “
       </span>
@@ -57,7 +63,7 @@ const HandNote = ({ text = "" }) => {
       <span className="hand-note-quote" aria-hidden="true">
         ”
       </span>
-    </p>
+    </Tag>
   );
 };
 

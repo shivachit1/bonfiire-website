@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import "./layout.css";
 import {
   Buildings,
@@ -56,6 +56,21 @@ const length = (points) =>
       0,
     );
 const fixed = (values) => values.map((v) => v.toFixed(4)).join(";");
+// When (as a share of the walk's time) a walk eased with WALK_EASE has covered a
+// share `f` of its way: the inverse of the easing curve, found by halving.
+const EASE = WALK_EASE.split(" ").map(Number);
+const bezier = (a, b, s) =>
+  3 * a * s * (1 - s) ** 2 + 3 * b * s * s * (1 - s) + s ** 3;
+const easedTime = (f) => {
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 30; i += 1) {
+    const mid = (lo + hi) / 2;
+    if (bezier(EASE[1], EASE[3], mid) < f) lo = mid;
+    else hi = mid;
+  }
+  return bezier(EASE[0], EASE[2], (lo + hi) / 2);
+};
 const offset = (i, size, spacing = 16) => (i - (size - 1) / 2) * spacing;
 
 // Everything the animations at one venue need: each group's plan and keyframes, the
@@ -89,6 +104,16 @@ const planGathering = ({
       arrive,
       leave,
       join: leave + length(inside) / INSIDE_SPEED,
+      // When they reach the start of a narrow way in (`narrowFrom`: which of its
+      // `via` points), to have closed up by then.
+      narrowAt:
+        spot.narrowFrom === undefined
+          ? leave
+          : leave +
+            (length(inside) / INSIDE_SPEED) *
+              easedTime(
+                length(inside.slice(0, spot.narrowFrom + 3)) / length(inside),
+              ),
     };
   });
   const LOOP = Math.ceil(
@@ -152,9 +177,9 @@ const planGathering = ({
       walker: shownDuring(plan.start, plan.join, plan.walked ? 0.5 : 0),
       settled: shownDuring(plan.join, END + FADE, FADE),
       qr: shownDuring(plan.arrive, plan.arrive + 1.6, 0.3),
-      // Closing up as they step in (for a spot with a narrow way in: `walkSpacing`).
+      // Closing up just before a narrow way in (`walkSpacing`).
       closeUp: fixed(
-        [0, plan.leave, Math.min(plan.leave + 0.6, LOOP), LOOP].map(
+        [0, Math.max(plan.leave, plan.narrowAt - 0.8), plan.narrowAt, LOOP].map(
           (t) => t / LOOP,
         ),
       ),
@@ -195,7 +220,8 @@ const planGathering = ({
 const PLANNED = Object.fromEntries(
   Object.entries(gatheringVenues).map(([id, venue]) => [
     id,
-    planGathering(venue),
+    // (An empty venue has no one coming: nothing to plan.)
+    venue.empty ? null : planGathering(venue),
   ]),
 );
 
@@ -335,20 +361,274 @@ const Settled = ({ spot, members, seed, hats }) =>
     );
   });
 
+// The guest list, a white strip centred under the venue: how many were invited,
+// are attending and aren't going, and how many have checked in (counting up as
+// each group comes in). Attending is everyone who ends up in; not going is 2 or 3
+// (depending on the venue); invited adds a couple who haven't answered yet.
+const GuestList = ({ id, counts, loop, labels }) => {
+  const attending = Math.max(...counts.map(({ count }) => count));
+  const notGoing = 2 + (id.length % 2);
+  const invited = attending + notGoing + 2;
+  // Each number in its own colour: invited in the brand orange, attending and
+  // checked in green, not going red.
+  const stats = [
+    {
+      label: labels.invited || "Invited",
+      value: invited,
+      color: "var(--primary-color1)",
+    },
+    {
+      label: labels.attending || "Attending",
+      value: attending,
+      color: "var(--yes-color)",
+    },
+    {
+      label: labels.notGoing || "Not going",
+      value: notGoing,
+      color: "var(--no-color)",
+    },
+    { label: labels.checkedIn || "Checked in", color: "var(--yes-color)" },
+  ];
+  // Each stat as wide as its words and number, side by side: the number a small
+  // gap after the words. The words are measured once drawn (till then guessed,
+  // about 5.7 per letter); numbers take about 8 per digit.
+  const labelRefs = useRef([]);
+  const [measured, setMeasured] = useState(null);
+  const labelKey = stats.map(({ label }) => label).join("|");
+  useLayoutEffect(() => {
+    const lengths = labelRefs.current.map((node) =>
+      node?.getComputedTextLength ? node.getComputedTextLength() : null,
+    );
+    if (lengths.every((n) => n)) setMeasured(lengths);
+  }, [labelKey]);
+  const numberAt = stats.map(
+    ({ label }, i) => 10 + (measured?.[i] ?? label.length * 5.7) + 5,
+  );
+  const widths = numberAt.map((at) => at + 2 * 8 + 10);
+  const total = widths.reduce((a, b) => a + b, 0);
+  const lefts = widths.map((_, i) =>
+    widths.slice(0, i).reduce((a, b) => a + b, 0),
+  );
+  return (
+    <g
+      transform={`translate(${VENUE_BOX.x + VENUE_BOX.w / 2 - total / 2} 470)`}
+    >
+      <rect x="0" y="-16" width={total} height="26" rx="8" fill="#fff" />
+      {stats.map(({ label, value, color }, i) => (
+        <g key={label} transform={`translate(${lefts[i]} 0)`}>
+          {i > 0 && (
+            <line
+              x1="0"
+              y1="-10"
+              x2="0"
+              y2="4"
+              stroke="#59412b"
+              strokeOpacity="0.15"
+            />
+          )}
+          <text
+            ref={(node) => {
+              labelRefs.current[i] = node;
+            }}
+            x="10"
+            y="1"
+            fontSize="10"
+            fontWeight="700"
+            fill="#59412b"
+          >
+            {label}
+          </text>
+          {value !== undefined ? (
+            <text
+              x={numberAt[i]}
+              y="2"
+              fontSize="13"
+              fontWeight="800"
+              style={{ fill: color }}
+            >
+              {value}
+            </text>
+          ) : (
+            counts.map(({ count, shown }) => (
+              <text
+                key={count}
+                x={numberAt[i]}
+                y="2"
+                fontSize="13"
+                fontWeight="800"
+                style={{ fill: color }}
+                opacity="0"
+              >
+                {count}
+                <animate
+                  attributeName="opacity"
+                  {...shown}
+                  calcMode="discrete"
+                  {...loop}
+                />
+              </text>
+            ))
+          )}
+        </g>
+      ))}
+    </g>
+  );
+};
+
+// Everything that happens at a venue over its Ground: the guests already there, each
+// group arriving at its spot, the entrance (the venue's own Front, its sign and the
+// host), the guest list, and the guests on their way in with their QR codes and ticks.
+const Gathering = ({ id, venue, labels }) => {
+  const { plans, animations, early, counts, loop } = PLANNED[id];
+  const { gate, Front, hats } = venue;
+  return (
+    <>
+      {/* Guests already there */}
+      {early.map(({ spot, members }, e) => (
+        <Settled
+          key={`early${e}`}
+          spot={spot}
+          members={members}
+          seed={e}
+          hats={hats}
+        />
+      ))}
+
+      {/* Each arriving group at its spot once it's in */}
+      {animations.map((animation, g) => (
+        <g key={`settled${g}`} opacity="0">
+          <Settled
+            spot={plans[g].spot}
+            members={plans[g].members}
+            seed={g}
+            hats={hats}
+          />
+          <animate
+            attributeName="opacity"
+            values={animation.settled.values}
+            keyTimes={animation.settled.keyTimes}
+            {...loop}
+          />
+        </g>
+      ))}
+
+      {/* The entrance: the venue's own (an arch, a door), its sign and host */}
+      {Front && <Front labels={labels} />}
+      <CheckpointSign
+        x={gate.sign[0]}
+        y={gate.sign[1]}
+        text={labels.entrance}
+        board="#e56822"
+        edge="#c2541a"
+      />
+      <Person index={4} x={gate.host[0]} y={gate.host[1]} />
+
+      {/* The guest list under the venue: invited, attending, not going and
+          checked in (counting up as they come in) */}
+      <GuestList id={id} counts={counts} loop={loop} labels={labels} />
+
+      {/* Guests on their way in, and their QR codes at the entrance */}
+      {animations.map((animation, g) => (
+        <g key={`walker${g}`} className="route-walker">
+          <g opacity="0">
+            {plans[g].members.map((m, i, all) => {
+              // Side by side; a group headed for a spot with a narrow way in
+              // closes up just before it.
+              const wide = offset(i, all.length);
+              const close = plans[g].spot.walkSpacing;
+              return (
+                <g key={m} transform={`translate(${wide} 0)`}>
+                  <Person
+                    index={m}
+                    y={-20}
+                    motion=""
+                    legs="walk"
+                    hair={m % 2 ? "long" : "short"}
+                    moving={{ ...animation.moving, loop }}
+                  />
+                  {close !== undefined && (
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      values={[wide, wide, offset(i, all.length, close)]
+                        .concat(offset(i, all.length, close))
+                        .map((x) => `${x} 0`)
+                        .join(";")}
+                      keyTimes={animation.closeUp}
+                      {...loop}
+                    />
+                  )}
+                </g>
+              );
+            })}
+            <animate
+              attributeName="opacity"
+              values={animation.walker.values}
+              keyTimes={animation.walker.keyTimes}
+              {...loop}
+            />
+          </g>
+          <Phone y={-46} qr={animation.qr} loop={loop} />
+          <animateMotion
+            path={animation.d}
+            calcMode="spline"
+            {...animation.motion}
+            {...loop}
+          />
+        </g>
+      ))}
+
+      {/* The host's tick once they've scanned a group's code */}
+      {animations.map((animation, g) => (
+        <HostTick
+          key={`tick${g}`}
+          x={gate.host[0]}
+          y={gate.host[1] - 32}
+          times={animation.tick}
+          loop={loop}
+        />
+      ))}
+    </>
+  );
+};
+
 const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
   const venue = gatheringVenues[id];
-  const { plans, animations, early, counts, loop } = PLANNED[id];
-  const { gate, Ground, Front, hats } = venue;
+  const { Ground, empty, startAtLeft } = venue;
 
   // On phones the map scrolls sideways; start with the venue in view (it's in the
-  // middle of the city, not at the left edge).
+  // middle of the city, not at the left edge), unless the venue starts at the left
+  // (`startAtLeft`, like the Appro maps). The map may not be laid out yet when it
+  // first appears (fonts, sizes; phones especially), so it keeps centring as its
+  // size settles, until it's touched or scrolled.
   const ref = useRef(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const viewport = ref.current?.querySelector(".route-viewport");
-    if (!viewport || viewport.scrollWidth <= viewport.clientWidth) return;
-    // (The venue is in the middle of the map.)
-    viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2;
-  }, [venue]);
+    if (!viewport || startAtLeft) return undefined;
+    let touched = false;
+    const centre = () => {
+      if (touched || viewport.scrollWidth <= viewport.clientWidth) return;
+      viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2;
+    };
+    const hands = () => {
+      touched = true;
+    };
+    centre();
+    const frame = requestAnimationFrame(centre);
+    const resized =
+      "ResizeObserver" in window ? new ResizeObserver(centre) : null;
+    resized?.observe(viewport);
+    resized?.observe(viewport.firstElementChild);
+    const events = ["touchstart", "pointerdown", "wheel"];
+    events.forEach((name) =>
+      viewport.addEventListener(name, hands, { passive: true }),
+    );
+    return () => {
+      cancelAnimationFrame(frame);
+      resized?.disconnect();
+      events.forEach((name) => viewport.removeEventListener(name, hands));
+    };
+  }, [venue, startAtLeft]);
 
   return (
     <div ref={ref}>
@@ -361,135 +641,8 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
         <g transform={`translate(${SHIFT} 0)`}>
           <Ground labels={labels} />
 
-          {/* Guests already there */}
-          {early.map(({ spot, members }, e) => (
-            <Settled
-              key={`early${e}`}
-              spot={spot}
-              members={members}
-              seed={e}
-              hats={hats}
-            />
-          ))}
-
-          {/* Each arriving group at its spot once it's in */}
-          {animations.map((animation, g) => (
-            <g key={`settled${g}`} opacity="0">
-              <Settled
-                spot={plans[g].spot}
-                members={plans[g].members}
-                seed={g}
-                hats={hats}
-              />
-              <animate
-                attributeName="opacity"
-                values={animation.settled.values}
-                keyTimes={animation.settled.keyTimes}
-                {...loop}
-              />
-            </g>
-          ))}
-
-          {/* The entrance: the venue's own (an arch, a door), its sign and host */}
-          {Front && <Front labels={labels} />}
-          <CheckpointSign
-            x={gate.sign[0]}
-            y={gate.sign[1]}
-            text={labels.entrance}
-            board="#e56822"
-            edge="#c2541a"
-          />
-          <Person index={4} x={gate.host[0]} y={gate.host[1]} />
-
-          {/* The counter: how many are in */}
-          <g transform="translate(718 470)">
-            <rect x="0" y="-16" width="108" height="26" rx="8" fill="#fff" />
-            <text x="10" y="1" fontSize="10" fontWeight="700" fill="#59412b">
-              {labels.checkedIn}
-            </text>
-            {counts.map(({ count, shown }) => (
-              <text
-                key={count}
-                x="98"
-                y="2"
-                textAnchor="end"
-                fontSize="13"
-                fontWeight="800"
-                fill="#e56822"
-                opacity="0"
-              >
-                {count}
-                <animate
-                  attributeName="opacity"
-                  {...shown}
-                  calcMode="discrete"
-                  {...loop}
-                />
-              </text>
-            ))}
-          </g>
-
-          {/* Guests on their way in, and their QR codes at the entrance */}
-          {animations.map((animation, g) => (
-            <g key={`walker${g}`} className="route-walker">
-              <g opacity="0">
-                {plans[g].members.map((m, i, all) => {
-                  // Side by side; a group headed for a spot with a narrow way in
-                  // walks closer together once they're through the door.
-                  const wide = offset(i, all.length);
-                  const close = plans[g].spot.walkSpacing;
-                  return (
-                    <g key={m} transform={`translate(${wide} 0)`}>
-                      <Person
-                        index={m}
-                        y={-20}
-                        motion=""
-                        legs="walk"
-                        hair={m % 2 ? "long" : "short"}
-                        moving={{ ...animation.moving, loop }}
-                      />
-                      {close !== undefined && (
-                        <animateTransform
-                          attributeName="transform"
-                          type="translate"
-                          values={[wide, wide, offset(i, all.length, close)]
-                            .concat(offset(i, all.length, close))
-                            .map((x) => `${x} 0`)
-                            .join(";")}
-                          keyTimes={animation.closeUp}
-                          {...loop}
-                        />
-                      )}
-                    </g>
-                  );
-                })}
-                <animate
-                  attributeName="opacity"
-                  values={animation.walker.values}
-                  keyTimes={animation.walker.keyTimes}
-                  {...loop}
-                />
-              </g>
-              <Phone y={-46} qr={animation.qr} loop={loop} />
-              <animateMotion
-                path={animation.d}
-                calcMode="spline"
-                {...animation.motion}
-                {...loop}
-              />
-            </g>
-          ))}
-
-          {/* The host's tick once they've scanned a group's code */}
-          {animations.map((animation, g) => (
-            <HostTick
-              key={`tick${g}`}
-              x={gate.host[0]}
-              y={gate.host[1] - 32}
-              times={animation.tick}
-              loop={loop}
-            />
-          ))}
+          {/* The guests, the entrance and the counter (an empty venue has none) */}
+          {!empty && <Gathering id={id} venue={venue} labels={labels} />}
         </g>
       </MapFrame>
     </div>

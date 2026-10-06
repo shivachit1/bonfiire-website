@@ -9,7 +9,7 @@ const EventDetailsPage = () => {
     const fallbackDelay = 1000;
 
     const fallbackTimer = setTimeout(() => {
-      navigate("/download", { isSharedLinked: true });
+      navigate("/download", { state: { isSharedLinked: true } });
     }, fallbackDelay);
 
     return () => clearTimeout(fallbackTimer);

@@ -1,13 +1,23 @@
 :root {
   --primary-color: #efe6dd; /* warm light brown, the same as the maps' ground */
   --secondary-color: #59412b;
+  --building-top: #f7f1ea; /* the maps' buildings: their light top (Buildings in eventMap.jsx) */
+  --building-base: #dccbbb; /* and the darker base under it */
+  --yes-color: #3f8f3a; /* green for good news: attending, checked in (the guest list on the maps) */
+  --no-color: #c8402f; /* red for no: not going */
+  --map-hero-veil: rgba(239, 230, 221, 0.6); /* --primary-color, partly see-through: behind the words over the home map */
   --primary-color1: #e56822;
   --accent-text-color: #b8501a; /* brand orange darkened for small text on light backgrounds */
+  --tip-bg: rgba(229, 104, 34, 0.08); /* --primary-color1, faint: behind tips in the docs */
+  --note-bg: rgba(89, 65, 43, 0.06); /* --secondary-color, faint: behind notes in the docs */
+  --button-dark: #000; /* the download buttons' black, also used by the link buttons */
+  --button-dark-hover: #2b1f15;
   --primary-text-color: rgba(36, 36, 36, 0.9);
   --secondary-text-color: rgba(36, 36, 36, 0.7);
   --night-color: #1c1410;
   --night-text-color: #f3e9df;
   --radius: 20px;
+  --radius-lg: 28px; /* rounder, for big panels (the Appro panel on home) */
   --section-space: clamp(48px, 7vw, 88px);
   --content-width: 1280px;
   /* Type scale: every text on the site uses one of these five sizes. */
@@ -22,6 +32,45 @@
     sans-serif;
   /* Handwritten, for the odd note (e.g. the quote under the Appro cards). */
   --font-hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  /* The 3D character (/character, figureScene.js). Matte colours: light and shade come
+     from the 3D lighting. */
+  --figure-skin: #efcfb8;
+  --figure-hair: #5a3a27;
+  --figure-top: #f4efe7; /* T-shirt */
+  --figure-overalls: var(--primary-color1); /* haalarit, in the brand orange */
+  --figure-patch-a: #f2c14e;
+  --figure-patch-b: #3f8f8a;
+  --figure-patch-c: #fbf7f0;
+  --figure-patch-d: #b8404f;
+  --figure-patch-e: #4f63a8;
+  --figure-shoe: #f3eee7; /* sneakers */
+  --figure-sole: #d9d1c6;
+  --figure-lace: #c9bfb2;
+  --figure-eye: #241a15;
+  --figure-mouth: #94503f;
+  --figure-blush: rgba(226, 120, 110, 0.35);
+  --figure-floor: rgba(89, 65, 43, 0.22);
+  /* The 3D world map (/map3d, worldScene.js): matte colours taken from the 2D maps. */
+  --world-ground: var(--primary-color);
+  --world-sky: #f8f3ee; /* the light behind the island */
+  --world-side: #dccbbb;
+  --world-grass: #b9cfa0;
+  --world-tree: #6b8f4e;
+  --world-tree-light: #8fbf6a;
+  --world-trunk: #a9714b;
+  --world-water: #7fa7c9;
+  --world-road: #e2d9cb;
+  --world-paving: #eee8dd;
+  --world-wall: #fcf8f5;
+  --world-door: #59412b;
+  --world-window: #d7e7f0;
+  --world-pin: var(--primary-color1);
+  --world-meet: var(--secondary-color);
+  --world-accent-a: #e0442b;
+  --world-accent-b: #f2b233;
+  --world-accent-c: #7fa7c9;
+  --world-accent-d: #b57ba6;
+  --world-accent-e: #8fbf6a;
 }
 
 * {

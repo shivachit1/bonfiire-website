@@ -1,14 +1,15 @@
 import { Navigate, useParams } from "react-router-dom";
 import Section from "../../layout/Section";
 import Intro from "../../layout/Intro";
-import FeatureGrid from "../../layout/FeatureGrid";
+import StepScenes from "../../layout/StepScenes";
 import CallToAction from "../../layout/CallToAction";
 import approMaps from "../../layout/approMaps";
 import { useContent } from "../../i18n";
 
 // One Appro in more detail (/appro/in-nature, /appro/bar-crawl, /appro/city-hopper):
-// its illustrated map (the same one as on the home page), how it works, ideas for
-// the stops and a few tips, then the download section.
+// its illustrated map (the same one as on the home page), then its name, what it is
+// and how it works, then the download section (its own closing text and games,
+// or the home page's).
 // All text lives in src/content/<language>/appro.json.
 const ApproPage = () => {
   const { slug } = useParams();
@@ -22,35 +23,32 @@ const ApproPage = () => {
 
   return (
     <>
-      <Section className="section--event section--appro">
-        <Intro as="h1" layout="left" title={event.title} text={page.intro}>
-          <Map {...event} />
-        </Intro>
+      <Section className="section--map-feature section--appro">
+        <Map {...event} />
       </Section>
 
       <Section>
-        <Intro title={appro.howTitle} text={event.text}>
-          <FeatureGrid items={page.steps} variant="plain" />
+        <Intro
+          as="h1"
+          size="item"
+          layout="left"
+          title={event.title}
+          text={page.intro}
+        >
+          <StepScenes
+            steps={page.steps}
+            labels={event.labels}
+            feed={event.feed}
+          />
         </Intro>
       </Section>
 
-      <Section>
-        <Intro title={page.ideas.title} text={page.ideas.text}>
-          <ul className="tags tags--center">
-            {page.ideas.items.map((idea) => (
-              <li key={idea}>{idea}</li>
-            ))}
-          </ul>
-        </Intro>
-      </Section>
-
-      <Section>
-        <Intro title={appro.tipsTitle}>
-          <FeatureGrid items={page.tips} variant="plain" />
-        </Intro>
-      </Section>
-
-      <CallToAction id="download" title={finale.title} text={finale.text} />
+      <CallToAction
+        id="download"
+        title={page.finale?.title || finale.title}
+        text={page.finale?.text || finale.text}
+        games={page.finale?.games}
+      />
     </>
   );
 };

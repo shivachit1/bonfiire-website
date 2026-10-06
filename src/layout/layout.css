@@ -24,6 +24,86 @@
   padding: var(--section-space) 24px;
   background: var(--primary-color);
 }
+/* A soft organic blob as the shape of a section's content (BlobPanel): a faint
+   cream shape stretched round it, its outline slowly breathing; the content sits
+   inside, with room round it so it stays within the curves. */
+.blob-panel {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 104px) clamp(32px, 9vw, 128px);
+}
+.blob-panel-shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--primary-color);
+  opacity: 0.85;
+}
+.blob-panel-content {
+  position: relative;
+}
+/* Just a shape behind a drawing: the drawing keeps its own size and place, the
+   blob reaches a little past its edges behind it. */
+.blob-panel--scene {
+  width: 100%;
+  max-width: 560px;
+  padding: 0;
+}
+.blob-panel--scene > .blob-panel-shape {
+  top: -12%;
+  left: -10%;
+  width: 120%;
+  height: 124%;
+}
+/* In time with the party drawing (its 6s cycle, see .party-hat): as the hat
+   squashes the blob squashes, as it leaps the blob stretches up, and as it lands
+   the blob shakes like jelly: it sways side to side on its base, squashing and
+   stretching, smaller each time, while its lobes jiggle out of step (see BlobPanel
+   `beat`), and settles. Between jumps it breathes gently. */
+.blob-panel--beat > .blob-panel-shape {
+  transform-origin: 50% 80%;
+  animation: blob-beat 6s ease-in-out infinite;
+}
+@keyframes blob-beat {
+  0%,
+  100% {
+    transform: scale(1, 1) skewX(0deg);
+  }
+  5% {
+    transform: scale(1.07, 0.9) skewX(0deg);
+  }
+  10% {
+    transform: scale(0.92, 1.1) skewX(-4deg);
+  }
+  15% {
+    transform: scale(1.09, 0.92) skewX(4deg);
+  }
+  19% {
+    transform: scale(0.95, 1.06) skewX(-3deg);
+  }
+  23% {
+    transform: scale(1.04, 0.97) skewX(2deg);
+  }
+  27% {
+    transform: scale(0.98, 1.02) skewX(-1deg);
+  }
+  31% {
+    transform: scale(1.01, 0.99) skewX(0.5deg);
+  }
+  35% {
+    transform: scale(1, 1) skewX(0deg);
+  }
+  65% {
+    transform: scale(1.015, 1.02) skewX(0deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blob-panel--beat > .blob-panel-shape {
+    animation: none;
+  }
+}
 /* Small drifting drawings beside a section (Doodles): faint, behind the content,
    floating up and down slowly. Hidden on narrow screens, still for reduced motion. */
 .section {
@@ -128,23 +208,29 @@
 }
 
 /* ---------- Shared type ---------- */
-/* Dashed badge, matching the original HighLightText component. */
-.eyebrow {
-  display: inline-block;
-  margin: 0 0 12px;
-  padding: 2px 16px;
-  border: 1px dashed var(--primary-color1);
-  border-radius: 12px;
-  font-size: var(--text-chip);
-  line-height: 1.6;
-  color: var(--primary-color1);
-}
-
-.title {
-  font-size: var(--text-section);
+/* ---------- Headings (Heading.jsx): page, section and item ---------- */
+.heading {
   font-weight: 700;
-  line-height: 1.15;
   color: var(--secondary-color);
+}
+.heading--page {
+  font-size: var(--text-page);
+  line-height: 1.15;
+}
+/* The photo hero (Hero.jsx): a little tighter, with a bolder accent. */
+.hero-title {
+  line-height: 1.1;
+}
+.hero-title .accent {
+  font-weight: 800;
+}
+.heading--section {
+  font-size: var(--text-section);
+  line-height: 1.15;
+}
+.heading--item {
+  font-size: var(--text-item);
+  line-height: 1.3;
 }
 
 .lead {
@@ -240,10 +326,820 @@
   }
 }
 
-/* ---------- Page header (pages without a hero photo) ---------- */
-.page-header .title {
-  font-size: var(--text-page);
+/* ---------- Appro hero (home: the top) ---------- */
+/* Straight under the cream navbar: the title (as big as a page title) and a few
+   lines over the top edge of the map, then a row of small cards of example
+   Appros. */
+.section--map-hero {
+  padding-top: var(--section-space);
 }
+/* A status line just above the link button, saying what's happening in the map's
+   round (adding checkpoints, assigning hosts, ready): plain italic text, each new
+   step sliding and fading in. */
+.map-hero-status {
+  margin: 0 0 10px;
+  font-size: var(--text-chip);
+  font-style: italic;
+  color: var(--secondary-text-color);
+}
+.map-hero-status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  animation: map-hero-status-in 0.4s ease both;
+}
+/* The green tick after a step that's done, drawing itself in. */
+.map-hero-status-tick {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}
+.map-hero-status-tick circle {
+  fill: var(--yes-color);
+}
+.map-hero-status-tick path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 12;
+  animation: map-hero-tick-draw 0.35s ease-out 0.15s both;
+}
+@keyframes map-hero-tick-draw {
+  from {
+    stroke-dashoffset: 12;
+  }
+}
+@keyframes map-hero-status-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-hero-status-text,
+  .map-hero-status-tick path {
+    animation: none;
+  }
+}
+/* The link button above the title: it stays still while the map's signs and
+   hosts come in, then moves quickly left and right a few times once they're all
+   there and the hosts have accepted (about 8.6s into the map's round, see
+   APPRO_FLOWS in
+   gatheringVenues.jsx), and
+   rests until the next round starts it again (ApproHero). */
+.map-hero-link {
+  display: inline-block;
+  margin: 0 0 20px;
+  animation: map-hero-wiggle 0.8s ease-in-out 8.6s both;
+}
+@keyframes map-hero-wiggle {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-hero-link {
+    animation: none;
+  }
+}
+/* The map: as wide as the content column, shrinking with the screen (no sideways
+   scrolling or swipe hint on phones). */
+.section--map-hero .route-map {
+  width: 100%;
+  margin: 0 auto;
+  transform: none;
+}
+/* The whole width of the map, with a thin strip trimmed off its top and bottom
+   (it shows 9:4 rather than 2:1; the signs are in its middle), the cut edges
+   fading softly into the cream. */
+.section--map-hero .route-viewport {
+  aspect-ratio: 9 / 4;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+}
+.section--map-hero .route-plane {
+  width: auto;
+  /* A little more off the top than the bottom (as a share of the width). */
+  margin-top: -2.5%;
+}
+.section--map-hero .route-hint {
+  display: none;
+}
+/* The title and text sit over the bottom of the map, on a soft, partly
+   see-through cream glow (the map's own ground colour) with the map a little
+   blurred behind it, so the map still shows under the words. */
+.map-hero-stage {
+  position: relative;
+}
+.map-hero-stage > .intro {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  width: min(100%, 880px);
+  padding: 40px 48px 24px;
+  transform: translateX(-50%);
+}
+.map-hero-stage > .intro::before {
+  content: "";
+  position: absolute;
+  /* Taller than wide: a soft oval round the title and the text together, so it
+     covers the lines of text too without spreading far over the map at the
+     sides (and a soft blur of the map behind it, fading out with it). */
+  inset: -20px 60px -40px;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 50% 56% at 50% 62%,
+    var(--map-hero-veil) 70%,
+    transparent
+  );
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-mask-image: radial-gradient(
+    ellipse 50% 56% at 50% 62%,
+    #000 65%,
+    transparent
+  );
+  mask-image: radial-gradient(
+    ellipse 50% 56% at 50% 62%,
+    #000 65%,
+    transparent
+  );
+}
+/* The text under the title a little narrower, so title and text sit together
+   inside the glow. */
+.map-hero-stage > .intro .lead {
+  max-width: 580px;
+}
+.map-hero-stage .route-map {
+  margin-top: 0;
+}
+/* Phones: the map would be tiny at the screen's width (its signs too: it's one
+   drawing scaled to fit), so it's drawn 2.4 times as wide as the screen (1.5
+   times on small tablets), centred and cut at the sides, running to the screen
+   edges: big enough for the words over its bottom and the signs (gathered in its
+   middle on phones, see gatheringVenues.jsx) above them. */
+@media (max-width: 800px) {
+  /* The words come after the map and keep their own height (more lines on
+     narrow phones), tucked up over its last 110px, so they only cover its
+     bottom row. */
+  .map-hero-stage {
+    display: flex;
+    flex-direction: column;
+  }
+  .map-hero-stage > .intro {
+    order: 1;
+    position: relative;
+    left: auto;
+    width: auto;
+    margin-top: -110px;
+    padding: 32px 8px 8px;
+    transform: none;
+  }
+  /* The lines run the full width (not balanced into short ones). */
+  .map-hero-stage > .intro .lead {
+    max-width: none;
+    text-wrap: pretty;
+  }
+  .map-hero-stage .route-map {
+    margin: 0 -24px;
+    width: auto;
+  }
+  /* Under the words the map fades out into the cream (no trees or blocks
+     showing through the text). */
+  .map-hero-stage > .intro::before {
+    inset: 0 -24px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--primary-color) 40%
+    );
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  /* Small tablets: 1.5 times as wide (the map's 2:1, less the strips off top
+     and bottom). */
+  .section--map-hero .route-viewport {
+    aspect-ratio: 3 / 2;
+  }
+  .section--map-hero .route-plane {
+    width: 150%;
+    margin-left: -25%;
+    margin-top: -3.75%;
+  }
+}
+@media (max-width: 600px) {
+  /* Phones: 2.4 times as wide. */
+  .section--map-hero .route-viewport {
+    aspect-ratio: 15 / 16;
+  }
+  .section--map-hero .route-plane {
+    width: 240%;
+    margin-left: -70%;
+    margin-top: -6%;
+  }
+}
+/* The example Appros: one row with no background of its own, split into one part
+   per Appro by thin dividers (like the
+   guest list on the one-place map). When the parts don't fit (phones) the panel
+   scrolls sideways inside itself, part by part. */
+.appro-mini-cards {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.appro-mini-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.appro-mini-cards li {
+  /* Sharing the panel when they fit, scrolling sideways when they don't. */
+  flex: 1 0 min(340px, 82%);
+  margin: 0;
+  scroll-snap-align: start;
+  /* Rise in one after another when the panel comes into view. */
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.1s);
+}
+/* A divider between one part and the next, in the light building colour (like
+   the download panel). */
+.appro-mini-cards li + li {
+  border-left: 3px solid var(--building-top);
+}
+.appro-mini-cards.is-visible li {
+  opacity: 1;
+  transform: none;
+}
+/* Its name with the arrow at the far end of the same line, the lines under them.
+   Hovered, the part takes the light building colour; pressed, lighter still. */
+.appro-mini-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 24px;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.appro-mini-card:hover {
+  color: inherit;
+  background-color: var(--building-top);
+}
+.appro-mini-card:active {
+  background-color: var(--page-light);
+}
+.appro-mini-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.appro-mini-card-text {
+  font-size: var(--text-info);
+  line-height: 1.5;
+  color: var(--secondary-text-color);
+}
+/* Just the arrow, in the brand orange, nudging forward over and over like the
+   link buttons' arrows (link-arrow), each part a little after the one before; a
+   hovered part's arrow nudges faster. */
+.appro-mini-card-arrow {
+  flex: none;
+  font-size: var(--text-item);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary-color1);
+  animation: link-arrow 1.4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.2s);
+}
+.appro-mini-card:hover .appro-mini-card-arrow {
+  animation-duration: 0.7s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .appro-mini-cards li,
+  .appro-mini-card {
+    transition: none;
+  }
+  .appro-mini-card-arrow {
+    animation: none;
+  }
+  .appro-mini-cards li {
+    opacity: 1;
+    transform: none;
+  }
+  .appro-mini-card:hover .appro-mini-card-arrow {
+    transform: none;
+  }
+}
+
+/* ---------- The promise and the app store buttons (home) ---------- */
+/* On the cream, carrying on from the map above with no edge between them, a
+   rounded panel as wide as the content column, in the map's light building
+   colour: the words on the left, the app store buttons on the right; stacked on
+   phones. */
+.sections--light-first
+  > section.section.section--get-app:nth-child(n of .section) {
+  background: var(--primary-color);
+}
+.get-app {
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--radius);
+  background: var(--building-top);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px clamp(32px, 5vw, 64px);
+}
+.get-app > .intro {
+  flex: 1 1 420px;
+}
+/* Its words run as wide as there's room for (not balanced into short lines). */
+.get-app > .intro .title,
+.get-app > .intro .lead {
+  max-width: none;
+  text-wrap: wrap;
+}
+/* A panel holding a drawing beside its words (the party panel): the words and
+   drawing laid out by .host-invite inside it. */
+.get-app--scene > .host-invite {
+  flex: 1;
+}
+/* Its button closer under the text. */
+.get-app--scene .host-invite-actions {
+  margin-top: 20px;
+}
+.get-app .appLinks-list {
+  flex: none;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+/* Once the buttons drop under the words (phones), they're centred in the panel. */
+@media (max-width: 800px) {
+  .get-app > section {
+    flex: 1 1 100%;
+  }
+  .get-app .appLinks-list {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* ---------- Services in Bonfiire (home, ServiceList) ---------- */
+/* On the cream, like the band above it. */
+.sections--light-first
+  > section.section.section--services:nth-child(n of .section) {
+  background: var(--primary-color);
+}
+/* Its title is centred over two set lines (a \n in home.json), not rebalanced. */
+.section--services .intro .title {
+  text-wrap: wrap;
+}
+/* Four short points in a row (two by two on tablets, one under another on small
+   phones): an icon in a soft cream round, a title and a line about it. They rise in one after
+   another. */
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 32px);
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+/* Each point a flat card in the maps' light building colour, with no shadow, no
+   arrow and no lift on hover: they aren't links. */
+.service-item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.1s);
+}
+.service-list.is-visible .service-item {
+  opacity: 1;
+  transform: none;
+}
+.service-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--primary-color1);
+  font-size: var(--text-item);
+}
+/* A service's drawing across the top of its card (ServiceScenes), on the
+   cream, with its tag (e.g. "Coming soon") in the top right corner. */
+.service-figure {
+  position: relative;
+  display: block;
+  margin: -8px -8px 4px;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 6px);
+}
+.service-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.service-figure .service-tag {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  background: none;
+}
+/* The drawings' gentle motion. */
+.scene-route {
+  animation: way-route 1.6s linear infinite;
+}
+.scene-slide-in,
+.scene-pop,
+.scene-tick,
+.scene-drop,
+.scene-found {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.scene-slide-in {
+  animation: scene-slide-in 4s ease infinite;
+}
+@keyframes scene-slide-in {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  25%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.scene-pop {
+  animation: scene-pop 4s cubic-bezier(0.3, 1.5, 0.5, 1) infinite;
+}
+@keyframes scene-pop {
+  0%,
+  20% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  32%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Two things taking turns in the same spot (a host, then a QR code): each shows
+   for about half the loop, popping in as the other goes. */
+.scene-swap-a,
+.scene-swap-b {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: scene-swap 6s ease-in-out infinite;
+}
+.scene-swap-b {
+  animation-delay: -3s;
+}
+@keyframes scene-swap {
+  0%,
+  42% {
+    opacity: 1;
+    transform: none;
+  }
+  50%,
+  92% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* The ticket's coins: popping in, growing a little bigger and back, then gone,
+   and again. */
+.scene-coin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-coin 3.2s ease-in-out infinite;
+}
+@keyframes scene-coin {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  15% {
+    opacity: 1;
+    transform: none;
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  65% {
+    opacity: 1;
+    transform: none;
+  }
+  85%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+.scene-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-pulse 1.6s ease-in-out infinite alternate;
+}
+@keyframes scene-pulse {
+  to {
+    transform: scale(1.15);
+  }
+}
+.scene-scan {
+  animation: scene-scan 2.4s ease-in-out infinite alternate;
+}
+@keyframes scene-scan {
+  to {
+    transform: translateY(38px);
+  }
+}
+.scene-tick {
+  animation: scene-tick 2.4s cubic-bezier(0.3, 1.5, 0.5, 1) infinite;
+}
+@keyframes scene-tick {
+  0%,
+  55% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  70%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.scene-found {
+  animation: scene-found 2.4s ease infinite;
+}
+/* What the found row shows before the name is found (a placeholder line), going
+   as the name comes in. */
+.scene-found-out {
+  animation: scene-found-out 2.4s ease infinite;
+}
+@keyframes scene-found-out {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes scene-found {
+  0%,
+  45% {
+    opacity: 0;
+  }
+  60%,
+  100% {
+    opacity: 1;
+  }
+}
+.scene-float {
+  animation: scene-float 2.6s ease-out infinite;
+}
+.scene-float--late {
+  animation-delay: 1.3s;
+}
+@keyframes scene-float {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  20%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+/* Rising up out of something (the help invitation out of its envelope), and
+   again. */
+.scene-rise {
+  animation: scene-rise 4s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+@keyframes scene-rise {
+  0%,
+  10% {
+    transform: translateY(34px);
+  }
+  35%,
+  100% {
+    transform: none;
+  }
+}
+.scene-drop {
+  animation: scene-drop 4s cubic-bezier(0.3, 1.3, 0.5, 1) infinite;
+}
+@keyframes scene-drop {
+  0%,
+  15% {
+    opacity: 0;
+    transform: translateY(-30px) rotate(-8deg);
+  }
+  35%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-route,
+  .scene-rise,
+  .scene-swap-a,
+  .scene-swap-b,
+  .scene-slide-in,
+  .scene-pop,
+  .scene-pulse,
+  .scene-scan,
+  .scene-tick,
+  .scene-coin,
+  .scene-found,
+  .scene-found-out,
+  .scene-float,
+  .scene-drop {
+    animation: none;
+  }
+  /* Still: just the host, and the searched name already found. */
+  .scene-swap-b,
+  .scene-found-out {
+    display: none;
+  }
+}
+/* The icon, with a small tag (e.g. "Coming soon") at the far end. */
+.service-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.service-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--primary-color);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--accent-text-color);
+}
+/* One row of cards you swipe or scroll sideways, snapping card by card; the row
+   runs to the screen edges so the next card peeks in. (Room under it for the
+   cards' base.) */
+.service-list--row {
+  display: flex;
+  margin: 32px -24px 0;
+  padding: 0 24px 4px;
+  scroll-padding: 0 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.service-list--row::-webkit-scrollbar {
+  display: none;
+}
+.service-list--row .service-item {
+  flex: 0 0 min(300px, 78vw);
+  scroll-snap-align: start;
+}
+.service-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.service-text {
+  font-size: var(--text-info);
+  line-height: 1.6;
+  color: var(--secondary-text-color);
+}
+@media (max-width: 900px) {
+  .service-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .service-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .service-list--grid .service-item {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Taking part in an Appro? (home, ParticipateScene) ---------- */
+.participate-scene {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+/* Each card bobs gently, a little out of step; the route flows; the clock's
+   hand turns. */
+.participate-card {
+  animation: participate-bob 4s ease-in-out infinite alternate;
+}
+@keyframes participate-bob {
+  to {
+    transform: translateY(-6px);
+  }
+}
+.participate-route {
+  animation: way-route 1.6s linear infinite;
+}
+.participate-hand {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: participate-hand 6s linear infinite;
+}
+@keyframes participate-hand {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .participate-card,
+  .participate-route,
+  .participate-hand {
+    animation: none;
+  }
+}
+
 
 /* ---------- Hero ---------- */
 /* More room above the hero than below, so it leads into the partner strip. */
@@ -261,16 +1157,6 @@
   gap: clamp(32px, 5vw, 72px);
 }
 
-.hero-title {
-  font-size: var(--text-page);
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--secondary-color);
-}
-
-.hero-title .accent {
-  font-weight: 800;
-}
 
 .hero-copy .appLinks-list {
   justify-content: flex-start;
@@ -757,20 +1643,14 @@
 }
 
 /* Chapter titles sit one step below section titles. */
-.chapter .title {
-  font-size: var(--text-item);
-}
 
-/* Eyebrow plus an optional filled badge on one line. */
+/* An optional filled badge above a chapter title. */
 .chapter-labels {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-}
-.chapter-labels .eyebrow {
-  margin: 0;
 }
 .badge {
   margin: 0;
@@ -804,12 +1684,7 @@
   background: rgba(255, 255, 255, 0.1);
   color: var(--night-text-color);
 }
-.chapter--highlight .text-link {
-  color: var(--primary-color1);
-}
-.chapter--highlight .text-link:hover {
-  color: var(--night-text-color);
-}
+
 
 .chapter-image {
   width: 100%;
@@ -943,7 +1818,6 @@
 }
 
 .feature-title {
-  font-size: var(--text-item);
   color: var(--primary-color1);
 }
 
@@ -958,12 +1832,37 @@
 .testimonial {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 24px;
+  gap: 18px;
+}
+/* On the home page's cream: flat cards in the light building colour, like the
+   "What you get" cards (no outline, no shadow). */
+.section--cream .testimonial {
+  /* The same padding as the "What you get" cards. */
+  padding: 20px;
+  border: none;
+  box-shadow: none;
+  background: var(--building-top);
+}
+/* The drawn avatar with no round behind it, and the quote on a soft panel of
+   the page's cream (a bit darker than the card). */
+.avatar.avatar--drawn {
+  background: none;
+  border-radius: 0;
+}
+
+.section--cream .testimonial-quote {
+  /* Reaching out like the "What you get" cards' drawings (closer to the card's
+     edges than the name), with the same rounding. */
+  flex: 1;
+  margin: 0 -8px -8px;
+  padding: 16px 18px;
+  border-radius: calc(var(--radius) - 6px);
+  background: var(--primary-color);
 }
 
 .testimonial-quote {
   margin: 0;
+  font-style: italic;
   font-size: var(--text-info);
   line-height: 1.7;
 }
@@ -995,6 +1894,12 @@
 }
 .testimonial-name {
   font-weight: 700;
+}
+/* On the home page's cards: name and role small and close together. */
+.section--cream .testimonial-name,
+.section--cream .testimonial-role {
+  font-size: var(--text-chip);
+  line-height: 1.35;
 }
 .testimonial-role {
   opacity: 0.7;
@@ -1133,7 +2038,7 @@
   list-style: none;
   /* The same size as the answers, set apart by weight. */
   font-size: var(--text-info);
-  font-weight: 700;
+  font-weight: 500;
 }
 .faq-item summary::-webkit-details-marker {
   display: none;
@@ -1152,6 +2057,24 @@
   line-height: 1.7;
   color: var(--secondary-text-color);
 }
+/* On the home page: as wide as the content column, the questions bigger (item
+   titles) with more room round them. */
+.section--cream .faq {
+  max-width: none;
+}
+.section--cream .faq-item summary {
+  padding: 24px 0;
+  font-size: var(--text-item);
+}
+.section--cream .faq-answer {
+  max-width: none;
+  margin-bottom: 24px;
+}
+/* An open question sits close to its answer. */
+.faq-item[open] summary,
+.section--cream .faq-item[open] summary {
+  padding-bottom: 6px;
+}
 
 /* ---------- FeatureGroups ---------- */
 .feature-groups {
@@ -1159,10 +2082,6 @@
 }
 .feature-group + .feature-group {
   margin-top: clamp(40px, 6vw, 64px);
-}
-.feature-group-title {
-  font-size: var(--text-item);
-  color: var(--secondary-color);
 }
 .feature-group .feature-grid {
   margin-top: 20px;
@@ -1247,11 +2166,12 @@
   margin: 4px 0 0;
 }
 .way-card-more {
+  align-self: flex-start;
   margin-top: auto;
-  padding-top: 8px;
-  font-size: var(--text-info);
-  font-weight: 700;
-  color: var(--accent-text-color);
+}
+.way-card:hover .way-card-more {
+  background-color: var(--button-dark-hover);
+  transform: scale(1.06);
 }
 @media (max-width: 800px) {
   .way-cards {
@@ -1361,11 +2281,6 @@
   gap: 10px;
   padding: clamp(22px, 3vw, 32px);
 }
-.appro-card-title {
-  font-size: var(--text-item);
-  font-weight: 700;
-  color: var(--secondary-color);
-}
 .appro-card-text {
   font-size: var(--text-info);
   line-height: 1.7;
@@ -1445,8 +2360,8 @@
   opacity: 0;
   transform: translateY(12px) rotate(-1.5deg);
   transition:
-    opacity 0.8s ease,
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    opacity 0.8s ease var(--hand-delay, 0s),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--hand-delay, 0s);
 }
 .hand-note.is-visible {
   opacity: 1;
@@ -1484,7 +2399,7 @@
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.9s ease 0.6s;
+  transition: stroke-dashoffset 0.9s ease calc(var(--hand-delay, 0s) + 0.6s);
 }
 .hand-note.is-visible .hand-note-line path {
   stroke-dashoffset: 0;
@@ -1503,30 +2418,14 @@
 }
 
 /* ---------- Hosting the next Appro (home) ---------- */
-/* The quote under the Appro cards sits midway between the cards' dots and this
-   panel: the same --quote-gap above and below it (both sections are white). */
-:root {
-  --quote-gap: clamp(40px, 5vw, 64px);
-}
-.section--appros {
-  padding-bottom: 0;
-}
-.section--appros .hand-note {
-  margin-top: var(--quote-gap);
-}
-.section--host {
-  padding-top: var(--quote-gap);
-}
-/* A cream panel as wide as the content column: text and actions on the left, the
-   small map on the right; stacked on phones. It rises in as it comes into view. */
+/* Straight on the white section (no panel), lined up with the content column:
+   text and actions on the left, the small map on the right (its edges fading into
+   the white); stacked on phones. It rises in as it comes into view. */
 .host-invite {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
   gap: clamp(32px, 5vw, 80px);
-  padding: clamp(28px, 5vw, 64px);
-  border-radius: calc(var(--radius) * 1.5);
-  background: var(--primary-color);
   animation: host-invite-in linear both;
   animation-timeline: view();
   animation-range: entry 0% entry 60%;
@@ -1773,7 +2672,315 @@
   }
 }
 
-/* The small map, on the panel's colour. */
+/* Its section sits over the ones round it, so the confetti shows as it spills
+   over them. */
+.section--party {
+  z-index: 2;
+}
+/* The party drawing beside "Planning a party…?" (PartyScene), over and over
+   (every 6s): the hat squashes, jumps and lands with a squash and a wobble; the
+   present's confetti (see below) flies out as it reaches the top (0.6s in), lands
+   scattered on the floor, lies there a few seconds and fades. The balloons sway,
+   sparkles twinkle. The glitter flies out past the drawing's edges. */
+.party-scene {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+.party-hat {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: party-hop 6s ease-in-out infinite;
+}
+@keyframes party-hop {
+  0%,
+  27%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  5% {
+    transform: translateY(0) scale(1.1, 0.86);
+  }
+  8% {
+    transform: translateY(-18px) rotate(-5deg) scale(0.95, 1.07);
+  }
+  10% {
+    transform: translateY(-28px) rotate(-2deg) scale(0.94, 1.08);
+  }
+  13% {
+    transform: translateY(-16px) rotate(4deg) scale(0.97, 1.04);
+  }
+  16% {
+    transform: translateY(0) scale(1.1, 0.88);
+  }
+  19% {
+    transform: translateY(0) rotate(-4deg) scale(0.98, 1.03);
+  }
+  22% {
+    transform: translateY(0) rotate(3deg);
+  }
+  25% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+}
+.party-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: party-shadow 6s ease-in-out infinite;
+}
+@keyframes party-shadow {
+  0%,
+  27%,
+  100% {
+    transform: scale(1);
+  }
+  5% {
+    transform: scale(1.08);
+  }
+  10% {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+}
+.party-piece {
+  opacity: 0;
+  animation-duration: 6s;
+  animation-delay: 0.6s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
+}
+.party-piece {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: party-piece;
+}
+/* Each piece tumbles like paper while it falls (flipping between its face and its
+   edge), then lies flat once it lands. Same cycle and start as its fall. */
+.party-flip {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: party-flip 6s linear infinite backwards;
+}
+@keyframes party-flip {
+  0%,
+  9%,
+  37%,
+  100% {
+    transform: scale(1, 1);
+  }
+  11.5%,
+  16.5%,
+  21.5%,
+  26.5%,
+  31.5% {
+    transform: scale(0.9, 0.12);
+  }
+  14%,
+  19%,
+  24%,
+  29%,
+  34% {
+    transform: scale(1, 1);
+  }
+}
+@keyframes party-piece {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  2% {
+    opacity: 1;
+  }
+  9% {
+    transform: translate(var(--tx), var(--ty)) rotate(calc(var(--spin) / 4));
+    animation-timing-function: ease-in-out;
+  }
+  19% {
+    transform: translate(var(--ax), var(--ay)) rotate(calc(var(--spin) / 2));
+    animation-timing-function: ease-in-out;
+  }
+  29% {
+    transform: translate(var(--bx), var(--by)) rotate(calc(var(--spin) * 0.75));
+    animation-timing-function: ease-in;
+  }
+  37%,
+  80% {
+    opacity: 1;
+    transform: translate(var(--fx), var(--fy)) rotate(var(--spin));
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--fx), var(--fy)) rotate(var(--spin));
+  }
+}
+.party-sway {
+  /* From the present's lid, right of the bow, where the strings are tied: the
+     bunch wiggles to and fro. */
+  transform-box: view-box;
+  transform-origin: 256px 166px;
+  animation: party-sway 2.6s ease-in-out infinite;
+}
+@keyframes party-sway {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  30% {
+    transform: rotate(6deg);
+  }
+  55% {
+    transform: rotate(-3deg);
+  }
+  78% {
+    transform: rotate(8deg);
+  }
+}
+.party-sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: party-sparkle 1.8s ease-in-out infinite alternate;
+}
+@keyframes party-sparkle {
+  from {
+    opacity: 0.1;
+    transform: scale(0.4) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+/* The present, together with the hat's jump: it wiggles and squashes as the hat
+   squashes, and as the hat reaches the top the balloons tied to its lid lift it a
+   little and it drops back (a puff of confetti escapes, see PartyScene); its bow flutters and its tails wave all the
+   time. The drawing is only to look at: taps go through to the link beside it. */
+.party-scene {
+  pointer-events: none;
+}
+.gift-box {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: gift-wiggle 6s ease-in-out infinite;
+}
+@keyframes gift-wiggle {
+  0%,
+  20%,
+  100% {
+    transform: rotate(0deg) scale(1, 1);
+  }
+  2% {
+    transform: rotate(-3deg);
+  }
+  4% {
+    transform: rotate(3deg);
+  }
+  6% {
+    transform: rotate(0deg) scale(1.04, 0.94);
+  }
+  10% {
+    transform: rotate(0deg) scale(0.98, 1.03);
+  }
+  16% {
+    transform: rotate(0deg) scale(1.03, 0.96);
+  }
+}
+.gift-lid {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: gift-lid 6s ease-in-out infinite;
+}
+@keyframes gift-lid {
+  0%,
+  7%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  10% {
+    transform: translateY(-7px) rotate(-2deg);
+  }
+  13% {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+  17% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+.gift-loop {
+  transform-box: fill-box;
+  animation: gift-loop 0.9s ease-in-out infinite alternate;
+}
+.gift-loop--left {
+  transform-origin: 100% 70%;
+}
+.gift-loop--right {
+  transform-origin: 0% 70%;
+  animation-delay: -0.45s;
+}
+@keyframes gift-loop {
+  to {
+    transform: scale(0.86, 1.1) rotate(-4deg);
+  }
+}
+.gift-tail {
+  transform-box: fill-box;
+  animation: gift-tail 1.3s ease-in-out infinite alternate;
+}
+.gift-tail--left {
+  transform-origin: 100% 0%;
+}
+.gift-tail--right {
+  transform-origin: 0% 0%;
+  animation-delay: -0.65s;
+}
+@keyframes gift-tail {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gift-box,
+  .gift-lid,
+  .gift-loop,
+  .gift-tail,
+  .party-hat,
+  .party-shadow,
+  .party-sway,
+  .party-sparkle {
+    animation: none;
+  }
+  .party-pop {
+    display: none;
+  }
+}
+/* The Appro one: the map gets the larger share of the row. */
+.host-invite--wide-scene {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+/* Its blob reaches a little past the drawing: room above and below, so the curves
+   keep clear of the section's edges. */
+.host-invite--wide-scene .host-scene {
+  margin: clamp(32px, 5vw, 72px) 0;
+}
+@media (max-width: 800px) {
+  .host-invite--wide-scene {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* (A little narrower, so the blob's curves aren't cut off at the screen edge.) */
+  .host-invite--wide-scene .host-scene {
+    width: 86%;
+    /* (Evens out the room between the link above and the section's end below.) */
+    margin: 41px auto 23px;
+  }
+}
+/* The small map, cut to a breathing blob. */
 .host-scene {
   display: block;
   width: 100%;
@@ -1905,6 +3112,125 @@
     transform: translate(var(--dx), var(--dy)) rotate(var(--spin));
   }
 }
+/* Your event: the pin drops into the empty plot with a little bounce, and ripples
+   keep spreading out round it. */
+.plot-pin {
+  animation: plot-pin-drop 0.9s cubic-bezier(0.3, 0.6, 0.4, 1) both;
+}
+@keyframes plot-pin-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  72% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+/* A checkpoint's host popping up beside its sign, growing from their feet with a
+   little bounce. */
+.plot-host {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: plot-host-in 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes plot-host-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+/* A host's tiny tag: "Host invited" shrinks away as it's accepted and a green
+   "Accepted" pops up in its place; later both fade out together. */
+.plot-invite,
+.plot-accepted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.plot-invite {
+  animation: plot-invite-out 0.25s ease both;
+}
+@keyframes plot-invite-out {
+  to {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+.plot-accepted {
+  animation: plot-accepted-in 0.3s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes plot-accepted-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+.plot-tags-out {
+  animation: plot-tags-out 0.3s ease both;
+}
+@keyframes plot-tags-out {
+  to {
+    opacity: 0;
+  }
+}
+/* A host's helper: popping up where the host stands (32 to the right), then
+   walking round to the other side of the sign. */
+.plot-helper {
+  animation: plot-helper-in 1s ease both;
+}
+@keyframes plot-helper-in {
+  0% {
+    opacity: 0;
+    transform: translateX(32px) scale(0.3);
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(32px) scale(1);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+/* A number on the guest list popping as it changes. */
+.plot-count {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: plot-count-pop 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+@keyframes plot-count-pop {
+  from {
+    transform: scale(1.5);
+  }
+}
+/* The signs and hosts fading out at the end of a round, before it starts again. */
+.route-round {
+  transition: opacity 0.4s ease;
+}
+.route-round.is-fading {
+  opacity: 0;
+}
+.plot-ripple {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: plot-ripple 3s ease-out infinite;
+}
+@keyframes plot-ripple {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
 /* Steam rising off the pot on the stove. */
 .stove-steam {
   opacity: 0;
@@ -1949,8 +3275,10 @@
   gap: 8px;
   margin: 0 0 clamp(20px, 3vw, 32px);
 }
-/* Flat pills (the site-wide button style is reset); the current one filled, with a
-   thin line running along its bottom edge until the next venue comes up. */
+/* Flat pills (the site-wide button style is reset); the current one filled. While
+   the venues take turns it fills up instead, from left to right, until the next
+   venue comes up: a copy of the label in white on the dark fill, revealed as it
+   goes, over the label in brown on the light pill. */
 .venue-pill {
   position: relative;
   overflow: hidden;
@@ -1976,34 +3304,288 @@
   background: var(--secondary-color);
   color: #fff;
 }
-.venue-pill-time {
+.venue-pill.is-timed,
+.venue-pill.is-timed:hover {
+  background: rgba(89, 65, 43, 0.14);
+  color: var(--secondary-color);
+}
+.venue-pill-fill {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 100%;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: var(--secondary-color);
+  color: #fff;
+  clip-path: inset(0 100% 0 0);
+  animation: venue-pill-fill linear both;
+}
+@keyframes venue-pill-fill {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* Pager dots under a map (MapShowcase pager="dots"): small circles; the current
+   one a longer pill in a pale highlight colour that fills up with the highlight
+   colour until the next one comes up (just filled when they don't take turns). */
+.map-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(16px, 2.5vw, 24px);
+}
+.map-dots--top {
+  margin: 0 0 clamp(16px, 2.5vw, 24px);
+}
+/* The map's own spot, so words can be laid over it (MapShowcase `overlay`). */
+.map-showcase-view {
+  position: relative;
+}
+/* The caption laid over the bottom edge of the map (MapShowcase `captionOver`),
+   like the home page's top map: centred, on a soft, partly see-through cream glow
+   so the map shows under it, with the dots just above its title (`dotsAt
+   "caption"`). It hangs partly below the map, so it covers only the map's last
+   row (and not what's happening in the middle). It lets swipes through to the
+   map, all but the dots. */
+.map-showcase-view {
+  margin-bottom: 96px;
+}
+.map-caption-over {
+  position: absolute;
+  bottom: -96px;
+  left: 50%;
+  z-index: 2;
+  width: min(100%, 760px);
+  padding: 32px 48px 8px;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.map-caption-over::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    var(--map-hero-veil) 70%,
+    transparent
+  );
+}
+.map-caption-over .map-dots {
+  margin: 0 0 12px;
+  pointer-events: auto;
+}
+.map-caption-over .map-caption {
+  align-items: center;
+  margin: 0;
+}
+.map-caption-over .map-caption-body {
+  margin: 0 auto;
+}
+@media (max-width: 800px) {
+  .map-caption-over {
+    padding: 24px 8px 4px;
+  }
+  /* The single-location map on phones: no scrolling it sideways (and no swipe
+     hint); still drawn at its phone width (820px, so the venue fills a phone's
+     screen), cut at the sides and kept centred on the venue (GatheringMap). A
+     sideways swipe changes the venue. */
+  .gathering-showcase--fit .route-viewport {
+    overflow-x: hidden;
+    -webkit-mask-image: none;
+    mask-image: none;
+    touch-action: pan-y;
+  }
+  .gathering-showcase--fit .route-hint {
+    display: none;
+  }
+}
+/* (Resets the site-wide button style: its padding and hover would reshape them.) */
+.map-dot {
+  position: relative;
+  overflow: hidden;
+  flex: none;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(89, 65, 43, 0.2);
+  cursor: pointer;
+  transition:
+    width 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.4s ease;
+}
+.map-dot:hover {
+  transform: none;
+  background: rgba(89, 65, 43, 0.4);
+}
+.map-dot.is-current,
+.map-dot.is-current:hover {
+  width: 36px;
+  background: var(--primary-color1);
+}
+.map-dot.is-timed,
+.map-dot.is-timed:hover {
+  background: rgba(229, 104, 34, 0.25);
+}
+.map-dot-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background: var(--primary-color1);
   transform-origin: left;
-  animation: venue-pill-time linear both;
+  animation: map-dot-fill linear both;
 }
-@keyframes venue-pill-time {
+@keyframes map-dot-fill {
   from {
     transform: scaleX(0);
   }
 }
-/* Each new map fades in. */
+/* Under the dots: the current one's name, a few lines about it and its link
+   below them, all lined up on the left, fading in with each new map. */
+.map-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: clamp(16px, 2.5vw, 24px);
+  animation: map-caption-in 0.6s ease both;
+}
+.map-caption-body {
+  /* Wide enough for each longer description to run to three lines. */
+  max-width: 640px;
+}
+.map-caption-text--short {
+  display: none;
+}
+@media (max-width: 640px) {
+  .map-caption-text--long {
+    display: none;
+  }
+  .map-caption-text--short {
+    display: block;
+  }
+}
+.map-caption > .text-link {
+  flex: none;
+  white-space: nowrap;
+}
+
+.map-caption-title {
+  margin: 0;
+}
+.map-caption-text {
+  margin: 8px 0 0;
+  font-size: var(--text-info);
+  line-height: 1.7;
+  color: var(--secondary-text-color);
+}
+@keyframes map-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+/* An Appro's words under the dots (a title and a few lines), centred under its
+   map and fading in with it. */
+.appro-slide-words {
+  align-self: stretch;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  text-wrap: balance;
+}
+.appro-slide-words .title {
+  margin: 0;
+}
+/* The text under the title, centred. */
+.appro-slide-words .lead {
+  margin: 12px auto 0;
+}
+/* Map to map, like a carousel: the maps share one spot; the one before slides off
+   to the left as the next slides in from the right, fading a little at the edges
+   of the slide (the other way round when going back to an earlier one). */
+.gathering-stages {
+  display: grid;
+  /* As wide as the column, never wider (a map scrolls sideways inside it). */
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  /* Swiping it sideways changes the map: not the browser's back/forward, and no
+     text selected while dragging it with the mouse. */
+  overscroll-behavior-x: contain;
+  user-select: none;
+}
+/* Phones: the maps run to the screen edges (see .route-viewport), so the area they
+   slide in reaches the edges too. */
+@media (max-width: 800px) {
+  .gathering-stages {
+    margin: 0 -24px;
+  }
+  .gathering-stage {
+    padding: 0 24px;
+  }
+}
 .gathering-stage {
-  animation: gathering-in 0.6s ease both;
+  grid-area: 1 / 1;
+  min-width: 0;
+  animation: gathering-in 0.9s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.gathering-stage.is-leaving {
+  pointer-events: none;
+  animation-name: gathering-out;
+}
+.gathering-stage.is-back {
+  animation-name: gathering-in-back;
+}
+.gathering-stage.is-leaving.is-back {
+  animation-name: gathering-out-back;
 }
 @keyframes gathering-in {
   from {
-    opacity: 0;
-    transform: scale(0.99);
+    opacity: 0.4;
+    transform: translateX(100%);
+  }
+}
+@keyframes gathering-out {
+  to {
+    opacity: 0.4;
+    transform: translateX(-100%);
+  }
+}
+@keyframes gathering-in-back {
+  from {
+    opacity: 0.4;
+    transform: translateX(-100%);
+  }
+}
+@keyframes gathering-out-back {
+  to {
+    opacity: 0.4;
+    transform: translateX(100%);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .glitter {
+  .glitter,
+  .plot-ripple {
     display: none;
+  }
+  .plot-pin,
+  .plot-host,
+  .plot-helper,
+  .plot-count,
+  .map-caption {
+    animation: none;
+  }
+  /* Still: the hosts' tags already gone. */
+  .plot-tags-out {
+    display: none;
+  }
+  .map-dot {
+    transition: none;
   }
   .house-glow,
   .balloon-bob,
@@ -2013,6 +3595,9 @@
   .fairy-light,
   .gathering-stage {
     animation: none;
+  }
+  .gathering-stage.is-leaving {
+    display: none;
   }
 }
 
@@ -2033,10 +3618,391 @@
   margin-left: 0;
 }
 
-/* An Appro page's title is the page's own heading, so it's the page title size. */
-.section--appro .intro h1.title {
-  font-size: var(--text-page);
+/* An Appro page: its map first, on its own in the content column (like the home
+   page's featured map), with less room above it. The name and text follow in the
+   next section, left-aligned and as wide as the column. */
+.section--appro {
+  padding-top: calc(var(--section-space) / 2);
 }
+.section--appro + .section .intro--left > .title,
+.section--appro + .section .intro--left > .lead {
+  max-width: none;
+}
+.section--appro + .section .intro--left > .lead {
+  text-wrap: pretty;
+}
+.section--appro + .section .intro--left > .title + .lead {
+  margin-top: 8px;
+}
+/* An Appro's steps (StepScenes): one per row, a small animated scene beside its
+   title and text, the words first on the left, then swapping sides each row; on
+   phones the scene sits above the words. A narrower column than the text above,
+   centred. Each rises in as it comes into view. */
+.step-scenes {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 40px);
+  max-width: 1000px;
+  margin: clamp(40px, 5vw, 64px) auto 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.step-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.step-scene:nth-child(odd) .step-scene-art {
+  order: 2;
+}
+.step-scene.is-visible {
+  opacity: 1;
+  transform: none;
+}
+/* (People walking in may step a little past the scene's box: they show there too.) */
+.step-scene-art {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  overflow: visible;
+  height: auto;
+  justify-self: center;
+}
+.step-scene .feature-text {
+  max-width: 520px;
+}
+/* The planning map (HostScene) is wider than the other scenes, as on the home page. */
+.step-scene-art--map {
+  max-width: 520px;
+}
+@media (max-width: 640px) {
+  .step-scene {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .step-scene:nth-child(odd) .step-scene-art {
+    order: 0;
+  }
+  .step-scene-art {
+    max-width: 400px;
+  }
+}
+
+/* The scenes' own loops. */
+.scene-invite {
+  animation: scene-invite 5s ease-in-out infinite;
+}
+@keyframes scene-invite {
+  0% {
+    opacity: 0;
+    transform: translate(28px, 34px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(28px, 34px);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(112px, 98px) scale(0.85);
+  }
+  55%,
+  100% {
+    opacity: 0;
+    transform: translate(112px, 98px) scale(0.85);
+  }
+}
+.scene-badge,
+.scene-stamp-mark,
+.scene-pop,
+.scene-joined {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.scene-badge {
+  animation: scene-badge 5s ease-out infinite;
+}
+@keyframes scene-badge {
+  0%,
+  48% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  56% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  62%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.scene-stamp-tool {
+  animation: scene-stamp-tool 8s ease-in-out infinite;
+}
+@keyframes scene-stamp-tool {
+  0% {
+    transform: translate(72px, 0);
+  }
+  8% {
+    transform: translate(72px, 21px);
+  }
+  12% {
+    transform: translate(72px, 0);
+  }
+  25% {
+    transform: translate(108px, 0);
+  }
+  33% {
+    transform: translate(108px, 21px);
+  }
+  37% {
+    transform: translate(108px, 0);
+  }
+  50% {
+    transform: translate(144px, 0);
+  }
+  58% {
+    transform: translate(144px, 21px);
+  }
+  62% {
+    transform: translate(144px, 0);
+  }
+  75% {
+    transform: translate(180px, 0);
+  }
+  83% {
+    transform: translate(180px, 21px);
+  }
+  87% {
+    transform: translate(180px, 0);
+  }
+  100% {
+    transform: translate(72px, 0);
+  }
+}
+/* Each stamp shows as the stamp lifts off its slot, and they all clear together. */
+.scene-stamp-mark {
+  animation: 8s ease-out infinite;
+}
+.scene-stamp-mark--0 {
+  animation-name: scene-stamp-0;
+}
+.scene-stamp-mark--1 {
+  animation-name: scene-stamp-1;
+}
+.scene-stamp-mark--2 {
+  animation-name: scene-stamp-2;
+}
+.scene-stamp-mark--3 {
+  animation-name: scene-stamp-3;
+}
+@keyframes scene-stamp-0 {
+  0%,
+  7% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  10%,
+  92% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes scene-stamp-1 {
+  0%,
+  32% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  35%,
+  92% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes scene-stamp-2 {
+  0%,
+  57% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  60%,
+  92% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes scene-stamp-3 {
+  0%,
+  82% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  85%,
+  92% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+.scene-hop {
+  animation: scene-hop 1.8s ease-in-out var(--d, 0s) infinite;
+}
+@keyframes scene-hop {
+  0%,
+  40%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translateY(-3px);
+  }
+}
+/* A host popping up beside their sign (the park scene), one after another. */
+.scene-pop {
+  animation: scene-pop 6s ease-out var(--d, 0s) infinite both;
+}
+@keyframes scene-pop {
+  0%,
+  6% {
+    opacity: 0;
+    transform: scale(0.3) translateY(6px);
+  }
+  14% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  20%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+/* Invites flying from the phone to each guest, then a tick as they join. */
+.scene-send {
+  animation: scene-send 6s ease-in-out var(--d, 0s) infinite both;
+}
+@keyframes scene-send {
+  0% {
+    opacity: 0;
+    transform: translate(120px, 70px) scale(0.6);
+  }
+  6% {
+    opacity: 1;
+    transform: translate(120px, 64px) scale(0.8);
+  }
+  24% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+  30%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.6);
+  }
+}
+.scene-joined {
+  animation: scene-joined 6s ease-out var(--d, 0s) infinite both;
+}
+@keyframes scene-joined {
+  0%,
+  26% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  32% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  36%,
+  86% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+/* Confetti tumbles down over the winners. */
+.scene-confetti {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scene-confetti 2.6s linear var(--d, 0s) infinite both;
+}
+@keyframes scene-confetti {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, 90px) rotate(320deg);
+  }
+}
+/* Less motion: the steps are simply there, each scene still in its finished state. */
+@media (prefers-reduced-motion: reduce) {
+  .step-scene {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scene-badge,
+  .scene-stamp-mark,
+  .scene-hop,
+  .scene-pop,
+  .scene-joined {
+    animation: none;
+  }
+  .scene-invite,
+  .scene-send,
+  .scene-confetti {
+    animation: none;
+    opacity: 0;
+  }
+  .scene-stamp-tool {
+    animation: none;
+    transform: translate(180px, 0);
+  }
+}
+
 .tags--center {
   justify-content: center;
   margin-top: 28px;
@@ -2061,6 +4027,31 @@
   font-size: var(--text-chip);
   font-weight: 500;
   color: var(--secondary-color);
+}
+
+/* Games under a closing download section: they rise in one after another. */
+.cta-games {
+  justify-content: center;
+  margin: 20px 0 28px;
+}
+.cta-games li {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.07s);
+}
+.cta-games.is-visible li {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-games li {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Short list under a step (sub-steps). */
@@ -2113,6 +4104,10 @@
   font-size: var(--text-info);
   color: var(--secondary-text-color);
 }
+/* Just the email, right under the line that says to get in touch. */
+.support-line--plain {
+  margin-top: 8px;
+}
 
 /* Link under a chapter's text, e.g. "Learn more". */
 .chapter-link {
@@ -2121,12 +4116,60 @@
 }
 
 /* ---------- Text links ---------- */
-.text-link {
+/* Links that aren't the download buttons ("See more →", "See instructions →", …):
+   a rounded dark button with white words, like the download buttons; it grows a little and lightens on hover, presses in when clicked, and its arrow keeps nudging
+   forward (LinkLabel). */
+.text-link,
+.way-card-more {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  font-size: 1rem; /* the same size everywhere */
+  background-color: var(--button-dark);
   font-weight: 700;
-  color: var(--accent-text-color);
+  line-height: 1.3;
+  color: #fff;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.15s ease;
 }
 .text-link:hover {
-  color: var(--secondary-color);
+  color: #fff;
+  background-color: var(--button-dark-hover);
+  transform: scale(1.06);
+}
+.text-link:active {
+  transform: scale(0.97);
+}
+.link-arrow {
+  display: inline-block;
+  margin-left: 0.35em;
+  animation: link-arrow 1.4s ease-in-out infinite;
+}
+@keyframes link-arrow {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-link,
+  .way-card-more {
+    transition: none;
+  }
+  .text-link:hover,
+  .text-link:active,
+  .way-card:hover .way-card-more {
+    transform: none;
+  }
+  .link-arrow {
+    animation: none;
+  }
 }
 
 .more-link {
@@ -2168,12 +4211,31 @@
 }
 
 /* ---------- Help center: Tabs, topic index, HelpTopic, HelpSteps ---------- */
+/* The help pages sit on the cream throughout, like the home page (specific
+   enough to win over the alternating cream/white sections). */
+.help-page > section.section:nth-child(n of .section) {
+  background: var(--primary-color);
+}
+/* A short help page still fills the window (no white above or below it). */
+.help-page {
+  flex: 1;
+  background: var(--primary-color);
+}
+/* The list follows straight on from the header above it, and the closing band
+   from whatever is above it (all on the same cream, so no double gap). */
+.help-page > .help-list-section,
+.help-page > .help-list-section + .section {
+  padding-top: 0;
+}
+/* Under a topic's previous/next cards (a compact strip), a little more room. */
+.help-page > .help-more + .section {
+  padding-top: calc(var(--section-space) / 2);
+}
+/* The help list uses the whole content column, like the home page. */
 .help-center {
   width: 100%;
-  max-width: 900px;
+  max-width: var(--content-width);
   margin: 0 auto;
-  /* "All topics" scrolls here; keep it clear of the navbar. */
-  scroll-margin-top: 104px;
 }
 
 /* Tabs: a soft pill row; the selected tab is filled, flat, no shadow. */
@@ -2213,69 +4275,329 @@
   color: #fff;
 }
 
-.help-group + .help-group {
-  margin-top: 48px;
+/* Split tabs (help center): equal halves with no background or rounding; the
+   selected one has an orange label and an orange underline that slides from tab
+   to tab, the other a softer label. */
+.tabs--split {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--tab-count), minmax(0, 1fr));
+  gap: 0;
+  width: min(100%, 520px);
+  padding: 0;
+  border-radius: 0;
+  background: none;
 }
-.help-group-title {
-  margin: 0 0 16px;
-  font-size: var(--text-item);
-  font-weight: 700;
+.tabs--split::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(100% / var(--tab-count));
+  border-bottom: 2px solid var(--primary-color1);
+  transform: translateX(calc(var(--tab-active) * 100%));
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tabs--split .tab {
+  position: relative;
+  padding: 14px 16px;
+  border-radius: 0;
+  color: var(--secondary-text-color); /* the tab not selected: softer */
+  transition: color 0.35s ease;
+}
+.tabs--split .tab:hover {
+  background: none;
   color: var(--secondary-color);
 }
+.tabs--split .tab[aria-selected="true"] {
+  background: transparent;
+  color: var(--accent-text-color); /* the brand orange, darkened for text */
+}
+@media (prefers-reduced-motion: reduce) {
+  .tabs--split::before,
+  .tabs--split .tab {
+    transition: none;
+  }
+}
 
-/* Topic index: quick links to each topic below, two per row on wide screens. */
-.help-index-list {
+
+/* Help topics as cards (HelpCard), two per row on wide screens (one on phones):
+   the light building colour on the cream, like the home page's panels; the title
+   and a line, and a nudging orange chevron (the topic list's rows: HelpRoute). */
+.help-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.help-index-list li {
+.help-cards li {
   margin: 0;
 }
-.help-index-link {
+/* ---------- The topic list (HelpRoute) ---------- */
+/* The groups one under another, each name over its topics as plain rows with a
+   thin line between them, like the FAQ. When it comes into view each group's
+   rows rise in, one group after the next. */
+.help-route {
+  width: 100%;
+}
+.help-stops {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.help-stop {
+  margin: 0;
+  padding: 0 0 40px;
+}
+.help-stop:last-child {
+  padding-bottom: 0;
+}
+/* A group's name ("Joining"): the body-text size, semi-bold. */
+.help-group-title {
+  margin: 0 0 6px;
+  font-size: var(--text-info);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.help-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.help-rows li {
+  margin: 0;
+  opacity: 0;
+}
+.help-rows li + li {
+  border-top: 1px solid rgba(89, 65, 43, 0.14);
+}
+.help-route.is-visible .help-rows li {
+  animation: help-card-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--stop) * 0.35s + 0.1s + var(--i, 0) * 0.06s);
+}
+/* A group's topics as a row of picture cards (HelpCardRow), the same cards as
+   "What you get" but opening the topic: within the list's column (not out to
+   the screen edges), the next card peeking in at the right; a card lifts a
+   little on hover and its chevron nudges. */
+.help-card-row.service-list--row {
+  margin: 8px 0 0;
+  padding: 0 0 4px;
+  scroll-padding: 0;
+}
+.help-card-row .service-item {
+  padding: 0;
+}
+.help-pic-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 14px;
   height: 100%;
-  padding: 16px 18px;
-  border: 1px solid rgba(89, 65, 43, 0.14);
-  border-radius: 16px;
-  color: var(--secondary-color);
-  transition: border-color 0.2s ease;
+  padding: 20px;
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
-.help-index-link:hover {
-  border-color: rgba(229, 104, 34, 0.45);
+.help-pic-card:hover {
+  color: inherit;
+  background: var(--page-light);
+  transform: translateY(-2px);
 }
-.help-index-icon {
+.help-pic-card:active {
+  transform: scale(0.99);
+}
+/* The card titles at the body-text size, like the rest of the help list. */
+.help-card-row .service-title {
   display: flex;
-  flex-shrink: 0;
-  font-size: 1.4rem;
-  color: var(--primary-color1);
-}
-.help-index-title {
-  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   font-size: var(--text-info);
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1.4;
 }
-.help-index-arrow {
-  flex-shrink: 0;
+.help-pic-card-arrow {
+  flex: none;
   color: var(--primary-color1);
   transition: transform 0.2s ease;
 }
-.help-index-link:hover .help-index-arrow {
+.help-pic-card:hover .help-pic-card-arrow {
   transform: translateX(3px);
 }
+@media (prefers-reduced-motion: reduce) {
+  .help-pic-card,
+  .help-pic-card:hover,
+  .help-pic-card:active,
+  .help-pic-card:hover .help-pic-card-arrow {
+    transform: none;
+  }
+}
+/* A topic row: no background, its words lined up with the group's name; the
+   light building colour shows round it only while hovered. */
+.help-route .help-card {
+  align-items: center;
+  margin: 0 -12px;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: none;
+}
+.help-route .help-card:hover {
+  background: var(--building-top);
+  transform: none;
+}
+@keyframes help-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.help-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  height: 100%;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+.help-card:hover {
+  color: inherit;
+  background: var(--page-light);
+  transform: translateY(-2px);
+}
+.help-card:active {
+  transform: scale(0.99);
+}
+.help-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.help-card-label {
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--accent-text-color);
+}
+/* The card titles like a paragraph: the body-text size and weight, in the text
+   colour (the group name above them is the semi-bold one). */
+.help-card-title {
+  font-size: var(--text-info);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--primary-text-color);
+}
+.help-card-text {
+  font-size: var(--text-info);
+  line-height: 1.5;
+  color: var(--secondary-text-color);
+}
+.help-card-arrow {
+  display: flex;
+  flex: none;
+  align-self: center;
+  font-size: var(--text-item);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary-color1);
+  animation: link-arrow 1.4s ease-in-out infinite;
+}
+.help-card:hover .help-card-arrow {
+  animation-duration: 0.7s;
+}
 
-/* One topic per section: icon, heading and a copy-link button, then the steps. */
+/* A topic's page: fades in (again on each new topic), a link back to the list
+   over the topic, and the topics before and after it at the bottom. */
+.help-topic-page {
+  animation: help-page-in 0.45s ease-out both;
+}
+@keyframes help-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.help-crumbs {
+  margin-bottom: calc(clamp(48px, 8vw, 96px) * -0.5);
+}
+.help-back {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: var(--text-info);
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+.help-back:hover {
+  color: var(--accent-text-color);
+}
+.help-back svg {
+  flex-shrink: 0;
+}
+.help-back > svg:first-child {
+  transition: transform 0.2s ease;
+}
+.help-back:hover > svg:first-child {
+  transform: translateX(-3px);
+}
+.help-crumbs-tab {
+  color: var(--secondary-color);
+}
+.help-pager {
+  width: 100%;
+}
+/* "Next" stays on the right even when there is no "Previous". */
+@media (min-width: 801px) {
+  .help-pager-next {
+    grid-column: 2;
+  }
+}
+/* "Previous" has its arrow first, pointing back. */
+.help-pager-previous .help-card-arrow {
+  order: -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .help-rows li,
+  .help-route.is-visible .help-rows li,
+  .help-topic-page {
+    opacity: 1;
+    animation: none;
+  }
+  .help-card,
+  .help-card:hover,
+  .help-card:active {
+    transform: none;
+  }
+  .help-card-arrow {
+    animation: none;
+  }
+}
+
+/* The topic: icon, heading and a copy-link button, then the steps. */
 .help-topic {
   display: flex;
   flex-direction: column;
   gap: clamp(40px, 5vw, 64px);
-  /* Room for the navbar and the sticky topic bar when jumping to a topic. */
-  scroll-margin-top: 140px;
 }
 .help-topic-header {
   display: flex;
@@ -2319,73 +4641,6 @@
   background: transparent;
   color: var(--accent-text-color);
   transform: none;
-}
-
-/* Sticky bar while reading topics: "Organizing an event › Manage participants".
-   It sticks just under the navbar and stops at the last topic. */
-.help-bar {
-  position: sticky;
-  top: 72px;
-  z-index: 900;
-  padding: 0 24px;
-  background: rgba(239, 230, 221, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(89, 65, 43, 0.1);
-}
-.help-bar-inner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: var(--content-width);
-  min-height: 56px;
-  margin: 0 auto;
-}
-.help-bar-tab,
-.help-bar-all {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--text-chip);
-  font-weight: 600;
-  color: var(--secondary-text-color);
-  cursor: pointer;
-}
-.help-bar-tab:hover,
-.help-bar-all:hover {
-  background: none;
-  color: var(--accent-text-color);
-  transform: none;
-}
-.help-bar-separator {
-  flex-shrink: 0;
-  color: var(--secondary-text-color);
-}
-.help-bar-topic {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
-  margin: 0;
-  font-size: 1rem; /* same as the navbar links, so the bar reads as part of the navigation */
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-.help-bar-topic svg {
-  flex-shrink: 0;
-  color: var(--primary-color1);
-}
-.help-bar-topic span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 /* Steps with screenshots: zig-zag rows, phone and words centred on each other. */
@@ -2439,35 +4694,8 @@
 }
 
 @media (max-width: 800px) {
-  .help-index-list {
+  .help-cards {
     grid-template-columns: minmax(0, 1fr);
-  }
-  /* Phones: the navbar is 64px; the tab name sits above the topic. */
-  .help-bar {
-    top: 64px;
-    padding: 0 16px;
-  }
-  .help-bar-inner {
-    flex-wrap: wrap;
-    row-gap: 0;
-    padding: 8px 0;
-  }
-  .help-bar-separator {
-    display: none;
-  }
-  .help-bar-tab {
-    order: 0;
-  }
-  .help-bar-all {
-    order: 1;
-    margin-left: auto;
-  }
-  .help-bar-all span {
-    display: none;
-  }
-  .help-bar-topic {
-    order: 2;
-    flex-basis: 100%;
   }
   .help-topic-header {
     flex-wrap: wrap;
@@ -2522,5 +4750,373 @@
   }
   .feature-grid--plain .card {
     padding: 28px 24px;
+  }
+}
+
+/* ---------- 3D character (Figure.jsx + figureScene.js, /character page) ---------- */
+.character-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+}
+.figure {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  /* A soft round floor under the character. */
+  background: radial-gradient(
+    50% 14% at 50% 90%,
+    rgba(89, 65, 43, 0.08),
+    rgba(89, 65, 43, 0)
+  );
+  cursor: grab;
+  touch-action: pan-y;
+  animation: figure-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.figure:active {
+  cursor: grabbing;
+}
+.figure canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@keyframes figure-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.character-controls .tabs {
+  margin: 0 0 16px;
+  justify-content: flex-start;
+}
+.character-actions {
+  margin-top: 32px;
+}
+.character-hint {
+  margin: 0;
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+
+@media (max-width: 800px) {
+  .character-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .figure {
+    max-width: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure {
+    animation: none;
+  }
+}
+
+/* ---------- 3D world map (World3D.jsx + worldScene.js, /map3d page) ---------- */
+.world {
+  position: relative;
+  margin-top: 32px;
+}
+.world-map {
+  position: relative;
+  height: clamp(420px, 72vh, 760px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: radial-gradient(
+    80% 70% at 50% 45%,
+    var(--world-sky),
+    var(--primary-color)
+  );
+  animation: world-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.world-stage {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+.world-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.world-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+@keyframes world-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Labels: each anchor is moved over its spot every frame; the label inside sits
+   above that point and fades in or out with the zoom level. */
+.world-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.world-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+.world-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(89, 65, 43, 0.12);
+  border-radius: 999px;
+  background: var(--world-wall);
+  font: inherit;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--secondary-color);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% + 8px)) scale(0.9);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.world-label.is-shown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -100%);
+}
+.world-label.is-shown:hover {
+  transform: translate(-50%, calc(-100% - 2px));
+}
+.world-label--area {
+  padding: 8px 16px;
+  font-size: var(--text-info);
+  font-weight: 700;
+}
+.world-label.is-active {
+  background: var(--secondary-color);
+  color: #fff;
+}
+.world-label-number {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5em;
+  height: 1.5em;
+  border-radius: 999px;
+  background: var(--primary-color1);
+  font-size: var(--text-chip);
+  color: #fff;
+}
+
+.world-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.world-control {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(89, 65, 43, 0.12);
+  border-radius: 999px;
+  background: var(--world-wall);
+  font: inherit;
+  font-size: var(--text-item);
+  line-height: 1;
+  color: var(--secondary-color);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+.world-control:hover {
+  background: var(--primary-color);
+}
+.world-control:active {
+  transform: scale(0.92);
+}
+
+/* The panel for the selected area or checkpoint: over the map's corner on wide
+   screens, under the map on phones and tablets (900px, also in worldScene.js). */
+.world-panel {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: min(360px, calc(100% - 32px));
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  background: var(--world-wall);
+  animation: world-panel-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes world-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.world-back,
+.world-step,
+.world-stop {
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+.world-back {
+  padding: 0;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--accent-text-color);
+}
+.world-back:hover {
+  text-decoration: underline;
+}
+.world-panel-title {
+  margin: 10px 0 6px;
+}
+.world-panel-text {
+  margin: 0;
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+.world-panel-meta {
+  margin: 12px 0 0;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.world-panel-meta + .world-panel-title {
+  margin-top: 4px;
+}
+.world-stops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.world-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 5px;
+  border-radius: 999px;
+  background: rgba(89, 65, 43, 0.07);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+.world-stop:hover {
+  background: rgba(89, 65, 43, 0.14);
+}
+.world-stop:active,
+.world-step:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.world-steps {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.world-step {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(89, 65, 43, 0.07);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+.world-step:hover:not(:disabled) {
+  background: rgba(89, 65, 43, 0.14);
+}
+.world-step:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.world-route-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: var(--text-info);
+  font-weight: 700;
+  color: var(--accent-text-color);
+}
+
+/* On phones the stops sit close together: show only their numbers, and the name of
+   the selected one. */
+@media (max-width: 600px) {
+  .world-label--stop:not(.is-active) {
+    padding: 4px;
+  }
+  .world-label--stop:not(.is-active) .world-label-name {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .world-map {
+    height: clamp(380px, 68vh, 560px);
+  }
+  .world-panel {
+    position: static;
+    width: auto;
+    max-height: none;
+    margin-top: 16px;
+    background: rgba(89, 65, 43, 0.05);
+  }
+  .world-controls {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-map,
+  .world-panel {
+    animation: none;
+  }
+  .world-label,
+  .world-label.is-shown:hover {
+    transition: opacity 0.2s ease;
   }
 }

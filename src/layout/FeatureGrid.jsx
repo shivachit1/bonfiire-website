@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./layout.css";
 import icons from "./icons";
+import Heading from "./Heading";
 
 // Small cards laid out in a responsive grid. items: [{ title, text, icon?, tag?, to? }]
 // `icon` is a name from layout/icons.js. `tag` adds a small badge above the title.
@@ -22,8 +23,9 @@ const FeatureGrid = ({ items, variant }) => (
               <Icon />
             </span>
           )}
-          {item.tag && <p className="eyebrow">{item.tag}</p>}
-          <h3 className="feature-title">{item.title}</h3>
+          <Heading size="item" className="feature-title">
+            {item.title}
+          </Heading>
           <p className="feature-text">{item.text}</p>
           {item.to && (
             <span className="card-arrow" aria-hidden="true">

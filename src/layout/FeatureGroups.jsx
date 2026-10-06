@@ -1,5 +1,6 @@
 import "./layout.css";
 import FeatureGrid from "./FeatureGrid";
+import Heading from "./Heading";
 
 // Feature cards in labelled groups, e.g. "Included in every event" and
 // "Extra for multi-location events". groups: [{ title, items: [{ title, text }] }]
@@ -13,7 +14,9 @@ const FeatureGroups = ({ groups }) => (
         className="feature-group"
         style={{ "--columns": columnsFor(group.items.length) }}
       >
-        <h3 className="feature-group-title">{group.title}</h3>
+        <Heading size="item" className="feature-group-title">
+          {group.title}
+        </Heading>
         <FeatureGrid items={group.items} />
       </div>
     ))}

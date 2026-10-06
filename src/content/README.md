@@ -11,11 +11,11 @@ Each language has its own folder: `en/` is English. The files below live inside 
 | `partners.json` | Home: logo strip under the hero | `name`, `logo`, `url` |
 | `testimonials.json` | Home: "In their words" cards | `quote`, `name`, `role`, `avatar` |
 | `faq.json` | Home and Features: questions | `question`, `answer` |
-| `navigation.json` | Navbar links (an item with `children` becomes a dropdown) | `label`, `to`, `children`, `description` |
 | `features.json` | The /features page | see "Guide pages" below |
 | `help.json` | The /help help center | see "Help center" below |
+| `docs.json` | The /help-docs docs-style help center | see "Docs" below |
 | `ui.json` | Small labels: footer links, "Download on", "Need a hand?", menu labels | — |
-| `language.json` | The language's name in the navbar picker | `name` |
+| `language.json` | The language's full name (the navbar picker shows the folder code, e.g. EN, FI, SV) | `name` |
 
 ## Adding a language
 
@@ -112,3 +112,32 @@ then point to them from the JSON:
 Items with `"example": true` are placeholders. They show when you run
 `npm start`, but they are **left out of production builds**. When you add a real
 entry, leave `example` out (or delete the sample entries).
+
+## Docs
+
+`docs.json` holds the docs-style help center at `/help-docs`: `title`, small `labels`
+(search, Previous / Next…) and `categories`. Each category has an
+`id`, a `title`, `pages` and an optional `part` (e.g. "For participants"; categories
+with the same `part` are grouped under it in the sidebar, which opens and closes with
+an arrow, as does a category with more than one page); a page lives at
+`/help-docs/<category id>/<page id>`.
+
+A page has `id`, `title`, an optional `summary` (the first paragraph under the title), `updated` (a date like
+`2026-10-05`, shown as "Last updated"), `sections` and optional `related` (other pages
+as `"category id/page id"`). Each section has an `id` (for `#links`),
+an optional `title` (left out, the section shows only its blocks) and `blocks`,
+shown in order. A block's `"type"`:
+
+| type | Shows | Fields |
+|---|---|---|
+| `p` | A paragraph | `text` |
+| `list` | A bullet list | `items` (lines of text) |
+| `steps` | Numbered steps with a screenshot beside each, or with one video beside them all | `items`: `title` (optional), `text`, `note` (optional, a highlighted line under the step), `screenshot`, `screenshotHint`; optional `video` (a file in `public/docs/videos/`, written `/docs/videos/name.mp4`; `""` shows a placeholder while developing), `poster` (its first frame as an image) and `videoHint` (what it shows) |
+| `tip` | A tip box | `text` |
+| `note` | A note box | `text` |
+
+Wrap words in `**double stars**` to make them bold, and write `[words](target)` to
+make them an underlined link. The target is another docs page (`account/log-in`,
+optionally `#section`), a section of the same page (`#steps`), any page of the site
+(`/appro/bar-crawl`) or another site (`https://...`, opens in a new tab). Pages appear in the sidebar,
+search and Previous / Next in the order they're listed.

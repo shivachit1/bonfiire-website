@@ -1,63 +1,101 @@
-/* A plain full-width footer with a hairline on top, in the page's colour (light on
-   the home page, the warm background elsewhere). */
+/* Like the navbar (but not sticky): a full-width bar in solid cream with a
+   hairline on top. */
 .footer-container {
   width: 100%;
-  padding: 40px 24px;
+  padding: 20px 24px;
   background: var(--primary-color);
   border-top: 1px solid rgba(89, 65, 43, 0.1);
-}
-.app-main-layout:has(.sections--light-first) .footer-container {
-  background: var(--page-light, #fdfbf8);
 }
 
 .footer-content {
   max-width: var(--content-width);
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  gap: 8px 48px;
 }
 
-.footer-links {
+/* Left: one line of small, plain links. Under everything: the copyright. */
+.footer-start {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
+  align-items: center;
+  gap: 8px 24px;
+  font-size: var(--text-chip);
 }
-
+.footer-name {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: var(--text-chip);
+  color: var(--secondary-text-color);
+}
 .footer-link {
-  text-decoration: none;
-  color: var(--secondary-color);
   font-weight: 400;
+  color: var(--secondary-color);
+  text-decoration: none;
   transition: color 0.2s ease;
 }
-
-.footer-link:hover {
-  color: var(--primary-color1, #e56822); /* Brand orange on hover */
+.footer-link:hover,
+.footer-link.active {
+  color: var(--accent-text-color);
 }
 
-.footer-bottom {
-  text-align: center;
+/* Right: the social accounts. */
+.footer-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  text-align: right;
 }
-
-.footer-copyright {
-  color: var(--secondary-text-color);
-  font-size: 0.85rem;
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer-social-list {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer-social-list li {
   margin: 0;
 }
+.footer-social-link {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  transition: color 0.2s ease;
+}
+.footer-social-link:hover {
+  color: var(--accent-text-color);
+}
 
-/* Mobile responsive */
-@media (max-width: 768px) {
+/* Phones and tablets: one under the other, all lined up on the left, with the
+   same space between the links, the icons and the copyright. */
+@media (max-width: 800px) {
   .footer-container {
-    padding: 30px 20px;
+    padding: 24px 16px;
   }
-
-  .footer-links {
-    gap: 12px 20px;
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
-
-  .footer-link {
-    font-size: 0.9rem;
+  .footer-end {
+    align-items: flex-start;
+    text-align: left;
+  }
+  /* Icons on the left edge of their tap area, in line with the text. */
+  .footer-social-link {
+    place-items: center start;
   }
 }

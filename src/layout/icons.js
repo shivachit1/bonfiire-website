@@ -1,5 +1,6 @@
 import {
   LuCompass,
+  LuMailOpen,
   LuUsers,
   LuCalendarPlus,
   LuHeartHandshake,
@@ -18,6 +19,8 @@ import {
   LuScanLine,
   LuStar,
   LuMapPinned,
+  LuMap,
+  LuHistory,
 } from "react-icons/lu";
 
 // Icon names usable as "icon" in the content files.
@@ -42,6 +45,9 @@ const icons = {
   scan: LuScanLine,
   star: LuStar,
   pin: LuMapPinned,
+  map: LuMap,
+  history: LuHistory,
+  invitation: LuMailOpen,
 };
 
 export default icons;

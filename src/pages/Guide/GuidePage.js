@@ -10,6 +10,7 @@ import PhotoBreak from "../../layout/PhotoBreak";
 import FeatureGroups from "../../layout/FeatureGroups";
 import { useContent } from "../../i18n";
 import { image, visible } from "../../content/content";
+import LinkLabel from "../../layout/LinkLabel";
 
 // Builds a page from a content file (e.g. src/content/en/features.json):
 // a hero (with a photo) or a plain page header (without one), then each entry in
@@ -17,12 +18,11 @@ import { image, visible } from "../../content/content";
 const sectionTypes = {
   chapters: (section) => (
     <>
-      <Intro eyebrow={section.eyebrow} title={section.title} text={section.text} />
+      <Intro title={section.title} text={section.text} />
       {section.items.map((item, index) => (
         <Chapter
           key={item.title}
           {...item}
-          number={section.numbered === false ? null : String(index + 1).padStart(2, "0")}
           image={image(item.image)}
           screenshot={image(item.screenshot)}
           reverse={index % 2 === 1}
@@ -33,12 +33,12 @@ const sectionTypes = {
 
   // Feature cards in labelled groups, with an optional link underneath.
   featureGroups: (section) => (
-    <Intro eyebrow={section.eyebrow} title={section.title} text={section.text}>
+    <Intro title={section.title} text={section.text}>
       <FeatureGroups groups={section.groups} />
       {section.link && (
         <p className="more-link">
           <Link className="text-link" to={section.link.to}>
-            {section.link.label}
+            <LinkLabel text={section.link.label} />
           </Link>
         </p>
       )}
@@ -46,7 +46,7 @@ const sectionTypes = {
   ),
 
   features: (section) => (
-    <Intro eyebrow={section.eyebrow} title={section.title} text={section.text}>
+    <Intro title={section.title} text={section.text}>
       <FeatureGrid items={section.items} />
     </Intro>
   ),
@@ -56,7 +56,7 @@ const sectionTypes = {
     const items = visible(section.items || faq.items);
     if (items.length === 0) return null;
     return (
-      <Intro eyebrow={section.eyebrow || faq.eyebrow} title={section.title || faq.title}>
+      <Intro title={section.title || faq.title}>
         <Faq items={items} />
       </Intro>
     );
@@ -71,7 +71,7 @@ const GuidePage = ({ page }) => {
   const heroLink = hero.link && (
     <p className="hero-links">
       <Link className="text-link" to={hero.link.to}>
-        {hero.link.label}
+        <LinkLabel text={hero.link.label} />
       </Link>
     </p>
   );
@@ -84,7 +84,7 @@ const GuidePage = ({ page }) => {
         </Hero>
       ) : (
         <Section className="page-header" width="narrow">
-          <Intro eyebrow={hero.eyebrow} title={hero.title} text={[hero.text]} as="h1">
+          <Intro title={hero.title} text={[hero.text]} as="h1" size="page">
             {heroLink}
           </Intro>
         </Section>
@@ -93,7 +93,9 @@ const GuidePage = ({ page }) => {
       {sections.map((section, index) => {
         // A full-width photo with a quote; sits between sections, not inside one.
         if (section.type === "photo") {
-          return <PhotoBreak key={index} {...section} image={image(section.image)} />;
+          return (
+            <PhotoBreak key={index} {...section} image={image(section.image)} />
+          );
         }
         const body = sectionTypes[section.type]?.(section, faq);
         return (
