@@ -43,6 +43,49 @@ const navTree = (categories) => {
   return tree;
 };
 
+// A category's pages as a tree: a page with a `group` path (["Single venue
+// events", "Hosting an event"]) sits under those groups, nested in that order;
+// a page without one sits straight under the category. Each group knows the
+// pages under it (`keys`), to open it when one of them is the current page.
+// [{ page } | { group: true, id, name, keys, children }]
+const groupTree = (category) => {
+  const root = { children: [] };
+  category.pages.forEach((page) => {
+    let node = root;
+    const path = [];
+    (page.group || []).forEach((name) => {
+      path.push(name);
+      let child = node.children.find((c) => c.group && c.name === name);
+      if (!child) {
+        child = {
+          group: true,
+          id: `${category.id}/${path.join("/")}`,
+          name,
+          keys: [],
+          children: [],
+        };
+        node.children.push(child);
+      }
+      child.keys.push(`${category.id}/${page.id}`);
+      node = child;
+    });
+    node.children.push({ page });
+  });
+  return root.children;
+};
+
+// The ids of the groups holding a page, outermost first.
+const groupIds = (page) =>
+  (page.group || []).map(
+    (_, i) => `${page.category.id}/${page.group.slice(0, i + 1).join("/")}`,
+  );
+
+// An id safe to use in the page (for aria-controls).
+const domId = (id) => `docs-nav-${id.replace(/[^a-z0-9]+/gi, "-")}`;
+
+// Draft pages (`"draft": true`) only show while developing (npm start).
+const showDrafts = process.env.NODE_ENV === "development";
+
 // A branch's name with its arrow on the right: a button that opens or closes
 // what's under it.
 const Toggle = ({ open, controls, className, onClick, children }) => (
@@ -77,7 +120,9 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
     node.isPart
       ? node.categories.some((category) => category.id === currentCategory)
       : node.id === currentCategory;
-  const isOpen = (node) => toggled[node.id] ?? holdsCurrent(node);
+  const isOpen = (node) =>
+    toggled[node.id] ??
+    (node.group ? node.keys.includes(current) : holdsCurrent(node));
   const toggle = (node) =>
     setToggled((now) => ({ ...now, [node.id]: !isOpen(node) }));
   useEffect(() => {
@@ -86,12 +131,15 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
         node.isPart &&
         node.categories.some((category) => category.id === currentCategory),
     );
+    const page = pages.find((p) => p.key === current);
+    const groups = page ? groupIds(page) : [];
     setToggled((now) => ({
       ...now,
       [currentCategory]: true,
       ...(part ? { [part.id]: true } : {}),
+      ...Object.fromEntries(groups.map((id) => [id, true])),
     }));
-  }, [tree, currentCategory]);
+  }, [tree, pages, current, currentCategory]);
 
   // The list can be longer than the screen: on a new page, scroll the sidebar
   // (only the sidebar, not the page) so the current page's link is in view.
@@ -108,9 +156,28 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
     }
   }, [current]);
 
-  const pageLinks = (category) => (
-    <ul className="docs-nav-children" id={`docs-nav-${category.id}`}>
-      {category.pages.map((page) => {
+  // A list of pages and groups; a group opens and closes with its arrow, like
+  // a category. A page's sidebar name is its `navTitle` if it has one.
+  const nodeList = (category, nodes, id) => (
+    <ul className="docs-nav-children" id={id}>
+      {nodes.map((node) => {
+        if (node.group) {
+          const open = isOpen(node);
+          return (
+            <li key={node.id} className="docs-nav-item">
+              <Toggle
+                open={open}
+                controls={domId(node.id)}
+                className="docs-nav-category"
+                onClick={() => toggle(node)}
+              >
+                {node.name}
+              </Toggle>
+              {open && nodeList(category, node.children, domId(node.id))}
+            </li>
+          );
+        }
+        const { page } = node;
         const key = `${category.id}/${page.id}`;
         return (
           <li key={page.id}>
@@ -120,13 +187,16 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
               to={`/help-docs/${key}`}
               onClick={onPick}
             >
-              {page.title}
+              {page.navTitle || page.title}
+              {page.draft && <span className="docs-nav-draft">Draft</span>}
             </Link>
           </li>
         );
       })}
     </ul>
   );
+  const pageLinks = (category) =>
+    nodeList(category, groupTree(category), `docs-nav-${category.id}`);
 
   const categoryItem = (category) => {
     const branch = category.pages.length > 1;
@@ -175,7 +245,7 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
                 >
                   <span className="docs-result-title">{page.title}</span>
                   <span className="docs-result-where">
-                    {page.category.title}
+                    {[page.category.title, ...(page.group || [])].join(" › ")}
                     {section?.title ? ` › ${section.title}` : ""}
                   </span>
                 </Link>
@@ -216,7 +286,19 @@ const DocsNav = ({ categories, pages, current, labels, onPick }) => {
 
 const DocsPage = () => {
   const { categoryId, pageId } = useParams();
-  const { categories, labels } = useContent("docs");
+  const content = useContent("docs");
+  const { labels } = content;
+  // Without the drafts on the live site (and any category left empty).
+  const categories = useMemo(
+    () =>
+      content.categories
+        .map((category) => ({
+          ...category,
+          pages: category.pages.filter((page) => showDrafts || !page.draft),
+        }))
+        .filter((category) => category.pages.length),
+    [content.categories],
+  );
   const { language } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const pages = useMemo(() => docsPages(categories), [categories]);
@@ -300,6 +382,13 @@ const DocsPage = () => {
           <header className="docs-header">
             <h1 className="docs-title">{page.title}</h1>
           </header>
+
+          {page.draft && (
+            <p className="docs-draft">
+              This draft only shows while developing, not on the live site. Fill
+              it in docs.json and remove "draft": true to publish it.
+            </p>
+          )}
 
           {/* The summary opens the page as its first paragraph. */}
           {page.summary && (

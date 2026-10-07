@@ -327,9 +327,8 @@
 }
 
 /* ---------- Appro hero (home: the top) ---------- */
-/* Straight under the cream navbar: the title (as big as a page title) and a few
-   lines over the top edge of the map, then a row of small cards of example
-   Appros. */
+/* The title (a section title, like the others) and a few lines above the map, then a
+   row of small cards of example Appros. */
 .section--map-hero {
   padding-top: var(--section-space);
 }
@@ -424,82 +423,96 @@
   margin: 0 auto;
   transform: none;
 }
-/* The whole width of the map, with a thin strip trimmed off its top and bottom
-   (it shows 9:4 rather than 2:1; the signs are in its middle), the cut edges
-   fading softly into the cream. */
+/* The map, a little narrower than the content column on wide screens, with
+   strips trimmed off its top and bottom (it shows 8:3 rather than 2:1, about
+   y 75 to 525; the signs are in its middle), all four cut edges fading softly
+   into the cream (the sides further in, `--map-side-fade`). */
+.section--map-hero .route-map {
+  max-width: 1120px;
+}
 .section--map-hero .route-viewport {
-  aspect-ratio: 9 / 4;
+  --map-side-fade: 10%;
+  aspect-ratio: 8 / 3;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 4%,
-    #000 96%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 4%,
-    #000 96%,
-    transparent
-  );
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--map-side-fade),
+      #000 calc(100% - var(--map-side-fade)),
+      transparent
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--map-side-fade),
+      #000 calc(100% - var(--map-side-fade)),
+      transparent
+    );
+  mask-composite: intersect;
 }
 .section--map-hero .route-plane {
   width: auto;
-  /* A little more off the top than the bottom (as a share of the width). */
-  margin-top: -2.5%;
+  /* 75 off the top (as a share of the width). */
+  margin-top: -6.25%;
 }
 .section--map-hero .route-hint {
   display: none;
 }
-/* The title and text sit over the bottom of the map, on a soft, partly
-   see-through cream glow (the map's own ground colour) with the map a little
-   blurred behind it, so the map still shows under the words. */
-.map-hero-stage {
+/* The title and lines above the map, centred; the status line and the link
+   button low on the map, under its signs, on a soft, partly see-through cream glow
+   (the map's own ground colour) with the map a little blurred behind it, so the
+   map still shows round them. */
+.map-hero-stage > .intro {
+  margin-bottom: 8px;
+}
+.map-hero-map {
   position: relative;
 }
-.map-hero-stage > .intro {
+.map-hero-overlay {
   position: absolute;
-  bottom: 0;
+  top: 80%;
   left: 50%;
   z-index: 1;
-  width: min(100%, 880px);
-  padding: 40px 48px 24px;
-  transform: translateX(-50%);
+  width: min(90%, 360px);
+  padding: 20px 32px;
+  text-align: center;
+  transform: translate(-50%, -50%);
 }
-.map-hero-stage > .intro::before {
+.map-hero-overlay::before {
   content: "";
   position: absolute;
-  /* Taller than wide: a soft oval round the title and the text together, so it
-     covers the lines of text too without spreading far over the map at the
-     sides (and a soft blur of the map behind it, fading out with it). */
-  inset: -20px 60px -40px;
+  inset: -24px -40px;
   z-index: -1;
   background: radial-gradient(
-    ellipse 50% 56% at 50% 62%,
-    var(--map-hero-veil) 70%,
+    ellipse 50% 50% at 50% 50%,
+    var(--map-hero-veil) 68%,
     transparent
   );
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   -webkit-mask-image: radial-gradient(
-    ellipse 50% 56% at 50% 62%,
-    #000 65%,
+    ellipse 50% 50% at 50% 50%,
+    #000 62%,
     transparent
   );
   mask-image: radial-gradient(
-    ellipse 50% 56% at 50% 62%,
-    #000 65%,
+    ellipse 50% 50% at 50% 50%,
+    #000 62%,
     transparent
   );
 }
-/* The text under the title a little narrower, so title and text sit together
-   inside the glow. */
-.map-hero-stage > .intro .lead {
-  max-width: 580px;
+.map-hero-actions {
+  margin: 0;
+}
+.map-hero-actions .map-hero-link {
+  margin-bottom: 0;
 }
 .map-hero-stage .route-map {
   margin-top: 0;
@@ -507,68 +520,53 @@
 /* Phones: the map would be tiny at the screen's width (its signs too: it's one
    drawing scaled to fit), so it's drawn 2.4 times as wide as the screen (1.5
    times on small tablets), centred and cut at the sides, running to the screen
-   edges: big enough for the words over its bottom and the signs (gathered in its
-   middle on phones, see gatheringVenues.jsx) above them. */
-@media (max-width: 800px) {
-  /* The words come after the map and keep their own height (more lines on
-     narrow phones), tucked up over its last 110px, so they only cover its
-     bottom row. */
-  .map-hero-stage {
+   edges: big enough for its signs (gathered in its middle on phones, see
+   gatheringVenues.jsx). */
+/* Tablets and phones: the status and button under the map instead (on it
+   they'd cover its signs, closer together on smaller screens). */
+@media (max-width: 1024px) {
+  .map-hero-map {
     display: flex;
     flex-direction: column;
   }
-  .map-hero-stage > .intro {
-    order: 1;
-    position: relative;
-    left: auto;
+  .map-hero-overlay {
+    position: static;
     width: auto;
-    margin-top: -110px;
-    padding: 32px 8px 8px;
+    max-width: 640px;
+    margin: 16px auto 4px;
+    padding: 0;
     transform: none;
   }
-  /* The lines run the full width (not balanced into short ones). */
-  .map-hero-stage > .intro .lead {
-    max-width: none;
-    text-wrap: pretty;
+  .map-hero-overlay::before {
+    content: none;
   }
+}
+@media (max-width: 800px) {
   .map-hero-stage .route-map {
     margin: 0 -24px;
     width: auto;
   }
-  /* Under the words the map fades out into the cream (no trees or blocks
-     showing through the text). */
-  .map-hero-stage > .intro::before {
-    inset: 0 -24px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      var(--primary-color) 40%
-    );
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  /* Small tablets: 1.5 times as wide (the map's 2:1, less the strips off top
-     and bottom). */
+  /* Small tablets: 1.5 times as wide, showing about y 100 to 500 of the map
+     (the signs gather between). */
   .section--map-hero .route-viewport {
-    aspect-ratio: 3 / 2;
+    --map-side-fade: 5%;
+    aspect-ratio: 2 / 1;
   }
   .section--map-hero .route-plane {
     width: 150%;
     margin-left: -25%;
-    margin-top: -3.75%;
+    margin-top: -12.5%;
   }
 }
 @media (max-width: 600px) {
-  /* Phones: 2.4 times as wide. */
+  /* Phones: 2.4 times as wide, showing about y 100 to 500. */
   .section--map-hero .route-viewport {
-    aspect-ratio: 15 / 16;
+    aspect-ratio: 5 / 4;
   }
   .section--map-hero .route-plane {
     width: 240%;
     margin-left: -70%;
-    margin-top: -6%;
+    margin-top: -20%;
   }
 }
 /* The example Appros: one row with no background of its own, split into one part
@@ -3384,6 +3382,45 @@
 .map-caption-over .map-caption-body {
   margin: 0 auto;
 }
+/* The single-location map (home), like the Appro map above it: a little
+   narrower than the content column on wide screens, with strips trimmed off its
+   top and bottom (it shows about y 100 to 560: the venue, the guests on the
+   street and the guest list), all four cut edges fading softly into the cream
+   (the sides further in, `--map-side-fade`). */
+.gathering-showcase--fit .route-map {
+  max-width: 1120px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.gathering-showcase--fit .route-viewport {
+  --map-side-fade: 10%;
+  aspect-ratio: 1200 / 460;
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--map-side-fade),
+      #000 calc(100% - var(--map-side-fade)),
+      transparent
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--map-side-fade),
+      #000 calc(100% - var(--map-side-fade)),
+      transparent
+    );
+  mask-composite: intersect;
+}
+.gathering-showcase--fit .route-plane {
+  /* 100 off the top (as a share of the width). */
+  margin-top: -8.33%;
+}
 @media (max-width: 800px) {
   .map-caption-over {
     padding: 24px 8px 4px;
@@ -3391,12 +3428,21 @@
   /* The single-location map on phones: no scrolling it sideways (and no swipe
      hint); still drawn at its phone width (820px, so the venue fills a phone's
      screen), cut at the sides and kept centred on the venue (GatheringMap). A
-     sideways swipe changes the venue. */
+     sideways swipe changes the venue. The same strips are trimmed off its top
+     and bottom (y 100 to 600 of the map at that width, leaving room for the
+     dots under the guest list), and its sides fade in
+     less. */
   .gathering-showcase--fit .route-viewport {
-    overflow-x: hidden;
-    -webkit-mask-image: none;
-    mask-image: none;
+    --map-side-fade: 5%;
+    aspect-ratio: auto;
+    height: 342px;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
     touch-action: pan-y;
+  }
+  .gathering-showcase--fit .route-plane {
+    margin-top: -68px;
   }
   .gathering-showcase--fit .route-hint {
     display: none;
@@ -5118,5 +5164,381 @@
   .world-label,
   .world-label.is-shown:hover {
     transition: opacity 0.2s ease;
+  }
+}
+
+/* ---------- The home page's photo hero (PhotoHero.jsx) ---------- */
+/* The promise and the store buttons on the left, the photos on the right in a
+   mosaic: a big tile, two small ones beside it, and a short and a wide one
+   under them. Stacked on phones and tablets, the words centred. */
+.photo-hero {
+  overflow: hidden;
+  padding-top: clamp(24px, 4vw, 48px);
+  padding-bottom: clamp(24px, 4vw, 48px);
+}
+.photo-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+/* The store buttons line up on the left, under the words. */
+.photo-hero .appLinks-list {
+  justify-content: flex-start;
+}
+.photo-mosaic {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    "a a b"
+    "a a c"
+    "d e e";
+  gap: 12px;
+  height: clamp(420px, 62vh, 600px);
+}
+.photo-tile:nth-child(1) {
+  grid-area: a;
+}
+.photo-tile:nth-child(2) {
+  grid-area: b;
+}
+.photo-tile:nth-child(3) {
+  grid-area: c;
+}
+.photo-tile:nth-child(4) {
+  grid-area: d;
+}
+.photo-tile:nth-child(5) {
+  grid-area: e;
+}
+/* A tile: rounded, its photo filling it. The tiles rise in one after another
+   when the mosaic comes into view; a hovered one lifts a little. */
+.photo-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--building-base);
+  opacity: 0;
+  transform: translateY(16px) scale(0.97);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.1s);
+}
+.photo-mosaic.is-visible .photo-tile {
+  opacity: 1;
+  transform: none;
+}
+.photo-mosaic.is-visible .photo-tile:hover {
+  transform: scale(1.02);
+  transition-delay: 0s;
+}
+/* The photo fills its tile and drifts very slowly while it's there. */
+.photo-tile-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  animation: photo-tile-drift 16s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -3s);
+}
+/* The photo before the swap stays under the new one, still. */
+.photo-tile-img--prev {
+  animation: none;
+}
+@keyframes photo-tile-drift {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+/* How a new photo comes in, one way per tile; then it drifts like the rest. */
+.photo-tile--fade .photo-tile-img--in {
+  animation:
+    photo-tile-fade 1.4s ease both,
+    photo-tile-drift 16s ease-in-out 1.4s infinite alternate;
+}
+.photo-tile--up .photo-tile-img--in {
+  animation:
+    photo-tile-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    photo-tile-drift 16s ease-in-out 0.9s infinite alternate;
+}
+.photo-tile--side .photo-tile-img--in {
+  animation:
+    photo-tile-side 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    photo-tile-drift 16s ease-in-out 0.9s infinite alternate;
+}
+.photo-tile--wipe .photo-tile-img--in {
+  animation:
+    photo-tile-wipe 1s cubic-bezier(0.6, 0, 0.2, 1) both,
+    photo-tile-drift 16s ease-in-out 1s infinite alternate;
+}
+.photo-tile--zoom .photo-tile-img--in {
+  animation:
+    photo-tile-zoom 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    photo-tile-drift 16s ease-in-out 1.1s infinite alternate;
+}
+/* Crossfade, settling from a little closer. */
+@keyframes photo-tile-fade {
+  from {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+/* Slides up from below. */
+@keyframes photo-tile-up {
+  from {
+    transform: translateY(100%) scale(1.02);
+  }
+  to {
+    transform: translateY(0) scale(1.02);
+  }
+}
+/* Slides in from the right. */
+@keyframes photo-tile-side {
+  from {
+    transform: translateX(100%) scale(1.02);
+  }
+  to {
+    transform: translateX(0) scale(1.02);
+  }
+}
+/* Wiped in from the left, like a curtain drawn back. */
+@keyframes photo-tile-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* Grows in from small, fading up. */
+@keyframes photo-tile-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+/* The photos as a deck of cards (PhotoStack.jsx): each card a photo with a
+   light border, set by its place in the deck (--x, --y, --r, --s, --o). They
+   glide to their new place when the deck moves on; the top one flies off to
+   the side (--dir), or follows a drag (--dx, --dr). Dealt in when the deck
+   comes into view, the top card first. */
+.photo-stack {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: clamp(420px, 62vh, 600px);
+  touch-action: pan-y;
+  outline: none;
+}
+.photo-stack:focus-visible .photo-card.is-top {
+  outline: 3px solid var(--primary-color1);
+  outline-offset: 4px;
+}
+.photo-card {
+  position: absolute;
+  width: min(68%, 380px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 8px solid var(--building-top);
+  border-radius: var(--radius);
+  background: var(--building-base);
+  opacity: var(--o);
+  transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s));
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.4s ease,
+    scale 0.3s ease;
+  user-select: none;
+}
+.photo-card.is-top {
+  cursor: grab;
+}
+.photo-card.is-top:hover {
+  scale: 1.02;
+}
+.photo-card.is-dragging {
+  cursor: grabbing;
+  transform: translateX(var(--dx)) rotate(calc(var(--r) + var(--dr)));
+  transition: none;
+}
+.photo-card.is-leaving {
+  opacity: 0;
+  transform: translateX(calc(var(--dir) * 120%))
+    rotate(calc(var(--dir) * 22deg));
+  transition:
+    transform 0.55s cubic-bezier(0.5, 0, 0.75, 0),
+    opacity 0.55s ease-in;
+}
+.photo-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.photo-stack .photo-card {
+  visibility: hidden;
+}
+.photo-stack.is-visible .photo-card {
+  visibility: visible;
+  animation: photo-card-deal 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc((4 - var(--deal)) * 0.12s);
+}
+@keyframes photo-card-deal {
+  from {
+    opacity: 0;
+    translate: 0 60px;
+    rotate: 12deg;
+  }
+}
+@media (max-width: 900px) {
+  .photo-stack {
+    height: clamp(340px, 92vw, 480px);
+  }
+  .photo-card {
+    width: min(62%, 300px);
+    border-width: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-card,
+  .photo-card.is-leaving,
+  .photo-stack.is-visible .photo-card {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* The photos as blob cutouts (PhotoBlobs.jsx): the drawing fills the column;
+   each blob pops in (the splodge first), then floats up and down at its own
+   pace (--float) and, hovered, swells a little. When the blobs move on round
+   their loop, each glides to its new place and size. */
+.photo-blobs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-blobs-svg {
+  display: block;
+  width: 100%;
+  max-height: clamp(420px, 66vh, 620px);
+}
+.photo-blobs-backdrop {
+  fill: var(--building-base);
+  opacity: 0.45;
+}
+/* The two small blobs: the splodge's colour. */
+.photo-blobs-dot {
+  fill: var(--building-base);
+  opacity: 0.45;
+}
+/* (1.8s: MOVE in PhotoBlobs.jsx, while its outline changes shape too.) */
+.photo-blob-place {
+  transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.photo-blob-bg {
+  fill: var(--building-base);
+}
+.photo-blob-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  scale: 0.6;
+  transition:
+    opacity 0.6s ease,
+    scale 0.8s cubic-bezier(0.3, 1.4, 0.5, 1);
+  transition-delay: calc(var(--i) * 0.12s);
+}
+.photo-blobs.is-visible .photo-blob-pop {
+  opacity: 1;
+  scale: 1;
+}
+.photo-blob {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: photo-blob-float var(--float) ease-in-out infinite;
+  animation-delay: calc(var(--b) * -1.3s);
+  transition: scale 0.4s ease;
+}
+.photo-blob:hover {
+  scale: 1.04;
+}
+@keyframes photo-blob-float {
+  0%,
+  100% {
+    translate: 0 -4px;
+  }
+  50% {
+    translate: 0 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-blob-place,
+  .photo-blob-pop,
+  .photo-blob {
+    opacity: 1;
+    scale: none;
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .photo-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .photo-hero .intro {
+    text-align: center;
+  }
+  .photo-hero .intro .title,
+  .photo-hero .intro .lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .photo-hero .appLinks-list {
+    justify-content: center;
+    gap: 12px;
+  }
+  .photo-hero .download-card {
+    flex: 1 1 150px;
+    min-width: 0;
+    max-width: 220px;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .photo-hero .download-card .main-label {
+    white-space: nowrap;
+  }
+  .photo-mosaic {
+    gap: 8px;
+    height: clamp(300px, 86vw, 520px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-tile,
+  .photo-mosaic.is-visible .photo-tile:hover {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .photo-tile .photo-tile-img {
+    animation: none;
+    transform: none;
   }
 }

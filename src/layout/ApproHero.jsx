@@ -8,12 +8,15 @@ import useReveal from "./useReveal";
 import LinkLabel from "./LinkLabel";
 import Heading from "./Heading";
 
-// The top of the home page: the visitor's own Appro on its map (an empty city where
-// the signs of a route drop in one after another) with the page's title and a few
-// lines over its bottom, and under the map a row of small cards you can swipe
+// The visitor's own Appro on its map (an empty city where the signs of a route
+// drop in one after another), with the title and a few lines above it, the
+// status line and the link button low on it (under it on tablets and
+// phones), and under the map a row of small cards you can swipe
 // sideways, one per example Appro (its name with an arrow beside it, and a line about it), each
 // opening that Appro's page. The cards rise in one after another.
-//   title, text   the heading (the page's h1) and the lines under it
+//   title, text   the heading and the lines under it
+//   titleAs       the heading's element: "h1" (default, the page's title) or
+//                 "h2" when something above is the page's title
 //   link          a link button above the heading: { label, to } (the organizing
 //                 guide)
 //   next          the visitor's own Appro: { imageAlt, labels, status } (`status`:
@@ -41,7 +44,15 @@ const Tick = () => (
   </svg>
 );
 
-const ApproHero = ({ title, text, next, events, eventsLabel, link }) => {
+const ApproHero = ({
+  title,
+  text,
+  next,
+  events,
+  eventsLabel,
+  link,
+  titleAs = "h1",
+}) => {
   const [listRef, visible] = useReveal();
   // The link button wiggles once each round of the map, when its signs and hosts
   // are all in (see .map-hero-link): every new round (the map's "map-round"
@@ -82,13 +93,17 @@ const ApproHero = ({ title, text, next, events, eventsLabel, link }) => {
     <section className="section section--map-feature section--map-hero">
       <div className="container container--wide">
         <div className="map-hero-stage" ref={stageRef}>
-          <Intro
-            as="h1"
-            size="page"
-            title={title}
-            text={text}
-            before={
-              <>
+          <Intro as={titleAs} size="section" title={title} text={text} />
+          {/* The map, with the status line and the link button low on it
+              (under it on tablets and phones) */}
+          <div className="map-hero-map">
+            <GatheringMap
+              venue="yourAppro"
+              imageAlt={next.imageAlt}
+              labels={next.labels}
+            />
+            <div className="map-hero-overlay">
+              <div className="map-hero-actions">
                 {next.status && (
                   <p className="map-hero-status" aria-live="polite">
                     <span key={phase} className="map-hero-status-text">
@@ -104,14 +119,9 @@ const ApproHero = ({ title, text, next, events, eventsLabel, link }) => {
                     </Link>
                   </p>
                 )}
-              </>
-            }
-          />
-          <GatheringMap
-            venue="yourAppro"
-            imageAlt={next.imageAlt}
-            labels={next.labels}
-          />
+              </div>
+            </div>
+          </div>
         </div>
         <ul
           ref={listRef}

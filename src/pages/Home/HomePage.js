@@ -4,6 +4,7 @@ import Intro from "../../layout/Intro";
 import LogoStrip from "../../layout/LogoStrip";
 import GatheringShowcase from "../../layout/GatheringShowcase";
 import ApproHero from "../../layout/ApproHero";
+import PhotoHero from "../../layout/PhotoHero";
 import ServiceList from "../../layout/ServiceList";
 import PartyScene from "../../layout/PartyScene";
 import BlobPanel from "../../layout/BlobPanel";
@@ -14,7 +15,8 @@ import { useContent } from "../../i18n";
 import { visible } from "../../content/content";
 import LinkLabel from "../../layout/LinkLabel";
 
-// Home, top to bottom: the visitor's own Appro on its map, its title over it and
+// Home, top to bottom: the promise with the app store buttons beside photos
+// from events → the visitor's own Appro on its map, its title over it and
 // small cards of example Appros under it → what you get when you host an Appro
 // (a row of cards) → the promise (light the Bonfiire of connection) with the app
 // store buttons → or keep it in one place (the single-location event) →
@@ -32,6 +34,7 @@ const HomePage = () => {
     hostAppro,
     hostGathering,
     onePlace,
+    photoHero,
     popular,
     services,
   } = useContent("home");
@@ -48,7 +51,18 @@ const HomePage = () => {
 
   return (
     <div className="sections--light-first">
-      {/* The top: the title and a few lines, the visitor's own Appro on its map
+      {/* The very top: the promise (light the Bonfiire of connection, the
+          page's h1), a line and the app store buttons, beside real photos from
+          events gliding past in tilted columns. */}
+      <PhotoHero
+        layout={photoHero.layout}
+        title={photoHero.title}
+        text={photoHero.text}
+        photos={photoHero.photos}
+        photosLabel={photoHero.photosLabel}
+      />
+
+      {/* Then: the title and a few lines, the visitor's own Appro on its map
           (signs dropping in), and small cards of example Appros under it, each
           opening its page. On a cream band, like the navbar above it. */}
       <ApproHero
@@ -64,6 +78,7 @@ const HomePage = () => {
         events={featuredEvents}
         eventsLabel={popular.eventsLabel}
         link={hostAppro.instructions}
+        titleAs="h2"
       />
 
       {/* What you get when you host an Appro: on the cream, a row of cards you
@@ -152,7 +167,6 @@ const HomePage = () => {
           </Intro>
         </Section>
       )}
-
     </div>
   );
 };

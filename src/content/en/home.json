@@ -1,4 +1,36 @@
 {
+  "photoHero": {
+    "layout": "blobs",
+    "title": "Light the\n{Bonfiire}\nof Connection",
+    "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
+    "photosLabel": "Photos from Bonfiire events",
+    "photos": [
+      {
+        "image": "friends-phones",
+        "alt": "Two friends outdoors looking at an event on their phones."
+      },
+      {
+        "image": "gathering",
+        "alt": "Students in overalls gathering on a street in autumn."
+      },
+      {
+        "image": "group-meetup",
+        "alt": "A group meeting up at a street corner under autumn trees."
+      },
+      {
+        "image": "night-group",
+        "alt": "Friends in overalls holding teddy bears on a lawn in the evening."
+      },
+      {
+        "image": "qr-ticket",
+        "alt": "A phone showing a QR code e-ticket, held up to be scanned."
+      },
+      {
+        "image": "tug-of-war",
+        "alt": "Students playing tug of war on the grass."
+      }
+    ]
+  },
   "hero": {
     "title": "Bonfiire is {available} in\n App store and Play store",
     "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
@@ -59,8 +91,14 @@
     "text": [
       "Your ticket, the date and the start time, and a live map of the whole route are all in the Bonfiire app. Follow the way from checkpoint to checkpoint, check in with a quick scan at every stop, collect your stamps and points, and see how your group is doing as the day goes on."
     ],
-    "download": { "label": "Download the app", "to": "/download" },
-    "instructions": { "label": "See instructions →", "to": "/help?tab=attending" },
+    "download": {
+      "label": "Download the app",
+      "to": "/download"
+    },
+    "instructions": {
+      "label": "See instructions →",
+      "to": "/help?tab=attending"
+    },
     "sceneAlt": "Illustration of three cards fanned out: a small map of an Appro route with its checkpoints, the date and start time in the middle, and a ticket with its QR code."
   },
   "why": {
@@ -83,7 +121,10 @@
         "title": "Single-location event",
         "text": "Everything happens in one place. Send the invites, share the details, and welcome everyone in with an e-ticket.",
         "tags": ["Meetup", "House party", "Sitsit", "Birthday", "Board games"],
-        "link": { "label": "Learn more →", "to": "/features#single-location" }
+        "link": {
+          "label": "Learn more →",
+          "to": "/features#single-location"
+        }
       },
       {
         "map": "multi",
@@ -99,9 +140,9 @@
     ]
   },
   "popular": {
-    "title": "Host your next {Appro} with Bonfiire",
+    "title": "Host your next {Appro}\n with Bonfiire",
     "text": [
-      "Set the checkpoints, invite the participants and let Bonfiire handle the check‑ins, stamps and points along the route, from the first checkpoint to the last."
+      "Bonfiire provides your whole map area build  "
     ],
     "events": ["inNature", "barCrawl", "cityHopper"],
     "next": {

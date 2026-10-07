@@ -2407,25 +2407,26 @@ const CITY_MIDDLE = [
   [834, 306, 80, 90],
   [926, 306, 80, 90],
 ];
-// Where each sign stands, in order: scattered up and down, not in a line, over the
-// top two rows of blocks (the home page's title goes over the bottom of the map)
+// Where each sign stands, in order: scattered up and down round the middle of the
+// map, not in a line, clear of the title above it and of the status line and
+// button in its middle (about x 600 to 960, y 320 to 440 on desktops)
 // (the map is shifted, so these run from x 181 to 1381).
 const ROUTE_SIGNS = [
-  [407, 262],
-  [604, 82],
-  [721, 204],
-  [971, 120],
-  [1156, 270],
+  [370, 350],
+  [575, 215],
+  [860, 255],
+  [1100, 385],
+  [1190, 235],
 ];
-// On phones the home page shows this map bigger, cut at the sides, with its title
-// over the bottom (see .map-hero-stage in layout.css), so the signs gather in the
-// middle and upper part, still up and down, not in a line.
+// On phones the home page shows this map bigger, cut at the sides (about x 531
+// to 1031 shows), so the signs gather in the middle, still up and down, not in
+// a line, each far enough in that its board, host and "Accepted" tag show whole.
 const ROUTE_SIGNS_PHONE = [
-  [611, 262],
-  [721, 110],
-  [901, 250],
-  [611, 372],
-  [971, 112],
+  [630, 240],
+  [850, 205],
+  [745, 300],
+  [625, 395],
+  [890, 380],
 ];
 const PHONE = "(max-width: 800px)";
 // Whether the screen is a phone's (follows it when it's resized).

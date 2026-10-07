@@ -122,7 +122,7 @@ with the same `part` are grouped under it in the sidebar, which opens and closes
 an arrow, as does a category with more than one page); a page lives at
 `/help-docs/<category id>/<page id>`.
 
-A page has `id`, `title`, an optional `summary` (the first paragraph under the title), `updated` (a date like
+A page has `id`, `title`, optional `group` (where it sits in the sidebar under its category, outermost first, e.g. `["Single venue events", "Hosting an event"]`), optional `navTitle` (a shorter name for the sidebar), optional `"draft": true` (only shows while developing, never on the live site), an optional `summary` (the first paragraph under the title), `updated` (a date like
 `2026-10-05`, shown as "Last updated"), `sections` and optional `related` (other pages
 as `"category id/page id"`). Each section has an `id` (for `#links`),
 an optional `title` (left out, the section shows only its blocks) and `blocks`,

@@ -21,12 +21,14 @@ const randoms = (seed) => {
 // A smooth closed blob in a 200 × 200 box: bumps round the middle, each at its own
 // distance, joined with smooth curves. "soft": gentle bumps filling most of the box
 // (so content stretched inside it stays within it); "weird": deep lobes and odd
-// bulges, like a splodge.
+// bulges, like a splodge; "soft7": like "soft" but with as many bumps as
+// "weird", so one can turn smoothly into the other (PhotoBlobs).
 const SHAPES = {
   soft: { points: 8, near: 88, far: 12, jitter: 0.3 },
   weird: { points: 7, near: 52, far: 46, jitter: 0.6 },
+  soft7: { points: 7, near: 88, far: 12, jitter: 0.3 },
 };
-const blobPath = (seed, shape = "soft") => {
+export const blobPath = (seed, shape = "soft") => {
   const { points: POINTS, near, far, jitter } = SHAPES[shape];
   const random = randoms(seed);
   const spots = Array.from({ length: POINTS }, (_, i) => {
