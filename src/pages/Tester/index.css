@@ -4,24 +4,150 @@
   flex-direction: column;
   align-items: center;
   justify-content: center; /* Vertically centers content */
+  flex: 1; /* fill the space between navbar and footer so the background reaches both */
   padding: 40px 20px;
-  text-align: center;
+  background: var(--primary-color);
 }
 
 /* 2. Content Wrapper */
 .download-content {
-  max-width: 700px;
+  max-width: 1000px;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* narrow windows: text, "or", QR stacked */
   align-items: center;
   justify-content: center;
+  gap: 32px;
 }
+
+@media (min-width: 820px) {
+  .download-content {
+    flex-direction: row; /* side by side with "or" in the middle */
+    gap: 56px;
+  }
+}
+
+/* "or" between the store buttons and the QR, with a line on each side:
+   vertical when side by side, horizontal when stacked */
+.download-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 240px;
+  color: var(--secondary-text-color);
+  font-size: var(--text-info);
+  animation: download-qr-in 0.5s ease-out both;
+}
+
+.download-or::before,
+.download-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--building-base);
+}
+
+@media (min-width: 820px) {
+  .download-or {
+    flex-direction: column;
+    align-self: stretch;
+    width: auto;
+    max-width: none;
+  }
+
+  .download-or::before,
+  .download-or::after {
+    width: 1px;
+    height: auto;
+  }
+}
+
+.download-text {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+@media (min-width: 820px) {
+  .download-text {
+    flex: 1 1 0;
+  }
+}
+
 
 /* 3. Links Wrapper */
 .download-links-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
+}
+
+/* 4. QR code: for desktop visitors to open the page on their phone */
+.download-qr {
+  flex: 0 0 auto;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: download-qr-in 0.5s ease-out both;
+}
+
+.download-qr-code {
+  line-height: 0;
+}
+
+.download-qr-svg {
+  width: 200px;
+  height: 200px;
+}
+
+.download-qr-dots {
+  fill: var(--secondary-color);
+}
+
+.download-qr-finder-ring {
+  fill: none;
+  stroke: var(--secondary-color);
+  stroke-width: 1;
+}
+
+.download-qr-finder-eye {
+  fill: var(--accent-text-color);
+}
+
+.download-qr figcaption {
+  font-size: var(--text-info);
+  color: var(--secondary-text-color);
+}
+
+/* Phones and tablets are the device to download on, so no QR there */
+@media (hover: none) and (pointer: coarse) {
+  .download-or,
+  .download-qr {
+    display: none;
+  }
+}
+
+@keyframes download-qr-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .download-or,
+  .download-qr {
+    animation: none;
+  }
 }

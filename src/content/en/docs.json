@@ -1,0 +1,2610 @@
+{
+  "title": "Bonfiire docs",
+  "labels": {
+    "search": "Search the docs",
+    "noResults": "No pages match your search.",
+    "previous": "Previous",
+    "next": "Next",
+    "updated": "Last updated",
+    "menu": "Docs menu",
+    "close": "Close menu",
+    "related": "Related pages",
+    "tip": "Tip",
+    "note": "Note"
+  },
+  "categories": [
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "pages": [
+        {
+          "id": "what-is-bonfiire",
+          "title": "What is Bonfiire",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Bonfiire is where people find things to do, host their own events and bring everyone together, from a park hangout to an Appro across the city. Students use it the most, but it works just as well for associations, teams, companies and groups of friends."
+                }
+              ]
+            },
+            {
+              "id": "core-features",
+              "title": "Core features",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "**Host your event.** Create the event page, send the invites and see who's coming.",
+                    "**E-tickets.** All participants who are attending gets their ticket right in the app.",
+                    "**Quick check-in.** Scan tickets by using in-built ticket scanner, or find people in the participant list in seconds.",
+                    "**Bring your group together.** Associations, clubs and groups of friends can plan their events in one place and keep everyone in the loop."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "two-kinds-of-events",
+              "title": "Kinds of events",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "You can host two kinds of events with Bonfiire. The difference is where it happens. It can be in one place, or along a route of multiple checkpoints that participants have to reach as a challenge."
+                },
+                {
+                  "type": "cards",
+                  "items": [
+                    {
+                      "scene": "venue",
+                      "title": "Single venue event",
+                      "text": "Everything happens in one place, like a party, a meetup, a sitsit or an afternoon of board games with friends.",
+                      "to": "event-creation/create-single-location-event"
+                    },
+                    {
+                      "scene": "map",
+                      "title": "Multi checkpoints event (Appro)",
+                      "text": "A route of checkpoints that groups walk through, participating in games, collecting points and stamps at each stop.",
+                      "to": "event-creation/create-multi-checkpoint-event"
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "Not sure which one you need? If everyone stays in one place, it's a single venue event. If people move from checkpoint to checkpoint, it's an Appro."
+                }
+              ]
+            },
+            {
+              "id": "who-does-what",
+              "title": "Who does what",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "**Organizer** creates the event, invites people and runs it.",
+                    "**Co-host** helps the organizer run the event.",
+                    "**Checkpoint host** looks after one checkpoint of an Appro, checking groups in and giving points.",
+                    "**Participant** joins the event, checks in and takes part."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account",
+      "title": "Account management",
+      "pages": [
+        {
+          "id": "create-your-profile",
+          "title": "Create a new account",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Account creation in bonfiire is simple and only takes 1-2 minutes to complete. You will need a proper email address where we can send you passcode, and entering few profile details, you are good to go."
+                }
+              ]
+            },
+            {
+              "id": "what-you-need",
+              "title": "What you need",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "First Name",
+                    "Last Name",
+                    "Email address",
+                    "Date of birth",
+                    "Gender",
+                    "Profile picture (optional)",
+                    "Bio (optional)"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to sign up your account",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Creating an account, from Let's get started to the bio",
+                  "items": [
+                    {
+                      "text": "Open Bonfiire and press **Let's get started**."
+                    },
+                    {
+                      "text": "Press **Continue with Email**."
+                    },
+                    {
+                      "text": "Type in your **Email address** and press **Continue**."
+                    },
+                    {
+                      "text": "We will send you **6 digits passcode** to your email. Wait for it to arrive, type it into the app and press **Confirm**.",
+                      "note": "Please check spam folder, if you don't see email in your inbox."
+                    },
+                    {
+                      "text": "Enter your **First Name** and **Last Name** and then press **Next** to continue."
+                    },
+                    {
+                      "text": "Enter your **Date of birth** and **Press Next**",
+                      "note": "You must be 18 or older to use Bonfiire."
+                    },
+                    {
+                      "text": "Select your **Gender** and press **Next**"
+                    },
+                    {
+                      "text": "Choose a **picture** for your profile and press **Next**, or skip this for now."
+                    },
+                    {
+                      "text": "Fill up the **bio** to tell people a little about yourself, or leave it empty. Then press **Done** and you're in."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "log-in",
+          "title": "Log into your account",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Your email address is how you get into your Bonfiire account. It's the only login method linked to your account, so there's no password to remember. Just like when you signed up, we send a passcode to your email, and once you're verified you're back in your account."
+                }
+              ]
+            },
+            {
+              "id": "what-you-need",
+              "title": "What you need",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": ["The email address you created your account with"]
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to log in",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Logging in, from Let's get started to your account",
+                  "items": [
+                    {
+                      "text": "Open Bonfiire and press **Let's get started**."
+                    },
+                    {
+                      "text": "Press **Continue with Email**."
+                    },
+                    {
+                      "text": "Type in the **email address** of your account and press **Continue**.",
+                      "note": "If this email isn't linked to a Bonfiire account, the app takes you to sign up instead."
+                    },
+                    {
+                      "text": "We will send a **6 digit passcode** to your email. Wait for it to arrive, type it into the app and press **Confirm**. You're in.",
+                      "note": "Please check your spam folder if you don't see the email in your inbox."
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "No account yet? See [Create a new account](account/create-your-profile) to sign up for Bonfiire."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "update-your-profile",
+          "title": "Update your profile info",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "You can update your profile info whenever you like, right in the app. You need to be [logged into your account](account/log-in) to do it."
+                }
+              ]
+            },
+            {
+              "id": "what-you-can-update",
+              "title": "What you can update",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": ["Name", "Bio", "Date of birth", "Gender"]
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to update your profile",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Updating your profile, from the Profile tab to Update",
+                  "items": [
+                    {
+                      "text": "Go to your **Profile**. It's the last tab at the bottom of your screen, with your picture on it."
+                    },
+                    {
+                      "text": "Press **Edit profile**, right below your picture."
+                    },
+                    {
+                      "text": "Select the info you want to update and make your changes."
+                    },
+                    {
+                      "text": "Press **Update** to save your changes. You're done.",
+                      "note": "Every change you make is recorded in your activity history, so you can always see what was changed, when, and from where."
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "To see your profile changes, go to your **Profile**, press the **gear icon** and open **Activity center**."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "change-your-email",
+          "title": "Change your account email",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Your email address is how you log into Bonfiire, and you can change it whenever you need to. You need to be [logged into your account](account/log-in) to do it."
+                }
+              ]
+            },
+            {
+              "id": "what-you-need",
+              "title": "What you need",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "The new email address, and access to its inbox to get the passcode"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to change your email",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Changing the account email, from the Profile tab to the new passcode",
+                  "items": [
+                    {
+                      "text": "Go to your **Profile** and press the **gear icon**."
+                    },
+                    {
+                      "text": "Press **Account**."
+                    },
+                    {
+                      "text": "You'll see the **email address** your account is linked to. Press it to open the email change screen."
+                    },
+                    {
+                      "text": "Enter your new **email address**."
+                    },
+                    {
+                      "text": "We will send a **6 digit passcode** to your new email. Type it into the app to verify it, and your email is changed.",
+                      "note": "From now on, your account is linked to your new email address. Use it the next time you log in."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "request-your-data",
+          "title": "Request your account data",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "You can ask for a copy of the personal data we have about you. It includes your profile information, the events you have created or joined, and your chat messages. You request it in the app, and once it's ready you download it from the same place."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to request your data",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Requesting a copy of your data, from the Profile tab to Request for data copy",
+                  "items": [
+                    {
+                      "text": "Go to your **Profile** and press the **gear icon**."
+                    },
+                    {
+                      "text": "Press **Account**."
+                    },
+                    {
+                      "text": "Under **Account data and control**, press **Manage your data**."
+                    },
+                    {
+                      "text": "Press **Request for data copy**. Your request is sent to us.",
+                      "note": "It takes 1 to 4 days to get your data ready. We send you an email when it's ready to download."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "download",
+              "title": "Download your data",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "text": "Once you get our email, go back to **Manage your data** (your **Profile**, the **gear icon**, then **Account**)."
+                    },
+                    {
+                      "text": "Download the copy of your data.",
+                      "note": "Your copy can be downloaded for 7 days. After that it expires, and you need to request a new copy."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "delete-your-account",
+          "title": "Delete your account",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Under GDPR and our [privacy policy](/privacy-policy), you can ask us to delete your account at any time. When you do, we delete your account and your personal data from the Bonfiire database."
+                }
+              ]
+            },
+            {
+              "id": "grace-period",
+              "title": "30 day grace period",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Your account isn't deleted straight away. It first goes into a 30 day grace period, starting from the day you ask to delete it. If you change your mind, you can reactivate your account any time during those 30 days. Once the grace period ends, your account is permanently deleted and can't be brought back."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to delete your account",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Deleting the account, from the Profile tab to Delete account",
+                  "items": [
+                    {
+                      "text": "Go to your **Profile** and press the **gear icon**."
+                    },
+                    {
+                      "text": "Press **Account**."
+                    },
+                    {
+                      "text": "Under **Account data and control**, press **Delete account**."
+                    },
+                    {
+                      "text": "Tick the box to confirm that you want to delete your account, then press **Delete account**.",
+                      "note": "Your 30 day grace period starts now. You can reactivate your account until it ends."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "title": "Events",
+      "pages": [
+        {
+          "id": "types-of-events",
+          "title": "Event types",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "You can host two kinds of events with Bonfiire. The difference is where it happens. It can be in one place, or along a route of multiple checkpoints that participants have to reach as a challenge."
+                }
+              ]
+            },
+            {
+              "id": "kinds",
+              "title": "Two kinds of events",
+              "blocks": [
+                {
+                  "type": "cards",
+                  "items": [
+                    {
+                      "scene": "venue",
+                      "title": "Single venue event",
+                      "text": "Everything happens in one place, like a party, a meetup, a sitsit or an afternoon of board games with friends.",
+                      "to": "events/single-venue-events"
+                    },
+                    {
+                      "scene": "map",
+                      "title": "Multi checkpoints event (Appro)",
+                      "text": "A route of checkpoints that groups walk through, participating in games, collecting points and stamps at each stop.",
+                      "to": "events/multi-checkpoint-events"
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "Not sure which one you need? If everyone stays in one place, it's a single venue event. If people move from checkpoint to checkpoint, it's an Appro."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "single-venue-events",
+          "title": "Single venue events",
+          "navTitle": "Overview",
+          "group": ["Single venue events"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A single venue event happens in one place, like a party, a meetup, a sitsit or an afternoon of board games with friends. Not every event needs a route."
+                }
+              ]
+            },
+            {
+              "id": "what-you-can-do",
+              "title": "What Bonfiire does for you",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "**Send the invites** to the people you want there, or share the event link.",
+                    "**Share the details** like the date, time and place, all on one event page.",
+                    "**Hand out e-tickets** to everyone who joins.",
+                    "**Check everyone in at the door** by scanning their tickets."
+                  ]
+                },
+                {
+                  "type": "p",
+                  "text": "Ready to host one? See [Create a single venue event](event-creation/create-single-location-event)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-create",
+          "title": "Create an event",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A single venue event happens in one place, like a meetup or a birthday."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to create a single venue event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Creating a single venue event, from start to publish",
+                  "items": [
+                    {
+                      "text": "Start a new event."
+                    },
+                    {
+                      "text": "Add a name, description, date and time."
+                    },
+                    {
+                      "text": "Pick a single location and pin the place."
+                    },
+                    {
+                      "text": "Publish your event. It's live and ready for you to [invite people](sending-invitations/invite-people)."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-update",
+          "title": "Update an event",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Change your event's details whenever you need to."
+                }
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "Steps to edit an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Editing an event and saving the changes",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Change what you need, such as the name, description, date, time or place."
+                    },
+                    {
+                      "text": "Save. Your changes show on the event right away."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-cancel",
+          "title": "Cancel an event",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Need to call your event off? You can cancel it from the event."
+                }
+              ]
+            },
+            {
+              "id": "cancel",
+              "title": "Steps to cancel an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Cancelling an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Choose to cancel the event."
+                    },
+                    {
+                      "text": "Confirm that you want to cancel it."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-add-cohost",
+          "title": "Add a co-host",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A co-host helps you run your event. Invite the people you want on your team."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite a co-host",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting a co-host",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Choose who you want to help and send the invite."
+                    },
+                    {
+                      "text": "Once they [accept](accepting-invitations/accept-cohost), they can help you run the event."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-invite",
+          "title": "Invite people",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Send invitations to the people you want at your event, or share its link with them."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite people",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting people to an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick people to invite, or share the event's link with them."
+                    },
+                    {
+                      "text": "They get your invitation and can [accept it](joining-events/accept-an-invitation). See who's coming in the guest list."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-join-requests",
+          "title": "Manage join requests",
+          "group": ["Single venue events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-host-check-in",
+          "title": "Check in participants",
+          "group": ["Single venue events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Check people in with the ticket scanner as they arrive. Every participant has an e-ticket with a QR code. Scan it with the in-app ticket scanner to check them in, or find them in the participant list."
+                }
+              ]
+            },
+            {
+              "id": "single-venue",
+              "title": "At a single venue event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scanning an e-ticket at the door",
+                  "items": [
+                    {
+                      "text": "From your event, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket.",
+                      "note": "Ticket won't scan? See [A ticket won't scan](troubleshooting/ticket-wont-scan) for quick fixes."
+                    },
+                    {
+                      "text": "The participant is checked in."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-host-revoke-participation",
+          "title": "Revoke participation",
+          "group": ["Single venue events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-host-revoke-cohost",
+          "title": "Revoke the co-host role",
+          "group": ["Single venue events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-cohost-invite",
+          "title": "Invite people",
+          "group": ["Single venue events", "Co-hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Send invitations to the people you want at your event, or share its link with them."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite people",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting people to an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick people to invite, or share the event's link with them."
+                    },
+                    {
+                      "text": "They get your invitation and can [accept it](joining-events/accept-an-invitation). See who's coming in the guest list."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-cohost-join-requests",
+          "title": "Manage join requests",
+          "group": ["Single venue events", "Co-hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-cohost-check-in",
+          "title": "Check in participants",
+          "group": ["Single venue events", "Co-hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Check people in with the ticket scanner as they arrive. Every participant has an e-ticket with a QR code. Scan it with the in-app ticket scanner to check them in, or find them in the participant list."
+                }
+              ]
+            },
+            {
+              "id": "single-venue",
+              "title": "At a single venue event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scanning an e-ticket at the door",
+                  "items": [
+                    {
+                      "text": "From your event, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket.",
+                      "note": "Ticket won't scan? See [A ticket won't scan](troubleshooting/ticket-wont-scan) for quick fixes."
+                    },
+                    {
+                      "text": "The participant is checked in."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-cohost-withdraw-participant",
+          "title": "Withdraw a participant",
+          "group": ["Single venue events", "Co-hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-join-request",
+          "title": "Send a join request",
+          "group": ["Single venue events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Found an event you like? Ask the organizer if you can join, and once they accept, your e-ticket is ready."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to request to join",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Requesting to join an event, from the event page to the e-ticket",
+                  "items": [
+                    {
+                      "text": "Open the event. Find it [on the map or with search](finding-events/explore-events), or open a link someone shared with you."
+                    },
+                    {
+                      "text": "Press **Request to join** to ask the organizer if you can join."
+                    },
+                    {
+                      "text": "Once the organizer accepts, your [e-ticket](at-the-event/find-tickets) is ready and you're in the event chat."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-respond-invitation",
+          "title": "Respond to an invitation",
+          "group": ["Single venue events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "When someone invites you to an event, you get an invitation in the app. Accepting it gives you your e-ticket and a place in the event chat."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to accept an invitation",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Accepting an invitation, from the notification to Accept",
+                  "items": [
+                    {
+                      "text": "Open the invitation from your notifications, or from the link you were sent.",
+                      "note": "Can't find the invitation? Check your notifications, or ask the organizer to send the link again."
+                    },
+                    {
+                      "text": "Check the details. See what's happening, when and where, and who else is going."
+                    },
+                    {
+                      "text": "Press **Accept** to get your e-ticket and join the event chat, or **Decline** so the host knows."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "after-accepting",
+              "title": "After you accept",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "Your [e-ticket](at-the-event/find-tickets) is in the event, ready to show when you arrive.",
+                    "You're in the event chat with the organizer and everyone going."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-find-ticket",
+          "title": "Find your ticket",
+          "group": ["Single venue events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Every event you join comes with an e-ticket. Show it when you arrive, so you can be checked in."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to find your ticket",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Finding your e-ticket, from your events to the ticket",
+                  "items": [
+                    {
+                      "text": "Go to the events you've joined."
+                    },
+                    {
+                      "text": "Open the event you're going to."
+                    },
+                    {
+                      "text": "Open your **e-ticket** and show it when you arrive."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sv-check-in",
+          "title": "Check in to the event",
+          "group": ["Single venue events", "Participating in an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "sv-withdraw",
+          "title": "Withdraw from the event",
+          "group": ["Single venue events", "Participating in an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "multi-checkpoint-events",
+          "title": "Multi-checkpoint events",
+          "navTitle": "Overview",
+          "group": ["Multi-checkpoint events"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A multi-checkpoint event, or Appro, is a route of checkpoints that groups walk through. At each stop they play a game, collect points and get a stamp."
+                }
+              ]
+            },
+            {
+              "id": "how-it-works",
+              "title": "How it works",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "**Checkpoints.** Every Appro has its own route, checkpoints and games.",
+                    "**Checkpoint hosts.** A host looks after each checkpoint, checking groups in and giving points. No host at a checkpoint? Print out its QR code instead.",
+                    "**Live map.** Participants follow the route on the map in the app, from the meeting point to every checkpoint.",
+                    "**Points and leaderboard.** Scores add up as the day goes, and everyone can see the standings."
+                  ]
+                },
+                {
+                  "type": "p",
+                  "text": "Ready to host one? See [Create a multi-checkpoint event](event-creation/create-multi-checkpoint-event)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-create",
+          "title": "Create an event",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A multi-checkpoint event moves from stop to stop, like an Appro or Fuksiaiset."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to create a multi-checkpoint event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Creating an Appro, from start to publish",
+                  "items": [
+                    {
+                      "text": "Start a new event."
+                    },
+                    {
+                      "text": "Add a name, description, date and time."
+                    },
+                    {
+                      "text": "Choose multiple checkpoints and add each stop on the route."
+                    },
+                    {
+                      "text": "Publish your event. Your route is live, ready for [checkpoint hosts](sending-invitations/add-checkpoint-host) and participants."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-update",
+          "title": "Update an event",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Change your event's details whenever you need to."
+                }
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "Steps to edit an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Editing an event and saving the changes",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Change what you need, such as the name, description, date, time or place."
+                    },
+                    {
+                      "text": "Save. Your changes show on the event right away."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-cancel",
+          "title": "Cancel an event",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Need to call your event off? You can cancel it from the event."
+                }
+              ]
+            },
+            {
+              "id": "cancel",
+              "title": "Steps to cancel an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Cancelling an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Choose to cancel the event."
+                    },
+                    {
+                      "text": "Confirm that you want to cancel it."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-add-checkpoint-host",
+          "title": "Add a checkpoint host",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At a multi-checkpoint event, put someone in charge of each stop. A checkpoint host checks groups in and gives points at their checkpoint."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite a checkpoint host",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting a host for a checkpoint",
+                  "items": [
+                    {
+                      "text": "From your event's route, pick the checkpoint."
+                    },
+                    {
+                      "text": "Choose who will look after this checkpoint and send the invite."
+                    },
+                    {
+                      "text": "Once they [accept](accepting-invitations/accept-checkpoint-host), the checkpoint is theirs to run."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-invite",
+          "title": "Invite people",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Send invitations to the people you want at your event, or share its link with them."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite people",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting people to an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick people to invite, or share the event's link with them."
+                    },
+                    {
+                      "text": "They get your invitation and can [accept it](joining-events/accept-an-invitation). See who's coming in the guest list."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-join-requests",
+          "title": "Manage join requests",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-host-check-in",
+          "title": "Check in participants",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Check people in with the ticket scanner as they arrive. Every participant has an e-ticket with a QR code. Scan it with the in-app ticket scanner to check them in, or find them in the participant list."
+                }
+              ]
+            },
+            {
+              "id": "multi-checkpoint",
+              "title": "At a multi-checkpoint event",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At an Appro, each checkpoint host scans the groups as they arrive at their stop."
+                },
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scanning tickets at a checkpoint",
+                  "items": [
+                    {
+                      "text": "From your event or checkpoint, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket."
+                    },
+                    {
+                      "text": "The participant is checked in and collects the checkpoint's stamp."
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "No host at a checkpoint? Print out the checkpoint's QR code instead, and participants check in by scanning it themselves."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-host-revoke-participation",
+          "title": "Revoke participation",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-host-revoke-checkpoint-host",
+          "title": "Revoke a checkpoint host",
+          "group": ["Multi-checkpoint events", "Hosting an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-cp-invite-host",
+          "title": "Invite another checkpoint host",
+          "group": ["Multi-checkpoint events", "Hosting a checkpoint"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-cp-invite",
+          "title": "Invite people",
+          "group": ["Multi-checkpoint events", "Hosting a checkpoint"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Send invitations to the people you want at your event, or share its link with them."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite people",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting people to an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick people to invite, or share the event's link with them."
+                    },
+                    {
+                      "text": "They get your invitation and can [accept it](joining-events/accept-an-invitation). See who's coming in the guest list."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-cp-join-requests",
+          "title": "Manage join requests",
+          "group": ["Multi-checkpoint events", "Hosting a checkpoint"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-cp-check-in",
+          "title": "Check in participants",
+          "group": ["Multi-checkpoint events", "Hosting a checkpoint"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Check people in with the ticket scanner as they arrive. Every participant has an e-ticket with a QR code. Scan it with the in-app ticket scanner to check them in, or find them in the participant list."
+                }
+              ]
+            },
+            {
+              "id": "multi-checkpoint",
+              "title": "At a multi-checkpoint event",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At an Appro, each checkpoint host scans the groups as they arrive at their stop."
+                },
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scanning tickets at a checkpoint",
+                  "items": [
+                    {
+                      "text": "From your event or checkpoint, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket."
+                    },
+                    {
+                      "text": "The participant is checked in and collects the checkpoint's stamp."
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "No host at a checkpoint? Print out the checkpoint's QR code instead, and participants check in by scanning it themselves."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-cp-withdraw-participant",
+          "title": "Withdraw a participant",
+          "group": ["Multi-checkpoint events", "Hosting a checkpoint"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-join-request",
+          "title": "Send a join request",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Found an event you like? Ask the organizer if you can join, and once they accept, your e-ticket is ready."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to request to join",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Requesting to join an event, from the event page to the e-ticket",
+                  "items": [
+                    {
+                      "text": "Open the event. Find it [on the map or with search](finding-events/explore-events), or open a link someone shared with you."
+                    },
+                    {
+                      "text": "Press **Request to join** to ask the organizer if you can join."
+                    },
+                    {
+                      "text": "Once the organizer accepts, your [e-ticket](at-the-event/find-tickets) is ready and you're in the event chat."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-respond-invitation",
+          "title": "Respond to an invitation",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "When someone invites you to an event, you get an invitation in the app. Accepting it gives you your e-ticket and a place in the event chat."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to accept an invitation",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Accepting an invitation, from the notification to Accept",
+                  "items": [
+                    {
+                      "text": "Open the invitation from your notifications, or from the link you were sent.",
+                      "note": "Can't find the invitation? Check your notifications, or ask the organizer to send the link again."
+                    },
+                    {
+                      "text": "Check the details. See what's happening, when and where, and who else is going."
+                    },
+                    {
+                      "text": "Press **Accept** to get your e-ticket and join the event chat, or **Decline** so the host knows."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "after-accepting",
+              "title": "After you accept",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "Your [e-ticket](at-the-event/find-tickets) is in the event, ready to show when you arrive.",
+                    "You're in the event chat with the organizer and everyone going."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-find-ticket",
+          "title": "Find your ticket",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Every event you join comes with an e-ticket. Show it when you arrive, so you can be checked in."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to find your ticket",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Finding your e-ticket, from your events to the ticket",
+                  "items": [
+                    {
+                      "text": "Go to the events you've joined."
+                    },
+                    {
+                      "text": "Open the event you're going to."
+                    },
+                    {
+                      "text": "Open your **e-ticket** and show it when you arrive."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-navigate",
+          "title": "Navigate the checkpoints on the map",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Some events move from stop to stop, like an Appro. The Appro map shows the whole route, so you always know where to go next."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to navigate with the map",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Following the route from checkpoint to checkpoint",
+                  "items": [
+                    {
+                      "text": "Open the event to see all the checkpoints on the route."
+                    },
+                    {
+                      "text": "Pick your next stop and head there."
+                    },
+                    {
+                      "text": "Check in at every checkpoint to collect its stamp."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-check-in",
+          "title": "Check in to the event",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        },
+        {
+          "id": "mc-withdraw",
+          "title": "Withdraw from the event",
+          "group": ["Multi-checkpoint events", "Participating in an event"],
+          "draft": true,
+          "updated": "2026-10-06",
+          "sections": []
+        }
+      ]
+    },
+    {
+      "id": "finding-events",
+      "part": "For participants",
+      "title": "Finding events",
+      "pages": [
+        {
+          "id": "explore-events",
+          "title": "Discover events",
+          "updated": "2026-10-05",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "When you're logged in, your home screen is a map of events. If you allow location access, it shows the events around you. If you don't, it shows events around the Helsinki region instead. You can also search for events by name."
+                }
+              ]
+            },
+            {
+              "id": "map",
+              "title": "Find events on the map",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Finding events by moving around the map",
+                  "items": [
+                    {
+                      "text": "Go to your **Home** screen. It opens on the map."
+                    },
+                    {
+                      "text": "Move around the map to the area you're interested in, and give it a few seconds to load the events there.",
+                      "note": "We never collect or store your location. Bonfiire only uses the area of the map you can see on your screen to look for events there."
+                    },
+                    {
+                      "text": "Select an event to see what it is, when and where it happens and who's going."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "search",
+              "title": "Search for events",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "text": "On your **Home** screen, press the **search bar**."
+                    },
+                    {
+                      "text": "Type what you're looking for, like the name of an event."
+                    },
+                    {
+                      "text": "The events that match your search show up in a list. Select one to see its details."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "joining-events",
+      "part": "For participants",
+      "title": "Participating in events",
+      "pages": [
+        {
+          "id": "join-event",
+          "title": "Request to join an event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Found an event you like? Ask the organizer if you can join, and once they accept, your e-ticket is ready."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to request to join",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Requesting to join an event, from the event page to the e-ticket",
+                  "items": [
+                    {
+                      "text": "Open the event. Find it [on the map or with search](finding-events/explore-events), or open a link someone shared with you."
+                    },
+                    {
+                      "text": "Press **Request to join** to ask the organizer if you can join."
+                    },
+                    {
+                      "text": "Once the organizer accepts, your [e-ticket](at-the-event/find-tickets) is ready and you're in the event chat."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "accept-an-invitation",
+          "title": "Accept an invitation",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "When someone invites you to an event, you get an invitation in the app. Accepting it gives you your e-ticket and a place in the event chat."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to accept an invitation",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Accepting an invitation, from the notification to Accept",
+                  "items": [
+                    {
+                      "text": "Open the invitation from your notifications, or from the link you were sent.",
+                      "note": "Can't find the invitation? Check your notifications, or ask the organizer to send the link again."
+                    },
+                    {
+                      "text": "Check the details. See what's happening, when and where, and who else is going."
+                    },
+                    {
+                      "text": "Press **Accept** to get your e-ticket and join the event chat, or **Decline** so the host knows."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "after-accepting",
+              "title": "After you accept",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "Your [e-ticket](at-the-event/find-tickets) is in the event, ready to show when you arrive.",
+                    "You're in the event chat with the organizer and everyone going."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "at-the-event",
+      "part": "For participants",
+      "title": "At the event",
+      "pages": [
+        {
+          "id": "find-tickets",
+          "title": "Find your event ticket",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Every event you join comes with an e-ticket. Show it when you arrive, so you can be checked in."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to find your ticket",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Finding your e-ticket, from your events to the ticket",
+                  "items": [
+                    {
+                      "text": "Go to the events you've joined."
+                    },
+                    {
+                      "text": "Open the event you're going to."
+                    },
+                    {
+                      "text": "Open your **e-ticket** and show it when you arrive."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "contact-organizer",
+          "title": "Contact the event organizer",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Have a question before or during the event? Ask the organizer in the event chat. It connects you with the organizer and everyone going."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to contact the organizer",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Sending a message to the organizer in the event chat",
+                  "items": [
+                    {
+                      "text": "Open the event you've joined."
+                    },
+                    {
+                      "text": "Open the **event chat**."
+                    },
+                    {
+                      "text": "Write your question and send it. The organizer can answer you there."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "navigate-checkpoints",
+          "title": "Navigate with the Appro map",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Some events move from stop to stop, like an Appro. The Appro map shows the whole route, so you always know where to go next."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to navigate with the map",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Following the route from checkpoint to checkpoint",
+                  "items": [
+                    {
+                      "text": "Open the event to see all the checkpoints on the route."
+                    },
+                    {
+                      "text": "Pick your next stop and head there."
+                    },
+                    {
+                      "text": "Check in at every checkpoint to collect its stamp."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-leaderboard",
+          "title": "View the event leaderboard",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At a scored event, the leaderboard shows how you're doing."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to view the leaderboard",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Opening the event leaderboard",
+                  "items": [
+                    {
+                      "text": "Open the event you're taking part in."
+                    },
+                    {
+                      "text": "Open the **leaderboard** to see everyone's scores, ranked."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "event-creation",
+      "part": "For organizers",
+      "title": "Event creation",
+      "pages": [
+        {
+          "id": "create-single-location-event",
+          "title": "Create a single venue event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A single venue event happens in one place, like a meetup or a birthday."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to create a single venue event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Creating a single venue event, from start to publish",
+                  "items": [
+                    {
+                      "text": "Start a new event."
+                    },
+                    {
+                      "text": "Add a name, description, date and time."
+                    },
+                    {
+                      "text": "Pick a single location and pin the place."
+                    },
+                    {
+                      "text": "Publish your event. It's live and ready for you to [invite people](sending-invitations/invite-people)."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "create-multi-checkpoint-event",
+          "title": "Create a multi-checkpoint event (Appro)",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A multi-checkpoint event moves from stop to stop, like an Appro or Fuksiaiset."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to create a multi-checkpoint event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Creating an Appro, from start to publish",
+                  "items": [
+                    {
+                      "text": "Start a new event."
+                    },
+                    {
+                      "text": "Add a name, description, date and time."
+                    },
+                    {
+                      "text": "Choose multiple checkpoints and add each stop on the route."
+                    },
+                    {
+                      "text": "Publish your event. Your route is live, ready for [checkpoint hosts](sending-invitations/add-checkpoint-host) and participants."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "edit-or-cancel-an-event",
+          "title": "Edit or cancel an event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Change your event's details whenever you need to, or call it off."
+                }
+              ]
+            },
+            {
+              "id": "edit",
+              "title": "Steps to edit an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Editing an event and saving the changes",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Change what you need, such as the name, description, date, time or place."
+                    },
+                    {
+                      "text": "Save. Your changes show on the event right away."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cancel",
+              "title": "Steps to cancel an event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Choose to cancel the event."
+                    },
+                    {
+                      "text": "Confirm that you want to cancel it."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "transfer-event-ownership",
+          "title": "Transfer event ownership",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Hand your event over to someone else. Once it's transferred, the new owner manages the event."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to transfer ownership",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Transferring an event to a new owner",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick who should own the event from now on."
+                    },
+                    {
+                      "text": "Confirm the transfer. The new owner can then manage the event."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sending-invitations",
+      "part": "For organizers",
+      "title": "Sending invitations",
+      "pages": [
+        {
+          "id": "invite-people",
+          "title": "Invite people to attend your event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Send invitations to the people you want at your event, or share its link with them."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite people",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting people to an event",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Pick people to invite, or share the event's link with them."
+                    },
+                    {
+                      "text": "They get your invitation and can [accept it](joining-events/accept-an-invitation). See who's coming in the guest list."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "add-cohost",
+          "title": "Invite a co-host to manage your event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "A co-host helps you run your event. Invite the people you want on your team."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite a co-host",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting a co-host",
+                  "items": [
+                    {
+                      "text": "Go to the event you're organizing."
+                    },
+                    {
+                      "text": "Choose who you want to help and send the invite."
+                    },
+                    {
+                      "text": "Once they [accept](accepting-invitations/accept-cohost), they can help you run the event."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "add-checkpoint-host",
+          "title": "Invite a checkpoint host for a multi-checkpoint event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At a multi-checkpoint event, put someone in charge of each stop. A checkpoint host checks groups in and gives points at their checkpoint."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to invite a checkpoint host",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Inviting a host for a checkpoint",
+                  "items": [
+                    {
+                      "text": "From your event's route, pick the checkpoint."
+                    },
+                    {
+                      "text": "Choose who will look after this checkpoint and send the invite."
+                    },
+                    {
+                      "text": "Once they [accept](accepting-invitations/accept-checkpoint-host), the checkpoint is theirs to run."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accepting-invitations",
+      "part": "For organizers",
+      "title": "Accepting invitations",
+      "pages": [
+        {
+          "id": "accept-cohost",
+          "title": "Accept an invitation to manage an event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Someone asked you to co-host their event? Accept the invitation to help run it."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to accept",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Accepting a co-host invitation",
+                  "items": [
+                    {
+                      "text": "Open the invitation from your notifications."
+                    },
+                    {
+                      "text": "Check the event you're asked to help with."
+                    },
+                    {
+                      "text": "Press **Accept**. The event shows up in your events, with the tools to help run it."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "accept-checkpoint-host",
+          "title": "Accept an invitation to manage a checkpoint",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Asked to host a stop at a multi-checkpoint event? Accept the invitation to run it."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to accept",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Accepting a checkpoint host invitation",
+                  "items": [
+                    {
+                      "text": "Open the invitation from your notifications."
+                    },
+                    {
+                      "text": "Check where your checkpoint is and what happens there."
+                    },
+                    {
+                      "text": "Press **Accept**. On the day, you [scan the groups' tickets](running-the-day/scanning-tickets#multi-checkpoint) and give points at your checkpoint."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "managing-participants",
+      "part": "For organizers",
+      "title": "Managing participants",
+      "pages": [
+        {
+          "id": "manage-participants-single",
+          "title": "Manage participants at a single venue event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "See who's coming to your event and bring more people in."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to manage participants",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Managing the participant list",
+                  "items": [
+                    {
+                      "text": "Open the participant list to see everyone who has joined your event."
+                    },
+                    {
+                      "text": "Invite people directly, or share the event link."
+                    },
+                    {
+                      "text": "Keep track of who's coming as people join."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "manage-participants-multi",
+          "title": "Manage participants at a multi-checkpoint event",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "See who's taking part and bring more people in. You can also follow participants as they move through the checkpoints."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to manage participants",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Managing participants and following their progress",
+                  "items": [
+                    {
+                      "text": "Open the participant list to see everyone who has joined your event."
+                    },
+                    {
+                      "text": "Invite people directly, or share the event link."
+                    },
+                    {
+                      "text": "Follow participants' progress as they move through the checkpoints."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "running-the-day",
+      "part": "For organizers",
+      "title": "Running your event",
+      "pages": [
+        {
+          "id": "scanning-tickets",
+          "title": "Scan tickets",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Check people in with the ticket scanner as they arrive. Every participant has an e-ticket with a QR code. Scan it with the in-app ticket scanner to check them in, or find them in the participant list."
+                }
+              ]
+            },
+            {
+              "id": "single-venue",
+              "title": "At a single venue event",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scanning an e-ticket at the door",
+                  "items": [
+                    {
+                      "text": "From your event, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket.",
+                      "note": "Ticket won't scan? See [A ticket won't scan](troubleshooting/ticket-wont-scan) for quick fixes."
+                    },
+                    {
+                      "text": "The participant is checked in."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "multi-checkpoint",
+              "title": "At a multi-checkpoint event",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "At an Appro, each checkpoint host scans the groups as they arrive at their stop."
+                },
+                {
+                  "type": "steps",
+                  "items": [
+                    {
+                      "text": "From your event or checkpoint, open the **ticket scanner**."
+                    },
+                    {
+                      "text": "Point the camera at the participant's e-ticket."
+                    },
+                    {
+                      "text": "The participant is checked in and collects the checkpoint's stamp."
+                    }
+                  ]
+                },
+                {
+                  "type": "tip",
+                  "text": "No host at a checkpoint? Print out the checkpoint's QR code instead, and participants check in by scanning it themselves."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "score-participants",
+          "title": "Give scores to participants",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Score participants at the checkpoints. Their scores add up on the event leaderboard."
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "title": "Steps to give scores",
+              "blocks": [
+                {
+                  "type": "steps",
+                  "video": "",
+                  "videoHint": "Scoring a participant at a checkpoint",
+                  "items": [
+                    {
+                      "text": "At the checkpoint, choose the participant you want to score."
+                    },
+                    {
+                      "text": "Enter their score for this checkpoint."
+                    },
+                    {
+                      "text": "Scores add up on the event [leaderboard](at-the-event/view-leaderboard)."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "pages": [
+        {
+          "id": "ticket-wont-scan",
+          "title": "A ticket won't scan",
+          "updated": "2026-10-06",
+          "sections": [
+            {
+              "id": "overview",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "If the scanner doesn't read a ticket, try these quick fixes first."
+                }
+              ]
+            },
+            {
+              "id": "quick-checks",
+              "title": "Quick checks",
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    "Turn the participant's screen brightness up.",
+                    "Make sure the ticket is open in the app, for the right event.",
+                    "Hold the phone steady, with the whole QR code inside the frame.",
+                    "Check that the scanner has permission to use the camera."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "still-not-working",
+              "title": "Still not working?",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Search for the participant in the participant list and check them in from there."
+                },
+                {
+                  "type": "note",
+                  "text": "If it keeps happening, email support@bonfiire.io with your phone model and app version."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

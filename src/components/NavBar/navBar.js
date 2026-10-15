@@ -2,21 +2,15 @@ import "./index.css";
 import IconPNG from "./icon.png";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { LuGlobe } from "react-icons/lu";
 import { languages, useContent, useLanguage } from "../../i18n";
 
-// Links come from src/content/<language>/navigation.json. An item with `children`
-// becomes a dropdown on desktop and a labelled group in the mobile menu.
+// The logo on the left; on the right plain links (Help, Docs, Download) and the
+// language picker (EN, FI, SV). On phones those fold into a menu that slides
+// down from the ☰ button.
 const Navbar = () => {
-  const navigation = useContent("navigation");
   const { nav } = useContent("ui");
   const { language, setLanguage } = useLanguage();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [openGroup, setOpenGroup] = useState(null);
-  const { pathname } = useLocation();
-  const navRef = useRef(null);
-  // Once the page scrolls, the band behind the navbar clears, so the rounded bar
-  // floats over the page.
+  // Once the page scrolls, a hairline appears under the bar.
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -25,32 +19,28 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close after navigating to another page.
+  // The phone menu: closes after navigating, on Escape or on a click outside.
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const headerRef = useRef(null);
+  useEffect(() => setMenuOpen(false), [pathname]);
   useEffect(() => {
-    setMenuOpen(false);
-    setOpenGroup(null);
-  }, [pathname]);
-
-  // Close on Escape or a click outside the navbar.
-  useEffect(() => {
-    const closeAll = () => {
-      setMenuOpen(false);
-      setOpenGroup(null);
-    };
-    const onKey = (event) => event.key === "Escape" && closeAll();
-    const onClick = (event) => !navRef.current?.contains(event.target) && closeAll();
+    if (!menuOpen) return undefined;
+    const onKey = (event) => event.key === "Escape" && setMenuOpen(false);
+    const onClick = (event) =>
+      !headerRef.current?.contains(event.target) && setMenuOpen(false);
     document.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onClick);
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("mousedown", onClick);
     };
-  }, []);
+  }, [menuOpen]);
 
   return (
     <header
-      className={`navbar-container ${scrolled ? "is-scrolled" : ""}`}
-      ref={navRef}
+      ref={headerRef}
+      className={`navbar-container ${scrolled || menuOpen ? "is-scrolled" : ""}`}
     >
       <nav className="navbar" aria-label={nav.label}>
         <Link to="/" className="nav-logo">
@@ -59,6 +49,7 @@ const Navbar = () => {
         </Link>
 
         <button
+          type="button"
           className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
           aria-expanded={menuOpen}
           aria-controls="nav-menu"
@@ -70,63 +61,30 @@ const Navbar = () => {
           <span />
         </button>
 
-        <ul id="nav-menu" className={`nav-menu ${menuOpen ? "is-open" : ""}`}>
-          {navigation.map((item) =>
-            item.children ? (
-              <li
-                key={item.label}
-                className={`nav-group ${
-                  item.children.some((child) => pathname.startsWith(child.to)) ? "active" : ""
-                }`}
-              >
-                <button
-                  className="nav-link nav-group-toggle"
-                  aria-expanded={openGroup === item.label}
-                  onClick={() =>
-                    setOpenGroup((group) => (group === item.label ? null : item.label))
-                  }
-                >
-                  {item.label}
-                  <span className="nav-caret" aria-hidden="true">
-                    ▾
-                  </span>
-                </button>
-                <ul className={`nav-submenu ${openGroup === item.label ? "is-open" : ""}`}>
-                  {item.children.map((child) => (
-                    <li key={child.to}>
-                      <NavLink className="nav-sublink" to={child.to}>
-                        <span className="nav-sublink-label">{child.label}</span>
-                        {child.description && (
-                          <span className="nav-sublink-hint">{child.description}</span>
-                        )}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              <li key={item.to}>
-                <NavLink className="nav-link" to={item.to} end>
-                  {item.label}
-                </NavLink>
-              </li>
-            ),
-          )}
-          <li className="nav-language">
-            <LuGlobe aria-hidden="true" />
+        <div id="nav-menu" className={`nav-actions ${menuOpen ? "is-open" : ""}`}>
+          <NavLink className="nav-link" to="/help">
+            {nav.help}
+          </NavLink>
+          <NavLink className="nav-link" to="/help-docs">
+            {nav.docs}
+          </NavLink>
+          <NavLink className="nav-link" to="/download">
+            {nav.download}
+          </NavLink>
+          <label className="nav-language">
             <select
               aria-label={nav.language}
               value={language}
               onChange={(event) => setLanguage(event.target.value)}
             >
               {languages.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.name}
+                <option key={option.code} value={option.code} title={option.name}>
+                  {option.code.toUpperCase()}
                 </option>
               ))}
             </select>
-          </li>
-        </ul>
+          </label>
+        </div>
       </nav>
     </header>
   );

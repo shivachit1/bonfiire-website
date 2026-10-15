@@ -3,7 +3,9 @@ import "./layout.css";
 
 // A row of tabs that switch the panel below. tabs: [{ id, label }]
 // Arrow keys move between tabs, as screen reader users expect.
-const Tabs = ({ tabs, active, onChange, label }) => {
+// variant "split": the tabs share the row equally and the selected one is
+// underlined (the underline sliding across when it changes).
+const Tabs = ({ tabs, active, onChange, label, variant }) => {
   const refs = useRef({});
 
   const onKeyDown = (event, index) => {
@@ -15,7 +17,18 @@ const Tabs = ({ tabs, active, onChange, label }) => {
   };
 
   return (
-    <div className="tabs" role="tablist" aria-label={label}>
+    <div
+      className={`tabs${variant ? ` tabs--${variant}` : ""}`}
+      role="tablist"
+      aria-label={label}
+      style={{
+        "--tab-count": tabs.length,
+        "--tab-active": Math.max(
+          tabs.findIndex((tab) => tab.id === active),
+          0,
+        ),
+      }}
+    >
       {tabs.map((tab, index) => (
         <button
           key={tab.id}

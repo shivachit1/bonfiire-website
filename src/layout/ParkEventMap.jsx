@@ -5,6 +5,7 @@ import {
   Hosts,
   LiveFeed,
   MapFrame,
+  MolkkyPin,
   Person,
   ScorePop,
   Signposts,
@@ -99,14 +100,21 @@ const MOLKKY_WATCHERS = [
   [334, 540],
 ];
 const MOLKKY_PINS = [455, 530];
-// [dx, dy, how far it tips]
+// [dx, dy, how far it tips, its number]: all twelve, close together in the real
+// Mölkky set-up, back row first (7 9 8 / 5 11 12 6 / 3 10 4 / 1 2).
 const PIN_SPOTS = [
-  [-10, -4, 0],
-  [0, -6, 70],
-  [10, -4, 0],
-  [-5, 4, -60],
-  [5, 4, 80],
-  [15, 4, 0],
+  [-7, -8, 0, 7],
+  [0, -8, 70, 9],
+  [7, -8, 0, 8],
+  [-10.5, -3, -60, 5],
+  [-3.5, -3, 80, 11],
+  [3.5, -3, 0, 12],
+  [10.5, -3, 0, 6],
+  [-7, 2, 0, 3],
+  [0, 2, 0, 10],
+  [7, 2, 0, 4],
+  [-3.5, 7, 0, 1],
+  [3.5, 7, 0, 2],
 ];
 // Ball toss (Checkpoint 3): two throw a ball back and forth, a third watches.
 const BALL_TOSS = [
@@ -207,7 +215,7 @@ const TugIdle = () => (
   </g>
 );
 
-const Pin = ({ dx, dy, tip, animated }) => (
+const Pin = ({ dx, dy, tip, number, animated }) => (
   <g transform={`translate(${MOLKKY_PINS[0] + dx} ${MOLKKY_PINS[1] + dy})`}>
     <g>
       {animated && tip !== 0 && (
@@ -220,16 +228,7 @@ const Pin = ({ dx, dy, tip, animated }) => (
           repeatCount="indefinite"
         />
       )}
-      <rect
-        x="-3.5"
-        y="-12"
-        width="7"
-        height="14"
-        rx="2"
-        fill="#e3c296"
-        stroke="#a9714b"
-        strokeWidth="1.5"
-      />
+      <MolkkyPin number={number} />
     </g>
   </g>
 );
@@ -264,16 +263,16 @@ const Molkky = ({ members, unit }) => (
         delay={i * 0.3}
       />
     ))}
-    {PIN_SPOTS.map(([dx, dy, tip], i) => (
-      <Pin key={i} dx={dx} dy={dy} tip={tip} animated />
+    {PIN_SPOTS.map(([dx, dy, tip, number], i) => (
+      <Pin key={i} dx={dx} dy={dy} tip={tip} number={number} animated />
     ))}
     <rect
       className="molkky-stick"
-      x="-8"
-      y="-2.5"
-      width="16"
-      height="5"
-      rx="2"
+      x="-6"
+      y="-1.75"
+      width="12"
+      height="3.5"
+      rx="1.5"
       fill="#a9714b"
     >
       <animateMotion
@@ -304,15 +303,15 @@ const Molkky = ({ members, unit }) => (
 );
 const MolkkyIdle = () => (
   <>
-    {PIN_SPOTS.map(([dx, dy], i) => (
-      <Pin key={i} dx={dx} dy={dy} tip={0} />
+    {PIN_SPOTS.map(([dx, dy, , number], i) => (
+      <Pin key={i} dx={dx} dy={dy} tip={0} number={number} />
     ))}
     <rect
-      x={MOLKKY_THROWER[0] + 6}
-      y={MOLKKY_THROWER[1] + 14}
-      width="16"
-      height="5"
-      rx="2"
+      x={MOLKKY_THROWER[0] + 8}
+      y={MOLKKY_THROWER[1] + 14.75}
+      width="12"
+      height="3.5"
+      rx="1.5"
       fill="#a9714b"
       transform={`rotate(-20 ${MOLKKY_THROWER[0] + 14} ${MOLKKY_THROWER[1] + 16})`}
     />

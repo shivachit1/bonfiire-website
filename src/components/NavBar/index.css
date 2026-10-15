@@ -1,177 +1,128 @@
-/* A plain full-width bar with a soft blur, its content lined up with the page's
-   content column; a hairline appears under it once the page scrolls. Its colour
-   matches the page (light on the home page, the warm background elsewhere). */
+/* A plain full-width bar in solid cream, its content lined up with the page's
+   content column; a hairline appears under it once the page scrolls. */
 .navbar-container {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
   padding: 0 24px;
-  background: rgba(239, 230, 221, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--primary-color);
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
-}
-.app-main-layout:has(.sections--light-first) .navbar-container {
-  background: rgba(253, 251, 248, 0.85);
 }
 .navbar-container.is-scrolled {
   border-bottom-color: rgba(89, 65, 43, 0.1);
 }
 
 .navbar {
-  position: relative;
   max-width: var(--content-width);
   height: 72px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
+/* ---------- Logo: the icon with the name beside it ---------- */
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
+  color: var(--secondary-color);
+}
+.nav-logo:hover {
+  color: var(--secondary-color);
 }
 
 .nav-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   object-fit: contain;
 }
 
 .logo-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-color1);
+  font-size: var(--text-item);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-/* Reset the global button styles from App.css for nav buttons. */
-.nav-toggle,
-.nav-group-toggle {
-  background: none;
-  color: inherit;
-  padding: 0;
-  border-radius: 0;
-  font: inherit;
-}
-.nav-toggle:hover,
-.nav-group-toggle:hover {
-  background: none;
-  color: inherit;
-  transform: none;
-}
-
-/* ---------- Links ---------- */
-.nav-menu {
+/* ---------- Right side: languages, then Download ---------- */
+.nav-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 24px;
+  flex-shrink: 0;
 }
 
-.nav-menu li {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.nav-link {
+/* The language picker: just the dropdown of short codes (EN ▾), no outline. */
+.nav-language {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 600;
   color: var(--secondary-color);
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
-.nav-link:hover,
-.nav-link.active,
-.nav-group.active > .nav-group-toggle {
+.nav-language:hover {
   color: var(--accent-text-color);
 }
-
-.nav-caret {
-  font-size: 0.8rem;
-  transition: transform 0.2s ease;
+.nav-language {
+  position: relative;
 }
-.nav-group-toggle[aria-expanded="true"] .nav-caret {
-  transform: rotate(180deg);
-}
-
-/* ---------- Language picker ---------- */
-.nav-menu .nav-language {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 8px;
-  padding: 6px 10px;
-  border: 1px solid rgba(89, 65, 43, 0.2);
-  border-radius: 10px;
-  color: var(--secondary-color);
+/* The browser's own arrow is swapped for a small chevron, so the code starts
+   right at the edge, in line with the links. */
+.nav-language::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-75%) rotate(45deg);
+  pointer-events: none;
 }
 .nav-language select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0 16px 0 0;
   border: none;
   background: transparent;
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   color: inherit;
   cursor: pointer;
 }
 
-/* ---------- Dropdown (desktop) ---------- */
-.nav-group {
-  position: relative;
-}
-
-.nav-submenu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 280px;
-  margin: 0;
-  padding: 8px;
-  list-style: none;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-}
-.nav-submenu.is-open {
-  display: block;
-}
-
-.nav-sublink {
-  display: block;
-  padding: 12px 14px;
-  border-radius: 10px;
-}
-.nav-sublink:hover,
-.nav-sublink.active {
-  background: var(--primary-color);
-}
-
-.nav-sublink-label {
-  display: block;
-  font-weight: 700;
+/* Help and Download: plain links, orange on hover and on their own page. */
+.nav-link {
+  font-weight: 500;
+  white-space: nowrap;
   color: var(--secondary-color);
 }
-.nav-sublink-hint {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.85rem;
-  color: var(--secondary-text-color);
+.nav-link:hover,
+.nav-link.active {
+  color: var(--accent-text-color);
 }
 
-/* ---------- Hamburger ---------- */
+/* ---------- Menu button (phones only) ---------- */
+/* Reset the global button styles from App.css; three lines that turn into an ✕. */
 .nav-toggle {
   display: none;
+  position: relative;
   width: 44px;
   height: 44px;
-  position: relative;
+  margin-right: -10px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+}
+.nav-toggle:hover {
+  background: none;
+  transform: none;
 }
 .nav-toggle span {
   position: absolute;
@@ -182,7 +133,7 @@
   background: var(--secondary-color);
   transition:
     transform 0.25s ease,
-    opacity 0.25s ease;
+    opacity 0.2s ease;
 }
 .nav-toggle span:nth-child(1) {
   top: 15px;
@@ -203,7 +154,7 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ---------- Mobile menu ---------- */
+/* ---------- Phones ---------- */
 @media (max-width: 800px) {
   .navbar-container {
     padding: 0 16px;
@@ -211,16 +162,25 @@
   .navbar {
     height: 64px;
   }
-  .logo-text {
-    font-size: 1.3rem;
+  .nav-actions {
+    gap: 12px;
   }
+}
 
+/* Phones: the links and the languages fold into a panel under the bar that
+   slides down (and fades) when the ☰ button is pressed. */
+@media (max-width: 600px) {
+  .navbar {
+    position: relative;
+  }
   .nav-toggle {
     display: block;
   }
-
-  .nav-menu {
-    display: none;
+  .nav-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .nav-actions {
     position: absolute;
     top: 100%;
     left: -16px;
@@ -229,42 +189,40 @@
     align-items: stretch;
     gap: 0;
     padding: 8px 16px 20px;
-    background: var(--page-light, #fdfbf8);
+    background: var(--primary-color);
     border-bottom: 1px solid rgba(89, 65, 43, 0.1);
-    box-shadow: 0 16px 24px rgba(89, 65, 43, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s ease,
+      visibility 0s linear 0.25s;
   }
-  .nav-menu.is-open {
-    display: flex;
+  .nav-actions.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s ease,
+      visibility 0s;
   }
-
   .nav-link {
-    padding: 14px 4px;
-    font-size: 1.1rem;
+    padding: 14px 0;
+    font-size: var(--text-info);
   }
-
-  /* Groups are always expanded in the mobile menu; the heading is just a label. */
-  .nav-group-toggle {
-    pointer-events: none;
-    font-size: 0.9rem;
-    color: var(--secondary-text-color);
-    padding-bottom: 4px;
-  }
-  .nav-caret {
-    display: none;
-  }
-  .nav-submenu {
-    display: block;
-    position: static;
-    min-width: 0;
-    padding: 0;
-    background: none;
-    box-shadow: none;
-  }
-  .nav-sublink {
-    padding: 12px 4px;
-  }
-  .nav-menu .nav-language {
+  .nav-language {
     align-self: flex-start;
-    margin: 12px 0 0;
+    margin-top: 14px;
+    font-size: var(--text-info);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle span,
+  .nav-actions,
+  .nav-actions.is-open {
+    transition: none;
   }
 }

@@ -20,10 +20,35 @@ export const SHIRTS = [
 ];
 export const SKIN = ["#f1c7a5", "#d9a27c", "#a9714b", "#7a4b2c"];
 export const HAIR = ["#3b2a1d", "#6b4a2b", "#1f1a17", "#c98b4f"];
+// Named looks for a person (an avatar). Any of them can also be given as a colour.
+export const SKIN_TONES = {
+  light: SKIN[0],
+  medium: SKIN[1],
+  tan: SKIN[2],
+  deep: SKIN[3],
+};
+export const HAIR_COLORS = {
+  darkBrown: HAIR[0],
+  brown: HAIR[1],
+  black: HAIR[2],
+  ginger: HAIR[3],
+  blonde: "#e3c27a",
+};
+const TROUSERS = "#3b2a1d";
 
-// `hair`: "short" (default) or "long" (falls past the shoulders).
+// A person, by `index` (their colours rotate through the lists above, so everyone
+// looks a bit different), or built as an avatar: any of these, left out, keeps the
+// look `index` gives them.
+//   skin       "light", "medium", "tan", "deep" (or a colour)
+//   hair       "short" (default), "long" (falls past the shoulders), "bun",
+//              "ponytail", "curly", "buzz" or "bald"
+//   hairColor  "darkBrown", "brown", "black", "ginger", "blonde" (or a colour)
+//   shirt      their top's colour
+//   top        "tshirt" (default), "dress" or "hoodie"
+//   bottom     "trousers" (default), "skirt" or "shorts"; `legColor` is their colour
+//   glasses, beard (true/false), hat (a party hat's colour)
 // `legs`: "stand" (still), "walk" (legs swing in step) or "none" (e.g. inside
-// a sack). `moving` (walkers only) is when they're on the
+// a sack, or sitting at a table). `moving` (walkers only) is when they're on the
 // move: { keyTimes, loop }; they swing their limbs then and stand still at stops.
 // Legs: hip → knee → foot. Walking, each leg in turn lifts with its knee bent outwards
 // while the other stays planted, then steps back down.
@@ -34,14 +59,14 @@ const legPath = (x, bend) => {
     : `M ${x} 11 L ${x} 14.75 L ${x} 18.5`;
 };
 const STEP_SECONDS = 0.8;
-const Limbs = ({ walk }) => (
+const Limbs = ({ walk, color = TROUSERS }) => (
   <>
     {[-3, 3].map((legX, i) => (
       <path
         key={legX}
         d={legPath(legX, false)}
         fill="none"
-        stroke="#3b2a1d"
+        stroke={color}
         strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -68,6 +93,56 @@ const Limbs = ({ walk }) => (
   </>
 );
 
+// Hair pieces: what falls behind the head (drawn before it) and what sits on top.
+const HAIR_CAP = "M -6 -8 A 6 6 0 0 1 6 -8 Q 0 -11 -6 -8 Z";
+const HairBehind = ({ hair, color }) => {
+  if (hair === "long") {
+    return (
+      <path
+        d="M -7 -8 Q -7 -14.5 0 -14.5 Q 7 -14.5 7 -8 L 7.5 3 Q 3.5 5 0 4 Q -3.5 5 -7.5 3 Z"
+        fill={color}
+      />
+    );
+  }
+  if (hair === "ponytail") {
+    return (
+      <path
+        d="M 3.5 -11 Q 9.5 -10 8.8 -3 Q 8.3 1 6 2.5 Q 6.6 -3 4 -7 Z"
+        fill={color}
+      />
+    );
+  }
+  return null;
+};
+const HairOnTop = ({ hair, color }) => {
+  if (hair === "bald") return null;
+  if (hair === "buzz") {
+    return (
+      <path
+        d="M -5.8 -8.6 A 6 6 0 0 1 5.8 -8.6 Q 0 -10.4 -5.8 -8.6 Z"
+        fill={color}
+        opacity="0.85"
+      />
+    );
+  }
+  return (
+    <>
+      <path d={HAIR_CAP} fill={color} />
+      {hair === "bun" && <circle cy="-13.6" r="2.8" fill={color} />}
+      {hair === "curly" &&
+        [
+          [-4.8, -9.2],
+          [-2.4, -11.6],
+          [0.6, -12.4],
+          [3.4, -11.4],
+          [5.2, -9],
+        ].map(([cx, cy]) => (
+          <circle key={cx} cx={cx} cy={cy} r="2.6" fill={color} />
+        ))}
+    </>
+  );
+};
+
 export const Person = ({
   index,
   x = 0,
@@ -78,7 +153,27 @@ export const Person = ({
   moving,
   hair = "short",
   sway,
+  hat,
+  skin,
+  hairColor,
+  shirt,
+  top = "tshirt",
+  bottom = "trousers",
+  legColor,
+  glasses = false,
+  beard = false,
 }) => {
+  const skinFill = SKIN_TONES[skin] || skin || SKIN[(index * 3) % SKIN.length];
+  const hairFill =
+    HAIR_COLORS[hairColor] || hairColor || HAIR[(index * 5) % HAIR.length];
+  const shirtFill = shirt || SHIRTS[index % SHIRTS.length];
+  const fabric = legColor || TROUSERS;
+  // Bare legs below a skirt, shorts or a dress.
+  const legFill =
+    bottom === "skirt" || bottom === "shorts" || top === "dress"
+      ? skinFill
+      : fabric;
+  const showLegs = legs !== "none";
   // Swaying the head side to side at the neck (the hero illustration's music): `sway`
   // is where in the sway it starts, in seconds. Left out, the head stays still.
   const headSway = sway !== undefined && (
@@ -103,12 +198,14 @@ export const Person = ({
           ry="2.5"
           fill="rgba(89,65,43,0.2)"
         />
-        {legs !== "none" && !moving && <Limbs walk={legs === "walk"} />}
+        {showLegs && !moving && (
+          <Limbs walk={legs === "walk"} color={legFill} />
+        )}
         {moving && (
           <>
             {/* Swinging while walking, still while stopped: two sets, one shown at a time. */}
             <g>
-              <Limbs walk />
+              <Limbs walk color={legFill} />
               <animate
                 attributeName="opacity"
                 values={moving.walking}
@@ -118,7 +215,7 @@ export const Person = ({
               />
             </g>
             <g>
-              <Limbs />
+              <Limbs color={legFill} />
               <animate
                 attributeName="opacity"
                 values={moving.standing}
@@ -129,29 +226,144 @@ export const Person = ({
             </g>
           </>
         )}
-        {/* Long hair falls behind the head, down past the shoulders */}
-        {hair === "long" && (
+        {/* Shorts or a skirt over the tops of the legs */}
+        {showLegs && bottom === "shorts" && top !== "dress" && (
+          <path
+            d="M -6.2 10.5 H 6.2 L 6.5 14.8 H 0.9 L 0 12.8 L -0.9 14.8 H -6.5 Z"
+            fill={fabric}
+          />
+        )}
+        {showLegs && bottom === "skirt" && top !== "dress" && (
+          <path d="M -6.5 10.5 H 6.5 L 8.6 16 H -8.6 Z" fill={fabric} />
+        )}
+        {/* A hoodie's hood, round the back of the head */}
+        {top === "hoodie" && (
+          <path
+            d="M -7.6 -1.5 Q -8.8 -12.5 0 -14 Q 8.8 -12.5 7.6 -1.5 Z"
+            fill={shirtFill}
+          />
+        )}
+        {/* Long hair or a ponytail falls behind the head */}
+        {(hair === "long" || hair === "ponytail") && (
           <g>
-            <path
-              d="M -7 -8 Q -7 -14.5 0 -14.5 Q 7 -14.5 7 -8 L 7.5 3 Q 3.5 5 0 4 Q -3.5 5 -7.5 3 Z"
-              fill={HAIR[(index * 5) % HAIR.length]}
-            />
+            <HairBehind hair={hair} color={hairFill} />
             {headSway}
           </g>
         )}
         <path
-          d="M -8 13 Q -8 0 0 0 Q 8 0 8 13 Z"
-          fill={SHIRTS[index % SHIRTS.length]}
+          d={
+            top === "dress" && showLegs
+              ? "M -8 13 Q -8 0 0 0 Q 8 0 8 13 L 9 15 H -9 Z"
+              : "M -8 13 Q -8 0 0 0 Q 8 0 8 13 Z"
+          }
+          fill={shirtFill}
         />
+        {top === "hoodie" && (
+          <g
+            stroke="rgba(255,255,255,0.7)"
+            strokeWidth="0.8"
+            strokeLinecap="round"
+          >
+            <line x1="-1.6" y1="1" x2="-1.6" y2="4.5" />
+            <line x1="1.6" y1="1" x2="1.6" y2="4.5" />
+            <path
+              d="M -3.8 9.5 H 3.8"
+              stroke="rgba(0,0,0,0.18)"
+              strokeWidth="1"
+            />
+          </g>
+        )}
         <g>
-          <circle cy="-7" r="6" fill={SKIN[(index * 3) % SKIN.length]} />
-          <path
-            d="M -6 -8 A 6 6 0 0 1 6 -8 Q 0 -11 -6 -8 Z"
-            fill={HAIR[(index * 5) % HAIR.length]}
-          />
+          <circle cy="-7" r="6" fill={skinFill} />
+          <HairOnTop hair={hair} color={hairFill} />
+          {beard && (
+            <path
+              d="M -5.7 -5.2 Q -5 -0.9 0 -0.8 Q 5 -0.9 5.7 -5.2 Q 4.6 -2.4 2.2 -2.6 Q 0 -3.4 -2.2 -2.6 Q -4.6 -2.4 -5.7 -5.2 Z"
+              fill={hairFill}
+            />
+          )}
+          {glasses && (
+            <g fill="none" stroke="#2b2b2b" strokeWidth="0.7">
+              <circle cx="-2.4" cy="-6.6" r="1.7" />
+              <circle cx="2.4" cy="-6.6" r="1.7" />
+              <line x1="-0.7" y1="-6.8" x2="0.7" y2="-6.8" />
+            </g>
+          )}
+          {/* A party hat (`hat`: its colour), tilted a little, with a pompom */}
+          {hat && (
+            <g>
+              <path d="M -4.5 -11 L 4 -11.5 L 1.5 -21 Z" fill={hat} />
+              <path
+                d="M -3.2 -14 L 3.3 -14.3 M -1.8 -17.2 L 2.4 -17.4"
+                stroke="#fff"
+                strokeWidth="1"
+              />
+              <circle cx="1.5" cy="-21.3" r="1.6" fill="#ffd166" />
+            </g>
+          )}
           {headSway}
         </g>
       </g>
+    </g>
+  );
+};
+
+// One person following their own script, over and over: from `from` ([x, y], where
+// their feet are), each step either walks somewhere (`{ to: [x, y] }`) or stays put
+// for a while (`{ wait: seconds }`), then they walk back to the start and it all
+// begins again. They swing their legs while walking and stand still while waiting.
+// `speed` is how fast they walk (units a second); any other props are their look
+// (see Person: skin, hair, shirt, …).
+const SCRIPT_TIMES = (n) => Number(n.toFixed(4));
+export const Scripted = ({ from, script, speed = 26, index = 0, ...look }) => {
+  const steps = [...script, { to: from }];
+  const points = [from];
+  // [time, distance walked so far, walking?] at the start of each step.
+  const marks = [];
+  let t = 0;
+  let walked = 0;
+  steps.forEach((step) => {
+    const at = points[points.length - 1];
+    if (step.to) {
+      const d = Math.hypot(step.to[0] - at[0], step.to[1] - at[1]);
+      marks.push([t, walked, 1]);
+      t += d / speed;
+      walked += d;
+      points.push(step.to);
+    } else {
+      marks.push([t, walked, 0]);
+      t += step.wait;
+    }
+  });
+  marks.push([t, walked, 0]);
+  const total = t;
+  const keyTimes = marks.map(([at]) => SCRIPT_TIMES(at / total)).join(";");
+  const loop = { dur: `${total.toFixed(2)}s`, repeatCount: "indefinite" };
+  const walking = marks.map(([, , w]) => w).join(";");
+  return (
+    <g>
+      <Person
+        index={index}
+        y={-20}
+        motion=""
+        legs="walk"
+        moving={{
+          keyTimes,
+          walking,
+          standing: marks.map(([, , w]) => 1 - w).join(";"),
+          loop,
+        }}
+        {...look}
+      />
+      <animateMotion
+        path={points.map(([x, y], i) => `${i ? "L" : "M"} ${x} ${y}`).join(" ")}
+        keyPoints={marks
+          .map(([, d]) => SCRIPT_TIMES(walked ? d / walked : 0))
+          .join(";")}
+        keyTimes={keyTimes}
+        calcMode="linear"
+        {...loop}
+      />
     </g>
   );
 };
@@ -484,8 +696,10 @@ export const CheckpointSign = ({
   text,
   board = "#a9714b",
   edge = "#8a6a44",
+  icon,
 }) => {
-  // A tiny QR code (the checkpoint's own code) sits before the name.
+  // A tiny QR code (the checkpoint's own code) sits before the name, or instead
+  // `icon`: a small white drawing (about 9 across, centred on 0 0) of what's there.
   const qr = 9;
   const width = text.length * 5.4 + qr + 16;
   const left = -width / 2;
@@ -511,19 +725,25 @@ export const CheckpointSign = ({
         stroke={edge}
         strokeWidth="1.5"
       />
-      <rect
-        x={left + 4.5}
-        y={-27 - qr / 2}
-        width={qr}
-        height={qr}
-        rx="1.5"
-        fill="#fff"
-      />
-      <path
-        d={qrPath}
-        transform={`translate(${left + 5.8} ${-26.2 - qr / 2}) scale(${(qr - 2) / QR_SIZE})`}
-        fill="#2b1f15"
-      />
+      {icon ? (
+        <g transform={`translate(${left + 4.5 + qr / 2} -27)`}>{icon}</g>
+      ) : (
+        <>
+          <rect
+            x={left + 4.5}
+            y={-27 - qr / 2}
+            width={qr}
+            height={qr}
+            rx="1.5"
+            fill="#fff"
+          />
+          <path
+            d={qrPath}
+            transform={`translate(${left + 5.8} ${-26.2 - qr / 2}) scale(${(qr - 2) / QR_SIZE})`}
+            fill="#2b1f15"
+          />
+        </>
+      )}
       <text
         x={left + qr + 8}
         y="-23.5"
@@ -562,7 +782,7 @@ export const ScoreText = ({ x, y, text }) => (
 const QR_SIZE = 21;
 const inFinder = (x, y) =>
   (x < 8 && y < 8) || (x > 12 && y < 8) || (x < 8 && y > 12);
-const qrPath = (() => {
+export const qrPath = (() => {
   const on = (x, y) => {
     for (const [fx, fy] of [
       [0, 0],
@@ -979,5 +1199,45 @@ export const Walkers = ({ relay }) => (
         })}
       </g>
     ))}
+  </>
+);
+
+// A Mölkky pin, standing on (0, 2): a wooden cylinder with its top cut at a slant,
+// like the real ones, the cut face showing as a lighter oval with the pin's `number`
+// on it, written up the slope (its foot toward the low side, as on a real pin).
+// 6.3 wide, about 11 tall.
+export const MolkkyPin = ({ number }) => (
+  <>
+    <path
+      d="M -3.15 -6 L -3.15 1 Q -3.15 2 -2.15 2 L 2.15 2 Q 3.15 2 3.15 1 L 3.15 -9.5 Z"
+      fill="#e3c296"
+      stroke="#a9714b"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <ellipse
+      cx="0"
+      cy="-7.75"
+      rx="3.6"
+      ry="2"
+      transform="rotate(-29 0 -7.75)"
+      fill="#f3dfbf"
+      stroke="#a9714b"
+      strokeWidth="0.8"
+    />
+    {number !== undefined && (
+      <text
+        x="0"
+        y="-7.75"
+        transform="rotate(61 0 -7.75)"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize="2.6"
+        fontWeight="800"
+        fill="#a9714b"
+      >
+        {number}
+      </text>
+    )}
   </>
 );

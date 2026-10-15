@@ -1,15 +1,26 @@
 import "./layout.css";
-import highlight from "./highlight";
+import Heading from "./Heading";
 
 // Opening scene: headline and actions beside a picture.
 // Wrap words to accent in the title with {braces}; a new line (\n) breaks the line.
 // The picture is `media` (e.g. an illustration) if given, otherwise the `image` photo.
-const Hero = ({ eyebrow, title, text, image, imageAlt, media, children }) => (
-  <section className="section hero">
+// `titleAs` is its heading's level (h1 by default; h2 when it isn't the page's top).
+const Hero = ({
+  title,
+  titleAs = "h1",
+  text,
+  image,
+  imageAlt,
+  media,
+  className = "",
+  children,
+}) => (
+  <section className={`section hero ${className}`.trim()}>
     <div className="container container--wide hero-grid">
       <div className="hero-copy">
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 className="hero-title">{highlight(title)}</h1>
+        <Heading as={titleAs} size="page" className="hero-title">
+          {title}
+        </Heading>
         <p className="lead">{text}</p>
         {children}
       </div>

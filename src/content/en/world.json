@@ -1,0 +1,23 @@
+{
+  "eyebrow": "Explore",
+  "title": "Every route in {one world}",
+  "text": [
+    "Pick an area to fly in, then tap a checkpoint to see what happens there. Drag to move around, pinch or scroll to zoom."
+  ],
+  "label": "A 3D map with a park, a bar street and a city, each holding the checkpoints of one Appro route",
+  "districts": ["inNature", "barCrawl", "cityHopper"],
+  "back": "Whole map",
+  "backTo": "Back to {name}",
+  "stops": "{n} checkpoints",
+  "checkpoint": "Checkpoint {n}",
+  "meetingPoint": "Meeting point",
+  "meetText": "Everyone gathers here before the first checkpoint.",
+  "game": "Game: {game}",
+  "previous": "Previous",
+  "next": "Next",
+  "seeRoute": "See this route →",
+  "zoomIn": "Zoom in",
+  "zoomOut": "Zoom out",
+  "controlsLabel": "Map controls",
+  "fallback": "The 3D map needs WebGL, which this browser doesn't support."
+}

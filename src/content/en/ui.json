@@ -3,27 +3,46 @@
     "label": "Main",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "language": "Language"
+    "language": "Language",
+    "help": "Help",
+    "docs": "Docs",
+    "download": "Download"
   },
   "footer": {
     "features": "Features",
-    "help": "Help center",
+    "help": "Help",
     "terms": "Terms",
     "privacy": "Privacy",
     "download": "Download",
+    "support": "Contact",
+    "supportEmail": "support@bonfiire.io",
+    "social": [
+      { "id": "instagram", "label": "Instagram", "href": "https://www.instagram.com/bonfiire.io/" },
+      { "id": "tiktok", "label": "TikTok", "href": "https://www.tiktok.com/@bonfiire.io" },
+      { "id": "linkedin", "label": "LinkedIn", "href": "https://www.linkedin.com/company/bonfiire-io" }
+    ],
     "rights": "All rights reserved."
   },
   "cta": {
     "needHelp": "Need a hand?"
   },
   "appLinks": {
-    "downloadOn": "Download on"
+    "downloadOn": "Download on",
+    "scanToDownload": "Scan to download",
+    "or": "or"
+  },
+  "download": {
+    "title": "Bonfiire is {available} in\n App Store and Play Store",
+    "subtitle": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city."
   },
   "help": {
     "topics": "Help topics",
     "step": "Step",
     "copyLink": "Copy link",
     "copied": "Link copied",
-    "back": "All topics"
+    "back": "All topics",
+    "home": "Help",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

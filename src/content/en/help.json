@@ -2,20 +2,22 @@
   "hero": {
     "eyebrow": "Help center",
     "title": "How can we help?",
-    "text": "Find your topic below for a quick answer. Open a topic to see it step by step."
+    "text": "Learn how Bonfiire works, find quick answers and get help with your events."
   },
   "tabs": [
     {
       "id": "attending",
-      "label": "Attending an event",
+      "label": "For participants",
       "groups": [
         {
+          "title": "Finding events",
           "topics": [
             {
               "id": "explore-events",
               "icon": "discover",
-              "title": "Explore events",
-              "text": "Find something to do around you.",
+              "scene": "discover",
+              "title": "Discover events",
+              "text": "Find events organized near you.",
               "steps": [
                 {
                   "title": "Open Explore",
@@ -36,37 +38,76 @@
                   "screenshotHint": "Event details page"
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "title": "Participating in events",
+          "topics": [
             {
               "id": "join-event",
               "icon": "checkin",
-              "title": "Join an event or RSVP to an invite",
-              "text": "Say you're going, whether you found the event or someone invited you.",
+              "scene": "join",
+              "title": "Request to join an event",
+              "text": "Found an event you like? Ask to join and get your ticket.",
               "steps": [
                 {
                   "title": "Open the event",
-                  "text": "Find it in Explore, or open the invite or link someone sent you.",
+                  "text": "Find it in Explore, or open a link someone shared with you.",
                   "screenshot": "",
-                  "screenshotHint": "An event invite"
+                  "screenshotHint": "Event details page"
                 },
                 {
-                  "title": "Join or accept",
-                  "text": "Tap to join the event, or accept the invite.",
+                  "title": "Request to join",
+                  "text": "Tap to ask the organizer if you can join.",
                   "screenshot": "",
-                  "screenshotHint": "Event page: join button"
+                  "screenshotHint": "Event page: request to join button"
                 },
                 {
                   "title": "You're in",
-                  "text": "Your e-ticket is ready and you're in the event chat.",
+                  "text": "Once the organizer accepts, your e-ticket is ready and you're in the event chat.",
                   "screenshot": "",
                   "screenshotHint": "Joined: e-ticket and chat available"
                 }
               ]
             },
             {
+              "id": "respond-invitation",
+              "icon": "invitation",
+              "scene": "invitation",
+              "title": "Accept an invitation to take part in an event",
+              "text": "Someone invited you? Let them know if you're coming.",
+              "steps": [
+                {
+                  "title": "Open the invitation",
+                  "text": "Open it from your notifications, or from the link you were sent.",
+                  "screenshot": "",
+                  "screenshotHint": "An event invitation"
+                },
+                {
+                  "title": "Check the details",
+                  "text": "See what's happening, when and where, and who else is going.",
+                  "screenshot": "",
+                  "screenshotHint": "Invitation: event details"
+                },
+                {
+                  "title": "Accept or decline",
+                  "text": "Accept to get your e-ticket and join the event chat, or decline so the host knows.",
+                  "screenshot": "",
+                  "screenshotHint": "Invitation: accept or decline"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "At the event",
+          "topics": [
+            {
               "id": "find-tickets",
               "icon": "ticket",
-              "title": "Find your ticket",
+              "scene": "ticket",
+              "title": "Find your event ticket",
               "text": "Every event you join comes with an e-ticket.",
               "steps": [
                 {
@@ -92,7 +133,8 @@
             {
               "id": "contact-organizer",
               "icon": "chat",
-              "title": "Contact the organizer",
+              "scene": "chat",
+              "title": "Contact the event organizer",
               "text": "Ask a question before or during the event.",
               "steps": [
                 {
@@ -118,7 +160,8 @@
             {
               "id": "navigate-checkpoints",
               "icon": "route",
-              "title": "Find your way at a multi-checkpoint event",
+              "scene": "navigate",
+              "title": "Navigate with the Appro map",
               "text": "Some events move from stop to stop, like an Appro.",
               "steps": [
                 {
@@ -144,6 +187,7 @@
             {
               "id": "view-leaderboard",
               "icon": "score",
+              "scene": "leaderboard",
               "title": "View the event leaderboard",
               "text": "See how you're doing at a scored event.",
               "steps": [
@@ -167,15 +211,15 @@
     },
     {
       "id": "organizing",
-      "label": "Organizing an event",
+      "label": "For organizers",
       "groups": [
         {
-          "title": "Single-location events",
+          "title": "Creating an event",
           "topics": [
             {
               "id": "create-single-location-event",
               "icon": "create",
-              "title": "Create a single-location event",
+              "title": "Creating a single-venue event",
               "text": "For events in one place, like a meetup or a birthday.",
               "steps": [
                 {
@@ -205,92 +249,9 @@
               ]
             },
             {
-              "id": "add-cohost",
-              "icon": "invite",
-              "title": "Add a co-host",
-              "text": "Bring in people to help you run the event.",
-              "steps": [
-                {
-                  "title": "Open your event",
-                  "text": "Go to the event you're organizing.",
-                  "screenshot": "",
-                  "screenshotHint": "Organizer's event page"
-                },
-                {
-                  "title": "Invite a co-host",
-                  "text": "Choose who you want to help and send the invite.",
-                  "screenshot": "",
-                  "screenshotHint": "Inviting a co-host"
-                },
-                {
-                  "title": "They accept",
-                  "text": "Once they accept, they can help you run the event.",
-                  "screenshot": "",
-                  "screenshotHint": "Co-host added"
-                }
-              ]
-            },
-            {
-              "id": "manage-participants-single",
-              "icon": "people",
-              "title": "Manage participants",
-              "text": "See who's coming and bring more people in.",
-              "steps": [
-                {
-                  "title": "Open the participant list",
-                  "text": "See everyone who has joined your event.",
-                  "screenshot": "",
-                  "screenshotHint": "Participant list"
-                },
-                {
-                  "title": "Invite people",
-                  "text": "Invite people directly, or share the event link.",
-                  "screenshot": "",
-                  "screenshotHint": "Inviting people / sharing the link"
-                },
-                {
-                  "title": "Keep the list in order",
-                  "text": "Keep track of who's coming as people join.",
-                  "screenshot": "",
-                  "screenshotHint": "Managing a participant"
-                }
-              ]
-            },
-            {
-              "id": "scan-tickets-single",
-              "icon": "scan",
-              "title": "Scan tickets",
-              "text": "Check people in as they arrive.",
-              "steps": [
-                {
-                  "title": "Open the scanner",
-                  "text": "From your event, open the ticket scanner.",
-                  "screenshot": "",
-                  "screenshotHint": "Ticket scanner"
-                },
-                {
-                  "title": "Scan the ticket",
-                  "text": "Point the camera at the participant's e-ticket.",
-                  "screenshot": "",
-                  "screenshotHint": "Scanning an e-ticket"
-                },
-                {
-                  "title": "Checked in",
-                  "text": "The participant is checked in.",
-                  "screenshot": "",
-                  "screenshotHint": "Check-in confirmed"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Multi-checkpoint events",
-          "topics": [
-            {
               "id": "create-multi-checkpoint-event",
               "icon": "route",
-              "title": "Create a multi-checkpoint event",
+              "title": "Creating a multi-checkpoint event",
               "text": "For events that move from stop to stop, like an Appro or Fuksiaiset.",
               "steps": [
                 {
@@ -318,37 +279,68 @@
                   "screenshotHint": "Event created with route"
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "title": "Sending invitations",
+          "topics": [
             {
-              "id": "manage-participants-multi",
-              "icon": "people",
-              "title": "Manage event participants",
-              "text": "See who's taking part and bring more people in.",
+              "id": "invite-people",
+              "icon": "share",
+              "title": "Invite people to attend your event",
+              "text": "Send invitations to the people you want there.",
               "steps": [
                 {
-                  "title": "Open the participant list",
-                  "text": "See everyone who has joined your event.",
+                  "title": "Open your event",
+                  "text": "Go to the event you're organizing.",
                   "screenshot": "",
-                  "screenshotHint": "Participant list"
+                  "screenshotHint": "Organizer's event page"
                 },
                 {
-                  "title": "Invite people",
-                  "text": "Invite people directly, or share the event link.",
+                  "title": "Choose who to invite",
+                  "text": "Pick people to invite, or share the event's link with them.",
                   "screenshot": "",
-                  "screenshotHint": "Inviting people / sharing the link"
+                  "screenshotHint": "Inviting people"
                 },
                 {
-                  "title": "Follow their progress",
-                  "text": "Keep track of participants as they move through the checkpoints.",
+                  "title": "Invitations sent",
+                  "text": "They get your invitation and can accept it. See who's coming in the guest list.",
                   "screenshot": "",
-                  "screenshotHint": "Participant progress"
+                  "screenshotHint": "Guest list with invited people"
+                }
+              ]
+            },
+            {
+              "id": "add-cohost",
+              "icon": "invite",
+              "title": "Invite a co-host to manage your event",
+              "text": "Bring in people to help you run the event.",
+              "steps": [
+                {
+                  "title": "Open your event",
+                  "text": "Go to the event you're organizing.",
+                  "screenshot": "",
+                  "screenshotHint": "Organizer's event page"
+                },
+                {
+                  "title": "Invite a co-host",
+                  "text": "Choose who you want to help and send the invite.",
+                  "screenshot": "",
+                  "screenshotHint": "Inviting a co-host"
+                },
+                {
+                  "title": "They accept",
+                  "text": "Once they accept, they can help you run the event.",
+                  "screenshot": "",
+                  "screenshotHint": "Co-host added"
                 }
               ]
             },
             {
               "id": "add-checkpoint-host",
               "icon": "pin",
-              "title": "Add a checkpoint host",
+              "title": "Invite a checkpoint host for a multi-checkpoint event",
               "text": "Put someone in charge of each stop.",
               "steps": [
                 {
@@ -370,11 +362,156 @@
                   "screenshotHint": "Checkpoint host added"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "title": "Accepting invitations",
+          "topics": [
+            {
+              "id": "accept-cohost",
+              "icon": "people",
+              "title": "Accept an invitation to manage an event",
+              "text": "Someone asked you to co-host? Accept to help run the event.",
+              "steps": [
+                {
+                  "title": "Open the invitation",
+                  "text": "Open it from your notifications.",
+                  "screenshot": "",
+                  "screenshotHint": "Co-host invitation"
+                },
+                {
+                  "title": "Check the event",
+                  "text": "See the event you're asked to help with.",
+                  "screenshot": "",
+                  "screenshotHint": "Co-host invitation: event details"
+                },
+                {
+                  "title": "Accept",
+                  "text": "The event shows up in your events, with the tools to help run it.",
+                  "screenshot": "",
+                  "screenshotHint": "Co-host: event with organizer tools"
+                }
+              ]
+            },
+            {
+              "id": "accept-checkpoint-host",
+              "icon": "pin",
+              "title": "Accept an invitation to manage a checkpoint",
+              "text": "Asked to host a stop at a multi-checkpoint event? Accept to run it.",
+              "steps": [
+                {
+                  "title": "Open the invitation",
+                  "text": "Open it from your notifications.",
+                  "screenshot": "",
+                  "screenshotHint": "Checkpoint host invitation"
+                },
+                {
+                  "title": "See your checkpoint",
+                  "text": "Check where it is and what happens there.",
+                  "screenshot": "",
+                  "screenshotHint": "Checkpoint details"
+                },
+                {
+                  "title": "Accept",
+                  "text": "On the day, scan the groups' tickets and give points at your checkpoint.",
+                  "screenshot": "",
+                  "screenshotHint": "Checkpoint host: checkpoint view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Managing participants",
+          "topics": [
+            {
+              "id": "manage-participants-single",
+              "icon": "people",
+              "title": "Manage participants at a single-location event",
+              "text": "See who's coming and bring more people in.",
+              "steps": [
+                {
+                  "title": "Open the participant list",
+                  "text": "See everyone who has joined your event.",
+                  "screenshot": "",
+                  "screenshotHint": "Participant list"
+                },
+                {
+                  "title": "Invite people",
+                  "text": "Invite people directly, or share the event link.",
+                  "screenshot": "",
+                  "screenshotHint": "Inviting people / sharing the link"
+                },
+                {
+                  "title": "Keep the list in order",
+                  "text": "Keep track of who's coming as people join.",
+                  "screenshot": "",
+                  "screenshotHint": "Managing a participant"
+                }
+              ]
+            },
+            {
+              "id": "manage-participants-multi",
+              "icon": "people",
+              "title": "Manage participants at a multi-checkpoint event",
+              "text": "See who's taking part and bring more people in.",
+              "steps": [
+                {
+                  "title": "Open the participant list",
+                  "text": "See everyone who has joined your event.",
+                  "screenshot": "",
+                  "screenshotHint": "Participant list"
+                },
+                {
+                  "title": "Invite people",
+                  "text": "Invite people directly, or share the event link.",
+                  "screenshot": "",
+                  "screenshotHint": "Inviting people / sharing the link"
+                },
+                {
+                  "title": "Follow their progress",
+                  "text": "Keep track of participants as they move through the checkpoints.",
+                  "screenshot": "",
+                  "screenshotHint": "Participant progress"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Running your event",
+          "topics": [
+            {
+              "id": "scan-tickets-single",
+              "icon": "scan",
+              "title": "Scan tickets at a single-location event",
+              "text": "Check people in as they arrive.",
+              "steps": [
+                {
+                  "title": "Open the scanner",
+                  "text": "From your event, open the ticket scanner.",
+                  "screenshot": "",
+                  "screenshotHint": "Ticket scanner"
+                },
+                {
+                  "title": "Scan the ticket",
+                  "text": "Point the camera at the participant's e-ticket.",
+                  "screenshot": "",
+                  "screenshotHint": "Scanning an e-ticket"
+                },
+                {
+                  "title": "Checked in",
+                  "text": "The participant is checked in.",
+                  "screenshot": "",
+                  "screenshotHint": "Check-in confirmed"
+                }
+              ]
             },
             {
               "id": "scan-tickets-multi",
               "icon": "scan",
-              "title": "Scan tickets",
+              "title": "Scan tickets at a multi-checkpoint event",
               "text": "Check participants in at the checkpoints.",
               "steps": [
                 {
@@ -429,7 +566,9 @@
     }
   ],
   "cta": {
-    "title": "Still stuck?",
-    "text": ["Get the app, or email us and we'll help you out."]
+    "title": "Still have questions?",
+    "text": [
+      "Contact us and we'll help you out."
+    ]
   }
 }
