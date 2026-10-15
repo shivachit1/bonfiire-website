@@ -407,7 +407,6 @@ const WALL = "#6b5543";
 // The living room reaches x 830; right of it the bedroom and the WC & sauna, the
 // balcony below them [x, y, width, height].
 const LIVING_RIGHT = 830;
-const BEDROOM = [830, 196, 120, 140];
 const BATH = [950, 196, 64, 140];
 const BALCONY = [830, 336, 184, 70];
 // Behind the kitchen table: guests heading there or to the balcony go up the room

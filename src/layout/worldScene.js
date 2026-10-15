@@ -128,7 +128,10 @@ export const createWorldScene = (container, { still = false, onSelect }) => {
 
   // --- Building blocks.
   const geometries = [];
-  const keep = (geometry) => (geometries.push(geometry), geometry);
+  const keep = (geometry) => {
+    geometries.push(geometry);
+    return geometry;
+  };
   const mesh = (geometry, material, parent, { x = 0, y = 0, z = 0, shadow = true } = {}) => {
     const m = new THREE.Mesh(geometry, material);
     m.position.set(x, y, z);
