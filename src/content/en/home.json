@@ -1,33 +1,25 @@
 {
   "photoHero": {
-    "layout": "blobs",
-    "title": "Light the\n{Bonfiire}\nof Connection",
+    "layout": "screens",
+    "title": "Light the {Bonfiire}\nof Connection",
     "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
-    "photosLabel": "Photos from Bonfiire events",
-    "photos": [
+    "screensLabel": "Screenshots of the Bonfiire app",
+    "screens": [
       {
-        "image": "friends-phones",
-        "alt": "Two friends outdoors looking at an event on their phones."
+        "image": "screen-explore",
+        "alt": "The Explore screen, with events on a map of Helsinki and things to do."
       },
       {
-        "image": "gathering",
-        "alt": "Students in overalls gathering on a street in autumn."
+        "image": "screen-event-participating",
+        "alt": "An event you're going to, with its map, the people going and the organizers."
       },
       {
-        "image": "group-meetup",
-        "alt": "A group meeting up at a street corner under autumn trees."
+        "image": "screen-e-ticket",
+        "alt": "An e-ticket with its QR code and self check-in."
       },
       {
-        "image": "night-group",
-        "alt": "Friends in overalls holding teddy bears on a lawn in the evening."
-      },
-      {
-        "image": "qr-ticket",
-        "alt": "A phone showing a QR code e-ticket, held up to be scanned."
-      },
-      {
-        "image": "tug-of-war",
-        "alt": "Students playing tug of war on the grass."
+        "image": "screen-checkpoints",
+        "alt": "An Appro's checkpoints on a map, with a group to explore with."
       }
     ]
   },
@@ -36,21 +28,30 @@
     "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
     "sceneAlt": "Illustration of friends sitting on camping chairs and a log around a bonfire, between two trees with bunting: one sings, one plays the guitar, one roasts a marshmallow and one holds a mug, while two more sit on a log facing the fire."
   },
+  "contact": {
+    "title": "Need a {demo} or help?",
+    "text": "Reach out to us and we will show you around Bonfiire, help you set up your first Appro or event, or answer any question you have along the way.",
+    "button": "Contact us",
+    "email": "support@bonfiire.io",
+    "help": {
+      "label": "Visit the help center →",
+      "to": "/help"
+    }
+  },
   "services": {
-    "title": "What you get\n when you host an {Appro}",
-    "dotsLabel": "Choose a feature",
+    "title": "Everything your {Appro} needs",
     "items": [
-      {
-        "icon": "map",
-        "scene": "map",
-        "title": "Digital Appro Map",
-        "text": "Interactive digital map for everyone, from the meeting point to every checkpoint and the way between them."
-      },
       {
         "icon": "pin",
         "scene": "checkpoints",
         "title": "Manage Checkpoint",
         "text": "Add a checkpoint host at each checkpoint, or print out a QR code for places where no host is present."
+      },
+      {
+        "icon": "map",
+        "scene": "map",
+        "title": "Digital Appro Map",
+        "text": "Interactive digital map for everyone, from the meeting point to every checkpoint and the way between them."
       },
       {
         "icon": "scan",
@@ -83,6 +84,210 @@
         "title": "Paid ticket sales",
         "text": "Sell yours Appro tickets within bonfiire app. Analyze and see how many tickets have been sold.",
         "tag": "Coming soon"
+      }
+    ]
+  },
+  "checkpoint": {
+    "title": "Hosting an {Appro}\n has never been easier",
+    "text": [],
+    "stepsLabel": "At a checkpoint",
+    "steps": [
+      {
+        "scene": "info",
+        "title": "Add Appro event info",
+        "text": "Give your Appro a title and a description, and set when it starts and ends, so everyone knows what is happening and when.",
+        "card": {
+          "title": {
+            "label": "Event title",
+            "value": "City hopper"
+          },
+          "description": {
+            "label": "Description",
+            "value": "Five stops round the city centre, with a game at every checkpoint."
+          },
+          "start": {
+            "label": "Start time",
+            "date": "Sat 18 Oct",
+            "time": "14.00"
+          },
+          "end": {
+            "label": "End time",
+            "date": "Sat 18 Oct",
+            "time": "20.00"
+          }
+        }
+      },
+      {
+        "scene": "mark",
+        "title": "Mark checkpoints",
+        "text": "Drop the meeting point and then every checkpoint on the map, in the order the groups walk them."
+      },
+      {
+        "scene": "checkpoints",
+        "title": "Invite checkpoint hosts",
+        "text": "Invite a host for each checkpoint straight from the app. Once they accept, the checkpoint is ready to welcome groups.",
+        "card": {
+          "labels": {
+            "hostInvited": "Host invited",
+            "accepted": "Accepted"
+          }
+        }
+      },
+      {
+        "scene": "invite",
+        "title": "Build up your participants",
+        "text": "Invite people straight from the app or share the event link so people can join them easily.",
+        "card": {
+          "people": [
+            {
+              "avatar": "denim-jacket",
+              "name": "Leo Mäkinen"
+            },
+            {
+              "avatar": "bookshelf",
+              "name": "Sara Laine"
+            },
+            {
+              "avatar": "turtleneck",
+              "name": "Oskar Heino"
+            }
+          ],
+          "tabs": {
+            "share": "Share",
+            "invite": "Invite"
+          },
+          "send": "Send invitation",
+          "sent": "Invitation sent",
+          "share": {
+            "photo": "group-meetup",
+            "title": "City hopper",
+            "when": "Sat 18 Oct 14.00",
+            "link": "bonfiire.io/events/city-hopper",
+            "targets": [
+              {
+                "icon": "link",
+                "label": "Copy link"
+              },
+              {
+                "icon": "message",
+                "label": "Message"
+              },
+              {
+                "icon": "mail",
+                "label": "Email"
+              },
+              {
+                "icon": "more",
+                "label": "More"
+              }
+            ],
+            "copied": "Link copied"
+          }
+        }
+      },
+      {
+        "scene": "tickets",
+        "title": "Ticket sales",
+        "text": "Tickets are free for now, so participants can join right away. Selling paid tickets in the app is coming soon.",
+        "tag": "Coming Soon"
+      },
+      {
+        "scene": "map",
+        "title": "Appro map for participants",
+        "text": "Every participant has the whole route on their phone, from the meeting point to every checkpoint and the way between them.",
+        "card": {
+          "checkedIn": "Checked in"
+        }
+      },
+      {
+        "scene": "scan",
+        "title": "Check-in with QR code",
+        "text": "The host and the checkpoint hosts check participants in with the in-app camera, or find them in the participant list in seconds.",
+        "card": {
+          "search": "Emma",
+          "placeholder": "Search participants",
+          "people": [
+            {
+              "avatar": "bob-haircut",
+              "name": "Aino Korhonen"
+            },
+            {
+              "avatar": "red-hair",
+              "name": "Edward Lind"
+            },
+            {
+              "avatar": "curly-hair",
+              "name": "Emily Koski"
+            },
+            {
+              "avatar": "long-blonde-hair",
+              "name": "Emma Virtanen"
+            },
+            {
+              "avatar": "short-dark-hair",
+              "name": "Ethan Salo"
+            },
+            {
+              "avatar": "braids",
+              "name": "Eva Niemi"
+            },
+            {
+              "avatar": "green-sweater",
+              "name": "Ville Nieminen"
+            }
+          ],
+          "scanned": "Checked in",
+          "scannedName": "Emma"
+        }
+      },
+      {
+        "scene": "score",
+        "title": "Make it more fun with scoring",
+        "text": "Give points for every activity, to each participant or group, and watch the leaderboard change as the day goes.",
+        "card": {
+          "points": "pts",
+          "podium": [
+            {
+              "name": "Ava King",
+              "avatars": ["braids"],
+              "points": 90
+            },
+            {
+              "name": "Hopper",
+              "avatars": ["curly-hair", "long-blonde-hair"],
+              "points": 130
+            },
+            {
+              "name": "Mikko Lahti",
+              "avatars": ["red-hair"],
+              "points": 85
+            }
+          ],
+          "ranks": [
+            {
+              "name": "Kahvi Crew",
+              "avatars": ["green-sweater", "turtleneck"],
+              "points": 80
+            },
+            {
+              "name": "Emma Virtanen",
+              "avatars": ["bob-haircut"],
+              "points": 70
+            }
+          ]
+        }
+      },
+      {
+        "scene": "album",
+        "title": "Share the moments",
+        "text": "Hosts and participants add their photos to one shared album, so the whole day stays together.",
+        "tag": "Coming soon",
+        "photos": ["night-group", "group-meetup", "friends-phones"]
+      },
+      {
+        "scene": "history",
+        "title": "Keep track of everything",
+        "text": "Every join, check-in and score is saved, so you always know who did what and when."
       }
     ]
   },
@@ -140,13 +345,27 @@
     ]
   },
   "popular": {
-    "title": "Host your next {Appro}\n with Bonfiire",
-    "text": [
-      "Bonfiire provides your whole map area build  "
-    ],
+    "title": "Hosting an {Appro}\n has never been easier",
+    "text": [],
     "events": ["inNature", "barCrawl", "cityHopper"],
     "next": {
       "label": "Your next Appro",
+      "stepsLabel": "Steps",
+      "steps": ["Checkpoints", "Hosts", "Participants"],
+      "captions": [
+        {
+          "title": "Plan your route",
+          "text": "Drop the meeting point and every checkpoint on the map."
+        },
+        {
+          "title": "Invite checkpoint hosts",
+          "text": "Each checkpoint gets its own host, invited straight from the app. Once they accept, it is ready to welcome groups."
+        },
+        {
+          "title": "Groups on the move",
+          "text": "Teams walk the route and check in at every checkpoint along the way."
+        }
+      ],
       "status": {
         "creating": "Creating Appro…",
         "checkpoints": "Adding checkpoints…",
@@ -155,10 +374,11 @@
         "waiting": "Waiting for response…",
         "accepted": "Checkpoint hosts accepted",
         "helpers": "Hosts inviting helpers…",
-        "set": "All set",
+        "set": "Checkpoints ready",
         "inviting": "Inviting participants…",
-        "joining": "People joining…"
+        "joining": "Participants joining…"
       },
+      "disclaimer": "Disclaimer: We don't store or share participants' locations",
       "imageAlt": "Illustration of a city map where the signs of a route drop onto it one after another, a meeting point and then checkpoints 1 to 4, like an Appro being planned, with a handwritten title over the middle: host your next Appro with Bonfiire, a few lines and the app store buttons.",
       "labels": {
         "signs": [
@@ -171,13 +391,14 @@
         "hostInvited": "Host invited",
         "helperInvited": "Invited",
         "accepted": "Accepted",
+        "going": "Going",
+        "groups": ["Hopper", "Kahvi Crew", "Party Pandas", "Team Lumi"],
         "invited": "Invited",
         "attending": "Attending",
         "notGoing": "Not going",
         "checkedIn": "Checked in"
       }
-    },
-    "eventsLabel": "Kinds of Appro"
+    }
   },
   "appros": {
     "title": "Some Appro {ideas}",
@@ -307,5 +528,34 @@
   "finale": {
     "title": "Let's start making memories.",
     "text": ["Student life goes fast. Don't waste it."]
+  },
+  "eventPhotos": {
+    "photosLabel": "Photos from Bonfiire events",
+    "photos": [
+      {
+        "image": "friends-phones",
+        "alt": "Two friends outdoors looking at an event on their phones."
+      },
+      {
+        "image": "gathering",
+        "alt": "Students in overalls gathering on a street in autumn."
+      },
+      {
+        "image": "group-meetup",
+        "alt": "A group meeting up at a street corner under autumn trees."
+      },
+      {
+        "image": "night-group",
+        "alt": "Friends in overalls holding teddy bears on a lawn in the evening."
+      },
+      {
+        "image": "qr-ticket",
+        "alt": "A phone showing a QR code e-ticket, held up to be scanned."
+      },
+      {
+        "image": "tug-of-war",
+        "alt": "Students playing tug of war on the grass."
+      }
+    ]
   }
 }

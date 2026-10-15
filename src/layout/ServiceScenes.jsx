@@ -1,4 +1,11 @@
 import { Buildings, CheckpointSign, Person, qrPath } from "./eventMap";
+import {
+  APPRO_MAP,
+  HOST_PHOTOS,
+  MapMarker,
+  MARKER_ICONS,
+  PhotoAvatar,
+} from "./gatheringVenues";
 
 // Small drawings for "What you get when you host an Appro" (ServiceList), one per
 // service, in the maps' colours and with the same people as everywhere on the
@@ -207,7 +214,7 @@ const MiniCity = () => (
 // with its board as on the home page's map, and a pair walking it.
 const MapScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <g transform="scale(0.6)">
       <MiniCity />
       {/* The route, laid down one stretch at a time: to checkpoint 1 as the
@@ -288,7 +295,7 @@ const ARRIVE_STOPS = [
 ];
 const VenueScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <g transform="scale(0.6)">
       <MiniCity />
       <CheckpointSign
@@ -329,91 +336,85 @@ const VenueScene = () => (
   </g>
 );
 
-// Checkpoint management: one checkpoint, drawn big, switching between its two
-// ways of checking groups in: a checkpoint sign with its host, then a bar's own
-// sign with a printed QR code on a little stand instead of a host, and back
-// (.scene-swap-*).
-const QrStand = () => (
+// Checkpoint management: a small piece of the home page's Appro map (the same
+// picture of central Helsinki, round Kaisaniemi park), with two of its
+// checkpoints dropping in one after the other: the park, whose host pops up
+// beside it, and the cocktail bar, which has a printed QR code instead of a
+// host. Then they fade and it starts again (.scene-cp-*).
+// The piece of the map it shows, in the map picture's own units (1200 × 600),
+// and where the two checkpoints stand on it (the same places as on the home
+// page's map).
+const CP_VIEW = { x: 530, y: 140, scale: 0.6 };
+const CP_PARK = [656, 219];
+const CP_BAR = [803, 265];
+// The printed QR code beside the bar: a white card the size of a host's photo.
+const QrCard = ({ x, y }) => (
   <g>
-    <line
-      x1="-5"
-      y1="0"
-      x2="-2"
-      y2="-12"
-      stroke="#8a6a44"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <line
-      x1="5"
-      y1="0"
-      x2="2"
-      y2="-12"
-      stroke="#8a6a44"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <rect
-      x="-10"
-      y="-33"
-      width="20"
-      height="22"
-      rx="2"
-      fill="#fff"
-      stroke="#8a6a44"
-      strokeWidth="1.5"
-    />
+    <rect x={x - 15} y={y - 15} width="30" height="30" rx="5" fill="#fff" />
     <path
       d={qrPath}
-      transform="translate(-7.5 -30.5) scale(0.71)"
+      transform={`translate(${x - 11} ${y - 11}) scale(${22 / 21})`}
       fill="#2b1f15"
     />
   </g>
 );
-// A cocktail glass, white, for the bar's sign (as on the home page's map, a bit
-// smaller).
-const COCKTAIL = (
-  <g
-    transform="scale(0.7)"
-    fill="none"
-    stroke="#fff"
-    strokeWidth="1.4"
-    strokeLinecap="round"
-  >
-    <path d="M -4 -4 L 4 -4 L 0 0.6 Z" fill="#fff" />
-    <line x1="0" y1="0.6" x2="0" y2="3.6" />
-    <line x1="-2.2" y1="3.8" x2="2.2" y2="3.8" />
-  </g>
-);
-const CheckpointsScene = () => (
-  <g>
-    <rect width="240" height="120" fill={GROUND} />
-    <rect x="0" y="92" width="240" height="14" fill={STREET} />
-    <Block x="14" y="12" w="46" h="58" />
-    <Block x="186" y="12" w="42" h="58" />
-    <g transform="translate(100 96) scale(1.15)">
-      {/* With a host: a checkpoint sign and its host */}
-      <g className="scene-swap-a">
-        <CheckpointSign x={0} y={0} text="Checkpoint 3" />
-        <Person index={3} x={56} y={-18} />
-      </g>
-      {/* Without one: the bar's own sign and its printed QR code */}
-      <g className="scene-swap-b">
-        <CheckpointSign x={0} y={0} text="Cocktail Bar" icon={COCKTAIL} />
-        <g transform="translate(70 0)">
-          <QrStand />
+const CheckpointsScene = () => {
+  const [px, py] = CP_PARK;
+  const [bx, by] = CP_BAR;
+  return (
+    <g>
+      <clipPath id="scene-cp-avatar" clipPathUnits="objectBoundingBox">
+        <circle cx="0.5" cy="0.5" r="0.5" />
+      </clipPath>
+      <g
+        transform={`scale(${CP_VIEW.scale}) translate(${-CP_VIEW.x} ${-CP_VIEW.y})`}
+      >
+        <image
+          href={APPRO_MAP.href}
+          x={APPRO_MAP.x}
+          y={APPRO_MAP.y}
+          width={APPRO_MAP.width}
+          height={APPRO_MAP.height}
+        />
+        {/* The park, then its host */}
+        <g className="scene-cp-pin scene-cp-park">
+          <MapMarker x={px} y={py} icon={MARKER_ICONS[3]} />
+        </g>
+        <g className="scene-cp-pop scene-cp-host">
+          <PhotoAvatar
+            x={px + 36}
+            y={py - 24}
+            href={HOST_PHOTOS[3]}
+            clip="scene-cp-avatar"
+          />
+        </g>
+        {/* The bar, then its QR code */}
+        <g className="scene-cp-pin scene-cp-bar">
+          <MapMarker x={bx} y={by} icon={MARKER_ICONS[1]} />
+        </g>
+        <g className="scene-cp-pop scene-cp-qr">
+          <QrCard x={bx + 36} y={by - 24} />
         </g>
       </g>
+      <text
+        x="236"
+        y="116"
+        textAnchor="end"
+        fontSize="5"
+        fill="rgba(36, 36, 36, 0.55)"
+      >
+        {APPRO_MAP.credit}
+      </text>
     </g>
-  </g>
-);
+  );
+};
 
 // Check in by scan or by name: a host holds up a phone whose camera frames a
 // group's code, a scan line sweeping over it, and a tick once it's read; beside
 // it, the participant list with one name found.
 const ScanScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <PhoneFrame x={26} y={8}>
       <rect x="30" y="16" width="62" height="88" rx="5" fill="#2b1f15" />
       <g transform="translate(43 38)">
@@ -555,7 +556,7 @@ const ScanScene = () => (
 // floating up.
 const ScoreScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     {[
       [52, 30, 2],
       [100, 48, 1],
@@ -609,8 +610,9 @@ const ScoreScene = () => (
 // entry with its dot and time, a new one appearing.
 const HistoryScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <line
+      className="scene-history-line"
       x1="58"
       y1="16"
       x2="58"
@@ -626,7 +628,9 @@ const HistoryScene = () => (
       ["13:31", "#a9714b", 64],
     ].map(([time, color, w], i) => (
       <g key={time} transform={`translate(0 ${22 + i * 24})`}>
-        <g className={i === 0 ? "scene-slide-in" : undefined}>
+        <g
+          className={`scene-history-row scene-history-row-${i}${i === 0 ? " scene-slide-in" : ""}`}
+        >
           <text
             x="44"
             y="4"
@@ -639,6 +643,7 @@ const HistoryScene = () => (
             {time}
           </text>
           <circle
+            className="scene-history-dot"
             cx="58"
             cy="0"
             r="5"
@@ -646,7 +651,15 @@ const HistoryScene = () => (
             stroke={GROUND}
             strokeWidth="2"
           />
-          <rect x="72" y="-8" width="140" height="16" rx="5" fill="#fff" />
+          <rect
+            className="scene-history-entry"
+            x="72"
+            y="-8"
+            width="140"
+            height="16"
+            rx="5"
+            fill="#fff"
+          />
           <rect x="80" y="-2.5" width={w} height="5" rx="2.5" fill={BASE} />
         </g>
       </g>
@@ -667,7 +680,7 @@ const Photo = ({ x, y, r, sky, children, className }) => (
 );
 const AlbumScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <Photo x={78} y={62} r={-10} sky="#cfe3f1">
       <path d="M -26 16 L -8 -6 L 4 6 L 12 -2 L 26 12 V 16 Z" fill="#8fbf6a" />
       <circle cx="14" cy="-14" r="5" fill="#ffd166" />
@@ -690,6 +703,7 @@ const AlbumScene = () => (
 const Ticket = ({ x, y, r, color, children, className }) => (
   <g className={className} transform={`translate(${x} ${y}) rotate(${r})`}>
     <path
+      className="scene-ticket-paper"
       d="M -60 -26 H 60 V -8 A 8 8 0 0 0 60 8 V 26 H -60 V 8 A 8 8 0 0 0 -60 -8 Z"
       fill="#fff"
     />
@@ -708,7 +722,7 @@ const Ticket = ({ x, y, r, color, children, className }) => (
 );
 const TicketScene = () => (
   <g>
-    <rect width="240" height="120" fill={GROUND} />
+    <rect className="scene-ground" width="240" height="120" fill={GROUND} />
     <Ticket x={132} y={46} r={8} color="#7fa7c9">
       <rect x="-40" y="-12" width="50" height="5" rx="2.5" fill={BASE} />
       <rect x="-40" y="0" width="34" height="5" rx="2.5" fill={BASE} />
@@ -776,7 +790,7 @@ const SCENES = {
 // The map drawings sit in a cream container (the drawing's own ground, like the
 // other cards), with some padding all round, so the streets stop short of its
 // edges instead of running into them.
-const MAPS = ["map", "venue", "checkpoints"];
+const MAPS = ["map", "venue"];
 
 const ServiceScene = ({ name }) => {
   const Scene = SCENES[name];
@@ -791,7 +805,7 @@ const ServiceScene = ({ name }) => {
     >
       {inset ? (
         <>
-          <rect width="240" height="120" fill={GROUND} />
+          <rect className="scene-ground" width="240" height="120" fill={GROUND} />
           <clipPath id={`service-map-${name}`}>
             <rect x="14" y="7" width="212" height="106" rx="8" />
           </clipPath>

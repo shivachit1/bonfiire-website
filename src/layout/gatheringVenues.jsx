@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Buildings,
-  CheckpointSign,
-  GameName,
-  Person,
-  Scripted,
-} from "./eventMap";
+import { Buildings, GameName, Person, Scripted } from "./eventMap";
 import { Bar as BarBuilding, BarSign, COLORS, HeldPint } from "./BarCrawlMap";
+import { image } from "../content/content";
 
 // Drinks, standing with their base at (x, y): a beer, a glass of red wine, a martini
 // with its olive, a whiskey on the rocks. Or, at a birthday, a wrapped present
@@ -2393,12 +2388,13 @@ const yourEvent = {
 };
 
 // Your next Appro: just the city (blocks in the middle too, either side of the
-// street through it), and the signs of a route dropping onto it one after another,
-// on the blocks round the middle of it, like an Appro being planned: the meeting
-// point (orange), then checkpoints 1 to 4 (`labels.signs`); then a host turns up at
-// each one and accepts; after a while it all starts again. `yourApproFull` goes
-// on: each host invites a helper who accepts too, then the guest list pops up and
-// fills (see APPRO_FLOWS). No groups walk the route yet.
+// street through it, or a real map's picture), and the markers of a route
+// dropping onto it one after another, like an Appro being planned: the meeting
+// point (orange), then checkpoints 1 to 7 (round map markers with an icon each,
+// no names); then a host turns up at each one and accepts;
+// after a while it all starts again. `yourApproFull` (the first five) goes
+// on: each host invites a helper who accepts too, then the guest list pops up
+// and fills (see APPRO_FLOWS). No groups walk the route yet.
 const CITY_MIDDLE = [
   [556, 200, 100, 90],
   [672, 200, 96, 90],
@@ -2407,26 +2403,41 @@ const CITY_MIDDLE = [
   [834, 306, 80, 90],
   [926, 306, 80, 90],
 ];
-// Where each sign stands, in order: scattered up and down round the middle of the
-// map, not in a line, clear of the title above it and of the status line and
-// button in its middle (about x 600 to 960, y 320 to 440 on desktops)
-// (the map is shifted, so these run from x 181 to 1381).
-const ROUTE_SIGNS = [
-  [370, 350],
-  [575, 215],
-  [860, 255],
-  [1100, 385],
-  [1190, 235],
+// Where each marker stands, in order, each on a real place of its kind on the
+// map's picture (APPRO_MAP: central Helsinki round the railway station, places
+// from its OpenStreetMap data): the meeting point at the Central Station, then
+// a cocktail bar, a restaurant, a park and a pub; clear of the title above and
+// of the status line and button low in the middle on desktops (the map is
+// shifted, so these run from x 181 to 1381). Moving the map's picture means
+// placing these again.
+//   desktops: the Central Station, Harry's Bar, Bona Fide, Kaisaniemi park,
+//             St Urho's Pub, Tapulikahvila Pietari (a café), Jone's karaoke
+//             bar and Lidl (a market)
+export const ROUTE_SIGNS = [
+  [707, 376],
+  [984, 265],
+  [1091, 368],
+  [837, 219],
+  [448, 270],
+  [981, 490],
+  [901, 364],
+  [462, 505],
 ];
 // On phones the home page shows this map bigger, cut at the sides (about x 531
-// to 1031 shows), so the signs gather in the middle, still up and down, not in
-// a line, each far enough in that its board, host and "Accepted" tag show whole.
-const ROUTE_SIGNS_PHONE = [
-  [630, 240],
-  [850, 205],
-  [745, 300],
-  [625, 395],
-  [890, 380],
+// to 1031 shows), so the markers are on places in the middle, each far enough
+// in that its host and "Accepted" tag show whole: the Central Station, Pino,
+// Ravintola Satyam, Kaisaniemi park, Molly Malone's, Kahvila Oodi (a café),
+// Jone's karaoke bar and K-Supermarket (a market). (A null would leave one
+// out on phones.)
+export const ROUTE_SIGNS_PHONE = [
+  [707, 376],
+  [688, 480],
+  [615, 187],
+  [837, 219],
+  [840, 442],
+  [619, 283],
+  [901, 364],
+  [631, 420],
 ];
 const PHONE = "(max-width: 800px)";
 // Whether the screen is a phone's (follows it when it's resized).
@@ -2461,10 +2472,10 @@ const ROUND = 21;
 const ROUND_FADE = 0.4;
 const SIGNS_IN = 0.4;
 const SIGN_STEP = 0.35;
-const HOSTS_IN = 3.9;
-const HOST_STEP = 0.25;
-const ACCEPT_AT = 6.6;
-const ACCEPT_STEP = 0.35;
+export const HOSTS_IN = 3.9;
+export const HOST_STEP = 0.25;
+export const ACCEPT_AT = 6.6;
+export const ACCEPT_STEP = 0.35;
 const HOST_TAGS_OUT = 9;
 const HELPERS_IN = 9.2;
 const HELPER_STEP = 0.35;
@@ -2503,61 +2514,795 @@ const STATS = [
   ],
 ];
 
-// What each of the route's signs shows before its name (white, about 9 across,
-// centred on 0 0): people at the meeting point, then a cocktail bar, a
-// restaurant, a park and a pub (a full mug of beer).
-const SIGN_ICONS = [
+// What each of the route's markers shows (dark line drawings, about 11
+// across, centred on 0 0): people at the meeting point, then a bar (a mug of
+// beer), a restaurant, a park (a leaf) and a pub (a mug of beer too).
+export const MARKER_ICONS = [
   // People
-  <g key="people" fill="#fff">
-    <circle cx="-2.2" cy="-2.4" r="1.6" />
-    <circle cx="2.2" cy="-2.4" r="1.6" />
-    <path d="M -4.6 3.6 a 2.4 2.6 0 0 1 4.8 0 Z" />
-    <path d="M -0.2 3.6 a 2.4 2.6 0 0 1 4.8 0 Z" />
+  <g key="people">
+    <circle cx="-2.4" cy="-2.6" r="1.9" />
+    <circle cx="2.8" cy="-2.2" r="1.6" />
+    <path d="M -5.6 4.2 Q -5.6 0.6 -2.4 0.6 Q 0.8 0.6 0.8 4.2" />
+    <path d="M 2.4 1.2 Q 2.6 1 2.8 1 Q 5.6 1 5.6 4.2" />
   </g>,
-  // A cocktail glass
-  <g
-    key="cocktail"
-    fill="none"
-    stroke="#fff"
-    strokeWidth="1.1"
-    strokeLinecap="round"
-  >
-    <path d="M -4 -4 L 4 -4 L 0 0.6 Z" fill="#fff" />
-    <line x1="0" y1="0.6" x2="0" y2="3.6" />
-    <line x1="-2.2" y1="3.8" x2="2.2" y2="3.8" />
+  // A mug of beer, its foam over the rim (a bar)
+  <g key="cocktail">
+    <path d="M -4.2 -2.2 V 3.4 Q -4.2 4.6 -3 4.6 H 0.8 Q 2 4.6 2 3.4 V -2.2" />
+    <path d="M 2 -0.8 H 3.4 Q 4.8 -0.8 4.8 0.6 V 1.4 Q 4.8 2.8 3.4 2.8 H 2" />
+    <path d="M -4.8 -2.2 Q -5 -4.8 -2.6 -4.2 Q -1.2 -5.6 0.4 -4.4 Q 2.6 -5 2.6 -2.2 Z" />
+    <path d="M -2 0 V 2.6 M 0 0 V 2.6" />
   </g>,
   // A fork and a knife
-  <g
-    key="restaurant"
-    fill="none"
-    stroke="#fff"
-    strokeWidth="1.1"
-    strokeLinecap="round"
-  >
-    <line x1="-2" y1="-4" x2="-2" y2="4" />
-    <path d="M -3.6 -4 V -1.6 Q -3.6 -0.4 -2 -0.4 Q -0.4 -0.4 -0.4 -1.6 V -4" />
-    <path d="M 2.6 4 V -4 Q 4.4 -2.6 4 0.4 L 2.6 0.6" fill="#fff" />
+  <g key="restaurant">
+    <path d="M -3.2 -4.8 V -1.4 Q -3.2 0 -2 0 Q -0.8 0 -0.8 -1.4 V -4.8 M -2 -4.8 V 4.8" />
+    <path d="M 2.8 4.8 V -4.8 Q 4.8 -3.4 4.6 0 Q 4.4 0.8 2.8 0.8" />
   </g>,
-  // A tree
-  <g key="park" fill="#fff">
-    <circle cx="0" cy="-1.4" r="3.2" />
-    <rect x="-0.65" y="1" width="1.3" height="3.2" rx="0.4" />
+  // A leaf
+  <g key="park">
+    <path d="M -4.4 4.4 Q -5.2 -4.4 4.6 -4.6 Q 4.8 4.6 -4.4 4.4 Z" />
+    <path d="M -4.4 4.4 L 1.6 -1.6" />
   </g>,
-  // A full mug of beer: amber, with a white head of foam over the rim
+  // A mug of beer, its foam over the rim (pub; then a café, a second bar and a
+  // market follow below)
   <g key="pub">
-    <rect x="-3.8" y="-2.4" width="5.4" height="6.4" rx="0.9" fill="#f2b25c" />
-    <path
-      d="M -4.2 -1.6 Q -4.4 -4 -2.6 -3.8 Q -1.6 -4.8 -0.4 -3.9 Q 1.2 -4.6 2 -3 Q 2.2 -1.6 1.4 -1.4 H -3.6 Q -4.2 -1.4 -4.2 -1.6 Z"
-      fill="#fff"
-    />
-    <path
-      d="M 1.6 -1 H 2.8 Q 4 -1 4 0.2 V 1.2 Q 4 2.4 2.8 2.4 H 1.6"
-      fill="none"
-      stroke="#fff"
-      strokeWidth="1.1"
-    />
+    <path d="M -4.2 -2.2 V 3.4 Q -4.2 4.6 -3 4.6 H 0.8 Q 2 4.6 2 3.4 V -2.2" />
+    <path d="M 2 -0.8 H 3.4 Q 4.8 -0.8 4.8 0.6 V 1.4 Q 4.8 2.8 3.4 2.8 H 2" />
+    <path d="M -4.8 -2.2 Q -5 -4.8 -2.6 -4.2 Q -1.2 -5.6 0.4 -4.4 Q 2.6 -5 2.6 -2.2 Z" />
+    <path d="M -2 0 V 2.6 M 0 0 V 2.6" />
+  </g>,
+  // A cup of coffee on its saucer
+  <g key="cafe">
+    <path d="M -4.4 -2.4 H 2.6 V 1.2 Q 2.6 3.4 -0.9 3.4 Q -4.4 3.4 -4.4 1.2 Z" />
+    <path d="M 2.6 -1.4 Q 4.8 -1.4 4.8 0.2 Q 4.8 1.6 2.4 1.8" />
+    <path d="M -5.2 5 H 3.4" />
+    <path d="M -2.4 -4.8 Q -3 -4 -2.4 -3.4 M 0 -4.8 Q -0.6 -4 0 -3.4" />
+  </g>,
+  // A mug of beer again (a second bar)
+  <g key="bar">
+    <path d="M -4.2 -2.2 V 3.4 Q -4.2 4.6 -3 4.6 H 0.8 Q 2 4.6 2 3.4 V -2.2" />
+    <path d="M 2 -0.8 H 3.4 Q 4.8 -0.8 4.8 0.6 V 1.4 Q 4.8 2.8 3.4 2.8 H 2" />
+    <path d="M -4.8 -2.2 Q -5 -4.8 -2.6 -4.2 Q -1.2 -5.6 0.4 -4.4 Q 2.6 -5 2.6 -2.2 Z" />
+    <path d="M -2 0 V 2.6 M 0 0 V 2.6" />
+  </g>,
+  // A shopping basket (a market)
+  <g key="market">
+    <path d="M -5 -1 H 5 L 3.6 4.6 H -3.6 Z" />
+    <path d="M -3 -1 L -0.6 -4.8 M 3 -1 L 0.6 -4.8" />
+    <path d="M -1.6 1 V 2.8 M 1.6 1 V 2.8" />
   </g>,
 ];
+
+// The people at the markers, as round photos: the hosts (one per marker, in
+// order), then (full) the helpers they invite.
+export const HOST_PHOTOS = [
+  "beanie",
+  "curly-hair",
+  "green-sweater",
+  "braids",
+  "short-dark-hair",
+  "turtleneck",
+  "red-hair",
+  "long-blonde-hair",
+].map((name) => image(`avatar-${name}`));
+const HELPER_PHOTOS = [
+  "turtleneck",
+  "denim-jacket",
+  "long-blonde-hair",
+  "bookshelf",
+  "bob-haircut",
+].map((name) => image(`avatar-${name}`));
+// (short) The participants, once the hosts are in: a few groups (5 on desktops,
+// 4 on phones), each a small cluster of round photos with green rims (going),
+// moving together, its name over it (with a green "Going" beside it till it
+// sets off). One after another each group pops up near the map's edge
+// and walks, really slowly and each at its own pace, to the meeting point (the
+// first marker); they reach it GROUP_GAP apart and each stays GROUP_STAY there,
+// so no more than two groups are ever at the meeting point at once (taking
+// turns at its two places, left and right of it). Then each group walks on to
+// its own checkpoint, checks in there, and on to the next one (NEXT_STOPS),
+// where it waits till the round ends. All times are from GUESTS_IN, when they
+// start.
+const GUEST_PHOTOS = [
+  "bob-haircut",
+  "red-hair",
+  "denim-jacket",
+  "beanie",
+  "bookshelf",
+  "braids",
+  "long-blonde-hair",
+  "curly-hair",
+  "turtleneck",
+  "green-sweater",
+  "short-dark-hair",
+].map((name) => image(`avatar-${name}`));
+export const GUEST_SCALE = 0.7;
+// Where a group's people stand round its middle (the first 3 in a group of 3).
+export const GROUP_FORM = [
+  [-8, -7],
+  [9, -8],
+  [-1, 8],
+  [14, 7],
+];
+// Each group: where it pops up, which checkpoint it goes on to (its marker's
+// number in the route), how long its two walks take, in seconds (to the
+// meeting point, then on to its checkpoint), how many people are in it (3 or
+// 4) and the way of each walk, roughly along the streets (the corners between,
+// in the route's own units; on the map's picture, x is 181 more).
+const GROUPS = [
+  {
+    from: [1080, 140],
+    to: 1,
+    walks: [14, 12],
+    size: 3,
+    paths: [
+      [
+        [1074, 160],
+        [1074, 268],
+        [955, 272],
+        [901, 350],
+        [871, 388],
+        [756, 382],
+      ],
+      [
+        [756, 382],
+        [871, 388],
+        [901, 350],
+        [946, 262],
+      ],
+    ],
+  },
+  {
+    from: [240, 450],
+    to: 7,
+    walks: [11, 11],
+    size: 3,
+    paths: [
+      [
+        [245, 418],
+        [450, 425],
+        [575, 428],
+      ],
+      [
+        [575, 428],
+        [470, 425],
+        [440, 470],
+      ],
+    ],
+  },
+  {
+    from: [1090, 460],
+    to: 5,
+    walks: [16, 13],
+    size: 4,
+    paths: [
+      [
+        [1080, 440],
+        [960, 438],
+        [958, 388],
+        [756, 382],
+      ],
+      [
+        [756, 382],
+        [960, 388],
+        [962, 470],
+      ],
+    ],
+  },
+  {
+    from: [600, 135],
+    to: 3,
+    walks: [12, 10],
+    size: 3,
+    paths: [
+      [
+        [628, 150],
+        [631, 245],
+        [633, 370],
+      ],
+      [
+        [700, 330],
+        [760, 290],
+      ],
+    ],
+  },
+];
+const GROUPS_PHONE = [
+  {
+    from: [625, 155],
+    to: 2,
+    walks: [10, 10],
+    size: 3,
+    paths: [
+      [
+        [631, 245],
+        [633, 370],
+      ],
+      [
+        [633, 370],
+        [631, 245],
+      ],
+    ],
+  },
+  {
+    from: [930, 160],
+    to: 3,
+    walks: [14, 12],
+    size: 4,
+    paths: [
+      [
+        [955, 272],
+        [901, 350],
+        [871, 388],
+        [756, 382],
+      ],
+      [[760, 290]],
+    ],
+  },
+  {
+    from: [625, 465],
+    to: 1,
+    walks: [11, 10],
+    size: 3,
+    paths: [[[640, 445]], [[640, 445]]],
+  },
+  {
+    from: [930, 470],
+    to: 4,
+    walks: [16, 12],
+    size: 3,
+    paths: [
+      [
+        [960, 438],
+        [958, 388],
+        [756, 382],
+      ],
+      [
+        [756, 382],
+        [800, 385],
+      ],
+    ],
+  },
+];
+// Then, a while after checking in at their checkpoint (CHECKPOINT_STAY), each
+// group walks on to the next checkpoint round the route (the one the group
+// before it in the ring went to first: they all move one on), and checks in
+// there too, waiting right of its marker (NEXT_PLACE, past its host; clear of
+// anyone still at its first place, on the left). For each group in GROUPS: that checkpoint's
+// number, how long the walk takes and its way.
+const NEXT_STOPS = [
+  {
+    to: 5,
+    walk: 10,
+    path: [
+      [955, 272],
+      [958, 388],
+      [960, 470],
+    ],
+  },
+  {
+    to: 4,
+    walk: 10,
+    path: [
+      [440, 470],
+      [450, 425],
+      [470, 330],
+    ],
+  },
+  {
+    to: 7,
+    walk: 13,
+    path: [
+      [806, 465],
+      [661, 450],
+      [575, 428],
+      [470, 425],
+      [440, 470],
+    ],
+  },
+  {
+    to: 1,
+    walk: 9,
+    path: [
+      [880, 230],
+      [946, 262],
+    ],
+  },
+];
+const NEXT_STOPS_PHONE = [
+  {
+    to: 3,
+    walk: 10,
+    path: [
+      [631, 175],
+      [720, 210],
+    ],
+  },
+  {
+    to: 4,
+    walk: 11,
+    path: [
+      [880, 230],
+      [901, 350],
+      [871, 388],
+      [800, 385],
+    ],
+  },
+  {
+    to: 2,
+    walk: 10,
+    path: [
+      [640, 445],
+      [633, 370],
+      [631, 245],
+    ],
+  },
+  { to: 1, walk: 9, path: [[760, 440]] },
+];
+const CHECKPOINT_STAY = 4;
+const NEXT_PLACE = [38, 14];
+const GROUP_GAP = 4.5;
+const GROUP_STAY = 3;
+// (From GUESTS_IN) the first group can set off; each sets off GROUP_POP
+// after popping up (its "Going" showing till then).
+const GROUP_SET_OFF = 2.1;
+const GROUP_POP = 1.8;
+// Its two places at the meeting point, left and right of its marker, and where
+// it waits at its checkpoint (left of the marker; the host is on its right).
+const MEET_PLACES = [
+  [-38, -10],
+  [38, 14],
+];
+const WAIT_PLACE = [-38, -10];
+const planGroups = (groups, nextStops, signs) => {
+  const [mx, my] = signs[0];
+  // When the first reaches the meeting point: once the earliest set-off
+  // allows, then the others GROUP_GAP apart after it.
+  const first = Math.max(
+    ...groups.map(({ walks }, i) => GROUP_SET_OFF + walks[0] - i * GROUP_GAP),
+  );
+  let photo = 0;
+  return groups.map(({ from: [x, y], to, walks, size, paths }, i) => {
+    // (Their faces: the next `size` photos in GUEST_PHOTOS)
+    const firstPhoto = photo;
+    photo += size;
+    const meet = MEET_PLACES[i % 2];
+    const [cx, cy] = signs[to];
+    const arrive = first + i * GROUP_GAP;
+    const leave = arrive + GROUP_STAY;
+    const meetAt = [mx + meet[0], my + meet[1]];
+    const waitAt = [cx + WAIT_PLACE[0], cy + WAIT_PLACE[1]];
+    // Every corner of the way, with when (from GUESTS_IN) they're there: each
+    // walk at a steady pace along its corners, and a stop at the meeting
+    // point in between.
+    const marks = [];
+    const walkAlong = (points, from, walk) => {
+      const lengths = points
+        .slice(1)
+        .map(([px, py], k) => Math.hypot(px - points[k][0], py - points[k][1]));
+      const total = lengths.reduce((sum, d) => sum + d, 0);
+      let gone = 0;
+      points.forEach((point, k) => {
+        if (k > 0) gone += lengths[k - 1];
+        marks.push([from + (walk * gone) / total, point]);
+      });
+    };
+    walkAlong([[x, y], ...paths[0], meetAt], arrive - walks[0], walks[0]);
+    walkAlong([meetAt, ...paths[1], waitAt], leave, walks[1]);
+    // (On to the next checkpoint)
+    const reach = leave + walks[1];
+    const onward = nextStops[i];
+    const [nx, ny] = signs[onward.to];
+    walkAlong(
+      [waitAt, ...onward.path, [nx + NEXT_PLACE[0], ny + NEXT_PLACE[1]]],
+      reach + CHECKPOINT_STAY,
+      onward.walk,
+    );
+    const start = marks[0][0];
+    const length = marks[marks.length - 1][0] - start;
+    return {
+      x,
+      y,
+      // (Their walk as keyframes: how far from where they pop up, at what
+      // share of it, from `start` for `length` seconds)
+      start,
+      length,
+      frames: marks.map(([at, [px, py]]) => [
+        ((at - start) / length) * 100,
+        px - x,
+        py - y,
+      ]),
+      setOff: arrive - walks[0],
+      // (Checked in: at the meeting point and the first checkpoint, from when
+      // they arrive till they leave)
+      stops: [
+        [arrive, leave],
+        [reach, reach + CHECKPOINT_STAY],
+      ],
+      pop: arrive - walks[0] - GROUP_POP,
+      size,
+      photos: Array.from(
+        { length: size },
+        (_, k) => GUEST_PHOTOS[(firstPhoto + k) % GUEST_PHOTOS.length],
+      ),
+    };
+  });
+};
+// A group's name over it, a white tag (its left end on x, y), with a green
+// "Going" tag above it that goes as the group sets off (at `out`), and a green
+// "Checked in" popping up in its place at each stop on the way (`stops`: [in,
+// out], going again as they leave it) and at the last (from `checkAt`).
+export const GroupTag = ({
+  x,
+  y,
+  centered,
+  name,
+  going,
+  out,
+  checkedIn,
+  stops,
+  checkAt,
+}) => {
+  // (`centered`: each tag centred on x, not starting at it)
+  const pill = (text, from, fill, color) => {
+    const width = text.length * 3.5 + 8;
+    const left = centered ? from - width / 2 : from;
+    return (
+      <>
+        <rect
+          x={left}
+          y="-5.5"
+          width={width}
+          height="11"
+          rx="5.5"
+          fill={fill}
+        />
+        <text
+          x={left + width / 2}
+          y="2"
+          textAnchor="middle"
+          fontSize="6"
+          fontWeight="700"
+          style={{ fill: color }}
+        >
+          {text}
+        </text>
+      </>
+    );
+  };
+  // (No name: someone on their own, their tags where the name would be)
+  const lift = `translate(0 ${name ? -13 : 0})`;
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      {name && pill(name, 0, "#fff", "var(--secondary-color)")}
+      <g
+        className="plot-tags-out"
+        style={{ animationDelay: `${out}s` }}
+        transform={lift}
+      >
+        {pill(going, 0, "var(--yes-color)", "#fff")}
+      </g>
+      {stops.map(([stopIn, stopOut]) => (
+        <g
+          key={stopIn}
+          className="plot-tags-out"
+          style={{ animationDelay: `${stopOut}s` }}
+          transform={lift}
+        >
+          <g className="plot-accepted" style={{ animationDelay: `${stopIn}s` }}>
+            {pill(checkedIn, 0, "var(--yes-color)", "#fff")}
+          </g>
+        </g>
+      ))}
+      {/* (None at the end for someone on their own: checkAt Infinity) */}
+      {Number.isFinite(checkAt) && (
+        <g transform={lift}>
+          <g
+            className="plot-accepted"
+            style={{ animationDelay: `${checkAt}s` }}
+          >
+            {pill(checkedIn, 0, "var(--yes-color)", "#fff")}
+          </g>
+        </g>
+      )}
+    </g>
+  );
+};
+// (Done when the last group reaches its checkpoint.)
+const groupsDone = (planned) =>
+  Math.max(...planned.map(({ start, length }) => start + length));
+// A group's walk as CSS keyframes, named `name`.
+export const groupKeyframes = (name, frames) =>
+  `@keyframes ${name} {${frames
+    .map(
+      ([at, dx, dy]) =>
+        `${at.toFixed(3)}% { transform: translate(${dx}px, ${dy}px); }`,
+    )
+    .join(" ")}}`;
+
+export const PLANNED_GROUPS = planGroups(GROUPS, NEXT_STOPS, ROUTE_SIGNS);
+export const PLANNED_GROUPS_PHONE = planGroups(
+  GROUPS_PHONE,
+  NEXT_STOPS_PHONE,
+  ROUTE_SIGNS_PHONE,
+);
+// A few people on their own, not in a team: each pops up with "Going" while
+// the groups come (`pop`, seconds from GUESTS_IN), walks to the meeting point
+// (`walk` seconds, by the corners of `path`) and checks in there, then on round
+// the map, like the groups, to one checkpoint and then another (`legs`: each
+// { to: its marker's number, path, walk }), checking in at each. "Checked in"
+// shows for SOLO_CHECKED seconds at each stop, staying at the last; they wait
+// SOLO_STAY at each stop before going on, just below its marker (SOLO_WAIT).
+// In the same shape as a group's plan (size 1, `solo`); `checkIn`: when they
+// reach the meeting point.
+const SOLOS = [
+  {
+    from: [560, 500],
+    path: [
+      [575, 428],
+      [661, 450],
+    ],
+    at: [0, 28],
+    pop: 2,
+    walk: 9,
+    legs: [
+      {
+        to: 6,
+        path: [
+          [756, 382],
+          [871, 388],
+        ],
+        walk: 8,
+      },
+      {
+        to: 5,
+        path: [
+          [958, 388],
+          [960, 470],
+        ],
+        walk: 7,
+      },
+    ],
+  },
+  {
+    from: [880, 500],
+    path: [
+      [871, 388],
+      [756, 382],
+    ],
+    at: [20, 38],
+    pop: 5,
+    walk: 10,
+    legs: [
+      {
+        to: 2,
+        path: [
+          [756, 382],
+          [960, 388],
+          [1074, 390],
+        ],
+        walk: 10,
+      },
+      {
+        to: 1,
+        path: [
+          [1074, 370],
+          [1074, 268],
+          [1000, 272],
+        ],
+        walk: 7,
+      },
+    ],
+  },
+  {
+    from: [470, 330],
+    path: [
+      [540, 360],
+      [600, 420],
+    ],
+    at: [-20, 36],
+    pop: 8,
+    walk: 8,
+    legs: [
+      {
+        to: 4,
+        path: [
+          [600, 420],
+          [540, 360],
+          [470, 300],
+        ],
+        walk: 9,
+      },
+      {
+        to: 3,
+        path: [
+          [470, 235],
+          [631, 245],
+          [760, 230],
+        ],
+        walk: 10,
+      },
+    ],
+  },
+];
+const SOLOS_PHONE = [
+  {
+    from: [640, 500],
+    path: [[661, 450]],
+    at: [0, 28],
+    pop: 2,
+    walk: 8,
+    legs: [
+      {
+        to: 4,
+        path: [
+          [756, 382],
+          [840, 410],
+        ],
+        walk: 7,
+      },
+      { to: 6, path: [[900, 400]], walk: 6 },
+    ],
+  },
+  {
+    from: [900, 480],
+    path: [
+      [871, 388],
+      [756, 382],
+    ],
+    at: [20, 38],
+    pop: 6,
+    walk: 9,
+    legs: [
+      {
+        to: 2,
+        path: [
+          [633, 370],
+          [631, 245],
+        ],
+        walk: 9,
+      },
+      { to: 5, path: [[631, 245]], walk: 5 },
+    ],
+  },
+];
+const SOLO_CHECKED = 2;
+const SOLO_STAY = 3;
+const SOLO_WAIT = [-2, 26];
+const planSolos = (solos, signs, photo) =>
+  solos.map(({ from: [x, y], path, at: [ax, ay], pop, walk, legs }, i) => {
+    const [mx, my] = signs[0];
+    const start = pop + GROUP_POP;
+    // Every corner of the way with when they're there (a steady pace along
+    // each walk, a stop between).
+    const marks = [];
+    const walkAlong = (points, from, time) => {
+      const lengths = points
+        .slice(1)
+        .map(([px, py], k) => Math.hypot(px - points[k][0], py - points[k][1]));
+      const total = lengths.reduce((sum, d) => sum + d, 0);
+      let gone = 0;
+      points.forEach((point, k) => {
+        if (k > 0) gone += lengths[k - 1];
+        marks.push([from + (time * gone) / total, point]);
+      });
+    };
+    let here = [mx + ax, my + ay];
+    walkAlong([[x, y], ...path, here], start, walk);
+    let reach = start + walk;
+    const stops = [[reach, reach + SOLO_CHECKED]];
+    const checkIn = reach;
+    legs.forEach(({ to, path: way, walk: time }, k) => {
+      const [cx, cy] = signs[to];
+      const next = [cx + SOLO_WAIT[0], cy + SOLO_WAIT[1]];
+      walkAlong([here, ...way, next], reach + SOLO_STAY, time);
+      reach += SOLO_STAY + time;
+      here = next;
+      if (k < legs.length - 1) stops.push([reach, reach + SOLO_CHECKED]);
+    });
+    const length = reach - start;
+    return {
+      solo: true,
+      x,
+      y,
+      start,
+      length,
+      frames: marks.map(([when, [px, py]]) => [
+        ((when - start) / length) * 100,
+        px - x,
+        py - y,
+      ]),
+      setOff: start,
+      stops,
+      checkIn,
+      checkAt: reach,
+      pop,
+      size: 1,
+      photos: [GUEST_PHOTOS[(photo + i) % GUEST_PHOTOS.length]],
+    };
+  });
+export const PLANNED_SOLOS = planSolos(SOLOS, ROUTE_SIGNS, 6);
+export const PLANNED_SOLOS_PHONE = planSolos(SOLOS_PHONE, ROUTE_SIGNS_PHONE, 6);
+
+// Someone as a round photo with a rim (white, or `rim`), centred on (x, y).
+// (`rimClass` and `rimStyle`: to colour the rim by animation, e.g. the hosts'
+// going from invited to accepted.)
+const AVATAR_R = 11;
+// (`clip`: the id of the round cut to use, when it's drawn in another picture.)
+export const PhotoAvatar = ({
+  x,
+  y,
+  href,
+  clip = "avatar-round",
+  rim = "#fff",
+  rimClass,
+  rimStyle,
+}) => (
+  <g>
+    <circle
+      cx={x}
+      cy={y}
+      r={AVATAR_R + 2}
+      fill={rim}
+      className={rimClass}
+      style={rimStyle}
+    />
+    <image
+      href={href}
+      x={x - AVATAR_R}
+      y={y - AVATAR_R}
+      width={AVATAR_R * 2}
+      height={AVATAR_R * 2}
+      clipPath={`url(#${clip})`}
+      preserveAspectRatio="xMidYMid slice"
+    />
+  </g>
+);
+
+// A round map marker standing on (x, y), like a map app's: a light cream disc
+// (a shade lighter than the map's land, so it sits in the map) with a thick
+// near-black ring (orange for the meeting point, `meet`) and its icon inside,
+// on a short stem. Drawn a little see-through (MARKER_OPACITY) so the map
+// shows under them.
+const MARKER_R = 15;
+const MARKER_OPACITY = 0.75;
+const MARKER_STEM = 9;
+// The icon's size in it (they're drawn about 11 across).
+const ICON_SCALE = 1.45;
+export const MapMarker = ({ x, y, icon, meet }) => {
+  const ring = meet ? "#e56822" : "#1f1b18";
+  const cy = y - MARKER_STEM - MARKER_R;
+  return (
+    <g opacity={MARKER_OPACITY}>
+      <line
+        x1={x}
+        y1={cy + MARKER_R}
+        x2={x}
+        y2={y}
+        stroke={ring}
+        strokeWidth="3.5"
+        strokeLinecap="round"
+      />
+      <circle
+        cx={x}
+        cy={cy}
+        r={MARKER_R}
+        fill="#f7f1ea"
+        stroke={ring}
+        strokeWidth="3.5"
+      />
+      <g
+        transform={`translate(${x} ${cy}) scale(${ICON_SCALE})`}
+        fill="none"
+        stroke={ring}
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {icon}
+      </g>
+    </g>
+  );
+};
 
 // A tiny tag beside someone's head, popping up with them at `appear`: `invited`
 // while their invite waits, then, at `accept` (seconds into the round), a green
@@ -2607,7 +3352,7 @@ const InviteTag = ({
           style={out !== undefined ? { animationDelay: `${out}s` } : undefined}
         >
           <g className="plot-invite" style={{ animationDelay: `${accept}s` }}>
-            {tag(invited, "#fff", "var(--secondary-color)")}
+            {tag(invited, "var(--primary-color1)", "#fff")}
           </g>
           <g
             className="plot-accepted"
@@ -2704,11 +3449,11 @@ const StatsBox = ({ x, y, stats, labels }) => {
 const reduced = () =>
   typeof window !== "undefined" &&
   !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-const useRounds = (length) => {
+const useRounds = (length, ready = true) => {
   const [round, setRound] = useState(0);
   const [fading, setFading] = useState(false);
   useEffect(() => {
-    if (reduced()) return undefined;
+    if (reduced() || !ready) return undefined;
     const fade = setTimeout(
       () => setFading(true),
       (length - ROUND_FADE) * 1000,
@@ -2721,7 +3466,7 @@ const useRounds = (length) => {
       clearTimeout(fade);
       clearTimeout(next);
     };
-  }, [round, length]);
+  }, [round, length, ready]);
   return [round, fading];
 };
 // The guest list's numbers as the round goes (STATS), from 0 again each round;
@@ -2749,19 +3494,51 @@ const STATS_AT = [781, 172];
 // The two ways the Appro round can go, each with its length and its steps for a
 // status line ([ms from the round's start, step name], from "creating"):
 //   short   (home page) the signs drop in and the hosts are invited and accept;
-//           their "Accepted" tags stay till the round ends.
+//           DOCK_AFTER each accepts, their "Accepted" tag goes and their photo
+//           shrinks onto their marker's lower right edge (.plot-host-dock),
+//           staying there; then (GUESTS_IN) lots of participants join, popping
+//           up in groups (a green rim on their photos: going), which walk
+//           slowly to the meeting point, no more than two there at once, and
+//           on to their own checkpoints (see GROUPS).
 //   full    (kept for the organizing guide, to go into more detail) after the
 //           hosts, each invites a helper who accepts, then the guest list pops up
 //           and fills (see the timings above).
-const SHORT_DONE = ACCEPT_AT + 4 * ACCEPT_STEP + 0.3;
+//   hosts   (home, "Invite checkpoint hosts", a small picture) the markers
+//           already on the map and staying there (they don't drop in or fade
+//           with the rounds), and the map not zooming; each round the hosts
+//           are invited and accept and dock on their markers as in short
+//           (HOSTS_LEAD seconds sooner, with no markers to wait for), then it
+//           holds a moment, the hosts fade and they start again (no
+//           participants); its markers always gathered in the middle, as on
+//           phones (ROUTE_SIGNS_PHONE).
+//   signs   (home, "Mark checkpoints", a small picture) just the markers
+//           dropping in, gathered like hosts; then it holds a moment and
+//           starts again (no hosts).
+const SHORT_DONE = ACCEPT_AT + 7 * ACCEPT_STEP + 0.3;
+const DOCK_AFTER = 1;
+export const GUESTS_IN = SHORT_DONE + DOCK_AFTER + 0.8;
+const HOSTS_LEAD = HOSTS_IN - 0.6;
 export const APPRO_FLOWS = {
+  signs: {
+    round: Math.ceil(SIGNS_IN + 7 * SIGN_STEP + 0.6 + 3),
+    phases: [[400, "checkpoints"]],
+  },
+  hosts: {
+    round: Math.ceil(SHORT_DONE - HOSTS_LEAD + DOCK_AFTER + 3),
+    phases: [
+      [300, "hosts"],
+      [Math.round((5.6 - HOSTS_LEAD) * 1000), "waiting"],
+      [Math.round((SHORT_DONE - HOSTS_LEAD) * 1000), "set"],
+    ],
+  },
   short: {
-    round: 12.5,
+    round: Math.ceil(GUESTS_IN + groupsDone(PLANNED_GROUPS) + 2),
     phases: [
       [400, "checkpoints"],
       [3800, "hosts"],
       [5600, "waiting"],
       [Math.round(SHORT_DONE * 1000), "set"],
+      [Math.round(GUESTS_IN * 1000), "joining"],
     ],
   },
   full: {
@@ -2779,112 +3556,269 @@ export const APPRO_FLOWS = {
   },
 };
 
-const approRound = (flow) => ({
+// A real city map under the home page's Appro instead of the drawn city:
+// central Helsinki round the railway station (Töölönlahti, Kaisaniemi park,
+// the bays and the streets round them; centred on 60.1735 N 24.944 E, zoom
+// 14.2, 1200 × 600 at three times the size) drawn in
+// the owner's map style on the page's own cream (its land is #efe6dd, so it
+// melts into the page), filling the whole map
+// (src/assets/photos/appro-map.jpg, from OpenStreetMap data, so it carries
+// their credit).
+export const APPRO_MAP = {
+  href: image("appro-map"),
+  x: 0,
+  y: 0,
+  width: 1200,
+  height: 600,
+  // The same, twice as wide and high round it, to zoom in from
+  // (appro-map-wide.jpg)
+  wide: image("appro-map-wide"),
+  credit: "© OpenStreetMap",
+};
+
+const approRound = (flow, photoGround) => ({
   empty: true,
+  photoGround,
+  // How long a round is (the map zooms in and out with each, GatheringMap)
+  zoomRound: APPRO_FLOWS[flow].round,
   // On phones it starts at the left, the meeting point first, like the Appro maps.
   startAtLeft: true,
-  Ground: ({ labels }) => {
+  // (`ready`: the map has zoomed in; the round waits for it)
+  Ground: ({ labels, ready = true }) => {
     const full = flow === "full";
-    const signs = usePhone() ? ROUTE_SIGNS_PHONE : ROUTE_SIGNS;
-    const [round, fading] = useRounds(APPRO_FLOWS[flow].round);
+    // (The full flow keeps to the first five: its helpers and guest list are
+    // timed for five.)
+    const phone = usePhone();
+    const groups = phone
+      ? [...PLANNED_GROUPS_PHONE, ...PLANNED_SOLOS_PHONE]
+      : [...PLANNED_GROUPS, ...PLANNED_SOLOS];
+    const gathered = phone || flow === "hosts" || flow === "signs";
+    // (signs) Just the markers: no hosts or their tags.
+    const hosts = flow !== "signs";
+    // (hosts) The markers pinned: there from the start, outside the rounds;
+    // the hosts' timings brought forward by HOSTS_LEAD.
+    const pinned = flow === "hosts";
+    const hostsIn = HOSTS_IN - (pinned ? HOSTS_LEAD : 0);
+    const acceptAt = ACCEPT_AT - (pinned ? HOSTS_LEAD : 0);
+    const signs = (gathered ? ROUTE_SIGNS_PHONE : ROUTE_SIGNS).slice(
+      0,
+      full ? 5 : undefined,
+    );
+    const [round, fading] = useRounds(APPRO_FLOWS[flow].round, ready);
     const stats = useStats(round);
     // Tells the page a new round has started (a "map-round" event bubbling up
     // from the map), e.g. so the home page's button can wiggle once it's done.
     const roundRef = useRef(null);
     useEffect(() => {
+      if (!ready) return;
       roundRef.current?.dispatchEvent(
         new CustomEvent("map-round", { bubbles: true }),
       );
-    }, [round]);
+    }, [round, ready]);
     return (
       <g>
-        <Buildings blocks={CITY_MIDDLE} />
+        {/* The round cut for the people's photos (PhotoAvatar) */}
+        <clipPath id="avatar-round" clipPathUnits="objectBoundingBox">
+          <circle cx="0.5" cy="0.5" r="0.5" />
+        </clipPath>
+        {!photoGround && <Buildings blocks={CITY_MIDDLE} />}
+        {/* (hosts) The markers, already there and staying */}
+        {pinned &&
+          signs.map((spot, i) =>
+            spot ? (
+              <MapMarker
+                key={`pin-${i}`}
+                x={spot[0]}
+                y={spot[1]}
+                icon={MARKER_ICONS[i]}
+                meet={i === 0}
+              />
+            ) : null,
+          )}
         <g
           key={round}
           ref={roundRef}
           className={`route-round${fading ? " is-fading" : ""}`}
         >
-          {signs.map(([x, y], i) => (
-            <g key={i}>
-              {[0, 1].map((r) => (
-                <ellipse
-                  key={r}
-                  className="plot-ripple"
-                  style={{
-                    animationDelay: `${SIGNS_IN + 0.5 + i * SIGN_STEP + r * 1.5}s`,
-                  }}
-                  cx={x}
-                  cy={y}
-                  rx="30"
-                  ry="10"
-                  fill="none"
-                  stroke="#e56822"
-                  strokeWidth="1.5"
-                />
-              ))}
-              <g
-                className="plot-pin"
-                style={{ animationDelay: `${SIGNS_IN + i * SIGN_STEP}s` }}
-              >
-                <CheckpointSign
-                  x={x}
-                  y={y}
-                  text={labels.signs?.[i] || ""}
-                  icon={SIGN_ICONS[i]}
-                  {...(i === 0 ? { board: "#e56822", edge: "#c2541a" } : {})}
-                />
-              </g>
-              {/* The checkpoint's host, standing just right of the post, under
-                  the board's edge, with a tiny tag beside their head */}
-              <g
-                className="plot-host"
-                style={{ animationDelay: `${HOSTS_IN + i * HOST_STEP}s` }}
-              >
-                <Person index={i + 2} x={x + 16} y={y - 2} delay={i * 0.4} />
-              </g>
-              <InviteTag
-                x={x + 25}
-                y={y - 10}
-                invited={labels.hostInvited || "Host invited"}
-                accepted={labels.accepted || "Accepted"}
-                appear={HOSTS_IN + i * HOST_STEP}
-                accept={ACCEPT_AT + i * ACCEPT_STEP}
-                out={full ? HOST_TAGS_OUT : undefined}
-              />
-              {/* (full) The helper the host invites: popping out from the host
-                  and walking round to the other side of the post, with their
+          {/* (Nothing till the map is ready: then they start) */}
+          {ready &&
+            signs.map((spot, i) => {
+              // (null: not shown on this screen)
+              if (!spot) return null;
+              const [x, y] = spot;
+              return (
+                <g key={i}>
+                  {!pinned && (
+                    <g
+                      className="plot-pin"
+                      style={{ animationDelay: `${SIGNS_IN + i * SIGN_STEP}s` }}
+                    >
+                      <MapMarker
+                        x={x}
+                        y={y}
+                        icon={MARKER_ICONS[i]}
+                        meet={i === 0}
+                      />
+                    </g>
+                  )}
+                  {hosts && (
+                    <>
+                      {/* The checkpoint's host, a round photo just right of the
+                      marker, with a tiny tag beside it */}
+                      <g
+                        className="plot-host"
+                        style={{ animationDelay: `${hostsIn + i * HOST_STEP}s` }}
+                      >
+                        {/* (short) Once accepted, the photo shrinks onto the
+                        marker's lower right edge, half over it */}
+                        <g
+                          className={full ? undefined : "plot-host-dock"}
+                          style={
+                            full
+                              ? undefined
+                              : {
+                                  animationDelay: `${acceptAt + i * ACCEPT_STEP + DOCK_AFTER}s`,
+                                }
+                          }
+                        >
+                          <PhotoAvatar
+                            x={x + 32}
+                            y={y - 24}
+                            href={HOST_PHOTOS[i]}
+                            rimClass="plot-rim"
+                            rimStyle={{
+                              animationDelay: `${acceptAt + i * ACCEPT_STEP}s`,
+                            }}
+                          />
+                        </g>
+                      </g>
+                      <InviteTag
+                        x={x + 47}
+                        y={y - 24}
+                        invited={labels.hostInvited || "Host invited"}
+                        accepted={labels.accepted || "Accepted"}
+                        appear={hostsIn + i * HOST_STEP}
+                        accept={acceptAt + i * ACCEPT_STEP}
+                        out={
+                          full
+                            ? HOST_TAGS_OUT
+                            : acceptAt + i * ACCEPT_STEP + DOCK_AFTER
+                        }
+                      />
+                    </>
+                  )}
+                  {/* (full) The helper the host invites: popping out from the host
+                  and walking round to the other side of the marker, with their
                   own tag (left of them) */}
-              {full && (
-                <>
+                  {full && (
+                    <>
+                      <g
+                        className="plot-helper"
+                        style={{
+                          animationDelay: `${HELPERS_IN + i * HELPER_STEP}s`,
+                        }}
+                      >
+                        <PhotoAvatar
+                          x={x - 32}
+                          y={y - 24}
+                          href={HELPER_PHOTOS[i]}
+                        />
+                      </g>
+                      <InviteTag
+                        x={x - 47}
+                        y={y - 24}
+                        alignLeft
+                        invited={labels.helperInvited || "Invited"}
+                        accepted={labels.accepted || "Accepted"}
+                        appear={HELPERS_IN + i * HELPER_STEP + 0.8}
+                        accept={HELPERS_ACCEPT + i * ACCEPT_STEP}
+                        out={TAGS_OUT}
+                      />
+                    </>
+                  )}
+                </g>
+              );
+            })}
+          {/* (short) The groups: popping up, walking to the meeting point,
+              then on to their checkpoints */}
+          {flow === "short" &&
+            ready &&
+            groups.map(
+              (
+                {
+                  x: gx,
+                  y: gy,
+                  start,
+                  length,
+                  frames,
+                  setOff,
+                  stops,
+                  pop,
+                  size,
+                  photos,
+                  solo,
+                  checkAt,
+                },
+                g,
+              ) => {
+                const name = `plot-group-${phone ? "p" : "d"}${g}`;
+                const [, endX, endY] = frames[frames.length - 1];
+                return (
                   <g
-                    className="plot-helper"
-                    style={{
-                      animationDelay: `${HELPERS_IN + i * HELPER_STEP}s`,
-                    }}
+                    key={`group-${g}`}
+                    className="plot-host"
+                    style={{ animationDelay: `${GUESTS_IN + pop}s` }}
                   >
-                    <Person
-                      index={i + 8}
-                      x={x - 16}
-                      y={y - 2}
-                      delay={0.2}
-                      hair={i % 2 ? "short" : "long"}
-                    />
+                    <style>{groupKeyframes(name, frames)}</style>
+                    <g
+                      className="plot-group-walk"
+                      style={{
+                        "--dx": `${endX}px`,
+                        "--dy": `${endY}px`,
+                        animation: `${name} ${length}s linear ${GUESTS_IN + start}s both`,
+                      }}
+                    >
+                      <GroupTag
+                        x={solo ? gx : gx + 2}
+                        y={solo ? gy - 17 : gy - 22}
+                        centered
+                        name={
+                          solo
+                            ? undefined
+                            : (labels.groups || [])[g] || `Group ${g + 1}`
+                        }
+                        going={labels.going || "Going"}
+                        out={GUESTS_IN + setOff}
+                        checkedIn={labels.checkedIn || "Checked in"}
+                        stops={stops.map(([stopIn, stopOut]) => [
+                          GUESTS_IN + stopIn,
+                          GUESTS_IN + stopOut,
+                        ])}
+                        checkAt={GUESTS_IN + (checkAt ?? start + length)}
+                      />
+                      {GROUP_FORM.slice(0, size).map(([ox, oy], k) => {
+                        const px = gx + ox;
+                        const py = gy + oy;
+                        return (
+                          <g
+                            key={k}
+                            transform={`translate(${px} ${py}) scale(${GUEST_SCALE}) translate(${-px} ${-py})`}
+                          >
+                            <PhotoAvatar
+                              x={px}
+                              y={py}
+                              href={photos[k]}
+                              rim="var(--yes-color)"
+                            />
+                          </g>
+                        );
+                      })}
+                    </g>
                   </g>
-                  <InviteTag
-                    x={x - 25}
-                    y={y - 10}
-                    alignLeft
-                    invited={labels.helperInvited || "Invited"}
-                    accepted={labels.accepted || "Accepted"}
-                    appear={HELPERS_IN + i * HELPER_STEP + 0.8}
-                    accept={HELPERS_ACCEPT + i * ACCEPT_STEP}
-                    out={TAGS_OUT}
-                  />
-                </>
-              )}
-            </g>
-          ))}
-          {full && (
+                );
+              },
+            )}
+          {full && ready && (
             <StatsBox
               x={STATS_AT[0]}
               y={STATS_AT[1]}
@@ -2897,8 +3831,11 @@ const approRound = (flow) => ({
     );
   },
 });
-const yourAppro = approRound("short");
+const yourAppro = approRound("short", APPRO_MAP);
 const yourApproFull = approRound("full");
+// (No zooming: the map's picture without its wider one round it)
+const yourApproHosts = approRound("hosts", { ...APPRO_MAP, wide: undefined });
+const yourApproSigns = approRound("signs", APPRO_MAP);
 
 const gatheringVenues = {
   concert,
@@ -2908,6 +3845,8 @@ const gatheringVenues = {
   yourEvent,
   yourAppro,
   yourApproFull,
+  yourApproHosts,
+  yourApproSigns,
 };
 
 export default gatheringVenues;

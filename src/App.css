@@ -4,14 +4,18 @@
   --building-top: #f7f1ea; /* the maps' buildings: their light top (Buildings in eventMap.jsx) */
   --building-base: #dccbbb; /* and the darker base under it */
   --yes-color: #3f8f3a; /* green for good news: attending, checked in (the guest list on the maps) */
+  --yes-color-light: #8fd18a; /* --yes-color, lighter: green text on dark (the phone's checked in) */
   --no-color: #c8402f; /* red for no: not going */
+  --location-color: #2f7de1; /* a phone map's blue: where someone is (the participant's dot) */
   --map-hero-veil: rgba(239, 230, 221, 0.6); /* --primary-color, partly see-through: behind the words over the home map */
   --primary-color1: #e56822;
   --accent-text-color: #b8501a; /* brand orange darkened for small text on light backgrounds */
   --tip-bg: rgba(229, 104, 34, 0.08); /* --primary-color1, faint: behind tips in the docs */
   --note-bg: rgba(89, 65, 43, 0.06); /* --secondary-color, faint: behind notes in the docs */
+  --photo-shadow: 0 6px 16px rgba(89, 65, 43, 0.22); /* --secondary-color, soft: under stacked photos so they stand apart */
   --button-dark: #000; /* the download buttons' black, also used by the link buttons */
   --button-dark-hover: #2b1f15;
+  --nav-height: 72px; /* the navbar's height (NavBar/index.css), for things pinned under it */
   --primary-text-color: rgba(36, 36, 36, 0.9);
   --secondary-text-color: rgba(36, 36, 36, 0.7);
   --night-color: #1c1410;
@@ -19,12 +23,14 @@
   --radius: 20px;
   --radius-lg: 28px; /* rounder, for big panels (the Appro panel on home) */
   --section-space: clamp(48px, 7vw, 88px);
+  --band-space: clamp(64px, 9vw, 120px); /* above and below each home band's content */
+  --band-gutter: clamp(24px, 5vw, 64px); /* and at its sides */
   --content-width: 1280px;
   /* Type scale: every text on the site uses one of these five sizes. */
   --text-page: clamp(1.9rem, 4vw, 3rem); /* page title (hero) */
   --text-section: clamp(1.5rem, 3vw, 2.1rem); /* section title */
   --text-item: clamp(1.15rem, 2vw, 1.35rem); /* titles inside a section: blocks, cards, questions, steps */
-  --text-info: clamp(1rem, 1.6vw, 1.15rem); /* all info text */
+  --text-info: clamp(1.125rem, calc(1.6vw + 0.125rem), 1.275rem); /* all info text */
   --text-chip: 0.9rem; /* labels, badges, tags */
   /* Modern System Font Stack */
   --font-stack:

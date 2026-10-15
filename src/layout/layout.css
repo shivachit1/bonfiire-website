@@ -150,27 +150,61 @@
 .section:nth-child(even of .section:not(.section--compact)) {
   background: #fff;
 }
-/* The home page: one calm light background throughout; the warm colour only where
-   it's asked for (the map's panel, the closing band). */
+/* An almost white background (the help pages). */
 :root {
   --page-light: #fdfbf8;
 }
-/* (Specific enough to win over the alternating rule above.) */
-.sections--light-first > section.section:nth-child(n of .section) {
-  background: var(--page-light);
+/* Panels inside a band (the app store panel, the checkpoint cards, the
+   testimonials) take the colour that stands out from it: --panel for the panel,
+   --panel-inset for what sits inside the panel. By default the bands are cream,
+   so the panels are light. */
+:root {
+  --panel: var(--building-top);
+  --panel-inset: var(--primary-color);
 }
 /* A warm band, when a section asks for it (e.g. the home page's closing band). */
-.sections--light-first
-  > section.section.section--cream:nth-child(n of .section),
 .section--cream {
   background: var(--primary-color);
 }
 /* A featured map (home: the most popular Appro): a cream band with a centred
    heading on top and the map under it, as wide as the content column. */
-.sections--light-first
-  > section.section.section--map-feature:nth-child(n of .section),
 .section--map-feature {
   background: var(--primary-color);
+}
+/* The home page: full width bands taking turns, light first (the hero), then
+   cream, light, cream… whichever sections are shown. On a light band the panels
+   swap to cream, so they still stand out. (Specific enough to win over the
+   section's own colour.) */
+.sections--light-first > section.section:nth-child(odd of .section) {
+  --panel: var(--primary-color);
+  --panel-inset: var(--building-top);
+  background: var(--building-top);
+}
+.sections--light-first > section.section:nth-child(even of .section) {
+  --panel: var(--building-top);
+  --panel-inset: var(--primary-color);
+  background: var(--primary-color);
+}
+/* The hero stays cream (asked for 2026-10-15), whatever its turn; the bands
+   after it keep taking turns as before. */
+.sections--light-first > section.section.photo-hero:nth-child(n of .section) {
+  --panel: var(--building-top);
+  --panel-inset: var(--primary-color);
+  background: var(--primary-color);
+}
+/* Every band the same room inside it, compact ones too (--band-space above and
+   below, --band-gutter at the sides). The hero keeps its own smaller room under
+   the navbar. */
+.sections--light-first > section.section:nth-child(n of .section) {
+  padding: var(--band-space) var(--band-gutter);
+}
+.sections--light-first > section.section.photo-hero:nth-child(n of .section) {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+@media (max-width: 900px) {
+  .sections--light-first > section.section.photo-hero:nth-child(n of .section) {
+    padding-top: 80px;
+  }
 }
 .section--map-feature > .container {
   gap: clamp(24px, 3vw, 40px);
@@ -332,14 +366,98 @@
 .section--map-hero {
   padding-top: var(--section-space);
 }
-/* A status line just above the link button, saying what's happening in the map's
-   round (adding checkpoints, assigning hosts, ready): plain italic text, each new
-   step sliding and fading in. */
+/* The guest list strip just under the map (ApproHero), centred: a
+   light (--building-top) rounded strip of three parts split by thin lines, each a label and
+   its number (invited orange, going and checked in green),
+   the numbers counting up. It fades and rises in as the hosts are being
+   invited and fades out as the round starts again; it keeps its place while
+   hidden. */
+.map-hero-stats-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+}
+.map-hero-stats-row .map-hero-status {
+  margin: 0 0 8px;
+}
+/* The small privacy note under the board: the map is only an overview. */
+.map-hero-disclaimer {
+  max-width: 34em;
+  margin: 10px 0 0;
+  padding: 0 16px;
+  font-size: var(--text-chip);
+  color: var(--secondary-text-color);
+  text-align: center;
+}
+.map-hero-stats {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 5px 2px;
+  list-style: none;
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--panel);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.map-hero-stats.is-shown {
+  opacity: 1;
+  transform: none;
+}
+.map-hero-stats li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.map-hero-stats li + li {
+  border-left: 1px solid rgba(89, 65, 43, 0.15);
+}
+.map-hero-stats-label {
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+.map-hero-stats-value {
+  min-width: 2ch;
+  font-size: var(--text-chip);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.map-hero-stats-value.is-invited {
+  color: var(--primary-color1);
+}
+.map-hero-stats-value.is-yes {
+  color: var(--yes-color);
+}
+.map-hero-stats-value.is-no {
+  color: var(--no-color);
+}
+@media (max-width: 600px) {
+  .map-hero-stats li {
+    gap: 5px;
+    padding: 0 8px;
+  }
+
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-hero-stats {
+    transition: none;
+  }
+}
+/* A status line just above the guest list board, saying what's happening in
+   the map's round (adding checkpoints, assigning hosts, ready): plain text,
+   each new step sliding and fading in. */
 .map-hero-status {
   margin: 0 0 10px;
   font-size: var(--text-chip);
-  font-style: italic;
-  color: var(--secondary-text-color);
+  color: var(--primary-text-color);
 }
 .map-hero-status-text {
   display: inline-flex;
@@ -382,40 +500,6 @@
     animation: none;
   }
 }
-/* The link button above the title: it stays still while the map's signs and
-   hosts come in, then moves quickly left and right a few times once they're all
-   there and the hosts have accepted (about 8.6s into the map's round, see
-   APPRO_FLOWS in
-   gatheringVenues.jsx), and
-   rests until the next round starts it again (ApproHero). */
-.map-hero-link {
-  display: inline-block;
-  margin: 0 0 20px;
-  animation: map-hero-wiggle 0.8s ease-in-out 8.6s both;
-}
-@keyframes map-hero-wiggle {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  20% {
-    transform: translateX(-8px);
-  }
-  40% {
-    transform: translateX(8px);
-  }
-  60% {
-    transform: translateX(-5px);
-  }
-  80% {
-    transform: translateX(3px);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .map-hero-link {
-    animation: none;
-  }
-}
 /* The map: as wide as the content column, shrinking with the screen (no sideways
    scrolling or swipe hint on phones). */
 .section--map-hero .route-map {
@@ -425,8 +509,8 @@
 }
 /* The map, a little narrower than the content column on wide screens, with
    strips trimmed off its top and bottom (it shows 8:3 rather than 2:1, about
-   y 75 to 525; the signs are in its middle), all four cut edges fading softly
-   into the cream (the sides further in, `--map-side-fade`). */
+   y 75 to 525; the signs are in its middle), its sides fading softly into
+   the cream (`--map-side-fade`), its top and bottom just a touch. */
 .section--map-hero .route-map {
   max-width: 1120px;
 }
@@ -437,7 +521,7 @@
   padding: 0;
   overflow: hidden;
   -webkit-mask-image:
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(to bottom, transparent, #000 1.5%, #000 98.5%, transparent),
     linear-gradient(
       to right,
       transparent,
@@ -447,7 +531,7 @@
     );
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent),
+    linear-gradient(to bottom, transparent, #000 1.5%, #000 98.5%, transparent),
     linear-gradient(
       to right,
       transparent,
@@ -466,9 +550,8 @@
   display: none;
 }
 /* The title and lines above the map, centred; the status line and the link
-   button low on the map, under its signs, on a soft, partly see-through cream glow
-   (the map's own ground colour) with the map a little blurred behind it, so the
-   map still shows round them. */
+   button low on the map, under its signs, straight on the map (no glow or
+   blur behind them). */
 .map-hero-stage > .intro {
   margin-bottom: 8px;
 }
@@ -480,39 +563,13 @@
   top: 80%;
   left: 50%;
   z-index: 1;
-  width: min(90%, 360px);
+  width: min(90%, 560px);
   padding: 20px 32px;
   text-align: center;
   transform: translate(-50%, -50%);
 }
-.map-hero-overlay::before {
-  content: "";
-  position: absolute;
-  inset: -24px -40px;
-  z-index: -1;
-  background: radial-gradient(
-    ellipse 50% 50% at 50% 50%,
-    var(--map-hero-veil) 68%,
-    transparent
-  );
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  -webkit-mask-image: radial-gradient(
-    ellipse 50% 50% at 50% 50%,
-    #000 62%,
-    transparent
-  );
-  mask-image: radial-gradient(
-    ellipse 50% 50% at 50% 50%,
-    #000 62%,
-    transparent
-  );
-}
 .map-hero-actions {
   margin: 0;
-}
-.map-hero-actions .map-hero-link {
-  margin-bottom: 0;
 }
 .map-hero-stage .route-map {
   margin-top: 0;
@@ -536,9 +593,6 @@
     margin: 16px auto 4px;
     padding: 0;
     transform: none;
-  }
-  .map-hero-overlay::before {
-    content: none;
   }
 }
 @media (max-width: 800px) {
@@ -569,122 +623,14 @@
     margin-top: -20%;
   }
 }
-/* The example Appros: one row with no background of its own, split into one part
-   per Appro by thin dividers (like the
-   guest list on the one-place map). When the parts don't fit (phones) the panel
-   scrolls sideways inside itself, part by part. */
-.appro-mini-cards {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-radius: var(--radius-lg);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-.appro-mini-cards::-webkit-scrollbar {
-  display: none;
-}
-
-.appro-mini-cards li {
-  /* Sharing the panel when they fit, scrolling sideways when they don't. */
-  flex: 1 0 min(340px, 82%);
-  margin: 0;
-  scroll-snap-align: start;
-  /* Rise in one after another when the panel comes into view. */
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-  transition-delay: calc(var(--i) * 0.1s);
-}
-/* A divider between one part and the next, in the light building colour (like
-   the download panel). */
-.appro-mini-cards li + li {
-  border-left: 3px solid var(--building-top);
-}
-.appro-mini-cards.is-visible li {
-  opacity: 1;
-  transform: none;
-}
-/* Its name with the arrow at the far end of the same line, the lines under them.
-   Hovered, the part takes the light building colour; pressed, lighter still. */
-.appro-mini-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  height: 100%;
-  padding: 18px 24px;
-  color: inherit;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-.appro-mini-card:hover {
-  color: inherit;
-  background-color: var(--building-top);
-}
-.appro-mini-card:active {
-  background-color: var(--page-light);
-}
-.appro-mini-card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.appro-mini-card-text {
-  font-size: var(--text-info);
-  line-height: 1.5;
-  color: var(--secondary-text-color);
-}
-/* Just the arrow, in the brand orange, nudging forward over and over like the
-   link buttons' arrows (link-arrow), each part a little after the one before; a
-   hovered part's arrow nudges faster. */
-.appro-mini-card-arrow {
-  flex: none;
-  font-size: var(--text-item);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--primary-color1);
-  animation: link-arrow 1.4s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 0.2s);
-}
-.appro-mini-card:hover .appro-mini-card-arrow {
-  animation-duration: 0.7s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .appro-mini-cards li,
-  .appro-mini-card {
-    transition: none;
-  }
-  .appro-mini-card-arrow {
-    animation: none;
-  }
-  .appro-mini-cards li {
-    opacity: 1;
-    transform: none;
-  }
-  .appro-mini-card:hover .appro-mini-card-arrow {
-    transform: none;
-  }
-}
-
 /* ---------- The promise and the app store buttons (home) ---------- */
-/* On the cream, carrying on from the map above with no edge between them, a
-   rounded panel as wide as the content column, in the map's light building
-   colour: the words on the left, the app store buttons on the right; stacked on
-   phones. */
-.sections--light-first
-  > section.section.section--get-app:nth-child(n of .section) {
-  background: var(--primary-color);
-}
+/* A rounded panel as wide as the content column, in the colour that stands out
+   from its band (--panel): the words on the left, the app store buttons on the
+   right; stacked on phones. */
 .get-app {
   padding: clamp(24px, 4vw, 48px);
   border-radius: var(--radius);
-  background: var(--building-top);
+  background: var(--panel);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -726,15 +672,6 @@
 }
 
 /* ---------- Services in Bonfiire (home, ServiceList) ---------- */
-/* On the cream, like the band above it. */
-.sections--light-first
-  > section.section.section--services:nth-child(n of .section) {
-  background: var(--primary-color);
-}
-/* Its title is centred over two set lines (a \n in home.json), not rebalanced. */
-.section--services .intro .title {
-  text-wrap: wrap;
-}
 /* Four short points in a row (two by two on tablets, one under another on small
    phones): an icon in a soft cream round, a title and a line about it. They rise in one after
    another. */
@@ -1008,7 +945,106 @@
     transform: none;
   }
 }
+/* Checkpoint management (CheckpointsScene): over one 8s round, the park's
+   marker drops in, its host pops up beside it, then the bar's marker drops in
+   and its QR code pops up; all stay a while, fade out together and it starts
+   again. */
+.scene-cp-pin,
+.scene-cp-pop {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation-duration: 8s;
+  animation-timing-function: cubic-bezier(0.3, 0.6, 0.4, 1);
+  animation-iteration-count: infinite;
+}
+.scene-cp-pop {
+  transform-origin: center;
+}
+.scene-cp-park {
+  animation-name: scene-cp-park;
+}
+.scene-cp-host {
+  animation-name: scene-cp-host;
+}
+.scene-cp-bar {
+  animation-name: scene-cp-bar;
+}
+.scene-cp-qr {
+  animation-name: scene-cp-qr;
+}
+@keyframes scene-cp-park {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  7% {
+    opacity: 1;
+    transform: none;
+  }
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes scene-cp-host {
+  0%,
+  14% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  20%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes scene-cp-bar {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  37%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes scene-cp-qr {
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  51%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  .scene-cp-pin,
+  .scene-cp-pop,
   .scene-route,
   .scene-rise,
   .scene-swap-a,
@@ -1076,9 +1112,58 @@
   line-height: 1.6;
   color: var(--secondary-text-color);
 }
+/* One under another (home): no card, each drawing beside its title and line,
+   a thin divider in the light building colour between one and the next. */
+.service-list--column {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+.service-list--column .service-item {
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  padding: clamp(32px, 5vw, 48px) 0;
+  border-radius: 0;
+  background: none;
+}
+.service-list--column .service-item + .service-item {
+  border-top: 2px solid var(--building-top);
+}
+.service-list--column .service-figure {
+  flex: 0 0 clamp(200px, 42%, 400px);
+  margin: 0;
+}
+/* The checkpoints' map a little bigger than the other drawings, so its
+   markers have room round them. */
+.service-list--column .service-figure[data-scene="checkpoints"] {
+  flex-basis: clamp(220px, 50%, 520px);
+}
+.service-list--column .service-head {
+  flex: none;
+}
 @media (max-width: 900px) {
   .service-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .service-list--column {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 520px) {
+  .service-list--column .service-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .service-list--column .service-figure {
+    flex-basis: auto;
+    max-width: 420px;
+  }
+  .service-list--column .service-figure[data-scene="checkpoints"] {
+    flex-basis: auto;
+    max-width: none;
   }
 }
 @media (max-width: 420px) {
@@ -1839,7 +1924,7 @@
   padding: 20px;
   border: none;
   box-shadow: none;
-  background: var(--building-top);
+  background: var(--panel);
 }
 /* The drawn avatar with no round behind it, and the quote on a soft panel of
    the page's cream (a bit darker than the card). */
@@ -1855,7 +1940,7 @@
   margin: 0 -8px -8px;
   padding: 16px 18px;
   border-radius: calc(var(--radius) - 6px);
-  background: var(--primary-color);
+  background: var(--panel-inset);
 }
 
 .testimonial-quote {
@@ -2990,9 +3075,98 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ---------- Need a demo or help? (home) ---------- */
+/* A bold band in the brand orange, as wide as the content column: the words in
+   white on the left (the highlighted word in the dark brown), a white button
+   and a white link on the right; stacked on phones. It rises in as it comes
+   into view, like the party panel. */
+.contact-band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px clamp(32px, 5vw, 64px);
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: var(--radius-lg);
+  background: var(--primary-color1);
+  color: #fff;
+  animation: host-invite-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 60%;
+}
+.contact-band > .intro {
+  flex: 1 1 420px;
+}
+.contact-band > .intro .title,
+.contact-band > .intro .lead {
+  max-width: 640px;
+  color: #fff;
+  text-wrap: pretty;
+}
+.contact-band > .intro .accent {
+  color: var(--secondary-color);
+}
+.contact-band-actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: var(--text-info);
+}
+/* The main action: a flat white pill with the orange's dark text (no shadow). */
+.contact-band-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-text-color);
+  font-weight: 700;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+.contact-band-button:hover {
+  background: var(--building-top);
+  color: var(--accent-text-color);
+  transform: translateY(-2px);
+}
+.contact-band-button:active {
+  transform: translateY(0) scale(0.97);
+}
+.contact-band-link {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s ease;
+}
+.contact-band-link:hover {
+  color: #fff;
+  text-decoration-color: #fff;
+}
+.contact-band-button:focus-visible,
+.contact-band-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+@media (max-width: 800px) {
+  .contact-band-actions {
+    flex: 1 1 100%;
+    align-items: flex-start;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .host-invite {
+  .host-invite,
+  .contact-band {
     animation: none;
+  }
+  .contact-band-button:hover,
+  .contact-band-button:active {
+    transform: none;
   }
   .button-primary:hover {
     transform: none;
@@ -3177,19 +3351,51 @@
     opacity: 0;
   }
 }
-/* A host's helper: popping up where the host stands (32 to the right), then
-   walking round to the other side of the sign. */
+/* (Home page) Once a host has accepted, their photo shrinks and moves from
+   beside the marker onto its lower right edge, half over the marker's round
+   (from 32 right and level with its middle to about 11 right and 11 down). */
+.plot-host-dock {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: plot-host-dock 0.5s cubic-bezier(0.3, 0.6, 0.4, 1) both;
+}
+@keyframes plot-host-dock {
+  to {
+    transform: translate(-21px, 11px) scale(0.8);
+  }
+}
+/* A host's photo rim: the highlight orange while invited, turning green as
+   they accept (each one's delay set on it). */
+.plot-rim {
+  animation: plot-rim-accept 0.3s ease both;
+}
+@keyframes plot-rim-accept {
+  from {
+    fill: var(--primary-color1);
+  }
+  to {
+    fill: var(--yes-color);
+  }
+}
+/* (Home page) A group walking its way (each one's keyframes made in
+   gatheringVenues.jsx, along the streets at a steady pace); still, it's where
+   its walk ends (--dx, --dy from where it popped up). */
+.plot-group-walk {
+  transform-box: view-box;
+}
+/* A host's helper: popping up where the host stands (72 to the right), then
+   walking round to the other side of the marker. */
 .plot-helper {
   animation: plot-helper-in 1s ease both;
 }
 @keyframes plot-helper-in {
   0% {
     opacity: 0;
-    transform: translateX(32px) scale(0.3);
+    transform: translateX(72px) scale(0.3);
   }
   30% {
     opacity: 1;
-    transform: translateX(32px) scale(1);
+    transform: translateX(72px) scale(1);
   }
   100% {
     transform: translateX(0);
@@ -3629,6 +3835,21 @@
   /* Still: the hosts' tags already gone. */
   .plot-tags-out {
     display: none;
+  }
+  /* Still: the hosts accepted. */
+  .plot-rim {
+    animation: none;
+    fill: var(--yes-color);
+  }
+  /* Still: the groups already at their checkpoints. */
+  .plot-group-walk {
+    animation: none !important;
+    transform: translate(var(--dx), var(--dy));
+  }
+  /* Still: the hosts' photos already on their markers. */
+  .plot-host-dock {
+    animation: none;
+    transform: translate(-21px, 11px) scale(0.8);
   }
   .map-dot {
     transition: none;
@@ -5174,7 +5395,7 @@
 .photo-hero {
   overflow: hidden;
   padding-top: clamp(24px, 4vw, 48px);
-  padding-bottom: clamp(24px, 4vw, 48px);
+  padding-bottom: 8px;
 }
 .photo-hero-inner {
   display: grid;
@@ -5499,9 +5720,15 @@
 }
 
 @media (max-width: 900px) {
+  /* Stacked: more room under the navbar, between the words and the app's
+     screens, and less under them (the screens leave room of their own). */
+  .photo-hero {
+    padding-top: 80px;
+    padding-bottom: 8px;
+  }
   .photo-hero-inner {
     grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
+    gap: 56px;
   }
   .photo-hero .intro {
     text-align: center;
@@ -5540,5 +5767,2058 @@
   .photo-tile .photo-tile-img {
     animation: none;
     transform: none;
+  }
+}
+
+
+/* A real map's picture under a map instead of the drawn city (GatheringMap
+   `photoGround`): with `tint`, a light wash of the land's cream multiplied over
+   it (half strength), so its white sits closer to the page without dulling it.
+   Its credit sits small over the bottom right corner, just inside the side
+   fade. */
+.map-photo-ground {
+  isolation: isolate;
+}
+.map-photo-tint {
+  fill: #efe6dd;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+.map-with-credit {
+  position: relative;
+}
+.map-photo-credit {
+  position: absolute;
+  right: 11%;
+  bottom: 6px;
+  z-index: 1;
+  margin: 0;
+  font-size: var(--text-chip);
+  color: var(--secondary-text-color);
+  opacity: 0.75;
+  pointer-events: none;
+}
+@media (max-width: 800px) {
+  .map-photo-credit {
+    right: 8%;
+  }
+}
+/* (`wide`) The map (its picture and all on it), zoomed out (half size,
+   showing the wider picture round it), zooms in to its own view about its
+   middle as each round's first marker drops, and back out as the round ends
+   (1.3s: ZOOM in GatheringMap.jsx). */
+.map-photo-zoom {
+  transform-box: view-box;
+  transform-origin: 600px 300px;
+  transition: transform 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.map-photo-zoom.is-out {
+  transform: scale(0.5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-photo-zoom {
+    transition: none;
+  }
+}
+
+/* The app's screenshots in the home hero (AppScreens.jsx), fanned out like a
+   hand of cards: the one in the middle (--place 0) upright in front, the next
+   (1) tilted to the right behind it, smaller and under a cream veil, the one
+   before (-1) the same on the left,
+   the rest hidden behind the middle one. When it moves on, the front one
+   swings back to the left, the right one swings up to the front and the next
+   comes out from behind on the right, each gliding to its new place. They
+   rise in one after another (--i) when they come into view. */
+.app-screens {
+  --screen-w: clamp(180px, 17vw, 240px);
+  position: relative;
+  height: calc(var(--screen-w) * 1.97 + 56px);
+}
+.app-screen {
+  --side: clamp(-1, var(--place), 1);
+  --shown: clamp(0, 2 - var(--far), 1);
+  position: absolute;
+  top: 28px;
+  left: calc(50% - var(--screen-w) / 2);
+  z-index: calc(10 - var(--far));
+  width: var(--screen-w);
+  opacity: var(--shown);
+  transform-origin: 50% 100%;
+  transform: translateX(calc(var(--side) * 46%))
+    translateY(calc(var(--far) * 2%))
+    rotate(calc(var(--side) * 9deg))
+    scale(calc(1 - min(var(--far), 2) * 0.22));
+  transition:
+    transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.6s ease;
+}
+.app-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+/* A light wash of the page's cream over each phone, in the phone's own shape
+   (masked by its picture), so the screens sit in the page's colours. */
+.app-screen-rise {
+  position: relative;
+}
+.app-screen-wash,
+.app-screen-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--primary-color);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+/* The ones behind under a cream veil (the page's cream, partly see-through),
+   fading off as one comes to the front. */
+.app-screen-veil {
+  background: var(--primary-color);
+  mix-blend-mode: normal;
+  opacity: 0.4;
+  transition: opacity 0.9s ease;
+}
+.app-screen.is-current .app-screen-veil {
+  opacity: 0;
+}
+/* You can swipe or drag them sideways (the page still scrolls up and down). */
+.app-screens {
+  cursor: grab;
+  touch-action: pan-y;
+  outline-offset: 8px;
+}
+.app-screens:active {
+  cursor: grabbing;
+}
+.app-screens:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.app-screen-rise {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.12s);
+}
+.app-screens.is-visible .app-screen-rise {
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 900px) {
+  .app-screens {
+    --screen-w: clamp(140px, 38vw, 210px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-screen,
+  .app-screen-rise {
+    transition: none;
+  }
+  .app-screen-rise {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The photos from events (PhotoBlobs), on their own after the party panel,
+   centred and not too big. */
+.section--event-photos .photo-blobs {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ---------- The new Appro map, told as you scroll (home, ApproMapNew) ---------- */
+/* Several screens tall; inside it the title and the map (laid out just like
+   ApproHero's, .section--map-hero) stay pinned under the navbar, in the middle
+   of the screen, while it's scrolled through (the map zooming in, then its
+   markers dropping in, see ApproMapNew.jsx). */
+.section.appro-story {
+  height: 300vh;
+  padding: 0;
+}
+.appro-story-sticky {
+  position: sticky;
+  top: var(--nav-height);
+  display: flex;
+  /* (At the top, so the title follows the hero above without a gap) */
+  align-items: flex-start;
+  height: calc(100vh - var(--nav-height));
+  height: calc(100svh - var(--nav-height));
+}
+/* The steps' dots, over the map's faded left edge, in its middle (the map's
+   picture starts about 6% in and fades over its next 7%; on phones, where the
+   map runs to the screen's edges, just inside it): the maps' pager dots
+   (.map-dot) turned upright, the current one a taller orange pill. */
+.appro-story-dots {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(-50%);
+}
+.map-dot.appro-story-dot {
+  transition:
+    height 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.4s ease;
+}
+.map-dot.appro-story-dot.is-current,
+.map-dot.appro-story-dot.is-current:hover {
+  width: 10px;
+  height: 36px;
+}
+@media (max-width: 1024px) {
+  .appro-story-dots {
+    left: 6%;
+  }
+}
+@media (max-width: 800px) {
+  .appro-story-dots {
+    left: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-dot.appro-story-dot {
+    transition: none;
+  }
+}
+/* Less room above its title than the old map's (it follows the hero, and
+   stays under the navbar while pinned). */
+.appro-story .section--map-hero {
+  padding-top: clamp(64px, 7vw, 96px);
+}
+/* What the current step is about: a small heading and a line, in the map's
+   lower left corner, over its faded edge, with no background of its own;
+   under the map on phones. Each step's slides and fades in. */
+.appro-story-caption {
+  position: absolute;
+  left: 2%;
+  bottom: 4%;
+  z-index: 1;
+  max-width: min(400px, 34%);
+  pointer-events: none;
+}
+.appro-story-caption h3 {
+  margin: 0 0 4px;
+}
+.appro-story-caption p {
+  margin: 0;
+  font-size: var(--text-info);
+  line-height: 1.5;
+  color: var(--secondary-text-color);
+}
+.appro-story-caption-in {
+  animation: appro-story-caption-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes appro-story-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@media (max-width: 1024px) {
+  .appro-story-caption {
+    left: 0;
+    bottom: 2%;
+    max-width: min(340px, 34%);
+  }
+}
+@media (max-width: 800px) {
+  .appro-story-caption {
+    position: static;
+    max-width: none;
+    margin: 12px 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .appro-story-caption-in {
+    animation: none;
+  }
+}
+/* Zoomed out on the wider city, round the map's middle, till the first step
+   (.is-in), when it zooms in by itself. */
+.appro-story-zoom {
+  transform-box: view-box;
+  transform-origin: 600px 300px;
+  transform: scale(0.5);
+  transition: transform 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.appro-story-zoom.is-in {
+  transform: none;
+}
+/* A marker: hidden above its place till its turn, then dropping in with a
+   little bounce; lifting away again when scrolled back up. */
+.appro-story-pin {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.appro-story-pin.is-in {
+  opacity: 1;
+  transform: none;
+}
+/* A host, with their "Invited" tag: popping up beside their marker with a
+   little bounce in their turn; shrinking away again when scrolled back up. */
+.appro-story-host {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  opacity: 0;
+  transform: scale(0.3);
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.appro-story-host.is-in {
+  opacity: 1;
+  transform: none;
+}
+/* A host's photo rim and tags: orange "Invited" at first; accepting (.is-accepted,
+   each host --accept after the first), the rim turns green and a green
+   "Accepted" pops up in the tag's place, stays a moment and goes as the photo
+   shrinks onto the marker's lower right edge (from beside it, 32 right and
+   level with its middle, to 11 right and 11 below). Scrolled back up, it's all
+   undone at once. */
+.appro-story-rim {
+  fill: var(--primary-color1);
+  transition: fill 0.3s ease;
+}
+.is-accepted .appro-story-rim {
+  fill: var(--yes-color);
+  transition-delay: var(--accept);
+}
+.appro-story-invited {
+  transition: opacity 0.2s ease;
+}
+.is-accepted .appro-story-invited {
+  opacity: 0;
+  transition-delay: var(--accept);
+}
+.appro-story-accepted {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+}
+.is-accepted .appro-story-accepted {
+  animation: appro-story-accepted 2.2s ease var(--accept) both;
+}
+@keyframes appro-story-accepted {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  12%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.appro-story-dock {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.3, 0.6, 0.4, 1);
+}
+.is-accepted .appro-story-dock {
+  transform: translate(-21px, 11px) scale(0.8);
+  transition-delay: calc(var(--accept) + 1.9s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .appro-story-zoom,
+  .appro-story-host,
+  .appro-story-rim,
+  .appro-story-invited,
+  .appro-story-dock,
+  .appro-story-pin {
+    transition: none !important;
+  }
+  .appro-story-accepted {
+    animation: none !important;
+  }
+}
+
+/* ---------- What happens at a checkpoint (home, CheckpointStory) ---------- */
+/* One thing a row, under one another: the picture on one side, the title and
+   lines on the other, the sides swapping row by row; stacked on phones and
+   small tablets, the picture on top. No card round a row (they aren't links). */
+.checkpoint-blocks {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(56px, 8vw, 104px);
+  margin: clamp(40px, 6vw, 72px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.checkpoint-block {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 88px);
+  margin: 0;
+}
+/* Every other row: the words first, the picture on the right. */
+.checkpoint-block:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+}
+.checkpoint-block:nth-child(even) .checkpoint-story-figure {
+  order: 2;
+}
+/* Behind the section: a route in a see-through black from the title weaving
+   down the section from one picture to the next, drawn on as you scroll
+   (TrackLine). */
+.checkpoint-story {
+  position: relative;
+}
+.checkpoint-story > .intro,
+.checkpoint-track {
+  position: relative;
+}
+.checkpoint-track {
+  position: relative;
+  /* Narrower than the content column on wide screens, in its middle. */
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+/* (The pictures start a little off to the side before they slide in; the
+   section clips them so the page never scrolls sideways.) */
+.section--services {
+  overflow-x: clip;
+}
+.checkpoint-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  /* Starting right at the title, fading out at its bottom. */
+  -webkit-mask-image: linear-gradient(#000 96%, transparent);
+  mask-image: linear-gradient(#000 96%, transparent);
+}
+.checkpoint-line path {
+  fill: none;
+  stroke-linecap: round;
+}
+/* The route: a dashed line in a see-through black (the text's dark, faint),
+   drawn on as you scroll by the solid pen under its mask (easing a little
+   behind, so it flows). */
+.checkpoint-line-drawn {
+  fill: none;
+  stroke: var(--primary-text-color);
+  stroke-opacity: 0.11;
+  stroke-width: 9;
+  stroke-linecap: round;
+  /* (Round ends add half the width to each dash: about 19 long, 13 apart) */
+  stroke-dasharray: 10 22;
+}
+.checkpoint-line-pen {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 16;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .checkpoint-line-pen {
+    transition: none;
+  }
+}
+/* Stacked (phones), the rows don't swap sides, so there's no line. */
+@media (max-width: 800px) {
+  .checkpoint-line {
+    display: none;
+  }
+}
+
+.checkpoint-block-words {
+  position: relative;
+  z-index: 1;
+  max-width: 30em;
+}
+.checkpoint-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+.checkpoint-block-head h3 {
+  margin: 0;
+}
+.checkpoint-block-words p {
+  margin: 12px 0 0;
+  font-size: var(--text-info);
+  line-height: 1.6;
+  color: var(--secondary-text-color);
+}
+/* The picture, with no box round it (the map keeps its rounded corners), on
+   a soft blob in the colour that stands out from the band (--panel), reaching
+   a little past it. */
+.checkpoint-story-figure {
+  max-width: none;
+}
+.checkpoint-story-figure > .blob-panel-shape {
+  fill: var(--panel);
+  opacity: 1;
+  /* Blurred: a soft glow behind the picture rather than a crisp shape. */
+  filter: blur(24px);
+}
+.checkpoint-story-stage {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  /* (Its pictures sized to it: cqw) */
+  container-type: inline-size;
+  border-radius: var(--radius-lg);
+}
+/* The maps fill their picture: no blob behind them and no rounded corners;
+   instead their edges fade softly into the band, like the home page's Appro
+   map (.section--map-hero .route-viewport): the sides over 14%, the top and
+   bottom over 16%. */
+.checkpoint-story-figure.is-shaped > .blob-panel-shape,
+.checkpoint-story-figure.is-plain > .blob-panel-shape {
+  display: none;
+}
+.checkpoint-story-figure.is-shaped .checkpoint-story-stage {
+  border-radius: 0;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-composite: intersect;
+}
+/* On phones the blob stays inside the page's side room. */
+@media (max-width: 800px) {
+  .checkpoint-story-figure > .blob-panel-shape {
+    top: -6%;
+    left: -5%;
+    width: 110%;
+    height: 112%;
+  }
+}
+.checkpoint-story-scene {
+  position: absolute;
+  inset: 0;
+}
+/* A picture out of view stands still (it starts again from the beginning
+   when it comes back into view, CheckpointStory). */
+.checkpoint-story-stage.is-paused *,
+.checkpoint-story-stage.is-paused *::before,
+.checkpoint-story-stage.is-paused *::after {
+  animation-play-state: paused !important;
+}
+/* The drawn pictures (history, tickets) leave out their own ground here, so
+   the blob shows through. */
+.checkpoint-story-stage .scene-ground {
+  fill: transparent;
+}
+/* The log here: its dots plain, the see-through dark of the text (coloured
+   elsewhere), its entries in the light colour (white elsewhere). */
+.checkpoint-story-stage--history .scene-history-dot {
+  fill: var(--secondary-text-color);
+}
+.checkpoint-story-stage--history .scene-history-entry {
+  fill: var(--building-top);
+}
+/* Here the log fills up from the bottom, one entry at a time (13:31, 13:40,
+   13:52, then 14:05 at the top), each sliding in as the timeline's line grows
+   up to it; they stay a moment, then all fade out together and the next
+   round starts straight away. */
+.checkpoint-story-stage--history .scene-history-row-3 {
+  animation: history-in-1 7s ease-in-out infinite;
+}
+.checkpoint-story-stage--history .scene-history-row-2 {
+  animation: history-in-2 7s ease-in-out infinite;
+}
+.checkpoint-story-stage--history .scene-history-row-1 {
+  animation: history-in-3 7s ease-in-out infinite;
+}
+.checkpoint-story-stage--history .scene-history-row-0 {
+  animation: history-in-4 7s ease-in-out infinite;
+}
+.checkpoint-story-stage--history .scene-history-line {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: history-line 7s ease-in-out infinite;
+}
+/* (The first comes in right as the round starts.) */
+@keyframes history-in-1 {
+  0% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  8%,
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes history-in-2 {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  22%,
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes history-in-3 {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  36%,
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes history-in-4 {
+  0%,
+  42% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  50%,
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+/* The line, from the bottom: none at the start, then up to the first entry,
+   the second, the third and the top (its whole length), with each as it
+   comes in; and gone again as they go. */
+@keyframes history-line {
+  0% {
+    transform: scaleY(0);
+  }
+  8%,
+  12% {
+    transform: scaleY(0.22);
+  }
+  20%,
+  26% {
+    transform: scaleY(0.48);
+  }
+  34%,
+  40% {
+    transform: scaleY(0.74);
+  }
+  48%,
+  86% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .checkpoint-story-stage--history .scene-history-row,
+  .checkpoint-story-stage--history .scene-history-line {
+    animation: none;
+  }
+}
+/* The tickets in the light colour here (white elsewhere), a thin cream edge
+   round each so the two stay apart where they overlap. */
+.checkpoint-story-stage--tickets .scene-ticket-paper {
+  fill: var(--building-top);
+  stroke: var(--primary-color);
+  stroke-width: 2;
+}
+.checkpoint-story-tag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--accent-text-color);
+}
+/* Coming into view: the picture slides in from its own side, the words rise
+   in just after it. */
+.checkpoint-block .checkpoint-story-figure,
+.checkpoint-block .checkpoint-block-words {
+  opacity: 0;
+  transition:
+    opacity 0.6s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.checkpoint-block .checkpoint-story-figure {
+  transform: translateX(-40px);
+}
+.checkpoint-block:nth-child(even) .checkpoint-story-figure {
+  transform: translateX(40px);
+}
+.checkpoint-block .checkpoint-block-words {
+  transform: translateY(20px);
+  transition-delay: 0.15s;
+}
+.checkpoint-block.is-visible .checkpoint-story-figure,
+.checkpoint-block.is-visible .checkpoint-block-words {
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 800px) {
+  .checkpoint-block,
+  .checkpoint-block:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .checkpoint-block:nth-child(even) .checkpoint-story-figure {
+    order: 0;
+  }
+  .checkpoint-block .checkpoint-story-figure,
+  .checkpoint-block:nth-child(even) .checkpoint-story-figure {
+    transform: translateY(24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .checkpoint-block .checkpoint-story-figure,
+  .checkpoint-block:nth-child(even) .checkpoint-story-figure,
+  .checkpoint-block .checkpoint-block-words {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+/* The pictures (CheckpointScenes): an event photo filling the panel, slowly
+   drifting closer while it shows, and a small app card over it in the light
+   colour, rising in with its bits popping in after it. */
+.cp-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 6s ease-out;
+}
+.checkpoint-story-scene.is-current .cp-photo {
+  transform: scale(1);
+}
+.cp-card {
+  position: absolute;
+  left: 5%;
+  bottom: 7%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.45s ease 0.2s,
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+}
+.checkpoint-story-scene.is-current .cp-card {
+  opacity: 1;
+  transform: none;
+}
+.cp-card--history {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: min(280px, 70%);
+}
+.cp-avatar {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--yes-color);
+  object-fit: cover;
+}
+.cp-avatar--big {
+  width: 40px;
+  height: 40px;
+}
+.cp-card-words {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cp-name {
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: var(--secondary-color);
+  white-space: nowrap;
+}
+.cp-sub,
+.cp-time {
+  font-size: var(--text-chip);
+  color: var(--secondary-text-color);
+}
+.cp-card-title {
+  font-size: var(--text-chip);
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+.cp-status {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--yes-color);
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+/* A row of a list (the log), each rising in after the one
+   before. */
+.cp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(0.45s + var(--r) * 0.12s);
+}
+.checkpoint-story-scene.is-current .cp-row {
+  opacity: 1;
+  transform: none;
+}
+.cp-row .cp-name {
+  flex: 1;
+}
+.cp-faces {
+  display: flex;
+}
+.cp-faces .cp-avatar + .cp-avatar {
+  margin-left: -9px;
+}
+.cp-points {
+  font-size: var(--text-chip);
+  font-weight: 800;
+  color: var(--yes-color);
+  font-variant-numeric: tabular-nums;
+}
+.cp-added {
+  position: absolute;
+  right: -6px;
+  top: -16px;
+  font-size: var(--text-chip);
+  font-weight: 800;
+  color: var(--primary-color1);
+}
+/* Something popping in once the card is in. */
+.cp-pop {
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.25s ease,
+    transform 0.4s cubic-bezier(0.3, 1.5, 0.5, 1);
+  transition-delay: 0s;
+}
+.checkpoint-story-scene.is-current .cp-pop {
+  opacity: 1;
+  transform: none;
+  transition-delay: 1s;
+}
+/* The participants' map (ParticipantMap): the map piece filling the panel;
+   the participant walks the streets round its checkpoints, a "Checked in"
+   over them at each (keyframes cp-walk and cp-walk-tag, made in
+   CheckpointScenes.jsx; moved in the map picture's units). Still, with
+   reduced motion: at the meeting point, checked in. */
+.cp-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* The participants' map picture lifted to the light colour (its cream land
+   comes out about --building-top), so it stands out from the cream band; the
+   markers and people on it keep their colours. */
+.checkpoint-story-stage--map .cp-map > image {
+  filter: brightness(1.04);
+}
+.cp-walker {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  transform: translate(500px, 358px);
+  animation: cp-walk linear infinite;
+}
+.cp-walker-tag-show {
+  opacity: 0;
+  animation: cp-walk-tag linear infinite;
+}
+/* The participant's blue location dot: white ring, and a faint blue halo
+   pulsing out round it. */
+.cp-location-dot {
+  fill: var(--location-color);
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+.cp-location-halo {
+  fill: var(--location-color);
+  opacity: 0.18;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cp-location-pulse 2s ease-out infinite;
+}
+@keyframes cp-location-pulse {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+/* Managing the checkpoints (CheckpointScenes, ManageCheckpoints): the home
+   page's Appro map and its round (GatheringMap), filling the picture, flat (no
+   tilt, no sideways scrolling or swipe hint), drawn 1.85 times the picture's
+   width and cut round the markers, gathered in its middle, with room round
+   them so they stay inside the picture's blob shape (about x 271 to 920 of
+   the map, and y 109 to 541; y 82 to 568 in the taller picture on phones). */
+.cp-manage {
+  position: absolute;
+  inset: 0;
+}
+.cp-manage .route-map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  transform: none;
+}
+.cp-manage .route-viewport {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  perspective: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.cp-manage .route-plane {
+  width: 185%;
+  margin: -12% 0 0 -38%;
+  transform: none;
+}
+@media (max-width: 600px) {
+  .cp-manage .route-plane {
+    margin-top: -12.6%;
+  }
+}
+.cp-manage .route-hint {
+  display: none;
+}
+/* The event's info (EventInfo): one light card, its fields (on the cream)
+   filled in one after another, each its label over its value, the one being
+   filled outlined in orange; the start and the end side by side with an
+   arrow between, each its date and time on one line. */
+.cp-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5% 6%;
+}
+.cp-info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  width: min(100%, 380px);
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  font-size: var(--text-chip);
+}
+.cp-info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: var(--primary-color);
+  transition: border-color 0.3s ease;
+}
+.cp-info-field.is-current {
+  border-color: var(--primary-color1);
+}
+.cp-info-label {
+  color: var(--secondary-text-color);
+}
+.cp-info-value {
+  /* (Room for its value before it's filled in, so the card keeps its size) */
+  min-height: 1.4em;
+  font-weight: 700;
+  color: var(--secondary-color);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cp-info-field.is-filled .cp-info-value {
+  opacity: 1;
+  transform: none;
+}
+.cp-info-when {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cp-info-when > .cp-info-field {
+  flex: 1;
+}
+/* The start's and the end's date and time on one line. */
+.cp-info-when .cp-info-value {
+  white-space: nowrap;
+}
+.cp-info-time {
+  margin-left: 6px;
+  color: var(--accent-text-color);
+}
+.cp-info-arrow {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--secondary-text-color);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* In a narrow picture (phones): each field one row, its label left of its
+   value (the description cut to one line), the start over the end. */
+@container (max-width: 460px) {
+  .cp-info-form {
+    gap: 5px;
+    padding: 10px;
+  }
+  .cp-info-field {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 10px;
+  }
+  .cp-info-label {
+    flex: none;
+  }
+  .cp-info-value {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .cp-info-when {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+  .cp-info-arrow {
+    display: none;
+  }
+}
+/* Sharing the event (InviteParticipants): a switch on top ("Share" and
+   "Invite", the lit one flat in the darker orange, sliding across) over one
+   light card at a time, both in the same place (the share card as big as the
+   people's). Share first: the share icon with its label, pressed in for a
+   moment when tapped; then (.is-inviting) the people, each with a radio
+   button on the right, picked one after another (an orange dot popping in),
+   the "Send invitation" button under them pressed, the list then giving way
+   to "Invitation sent" with a green tick. */
+.cp-invite {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 5%;
+}
+.cp-invite-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--building-top);
+  font-size: var(--text-chip);
+  font-weight: 700;
+}
+/* The lit tab: a flat pill sliding under the words. */
+.cp-invite-tabs::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: var(--accent-text-color);
+  transition: transform 0.4s cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+.cp-invite.is-inviting .cp-invite-tabs::before {
+  transform: translateX(100%);
+}
+.cp-invite-tab {
+  position: relative;
+  padding: 4px 18px;
+  text-align: center;
+  color: var(--secondary-text-color);
+  transition: color 0.3s ease;
+}
+.cp-invite:not(.is-inviting) .cp-invite-tab.is-share,
+.cp-invite.is-inviting .cp-invite-tab.is-invite {
+  color: #fff;
+}
+/* The two cards in the same place. */
+.cp-invite-cards {
+  display: grid;
+  width: min(100%, 340px);
+}
+.cp-invite-cards > span {
+  grid-area: 1 / 1;
+}
+.cp-invite-people,
+.cp-invite-share {
+  box-sizing: border-box;
+  min-width: 0;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  font-size: var(--text-chip);
+}
+/* (The list and the sent view in the same place, so the card keeps its
+   size as one gives way to the other.) */
+.cp-invite-people {
+  display: grid;
+  padding: 12px;
+}
+.cp-invite-list,
+.cp-invite-done {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cp-invite-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cp-invite-people.is-sent .cp-invite-list {
+  opacity: 0;
+  transform: scale(0.96);
+}
+/* Sent: a green tick popping in over the words, in the card's middle. */
+.cp-invite-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--secondary-color);
+  opacity: 0;
+  transform: scale(0.9);
+}
+.cp-invite-people.is-sent .cp-invite-done {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+.cp-invite-tick {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--yes-color);
+  transform: scale(0.4);
+  transition: transform 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) 0.2s;
+}
+.cp-invite-people.is-sent .cp-invite-tick {
+  transform: none;
+}
+.cp-invite-tick svg {
+  width: 60%;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Each person a row, a thin cream line between them (no colour behind the
+   picked ones: their radio button shows it). */
+.cp-invite-person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 8px;
+}
+.cp-invite-person + .cp-invite-person {
+  border-top: 1.5px solid var(--primary-color);
+}
+.cp-invite-person .cp-avatar {
+  width: 22px;
+  height: 22px;
+  border-color: var(--primary-color);
+}
+.cp-invite-person .cp-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+/* The radio button: a ring, its orange dot popping in once picked. */
+.cp-radio {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--secondary-text-color);
+  border-radius: 50%;
+  transition: border-color 0.25s ease;
+}
+.cp-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--primary-color1);
+  transform: scale(0);
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.is-picked > .cp-radio {
+  border-color: var(--primary-color1);
+}
+.is-picked > .cp-radio::after {
+  transform: scale(1);
+}
+.cp-invite-send {
+  margin-top: 4px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--button-dark);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}
+/* Pressed: pushed in for a moment. */
+.cp-invite-send.is-pressed {
+  transform: scale(0.95);
+  background: var(--button-dark-hover);
+}
+/* The share card, a share sheet: the link's preview on top (a photo, the
+   event's title, when and the link, which turns into a green "Link copied"),
+   the ways to share it in a row under it. */
+.cp-invite-share {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  padding: 12px;
+}
+.cp-share-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--primary-color);
+}
+.cp-share-thumb {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.cp-share-words {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cp-share-title {
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+.cp-share-when {
+  font-weight: 600;
+  color: var(--accent-text-color);
+}
+.cp-share-title,
+.cp-share-when,
+.cp-share-link {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* The link and "Link copied" in the same place, one giving way to the
+   other. */
+.cp-share-link-line {
+  display: grid;
+  min-width: 0;
+}
+.cp-share-link-line > span {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cp-share-link {
+  color: var(--secondary-text-color);
+}
+.cp-share-copied {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--yes-color);
+  opacity: 0;
+  transform: translateY(6px);
+}
+.cp-invite-share.is-copied .cp-share-link {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.cp-invite-share.is-copied .cp-share-copied {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+/* The ways to share: round icons with their names, popping in one after
+   another as the sheet opens. */
+.cp-share-targets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.cp-share-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(10px) scale(0.8);
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.cp-invite-share.is-open .cp-share-target {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * 0.1s);
+}
+.cp-share-target-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--accent-text-color);
+  font-size: var(--text-item);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+.cp-share-target-label {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+/* Copied: the first (Copy link) lit and pressed. */
+.cp-invite-share.is-copied .cp-share-target:first-child .cp-share-target-icon {
+  background: var(--primary-color1);
+  color: #fff;
+  transform: scale(0.92);
+}
+/* One card gives way to the other: fading, the one leaving shrinking a
+   little, the one coming in growing into place. */
+.cp-invite-people,
+.cp-invite-share {
+  transition:
+    opacity 0.4s ease,
+    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cp-invite-people {
+  opacity: 0;
+  transform: scale(1.04);
+}
+.cp-invite.is-inviting .cp-invite-share {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.cp-invite.is-inviting .cp-invite-people {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+/* In a narrow picture (phones): a little tighter, two people. */
+@container (max-width: 460px) {
+  .cp-invite {
+    gap: 8px;
+    padding: 4% 6%;
+  }
+  .cp-invite-people {
+    padding: 10px;
+  }
+  .cp-invite-person {
+    padding: 4px 6px;
+  }
+  .cp-invite-tick {
+    width: 32px;
+    height: 32px;
+  }
+  .cp-invite-person:nth-child(3) {
+    display: none;
+  }
+  .cp-invite-share {
+    gap: 8px;
+    padding: 10px;
+  }
+  .cp-share-thumb {
+    width: 40px;
+    height: 40px;
+  }
+  .cp-share-target-icon {
+    width: 34px;
+    height: 34px;
+    font-size: var(--text-chip);
+  }
+  .cp-share-target-label {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cp-invite-person,
+  .cp-radio,
+  .cp-radio::after,
+  .cp-invite-send,
+  .cp-invite-list,
+  .cp-invite-done,
+  .cp-invite-tick,
+  .cp-invite-share,
+  .cp-share-target,
+  .cp-share-target-icon,
+  .cp-share-link-line > span,
+  .cp-invite-tabs::before,
+  .cp-invite-tab,
+  .cp-info-value,
+  .cp-info-field {
+    transition: none;
+  }
+}
+/* Check-in: a phone scanning a QR code beside the participant list being
+   searched, with nothing behind them. */
+.cp-scan {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6%;
+  padding: 5% 6%;
+}
+.cp-phone {
+  position: relative;
+  flex: none;
+  height: 92%;
+  aspect-ratio: 9 / 18.5;
+  padding: 4px;
+  border-radius: 22px;
+  background: var(--secondary-color);
+  box-sizing: border-box;
+}
+/* The screen: the camera's view, a small pill at its top (the camera island),
+   the scanning and the checked in taking turns in its middle. */
+.cp-phone-screen {
+  position: relative;
+  display: grid;
+  height: 100%;
+  border-radius: 18px;
+  background: #2b1f15;
+  overflow: hidden;
+}
+/* Its buttons on the sides (volume on the left, power on the right) and the
+   bar at the bottom of the screen. */
+.cp-phone::before,
+.cp-phone::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--secondary-color);
+}
+.cp-phone::before {
+  left: -2px;
+  top: 22%;
+  height: 12%;
+}
+.cp-phone::after {
+  right: -2px;
+  top: 28%;
+  height: 16%;
+}
+.cp-home-bar {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  width: 34%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateX(-50%);
+}
+.cp-island {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 30%;
+  height: 4%;
+  border-radius: 999px;
+  background: #000;
+  transform: translateX(-50%);
+}
+.cp-scanning,
+.cp-scanned {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: 4.8s ease-in-out infinite;
+}
+.cp-scanning {
+  animation-name: cp-scanning;
+}
+.cp-scanned {
+  animation-name: cp-scanned;
+}
+/* Scanning for 2.6s, then checked in for 1.8s, then the next. */
+@keyframes cp-scanning {
+  0%,
+  52% {
+    opacity: 1;
+    transform: none;
+  }
+  58%,
+  94% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cp-scanned {
+  0%,
+  54% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  62%,
+  90% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+/* The name and "checked in" small on the phone's screen: the smallest text
+   size, drawn smaller still (scaled, not a new size). */
+.cp-scanned-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.72);
+}
+.cp-scanned-name,
+.cp-scanned-text {
+  text-align: center;
+  white-space: nowrap;
+}
+.cp-scanned-name {
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: #fff;
+}
+.cp-scanned-text {
+  margin-top: -6px;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--yes-color-light);
+}
+.cp-qr {
+  position: relative;
+  width: 56%;
+  aspect-ratio: 1;
+  padding: 8%;
+  border-radius: 6px;
+  background: #fff;
+}
+.cp-qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: #2b1f15;
+}
+/* The camera's corners round the code, in the brand orange. */
+.cp-qr-corners {
+  position: absolute;
+  inset: -10%;
+  border: 3px solid var(--primary-color1);
+  border-radius: 6px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) top left / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) top right / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) bottom left / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) bottom right / 28% 28% no-repeat;
+  mask:
+    linear-gradient(#000 0 0) top left / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) top right / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) bottom left / 28% 28% no-repeat,
+    linear-gradient(#000 0 0) bottom right / 28% 28% no-repeat;
+}
+/* A line sweeping down and up over the code: a box as tall as its way down,
+   the line on its top edge, moved its own height. */
+.cp-scanline {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 6%;
+  height: 86%;
+  border-top: 3px solid var(--primary-color1);
+  animation: cp-scan 1.8s ease-in-out infinite alternate;
+}
+@keyframes cp-scan {
+  to {
+    transform: translateY(100%);
+  }
+}
+.cp-tick {
+  display: grid;
+  place-items: center;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--yes-color);
+}
+.cp-tick svg {
+  width: 70%;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* The participant list: a light card, a search field (on the cream) with the
+   typed name and a blinking caret, then the people, the one found lit up. */
+.cp-search {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* (As tall as the phone, so it keeps its size as the list gets shorter) */
+  align-self: stretch;
+  margin: 6% 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: min(58%, 300px);
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+}
+.cp-search-field {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--primary-color);
+  font-size: var(--text-chip);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+.cp-caret {
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  background: var(--primary-color1);
+  animation: cp-caret 1s steps(1) infinite;
+}
+@keyframes cp-caret {
+  50% {
+    opacity: 0;
+  }
+}
+/* The list under the field, refreshed with each letter typed: just the
+   people who match, fading in anew each time. */
+.cp-results {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 2px;
+  overflow: hidden;
+  /* (A longer list fades out at the bottom, as if it scrolls on) */
+  -webkit-mask-image: linear-gradient(#000 78%, transparent);
+  mask-image: linear-gradient(#000 78%, transparent);
+  animation: cp-results 0.3s ease both;
+}
+@keyframes cp-results {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.cp-person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  transition: background-color 0.3s ease;
+}
+.cp-search-field.is-empty {
+  font-weight: 500;
+  color: var(--secondary-text-color);
+}
+.cp-person .cp-avatar {
+  width: 22px;
+  height: 22px;
+  border-color: var(--primary-color);
+}
+.cp-person .cp-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+.cp-person.is-match {
+  background: var(--primary-color);
+}
+.cp-person.is-match .cp-avatar {
+  border-color: var(--yes-color);
+}
+@media (max-width: 600px) {
+  .cp-search {
+    padding: 8px;
+    gap: 5px;
+  }
+}
+/* The leaderboard podium: three places in a row on the light colour, the
+   middle one raised; they rise in (the winners first), the crown popping in
+   after. Profile photos plain (no green rim) and bigger here. */
+/* (The podium and the list under it, together in the middle) */
+.cp-score {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqw;
+  padding: 4% 6%;
+}
+.cp-podium {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: center;
+  align-content: center;
+  align-items: end;
+  column-gap: 7cqw;
+}
+.cp-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(0.15s + var(--r) * 0.15s);
+}
+.cp-place.is-first {
+  /* (Raised a little over the other two) */
+  margin-bottom: 4cqw;
+}
+.checkpoint-story-scene.is-current .cp-place {
+  opacity: 1;
+  transform: none;
+}
+.cp-faces--podium .cp-avatar--podium {
+  width: 10cqw;
+  height: 10cqw;
+  border: 3px solid var(--building-top);
+}
+.is-first .cp-faces--podium .cp-avatar--podium {
+  width: 12.5cqw;
+  height: 12.5cqw;
+}
+.cp-faces--podium .cp-avatar + .cp-avatar {
+  margin-left: -18%;
+}
+.cp-crown {
+  width: 5.5cqw;
+  margin-top: 2px;
+  fill: var(--primary-color1);
+}
+.cp-place-name {
+  white-space: nowrap;
+  font-size: var(--text-chip);
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+.cp-place-points {
+  position: relative;
+  font-size: var(--text-chip);
+  font-weight: 400;
+  color: var(--secondary-text-color);
+}
+.cp-place-points .cp-added {
+  position: static;
+  display: inline-block;
+  margin-left: 4px;
+}
+/* The places after the podium: a light card, each place a row (its number,
+   photo, name and points on the right) with a thin cream line between them,
+   rising in one after another once the podium's up. */
+.cp-ranks {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(100%, 320px);
+  margin: 0;
+  padding: 8px;
+  border-radius: var(--radius);
+  background: var(--building-top);
+  list-style: none;
+  font-size: var(--text-chip);
+}
+.cp-rank {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--text-chip);
+  line-height: 1.4;
+  padding: 6px 12px 6px 6px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(0.75s + var(--r) * 0.15s);
+}
+.cp-rank + .cp-rank {
+  border-top: 1.5px solid var(--primary-color);
+}
+.checkpoint-story-scene.is-current .cp-rank {
+  opacity: 1;
+  transform: none;
+}
+.cp-rank-number {
+  flex: none;
+  width: 22px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--secondary-text-color);
+}
+.cp-rank .cp-avatar {
+  width: 22px;
+  height: 22px;
+  border-color: var(--building-top);
+}
+.cp-rank-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+}
+.cp-rank-points {
+  flex: none;
+  color: var(--secondary-text-color);
+}
+@container (max-width: 460px) {
+  .cp-score {
+    gap: 3cqw;
+    padding: 1% 6%;
+  }
+  .cp-place {
+    gap: 2px;
+  }
+  .cp-place.is-first {
+    margin-bottom: 2cqw;
+  }
+  .cp-ranks {
+    padding: 4px 6px;
+  }
+  .cp-rank {
+    padding: 4px 10px 4px 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cp-rank {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+/* The album: three instant photos fanned out, overlapping, each with a soft
+   shadow so they stand apart; dealt in one after another. */
+.cp-album {
+  position: absolute;
+  inset: 0;
+}
+.cp-album-photo {
+  position: absolute;
+  /* (In the middle of the panel, top to bottom) */
+  top: 18%;
+  left: calc(12% + var(--p) * 24%);
+  width: 34%;
+  aspect-ratio: 1;
+  /* An instant camera's print: a thin edge in the light colour round the
+     photo, a deep blank strip under it (sized with the picture: about 6px
+     and 38px on a desktop). */
+  border: solid var(--building-top);
+  border-width: 1.2cqw 1.2cqw 7.6cqw;
+  border-radius: 4px;
+  background: var(--building-top);
+  box-shadow: var(--photo-shadow);
+  object-fit: cover;
+  opacity: 0;
+  transform: translateY(24px) rotate(calc((var(--p) - 1) * 7deg));
+  transition:
+    opacity 0.4s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--p) * 0.15s);
+}
+.checkpoint-story-scene.is-current .cp-album-photo {
+  opacity: 1;
+  transform: rotate(calc((var(--p) - 1) * 7deg));
+}
+.checkpoint-story-scene .service-scene {
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 600px) {
+  /* Taller on phones, so the photo still shows round its card. */
+  .checkpoint-story-stage {
+    aspect-ratio: 4 / 3;
+  }
+  .cp-card {
+    padding: 8px 10px;
+  }
+  .cp-avatar {
+    width: 22px;
+    height: 22px;
+  }
+  .cp-avatar--big {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cp-walker,
+  .cp-walker-tag-show,
+  .cp-location-halo,
+  .cp-scanline,
+  .cp-caret,
+  .cp-results,
+  .cp-scanning,
+  .cp-scanned {
+    animation: none;
+  }
+  .cp-scanned {
+    display: none;
+  }
+  .cp-walker-tag-show {
+    opacity: 1;
+  }
+  .cp-photo,
+  .cp-card,
+  .cp-row,
+  .cp-pop,
+  .cp-album-photo {
+    transition: none;
   }
 }

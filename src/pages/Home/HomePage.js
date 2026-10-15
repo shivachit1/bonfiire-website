@@ -4,23 +4,24 @@ import Intro from "../../layout/Intro";
 import LogoStrip from "../../layout/LogoStrip";
 import GatheringShowcase from "../../layout/GatheringShowcase";
 import ApproHero from "../../layout/ApproHero";
+import ApproMapNew from "../../layout/ApproMapNew";
 import PhotoHero from "../../layout/PhotoHero";
-import ServiceList from "../../layout/ServiceList";
+import PhotoBlobs from "../../layout/PhotoBlobs";
+import CheckpointStory from "../../layout/CheckpointStory";
 import PartyScene from "../../layout/PartyScene";
 import BlobPanel from "../../layout/BlobPanel";
 import Testimonials from "../../layout/Testimonials";
 import Faq from "../../layout/Faq";
-import AppLinks from "../../components/AppLinks/AppLinks";
 import { useContent } from "../../i18n";
 import { visible } from "../../content/content";
 import LinkLabel from "../../layout/LinkLabel";
 
-// Home, top to bottom: the promise with the app store buttons beside photos
-// from events → the visitor's own Appro on its map, its title over it and
-// small cards of example Appros under it → what you get when you host an Appro
+// Home, top to bottom: the promise with the app store buttons beside the
+// app's screenshots sliding past → the visitor's own Appro on its map, its title over it → what you get when you host an Appro
 // (a row of cards) → the promise (light the Bonfiire of connection) with the app
 // store buttons → or keep it in one place (the single-location event) →
-// planning a party in one place? (the organizing guide) →
+// planning a party in one place? (the organizing guide) → photos from events
+// in blob shapes →
 // who trusts us → what people say → questions.
 // The cream (warm) background throughout, the odd section on the light one.
 // Section titles line up on the left, like the hero (the Appro map's is centred).
@@ -28,19 +29,24 @@ import LinkLabel from "../../layout/LinkLabel";
 // (`doodles`).
 // Text lives in src/content/<language>/home.json (the Appro events in appro.json) and
 // the list files next to them.
+// The Appro map near the top: the new one being worked on (ApproMapNew), or
+// the one before it (ApproHero, kept as it is). false brings the old one back.
+const NEW_APPRO_MAP = false;
+// Whether that map is shown at all: hidden for now (2026-10-14), its title
+// ("Hosting an Appro has never been easier") heading the Appro flow below
+// instead (CheckpointStory). true brings the map back.
+const SHOW_APPRO_MAP = false;
+
 const HomePage = () => {
   const {
-    hero,
-    hostAppro,
+    contact,
     hostGathering,
     onePlace,
     photoHero,
+    eventPhotos,
     popular,
-    services,
+    checkpoint,
   } = useContent("home");
-  const appro = useContent("appro");
-  // The Appros on the map up top: the visitor's own first, then taking turns.
-  const featuredEvents = popular.events.map((key) => appro.events[key]);
   const partners = useContent("partners");
   const testimonials = useContent("testimonials");
   const faq = useContent("faq");
@@ -52,54 +58,73 @@ const HomePage = () => {
   return (
     <div className="sections--light-first">
       {/* The very top: the promise (light the Bonfiire of connection, the
-          page's h1), a line and the app store buttons, beside real photos from
-          events gliding past in tilted columns. */}
+          page's h1), a line and the app store buttons, beside the app's
+          screenshots sliding past in a row. */}
       <PhotoHero
         layout={photoHero.layout}
         title={photoHero.title}
         text={photoHero.text}
-        photos={photoHero.photos}
-        photosLabel={photoHero.photosLabel}
+        screens={photoHero.screens}
+        screensLabel={photoHero.screensLabel}
       />
 
       {/* Then: the title and a few lines, the visitor's own Appro on its map
-          (signs dropping in), and small cards of example Appros under it, each
-          opening its page. On a cream band, like the navbar above it. */}
-      <ApproHero
-        title={popular.title}
-        text={popular.text}
-        next={{
-          ...popular.next,
-          labels: {
-            ...popular.next.labels,
-            swipe: onePlace.map.labels.swipe,
-          },
-        }}
-        events={featuredEvents}
-        eventsLabel={popular.eventsLabel}
-        link={hostAppro.instructions}
-        titleAs="h2"
-      />
+          (signs dropping in). On a cream band, like the navbar above it. */}
+      {SHOW_APPRO_MAP && NEW_APPRO_MAP && (
+        <ApproMapNew
+          title={popular.title}
+          text={popular.text}
+          next={{
+            ...popular.next,
+            labels: {
+              ...popular.next.labels,
+              swipe: onePlace.map.labels.swipe,
+            },
+          }}
+          titleAs="h2"
+        />
+      )}
+      {SHOW_APPRO_MAP && !NEW_APPRO_MAP && (
+        <ApproHero
+          title={popular.title}
+          text={popular.text}
+          next={{
+            ...popular.next,
+            labels: {
+              ...popular.next.labels,
+              swipe: onePlace.map.labels.swipe,
+            },
+          }}
+          titleAs="h2"
+        />
+      )}
 
-      {/* What you get when you host an Appro: on the cream, a row of cards you
-          swipe or scroll sideways, each an icon, a title and a line, in the map's
-          building colours */}
+      {/* Hosting an Appro, step by step (CheckpointStory): managing the
+          checkpoints on the map, inviting participants, their map, check-in,
+          scoring and the rest, each in a row of its own with its picture */}
       <Section className="section--services">
-        <Intro title={services.title}>
-          <ServiceList
-            items={services.items}
-            layout="row"
-            label={services.dotsLabel}
-          />
-        </Intro>
+        <CheckpointStory
+          title={checkpoint.title}
+          text={checkpoint.text}
+          steps={checkpoint.steps}
+          label={checkpoint.stepsLabel}
+        />
       </Section>
 
-      {/* The promise (light the Bonfiire of connection) and the app store buttons,
-          after what organizers get */}
+      {/* Need a demo or help? After what organizers get, a bold band in the
+          brand orange: the question and a line on the left, the button to email
+          us and the link to the help center on the right (stacked on phones). */}
       <Section className="section--compact section--get-app">
-        <div className="get-app">
-          <Intro layout="left" title={hero.title} text={[hero.text]} />
-          <AppLinks />
+        <div className="contact-band">
+          <Intro layout="left" title={contact.title} text={[contact.text]} />
+          <div className="contact-band-actions">
+            <a className="contact-band-button" href={`mailto:${contact.email}`}>
+              {contact.button}
+            </a>
+            <Link className="contact-band-link" to={contact.help.to}>
+              <LinkLabel text={contact.help.label} />
+            </Link>
+          </div>
         </div>
       </Section>
 
@@ -144,6 +169,15 @@ const HomePage = () => {
             </BlobPanel>
           </div>
         </div>
+      </Section>
+
+      {/* Real photos from events, in breathing blob shapes taking turns in the
+          middle, after the party panel */}
+      <Section className="section--compact section--event-photos">
+        <PhotoBlobs
+          photos={eventPhotos.photos}
+          label={eventPhotos.photosLabel}
+        />
       </Section>
 
       {partnerItems.length > 0 && (

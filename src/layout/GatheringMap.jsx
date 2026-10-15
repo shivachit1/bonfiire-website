@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./layout.css";
 import {
   Buildings,
@@ -592,9 +592,15 @@ const Gathering = ({ id, venue, labels }) => {
   );
 };
 
+// How long the map takes to zoom in from the wider picture, or back out
+// (seconds; the same as .map-photo-zoom's transition in layout.css).
+const ZOOM = 1.3;
+
+// (`venue`: a venue's name in gatheringVenues, or a venue itself, made
+// elsewhere, e.g. ApproMapNew.jsx.)
 const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
-  const venue = gatheringVenues[id];
-  const { Ground, empty, startAtLeft } = venue;
+  const venue = typeof id === "string" ? gatheringVenues[id] : id;
+  const { Ground, empty, startAtLeft, photoGround } = venue;
 
   // On phones the map scrolls sideways; start with the venue in view (it's in the
   // middle of the city, not at the left edge), unless the venue starts at the left
@@ -630,19 +636,130 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
     };
   }, [venue, startAtLeft]);
 
-  return (
-    <div ref={ref}>
-      <MapFrame imageAlt={imageAlt} swipe={labels.swipe}>
-        <City />
-        <Buildings blocks={BLOCKS} />
-        {TREES.map(([x, y]) => (
-          <Tree key={`${x}-${y}`} x={x} y={y} />
-        ))}
-        <g transform={`translate(${SHIFT} 0)`}>
-          <Ground labels={labels} />
+  // (`photoGround.wide`) The map waits, zoomed out (showing the wider
+  // picture), till it's mostly in view; then it's `ready` and the venue's own
+  // round begins (its Ground waits for it). Every round (its "map-round"), the
+  // map zooms in (ZOOM, as the first marker drops), stays, and zooms back out
+  // over the round's last ZOOM seconds (`zoomRound` long), to zoom in again
+  // with the next. Zoomed in and still with reduced motion.
+  const zooms = !!photoGround?.wide;
+  const [zoomedIn, setZoomedIn] = useState(!zooms);
+  const [ready, setReady] = useState(!zooms);
+  useEffect(() => {
+    if (!zooms) return undefined;
+    const node = ref.current;
+    const still = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (still || !node || !("IntersectionObserver" in window)) {
+      setZoomedIn(true);
+      setReady(true);
+      return undefined;
+    }
+    let timer;
+    const round = () => {
+      clearTimeout(timer);
+      setZoomedIn(true);
+      timer = setTimeout(
+        () => setZoomedIn(false),
+        ((venue.zoomRound || 12) - ZOOM) * 1000,
+      );
+    };
+    node.addEventListener("map-round", round);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        setReady(true);
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      node.removeEventListener("map-round", round);
+      clearTimeout(timer);
+    };
+  }, [zooms, venue]);
 
-          {/* The guests, the entrance and the counter (an empty venue has none) */}
-          {!empty && <Gathering id={id} venue={venue} labels={labels} />}
+  return (
+    <div
+      ref={ref}
+      className={photoGround?.credit ? "map-with-credit" : undefined}
+    >
+      <MapFrame imageAlt={imageAlt} swipe={labels.swipe}>
+        {/* Everything on the map, zooming together (`zooms`) */}
+        <g
+          className={
+            zooms ? `map-photo-zoom${zoomedIn ? "" : " is-out"}` : undefined
+          }
+        >
+          {/* The city: drawn, or (`photoGround`) a real map's picture */}
+          {photoGround ? (
+            <g className="map-photo-ground" aria-hidden="true">
+              {/* (`wide`) Twice as much city round it, to zoom in from */}
+              {photoGround.wide && (
+                <image
+                  href={photoGround.wide}
+                  x={photoGround.x - photoGround.width / 2}
+                  y={photoGround.y - photoGround.height / 2}
+                  width={photoGround.width * 2}
+                  height={photoGround.height * 2}
+                />
+              )}
+              {/* Its left and right edges fade out (it's narrower than the map
+                when zoomed out), into the cream */}
+              <linearGradient id="map-photo-fade-x">
+                <stop offset="0" stopColor="#fff" stopOpacity="0" />
+                <stop offset="0.08" stopColor="#fff" />
+                <stop offset="0.92" stopColor="#fff" />
+                <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+              <mask id="map-photo-fade">
+                <rect
+                  x={photoGround.x}
+                  y={photoGround.y}
+                  width={photoGround.width}
+                  height={photoGround.height}
+                  fill="url(#map-photo-fade-x)"
+                />
+              </mask>
+              <image
+                href={photoGround.href}
+                x={photoGround.x}
+                y={photoGround.y}
+                width={photoGround.width}
+                height={photoGround.height}
+                mask="url(#map-photo-fade)"
+              />
+              {/* (`tint`) A light wash of the land's cream over it, so its white
+                sits closer to the page's colour */}
+              {photoGround.tint && (
+                <rect
+                  x={photoGround.x}
+                  y={photoGround.y}
+                  width={photoGround.width}
+                  height={photoGround.height}
+                  mask="url(#map-photo-fade)"
+                  className="map-photo-tint"
+                />
+              )}
+            </g>
+          ) : (
+            <>
+              <City />
+              <Buildings blocks={BLOCKS} />
+              {TREES.map(([x, y]) => (
+                <Tree key={`${x}-${y}`} x={x} y={y} />
+              ))}
+            </>
+          )}
+          <g transform={`translate(${SHIFT} 0)`}>
+            <Ground labels={labels} ready={ready} />
+
+            {/* The guests, the entrance and the counter (an empty venue has none) */}
+            {!empty && <Gathering id={id} venue={venue} labels={labels} />}
+          </g>
         </g>
       </MapFrame>
     </div>

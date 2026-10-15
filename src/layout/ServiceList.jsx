@@ -13,7 +13,9 @@ import Heading from "./Heading";
 //           layout/icons.js; `scene`, a small drawing from ServiceScenes.jsx, goes
 //           across the top instead; `tag`, e.g. "Coming soon", a small label in
 //           the corner)
-//   layout  "grid" (default) or "row": one row of cards you swipe or scroll
+//   layout  "grid" (default), "column": one under another with no card, each
+//           drawing beside its title and line (above them on small phones),
+//           thin dividers between, or "row": one row of cards you swipe or scroll
 //           sideways, snapping card by card, the next one peeking in, with
 //           dots under it (one per card, like the maps' pager dots): the
 //           current one (the card at the row's start, or the last once it's
@@ -41,7 +43,7 @@ const ServiceList = ({ items, layout = "grid", label }) => {
           return (
             <li key={item.title} className="service-item" style={{ "--i": i }}>
               {item.scene ? (
-                <span className="service-figure">
+                <span className="service-figure" data-scene={item.scene}>
                   <ServiceScene name={item.scene} />
                   {item.tag && <span className="service-tag">{item.tag}</span>}
                 </span>
