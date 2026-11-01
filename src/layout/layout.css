@@ -10822,19 +10822,27 @@ b.fx-form-section,
   fill: var(--primary-color1);
   opacity: 0;
 }
+/* (The cqh and cqw parts are variables of their own: the build's CSS minifier
+   can't read these units inside calc() and stops the build on them) */
 .how-drop--1 {
   --to-x: -25.7cqw;
-  --to-y: calc(-66cqh + 5.72cqw);
+  --to-yh: -66cqh;
+  --to-yw: 5.72cqw;
+  --to-y: calc(var(--to-yh) + var(--to-yw));
   --turn: -132deg;
 }
 .how-drop--2 {
   --to-x: 25.7cqw;
-  --to-y: calc(-66cqh + 5.72cqw);
+  --to-yh: -66cqh;
+  --to-yw: 5.72cqw;
+  --to-y: calc(var(--to-yh) + var(--to-yw));
   --turn: -48deg;
 }
 .how-drop--3 {
   --to-x: 0cqw;
-  --to-y: calc(-68cqh + 5.72cqw);
+  --to-yh: -68cqh;
+  --to-yw: 5.72cqw;
+  --to-y: calc(var(--to-yh) + var(--to-yw));
   --turn: -90deg;
 }
 .how-friend .how-face {
