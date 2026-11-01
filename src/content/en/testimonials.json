@@ -1,27 +1,18 @@
 {
   "eyebrow": "In their words",
-  "title": "Hear from our customers",
+  "title": "Testimonials",
   "items": [
     {
-      "quote": "I moved to a new city for my studies and didn't know anyone. After my first Appro on Bonfiire, I had a group to hang out with every weekend.",
-      "name": "Sample Student",
-      "role": "First-year student",
-      "avatar": "",
-      "example": true
+      "quote": "When organizing events, Bonfiire has been an amazing app to bring people together. The minimalistic layout has been easy to navigate and has helped us minimize our workload.",
+      "name": "Christian Ripi",
+      "role": "Organizer",
+      "avatar": "association-ids-helga"
     },
     {
-      "quote": "We used to run our Appro with three WhatsApp groups and a spreadsheet. This year the route, the checkpoints and the chat all lived in one app.",
-      "name": "Sample Organizer",
-      "role": "Event lead, student association",
-      "avatar": "",
-      "example": true
-    },
-    {
-      "quote": "The event album is my favourite part. All the photos from the night in one place, not lost in someone's camera roll.",
-      "name": "Sample Student",
-      "role": "Second-year student",
-      "avatar": "",
-      "example": true
+      "quote": "Bonfiire made our Banana Carnival Appro so much easier to run. Everything from collecting points to tracking winners happened in the app, saving our board a lot of time and hassle.",
+      "name": "Mishal Amran",
+      "role": "Organizer",
+      "avatar": "association-ids-helga"
     }
   ]
 }

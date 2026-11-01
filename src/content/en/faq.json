@@ -4,23 +4,40 @@
   "items": [
     {
       "question": "What is Bonfiire?",
-      "answer": "An app built for students who want to hang out, do things and make unforgettable memories. Find events near you, lock in plans with friends, and keep every photo in an event album."
+      "answer": "Bonfiire is an app for organizing and joining events. Find things to do, invite your friends, and keep everything about an event in one place."
     },
     {
-      "question": "What kind of events are on Bonfiire?",
-      "answer": "Anything students do together: Appro crawls, Fuksiaiset events for freshmen, spontaneous park hangouts, house parties and more."
+      "question": "What kinds of events can I host?",
+      "answer": "From a house party, a meetup or a game night, and or city hopping Appro, you can host any kind of events."
     },
     {
-      "question": "Can I organize my own event?",
-      "answer": "Yes. Map out multi-location routes with a digital map and checkpoint stamps, talk to every participant in one place, and leave the WhatsApp groups, Google Maps links and spreadsheets behind."
+      "question": "How do I find events?",
+      "answer": "Move the map view on the home screen around to find events near you, or events in places you are going to visit."
     },
     {
-      "question": "Where can I download it?",
-      "answer": "Bonfiire is available on the App Store and Google Play."
+      "question": "How does check-in work?",
+      "answer": "Every participant has an e-ticket with a QR code. The organizer scans it with the ticket scanner in the app when you arrive."
+    },
+    {
+      "question": "Can other people help me run my event?",
+      "answer": "Yes. Add co-hosts to manage the event with you. For an Appro, invite a checkpoint host for each checkpoints."
+    },
+    {
+      "question": "How do scores work in an Appro?",
+      "answer": "Checkpoint hosts give scores to participants, and the scores add up on the event leaderboard."
+    },
+    {
+      "question": "Can I join appro event in a group?",
+      "answer": "Yes, of course. You can create a group in appro event, and ask your friends to join your group"
+    },
+
+    {
+      "question": "Where can I get the app?",
+      "answer": "Bonfiire is on the App Store and Google Play."
     },
     {
       "question": "I need help. Who do I contact?",
-      "answer": "Email us at support@bonfiire.io and we'll get back to you."
+      "answer": "Use the \"Ask for help\" button on this page, or email support@bonfiire.io."
     }
   ]
 }

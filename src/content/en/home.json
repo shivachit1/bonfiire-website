@@ -1,8 +1,8 @@
 {
   "photoHero": {
-    "layout": "screens",
-    "title": "Light the {Bonfiire}\nof Connection",
-    "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city.",
+    "layout": "blob",
+    "title": "Light the \n{Bonfiire}\n of Connection",
+    "text": "Host the gatherings you wish existed. Create events, invite your people, and build a community around what you love, or find what's happening near you.",
     "screensLabel": "Screenshots of the Bonfiire app",
     "screens": [
       {
@@ -21,7 +21,489 @@
         "image": "screen-checkpoints",
         "alt": "An Appro's checkpoints on a map, with a group to explore with."
       }
+    ],
+    "cta": [
+      { "label": "Let's get started", "to": "/download" },
+      { "label": "Download app", "to": "/download" }
+    ],
+    "follow": "Follow Bonfiire",
+    "socialLabel": "Bonfiire on social media"
+  },
+  "hostEvent": {
+    "title": "Plan your next gathering",
+    "center": "Plan your next gathering",
+    "label": "Events you could host",
+    "invite": {
+      "createTitle": "Create event",
+      "title": "Invite friends",
+      "invited": "Invited",
+      "trackTitle": "Track who is coming",
+      "going": "Going",
+      "goingCount": "{count} going",
+      "notGoing": "Not going",
+      "notGoingPeople": ["beanie", "turtleneck"],
+      "people": [
+        "red-hair",
+        "braids",
+        "beanie",
+        "bob-haircut",
+        "curly-hair",
+        "long-blonde-hair",
+        "green-sweater",
+        "turtleneck"
+      ]
+    },
+    "events": [
+      {
+        "name": "Birthday party",
+        "when": "Fri 7 Nov, 18.00",
+        "where": "Kallio"
+      },
+      {
+        "name": "Dry picnic",
+        "when": "Sat 8 Nov, 14.00",
+        "where": "Kaisaniemi Park",
+        "phone": false
+      },
+      {
+        "name": "Meetup",
+        "when": "Wed 12 Nov, 17.30",
+        "where": "Oodi Library"
+      },
+      {
+        "name": "Board game",
+        "when": "Sun 16 Nov, 13.00",
+        "where": "Haaga-Helia",
+        "pick": true
+      },
+      { "name": "Sitsit", "when": "Thu 20 Nov, 19.00", "where": "Otaniemi" }
     ]
+  },
+  "hostCta": {
+    "title": "Are you hosting a \n{gathering?}",
+    "text": "Build an event in minutes. Share it publicly with everyone or keep it private within your close friends.",
+    "photo": "gathering",
+    "alt": "Students in overalls gathering on a street in autumn.",
+    "primary": { "label": "Try it out", "to": "/download" },
+    "demo": "Request Demo"
+  },
+  "whoFor": {
+    "title": "Events are where friendships begin"
+  },
+  "howSteps": {
+    "title": "See how it works",
+    "label": "How it works, step by step",
+    "dotsLabel": "Steps",
+    "steps": [
+      {
+        "title": "Create an event",
+        "text": "Add a name, a time and a place, and your event is ready to share.",
+        "kind": "create",
+        "event": {
+          "month": "Nov",
+          "day": "29",
+          "year": "2026",
+          "name": "House party",
+          "time": "Sat 19.00 to 23.00",
+          "where": "Vallila",
+          "info": "Music, snacks and good company at a cosy house party. Bring your friends and enjoy a relaxed time together."
+        }
+      },
+      {
+        "title": "Invite friends",
+        "text": "Invite friends straight from the app or share the event link.",
+        "kind": "invite",
+        "count": "+20 invited",
+        "people": ["red-hair", "braids", "beanie", "bob-haircut", "curly-hair"]
+      },
+      {
+        "title": "Track RSVPs",
+        "text": "See who is going as people reply, and keep everyone up to date.",
+        "kind": "track",
+        "count": "+25 going",
+        "people": [
+          "long-blonde-hair",
+          "green-sweater",
+          "turtleneck",
+          "short-dark-hair",
+          "denim-jacket"
+        ],
+        "notGoingPeople": ["turtleneck"]
+      },
+      {
+        "title": "Welcome attendees",
+        "text": "Check guests in at the door with a quick scan and greet everyone as they arrive.",
+        "kind": "welcome",
+        "count": "+18 checked in",
+        "people": [
+          "bookshelf",
+          "bob-haircut",
+          "curly-hair",
+          "beanie",
+          "denim-jacket"
+        ]
+      }
+    ]
+  },
+  "planFlow": {
+    "steps": [
+      {
+        "title": "Invite friends",
+        "text": "Invite friends straight from the app or share the event link.",
+        "count": "+20 invited"
+      },
+      {
+        "title": "Track RSVPs",
+        "text": "See who is going as people reply, and keep everyone up to date.",
+        "count": "+25 going"
+      }
+    ]
+  },
+  "planBoard": {
+    "title": "Plan your next gathering",
+    "arc": [
+      {
+        "month": "Nov",
+        "day": "7",
+        "year": "2026",
+        "name": "Birthday party",
+        "info": "Cake, music and good company to celebrate a special day with friends.",
+        "time": "Fri 18.00 to 23.00",
+        "where": "Kallio",
+        "going": "+12 going"
+      },
+      {
+        "month": "Nov",
+        "day": "8",
+        "year": "2026",
+        "name": "Dry picnic",
+        "info": "Bring a blanket and a snack to share, and enjoy a relaxed afternoon in the park.",
+        "time": "Sat 14.00 to 17.00",
+        "where": "Kaisaniemi Park",
+        "going": "+15 going"
+      },
+      {
+        "month": "Nov",
+        "day": "11",
+        "year": "2026",
+        "name": "Cooking together",
+        "info": "Cook and eat with new friends, learn something new and share the table.",
+        "time": "Tue 17.00 to 20.00",
+        "where": "Töölö",
+        "going": "+9 going"
+      },
+      {
+        "month": "Nov",
+        "day": "12",
+        "year": "2026",
+        "name": "Meetup",
+        "info": "Meet new people over a coffee, swap ideas and find your next favourite hangout.",
+        "time": "Wed 17.30 to 19.00",
+        "where": "Oodi Library",
+        "going": "+120 going"
+      },
+      {
+        "month": "Nov",
+        "day": "14",
+        "year": "2026",
+        "name": "Movie afternoon",
+        "info": "Pick a film, bring a blanket and enjoy a cosy afternoon together.",
+        "time": "Fri 15.30 to 18.00",
+        "where": "Kumpula campus",
+        "going": "+24 going"
+      },
+      {
+        "month": "Nov",
+        "day": "16",
+        "year": "2026",
+        "name": "Board game",
+        "info": "Classic and new games, snacks too, and plenty of friendly competition.",
+        "time": "Sun 13.00 to 16.00",
+        "where": "Haaga-Helia",
+        "going": "+32 going"
+      },
+      {
+        "month": "Nov",
+        "day": "18",
+        "year": "2026",
+        "name": "Study break",
+        "info": "Coffee, snacks and a quiet chat to recharge between study sessions.",
+        "time": "Tue 15.00 to 16.30",
+        "where": "Hakaniemi",
+        "going": "+7 going"
+      },
+      {
+        "month": "Nov",
+        "day": "19",
+        "year": "2026",
+        "name": "Sports hour",
+        "info": "Easy games for all levels, no gear needed, just come and have fun.",
+        "time": "Wed 16.00 to 17.30",
+        "where": "Meilahti",
+        "going": "+18 going"
+      },
+      {
+        "month": "Nov",
+        "day": "20",
+        "year": "2026",
+        "name": "Sitsit",
+        "info": "Songs, a good meal and friends around a long table, student style.",
+        "time": "Thu 19.00 to 23.00",
+        "where": "Otaniemi",
+        "going": "+65 going"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Create event",
+        "text": "Add a name, a time and a place, and your event is ready to share."
+      },
+      {
+        "title": "Invite friends",
+        "text": "Invite friends straight from the app or share the event link."
+      },
+      {
+        "title": "Track who is coming",
+        "text": "See who is going as people reply, and keep everyone up to date."
+      }
+    ],
+    "board": {
+      "step": "Step {n} of {total}",
+      "label": "Events you could host",
+      "fields": { "name": "Name", "when": "When", "where": "Where" },
+      "created": "Event created",
+      "guests": "Guests"
+    }
+  },
+  "planGathering": {
+    "title": "Plan your next gathering",
+    "label": "Plan a gathering, step by step",
+    "steps": [
+      {
+        "scene": "create",
+        "title": "Create event",
+        "text": "Add a name, a time and a place, and your event is ready to share.",
+        "card": {
+          "name": "Board game afternoon",
+          "when": "Sat 25 Oct, 14.00",
+          "where": "Kaisaniemi Park"
+        }
+      },
+      {
+        "scene": "friends",
+        "title": "Invite friends",
+        "text": "Invite friends straight from the app or share the event link.",
+        "card": {
+          "invited": "Invited",
+          "people": [
+            "red-hair",
+            "braids",
+            "beanie",
+            "bob-haircut",
+            "curly-hair",
+            "long-blonde-hair",
+            "green-sweater",
+            "turtleneck",
+            "short-dark-hair",
+            "denim-jacket",
+            "bookshelf"
+          ]
+        }
+      },
+      {
+        "scene": "welcome",
+        "title": "Know who is coming",
+        "text": "See who is going as people reply, and keep everyone up to date.",
+        "card": {
+          "count": 24,
+          "going": "going",
+          "people": [
+            "bob-haircut",
+            "long-blonde-hair",
+            "green-sweater",
+            "turtleneck",
+            "short-dark-hair",
+            "denim-jacket",
+            "curly-hair",
+            "bookshelf",
+            "beanie"
+          ]
+        }
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "label": "How it works, step by step",
+    "steps": [
+      {
+        "scene": "create",
+        "title": "Create event",
+        "card": {
+          "name": "Board game afternoon",
+          "when": "Sat 25 Oct, 14.00",
+          "where": "Kaisaniemi Park"
+        }
+      },
+      {
+        "scene": "share",
+        "title": "Share and invite",
+        "card": {
+          "link": "bonfiire.io/board-games",
+          "invited": "Invited",
+          "people": ["red-hair", "braids", "beanie"]
+        }
+      },
+      {
+        "scene": "welcome",
+        "title": "Manage RSVP",
+        "card": {
+          "count": 24,
+          "going": "going",
+          "people": [
+            "bob-haircut",
+            "long-blonde-hair",
+            "green-sweater",
+            "turtleneck",
+            "short-dark-hair",
+            "denim-jacket",
+            "curly-hair",
+            "bookshelf",
+            "beanie"
+          ]
+        }
+      },
+      {
+        "scene": "checkin",
+        "title": "Check in participants",
+        "card": {
+          "person": "curly-hair",
+          "label": "Checked in"
+        }
+      },
+      {
+        "scene": "memories",
+        "title": "Make endless memories",
+        "card": {
+          "photos": ["tug-of-war", "group-meetup", "friends-phones"]
+        }
+      }
+    ]
+  },
+  "appHighlights": {
+    "title": "",
+    "text": "",
+    "label": "What you can do in Bonfiire",
+    "dotsLabel": "Choose a feature",
+    "items": [
+      {
+        "scene": "discover",
+        "title": "Discover nearby events",
+        "text": "See what's happening around you, or use the interactive map to explore local gatherings.",
+        "card": {
+          "time": "14.02",
+          "search": "Search",
+          "avatar": "long-blonde-hair",
+          "chips": ["Events", "Hangouts", "Give us feedback"]
+        }
+      },
+      {
+        "scene": "participate",
+        "title": "Participate in events",
+        "text": "Found something you like? Request to join, and your ticket is ready as soon as you're in.",
+        "card": {
+          "join": "Request to join",
+          "joined": "You're attending"
+        }
+      },
+      {
+        "scene": "host",
+        "title": "Host your own event",
+        "text": "Build an event in minutes. Share it publicly with everyone or keep it private for your close friends.",
+        "card": {
+          "time": "14.02",
+          "heading": "Create New Event",
+          "info": "Event Information",
+          "name": {
+            "label": "Event Name",
+            "placeholder": "Name of the event",
+            "value": "Board game afternoon"
+          },
+          "description": {
+            "label": "Event Description",
+            "placeholder": "Tell us more about event in detail",
+            "value": "Bring your favourite game or try one of ours. Coffee and snacks for everyone.",
+            "max": 1000
+          },
+          "when": {
+            "title": "Event Time",
+            "text": "Choose the time duration for your event"
+          },
+          "start": {
+            "label": "Starting Date and Time",
+            "value": "25 Oct 2026, 14.00"
+          },
+          "end": {
+            "label": "Ending Date and Time",
+            "value": "25 Oct 2026, 18.00"
+          },
+          "location": {
+            "title": "Event Location",
+            "text": "Provide information about the event venues"
+          },
+          "multiple": {
+            "label": "Multiple Locations",
+            "text": "Event has multiple checkpoints"
+          },
+          "pick": "Select location from Map"
+        }
+      },
+      {
+        "scene": "chat",
+        "title": "Stay connected with friends",
+        "text": "Chat with your friends, coordinate plans together, and keep the conversation going long after the event.",
+        "card": {
+          "time": "14.02",
+          "title": "Sara Laine",
+          "avatar": "curly-hair",
+          "messages": [
+            {
+              "avatar": "curly-hair",
+              "text": "Do you want me to bring anything for the board game afternoon?"
+            },
+            {
+              "me": true,
+              "text": "Could you bring some snacks? I've got the games"
+            },
+            {
+              "avatar": "curly-hair",
+              "text": "Sure, see you there"
+            }
+          ]
+        }
+      },
+      {
+        "scene": "notify",
+        "title": "Get notified",
+        "text": "Receive instant alerts for new invites, stay updated on group messages, and never miss key changes to your events.",
+        "card": {
+          "app": "Bonfiire",
+          "now": "now",
+          "time": "14.02",
+          "date": "Saturday 18 October",
+          "notes": [
+            "Oskar invited you to Board game afternoon",
+            "Sara sent you a message"
+          ]
+        }
+      }
+    ]
+  },
+  "hostKinds": {
+    "title": "Are you hosting next {Appro}?",
+    "text": "You’ve come to the right place. Bonfiire lets you digitize your appro map, speed up check-ins, and manage every participant in one seamless platform.",
+    "mapAlt": "Illustration of a folded paper map with a hand-drawn route and an X, and dots flowing from it to a phone that shows the same route as a digital map with four numbered checkpoints.",
+    "groups": []
   },
   "hero": {
     "title": "Bonfiire is {available} in\n App store and Play store",
@@ -29,14 +511,130 @@
     "sceneAlt": "Illustration of friends sitting on camping chairs and a log around a bonfire, between two trees with bunting: one sings, one plays the guitar, one roasts a marshmallow and one holds a mug, while two more sit on a log facing the fire."
   },
   "contact": {
-    "title": "Need a {demo} or help?",
-    "text": "Reach out to us and we will show you around Bonfiire, help you set up your first Appro or event, or answer any question you have along the way.",
-    "button": "Contact us",
+    "title": "Planning to host\n {upcoming APPRO?}",
+    "text": "Reach out to us for a guided walkthrough of Bonfiire. We’ll help you set up your first Appro or event, and support you every step of the way.",
+    "primary": { "label": "Create Appro", "to": "/download" },
+    "demo": "Request Demo",
+    "photos": [
+      {
+        "image": "tug-of-war",
+        "alt": "Students pulling a rope in a tug of war on a lawn, one of the games on an Appro."
+      },
+      {
+        "image": "group-meetup",
+        "alt": "A group of friends gathered in a circle outdoors in the autumn sun."
+      }
+    ],
     "email": "support@bonfiire.io",
-    "help": {
-      "label": "Visit the help center →",
-      "to": "/help"
-    }
+    "emailSubject": "Demo request for Bonfiire",
+    "emailBody": [
+      "Hi Bonfiire team,",
+      "",
+      "I would like to request a demo of Bonfiire.",
+      "",
+      "Name:",
+      "Organization or student association:",
+      "Type of event (Appro or single location):",
+      "Expected number of participants:",
+      "Preferred dates and times for the demo:",
+      "",
+      "Anything else we should know:",
+      "",
+      "Thanks!"
+    ]
+  },
+  "moreFeatures": {
+    "title": "There's {more} to Bonfiire",
+    "label": "More of what Bonfiire does",
+    "items": [
+      {
+        "scene": "event",
+        "title": "Host single venue event",
+        "text": "Not every event needs a route. Host a picnic, a party or a meetup in one place, with the same invites and check-in.",
+        "card": {
+          "time": "14.02",
+          "title": "Picnic in the park",
+          "tags": {
+            "public": "Public",
+            "attending": "Attending"
+          },
+          "start": "18 Oct 2026, 15.00",
+          "end": "18 Oct 2026, 19.00",
+          "calendar": "Add to calendar",
+          "location": {
+            "label": "Meeting location",
+            "value": "Kaisaniemi Park, Helsinki"
+          },
+          "participants": {
+            "label": "Participants",
+            "people": ["braids", "curly-hair", "red-hair", "turtleneck"],
+            "going": "24 going"
+          },
+          "description": {
+            "label": "Description",
+            "value": "Bring a blanket and something to share. We'll have games, music and plenty of snacks in the park.",
+            "more": "Read more"
+          },
+          "organizers": {
+            "label": "Organizers",
+            "people": [
+              {
+                "avatar": "bookshelf",
+                "name": "Sara Laine",
+                "role": "Hosting"
+              },
+              {
+                "avatar": "denim-jacket",
+                "name": "Leo Mäkinen",
+                "role": "Co-hosting"
+              }
+            ]
+          },
+          "ticket": "Open ticket"
+        }
+      },
+      {
+        "scene": "chat",
+        "title": "Chat with organizers and friends",
+        "text": "Message the organizers or your friends right in the app, before, during and after the event.",
+        "card": {
+          "time": "14.02",
+          "title": "Picnic in the park",
+          "messages": [
+            {
+              "avatar": "bookshelf",
+              "name": "Sara Laine",
+              "text": "Where do we meet?"
+            },
+            {
+              "me": true,
+              "text": "By the big oak at 15.00"
+            },
+            {
+              "avatar": "denim-jacket",
+              "name": "Leo",
+              "text": "I'll bring the blankets"
+            }
+          ]
+        }
+      },
+      {
+        "scene": "notify",
+        "title": "Stay connected with push notifications",
+        "text": "Get a notification when friends join, when plans change and when your event is about to start.",
+        "card": {
+          "app": "Bonfiire",
+          "now": "now",
+          "time": "14.02",
+          "date": "Saturday 18 October",
+          "notes": [
+            "Leo is going to Picnic in the park",
+            "Sara sent you a message",
+            "Picnic in the park starts in 1 hour"
+          ]
+        }
+      }
+    ]
   },
   "services": {
     "title": "Everything your {Appro} needs",
@@ -88,7 +686,8 @@
     ]
   },
   "checkpoint": {
-    "title": "Hosting an {Appro}\n has never been easier",
+    "title": "",
+    "cue": "See how it works",
     "text": [],
     "stepsLabel": "At a checkpoint",
     "steps": [
@@ -103,7 +702,7 @@
           },
           "description": {
             "label": "Description",
-            "value": "Five stops round the city centre, with a game at every checkpoint."
+            "value": "Five stops, a game at each."
           },
           "start": {
             "label": "Start time",
@@ -184,112 +783,119 @@
             "copied": "Link copied"
           }
         }
-      },
-      {
-        "scene": "tickets",
-        "title": "Ticket sales",
-        "text": "Tickets are free for now, so participants can join right away. Selling paid tickets in the app is coming soon.",
-        "tag": "Coming Soon"
-      },
-      {
-        "scene": "map",
-        "title": "Appro map for participants",
-        "text": "Every participant has the whole route on their phone, from the meeting point to every checkpoint and the way between them.",
-        "card": {
-          "checkedIn": "Checked in"
-        }
-      },
-      {
-        "scene": "scan",
-        "title": "Check-in with QR code",
-        "text": "The host and the checkpoint hosts check participants in with the in-app camera, or find them in the participant list in seconds.",
-        "card": {
-          "search": "Emma",
-          "placeholder": "Search participants",
-          "people": [
-            {
-              "avatar": "bob-haircut",
-              "name": "Aino Korhonen"
-            },
-            {
-              "avatar": "red-hair",
-              "name": "Edward Lind"
-            },
-            {
-              "avatar": "curly-hair",
-              "name": "Emily Koski"
-            },
-            {
-              "avatar": "long-blonde-hair",
-              "name": "Emma Virtanen"
-            },
-            {
-              "avatar": "short-dark-hair",
-              "name": "Ethan Salo"
-            },
-            {
-              "avatar": "braids",
-              "name": "Eva Niemi"
-            },
-            {
-              "avatar": "green-sweater",
-              "name": "Ville Nieminen"
-            }
-          ],
-          "scanned": "Checked in",
-          "scannedName": "Emma"
-        }
-      },
-      {
-        "scene": "score",
-        "title": "Make it more fun with scoring",
-        "text": "Give points for every activity, to each participant or group, and watch the leaderboard change as the day goes.",
-        "card": {
-          "points": "pts",
-          "podium": [
-            {
-              "name": "Ava King",
-              "avatars": ["braids"],
-              "points": 90
-            },
-            {
-              "name": "Hopper",
-              "avatars": ["curly-hair", "long-blonde-hair"],
-              "points": 130
-            },
-            {
-              "name": "Mikko Lahti",
-              "avatars": ["red-hair"],
-              "points": 85
-            }
-          ],
-          "ranks": [
-            {
-              "name": "Kahvi Crew",
-              "avatars": ["green-sweater", "turtleneck"],
-              "points": 80
-            },
-            {
-              "name": "Emma Virtanen",
-              "avatars": ["bob-haircut"],
-              "points": 70
-            }
-          ]
-        }
-      },
-      {
-        "scene": "album",
-        "title": "Share the moments",
-        "text": "Hosts and participants add their photos to one shared album, so the whole day stays together.",
-        "tag": "Coming soon",
-        "photos": ["night-group", "group-meetup", "friends-phones"]
-      },
-      {
-        "scene": "history",
-        "title": "Keep track of everything",
-        "text": "Every join, check-in and score is saved, so you always know who did what and when."
       }
-    ]
+    ],
+    "more": {
+      "title": "Services for your {Appro}",
+      "label": "More of what you get",
+      "dotsLabel": "Choose a feature",
+      "items": [
+        {
+          "scene": "map",
+          "title": "Appro map for participants",
+          "text": "Participants will get an interactive digital map right on their phones, guiding them seamlessly from the meeting point through every checkpoint.",
+          "card": {
+            "checkedIn": "Checked in"
+          }
+        },
+        {
+          "scene": "tickets",
+          "title": "Ticket sales",
+          "text": "Tickets are currently free, so participants can join immediately. Paid ticketing within the app is coming soon.",
+          "tag": "Coming soon"
+        },
+        {
+          "scene": "scan",
+          "title": "Check-in with QR code",
+          "text": "Host or checkpoint hosts can easily check participants in using the in-app camera or by searching the participant list.",
+          "card": {
+            "search": "Emma",
+            "placeholder": "Search participants",
+            "people": [
+              {
+                "avatar": "bob-haircut",
+                "name": "Aino Korhonen"
+              },
+              {
+                "avatar": "red-hair",
+                "name": "Edward Lind"
+              },
+              {
+                "avatar": "curly-hair",
+                "name": "Sara Laine"
+              },
+              {
+                "avatar": "long-blonde-hair",
+                "name": "Emma Virtanen"
+              },
+              {
+                "avatar": "short-dark-hair",
+                "name": "Ethan Salo"
+              },
+              {
+                "avatar": "braids",
+                "name": "Eva Niemi"
+              },
+              {
+                "avatar": "green-sweater",
+                "name": "Ville Nieminen"
+              }
+            ],
+            "scanned": "Checked in",
+            "scannedName": "Emma"
+          }
+        },
+        {
+          "scene": "score",
+          "title": "Make it more fun with scoring",
+          "text": "Give points for every activity, to each participant or group, and watch the leaderboard change as the event goes.",
+          "card": {
+            "points": "pts",
+            "podium": [
+              {
+                "name": "Ava King",
+                "avatars": ["braids"],
+                "points": 90
+              },
+              {
+                "name": "Hopper",
+                "avatars": ["curly-hair", "long-blonde-hair"],
+                "points": 130
+              },
+              {
+                "name": "Mikko Lahti",
+                "avatars": ["red-hair"],
+                "points": 85
+              }
+            ],
+            "ranks": [
+              {
+                "name": "Kahvi Crew",
+                "avatars": ["green-sweater", "turtleneck"],
+                "points": 80
+              },
+              {
+                "name": "Emma Virtanen",
+                "avatars": ["bob-haircut"],
+                "points": 70
+              }
+            ]
+          }
+        },
+        {
+          "scene": "album",
+          "title": "Share the moments",
+          "text": "Bring the whole day together. Hosts and participants can upload their photos to one shared album so no moment gets lost.",
+          "tag": "Coming soon",
+          "photos": ["night-group", "group-meetup", "friends-phones"]
+        },
+        {
+          "scene": "history",
+          "title": "Keep track of everything",
+          "text": "Every join, check-ins are saved automatically, so you always have a clear record of who did what and when."
+        }
+      ]
+    }
   },
   "participate": {
     "title": "Taking part in an {Appro?}",
@@ -347,6 +953,12 @@
   "popular": {
     "title": "Hosting an {Appro}\n has never been easier",
     "text": [],
+    "notes": [
+      { "icon": "leaf", "text": "Eco-friendly" },
+      { "icon": "map", "text": "Digital Appro Map" },
+      { "icon": "checkIn", "text": "Check-In per checkpoints" }
+    ],
+    "checkedIn": "Checked in",
     "events": ["inNature", "barCrawl", "cityHopper"],
     "next": {
       "label": "Your next Appro",
@@ -396,6 +1008,7 @@
         "invited": "Invited",
         "attending": "Attending",
         "notGoing": "Not going",
+        "notGoingPeople": ["beanie", "turtleneck"],
         "checkedIn": "Checked in"
       }
     }
@@ -516,6 +1129,7 @@
         "invited": "Invited",
         "attending": "Attending",
         "notGoing": "Not going",
+        "notGoingPeople": ["beanie", "turtleneck"],
         "checkedIn": "Checked in"
       }
     }
@@ -529,8 +1143,9 @@
     "title": "Let's start making memories.",
     "text": ["Student life goes fast. Don't waste it."]
   },
-  "eventPhotos": {
-    "photosLabel": "Photos from Bonfiire events",
+  "memories": {
+    "title": "Every gathering has become Bonfiire’s\n{best memories}",
+    "photosLabel": "Photos from student events",
     "photos": [
       {
         "image": "friends-phones",

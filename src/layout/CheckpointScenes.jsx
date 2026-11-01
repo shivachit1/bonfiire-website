@@ -10,6 +10,7 @@ import { image } from "../content/content";
 import { qrPath } from "./eventMap";
 import ServiceScene from "./ServiceScenes";
 import GatheringMap from "./GatheringMap";
+import { walkKeyframes } from "./approWalk";
 import {
   APPRO_MAP,
   HOST_PHOTOS,
@@ -50,7 +51,7 @@ const Avatar = ({ name, className = "" }) => (
 // participant, their round photo, walks the streets from one to the next at a
 // steady pace and round again, waiting MAP_STAY seconds beside each with a
 // green "Checked in" over them. Places in the map picture's own units
-// (1200 × 600); the walk and the tag run on keyframes made here (mapKeyframes).
+// (1200 × 600); the walk and the tag run on keyframes made in approWalk.js.
 const MAP_VIEW = "450 150 420 260";
 const MAP_STOPS = [
   { at: [526, 376], icon: 0, host: 0, meet: true },
@@ -58,80 +59,9 @@ const MAP_STOPS = [
   { at: [803, 265], icon: 1, host: 1 },
   { at: [656, 219], icon: 3, host: 3 },
 ];
-// The way from each stop to the next: from its marker (where they wait, on
-// the spot, and are checked in), along the corners of the streets, to the
-// next one's marker.
-const MAP_LEGS = [
-  [
-    [526, 376],
-    [561, 390],
-    [665, 390],
-    [720, 364],
-  ],
-  [
-    [720, 364],
-    [721, 334],
-    [757, 290],
-    [803, 265],
-  ],
-  [
-    [803, 265],
-    [757, 290],
-    [729, 328],
-    [630, 328],
-    [630, 219],
-    [656, 219],
-  ],
-  [
-    [656, 219],
-    [630, 219],
-    [630, 328],
-    [581, 328],
-    [561, 390],
-    [526, 376],
-  ],
-];
-const MAP_SPEED = 18; // map units a second (a slow walk)
 const MARKER_SIZE = 0.78; // the markers, a little smaller than on the big map
-const MAP_STAY = 1.8;
-const MAP_FADE = 0.25;
-// The walker's keyframes (where, as a share of the round) and the tag's
-// (shown while they wait), and how long a round is.
-const mapKeyframes = () => {
-  const marks = [];
-  const shown = [];
-  let t = 0;
-  MAP_LEGS.forEach((leg) => {
-    shown.push([t, t + MAP_STAY]);
-    marks.push([t, leg[0]]);
-    t += MAP_STAY;
-    marks.push([t, leg[0]]);
-    leg.forEach((point, k) => {
-      if (k === 0) return;
-      const [px, py] = leg[k - 1];
-      t += Math.hypot(point[0] - px, point[1] - py) / MAP_SPEED;
-      marks.push([t, point]);
-    });
-  });
-  const share = (at) => ((at / t) * 100).toFixed(3);
-  const walk = marks
-    .map(
-      ([at, [x, y]]) =>
-        `${share(at)}% { transform: translate(${x}px, ${y}px); }`,
-    )
-    .join(" ");
-  const tag = shown
-    .map(
-      ([from, to]) =>
-        `${share(from)}% { opacity: 0; } ${share(from + MAP_FADE)}% { opacity: 1; } ${share(to - MAP_FADE)}% { opacity: 1; } ${share(to)}% { opacity: 0; }`,
-    )
-    .join(" ");
-  return {
-    round: t,
-    css: `@keyframes cp-walk { ${walk} } @keyframes cp-walk-tag { 0% { opacity: 0; } ${tag} 100% { opacity: 0; } }`,
-  };
-};
-const MAP_ROUND = mapKeyframes();
+// (The walk round them, shared with the home page's Appro map: approWalk.js)
+const MAP_ROUND = walkKeyframes({ walk: "cp-walk", tag: "cp-walk-tag" });
 const MapTag = ({ text }) => {
   const width = text.length * 3.5 + 8;
   return (
@@ -221,7 +151,7 @@ const ParticipantMap = ({ card }) => (
 // `steps` [[ms from the round's start, step]], the round `length` ms long (the
 // last step held until then, the time before it starts again). Still, at its
 // `last` step, for reduced motion; at 0 when out of view.
-const useRound = (active, steps, length, last) => {
+export const useRound = (active, steps, length, last) => {
   const [step, setStep] = useState(0);
   useEffect(() => {
     if (!active) {
@@ -263,18 +193,18 @@ const MarkCheckpoints = () => (
 );
 
 // The event's info: a new Appro's details in the app, one light card, filled
-// in one after another: its title (1), its description (2), and when it
-// starts and ends, each a date and a time, side by side with an arrow
-// between (3, 4); the one being filled outlined in orange. It stays a while,
-// clears and starts again.
+// in one after another, quickly: its title (1), its description (2), and
+// when it starts and ends, each a date and a time, side by side with an
+// arrow between (3, 4); the one being filled outlined in orange. It stays a
+// while, clears and starts again.
 const INFO_ROUND = [
-  [400, 1],
-  [1300, 2],
-  [2400, 3],
-  [3300, 4],
-  [7500, 0],
+  [300, 1],
+  [800, 2],
+  [1300, 3],
+  [1700, 4],
+  [5500, 0],
 ];
-const INFO_LENGTH = 8500;
+const INFO_LENGTH = 6000;
 const Arrow = () => (
   <svg className="cp-info-arrow" viewBox="0 0 16 16" aria-hidden="true">
     <path d="M3 8 H12.5 M9 4.5 L12.5 8 L9 11.5" />
@@ -300,7 +230,7 @@ const EventInfo = ({ card, active }) => {
     <div className="cp-info">
       <span className="cp-info-form">
         {field(1, card.title.label, card.title.value)}
-        {field(2, card.description.label, card.description.value)}
+        {field(2, card.description.label, card.description.value, " is-long")}
         <span className="cp-info-when">
           {field(3, card.start.label, when(card.start), " is-half")}
           <Arrow />
@@ -375,7 +305,11 @@ const InviteParticipants = ({ card, active }) => {
             {share.targets.map(({ icon, label }, i) => {
               const Icon = SHARE_ICONS[icon];
               return (
-                <span key={icon} className="cp-share-target" style={{ "--i": i }}>
+                <span
+                  key={icon}
+                  className="cp-share-target"
+                  style={{ "--i": i }}
+                >
                   <span className="cp-share-target-icon">
                     <Icon aria-hidden="true" />
                   </span>
@@ -398,7 +332,9 @@ const InviteParticipants = ({ card, active }) => {
                 <span className="cp-radio" />
               </span>
             ))}
-            <span className={`cp-invite-send${step === 7 ? " is-pressed" : ""}`}>
+            <span
+              className={`cp-invite-send${step === 7 ? " is-pressed" : ""}`}
+            >
               {card.send}
             </span>
           </span>

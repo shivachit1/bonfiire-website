@@ -1,13 +1,53 @@
-/* Like the navbar (but not sticky): a full-width bar in solid cream with a
-   hairline on top. */
+/* A full-width light band (no line on top): its top edge a soft wave rising
+   into the page above (.footer-wave, drawn over the page's bottom room). */
 .footer-container {
+  --footer-bg: var(--building-top);
+  position: relative;
   width: 100%;
-  padding: 20px 24px;
-  background: var(--primary-color);
-  border-top: 1px solid rgba(89, 65, 43, 0.1);
+  padding: 28px 24px 24px;
+  background: var(--footer-bg);
+}
+/* (On the home page, whose bands take turns: the other colour from the
+   band it follows, so its wave always shows. The bands' turns:
+   .sections--light-first in layout.css, the even ones light, after the
+   cream hero.) */
+body:has(
+    .sections--light-first
+      > section.section:nth-last-child(1 of .section):nth-child(even of .section)
+  )
+  .footer-container {
+  --footer-bg: var(--primary-color);
+}
+
+/* (On the other pages, whose sections take turns cream and light from the
+   top: cream when the last one is light, so the footer still stands apart) */
+body:not(:has(.sections--light-first)):has(
+    section.section:not(.section--compact):nth-child(
+        even of .section:not(.section--compact)
+      ):nth-last-child(1 of .section:not(.section--compact))
+  )
+  .footer-container {
+  --footer-bg: var(--primary-color);
+}
+
+/* (Under the cream download page: the light colour) */
+body:has(.download-page) .footer-container {
+  --footer-bg: var(--building-top);
+}
+
+.footer-wave {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  width: 100%;
+  height: clamp(28px, 4vw, 56px);
+  margin-bottom: -1px;
+  fill: var(--footer-bg);
+  pointer-events: none;
 }
 
 .footer-content {
+  position: relative;
   max-width: var(--content-width);
   margin: 0 auto;
   display: flex;

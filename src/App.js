@@ -13,6 +13,9 @@ import TermsPage from "./components/Terms/TermsPage.js";
 import HomePage from "./pages/Home/HomePage.js";
 import GuidePage from "./pages/Guide/GuidePage.js";
 import HelpTopicPage from "./pages/Help/HelpTopicPage";
+import AboutPage from "./pages/About/AboutPage";
+import OrganizersPage from "./pages/Organizers/OrganizersPage";
+import FaqPage from "./pages/Faq/FaqPage";
 import DocsPage from "./pages/Docs/DocsPage";
 import HelpCenterPage from "./pages/Help/HelpCenterPage.js";
 import ApproPage from "./pages/Appro/ApproPage";
@@ -58,6 +61,9 @@ function App() {
                 path="/features"
                 element={<GuidePage key="features" page="features" />}
               />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/organizers" element={<OrganizersPage />} />
+              <Route path="/faq" element={<FaqPage />} />
               <Route path="/help" element={<HelpCenterPage />} />
               {/* One page per help topic (see content/help.json) */}
               <Route path="/help/:topicId" element={<HelpTopicPage />} />

@@ -7,6 +7,16 @@
   --yes-color-light: #8fd18a; /* --yes-color, lighter: green text on dark (the phone's checked in) */
   --no-color: #c8402f; /* red for no: not going */
   --location-color: #2f7de1; /* a phone map's blue: where someone is (the participant's dot) */
+  --nav-glass: rgba(239, 230, 221, 0.72); /* --primary-color, partly see-through: the navbar's frosted glass */
+  --map-note-glass: rgba(247, 241, 234, 0.9); /* --building-top (the light colour), a little see-through: the notes over the home Appro map (ApproFullMap) */
+  --hero-bg: var(--primary-color); /* the home hero's background: the cream, the full width */
+  --nav-glass-hero: var(--nav-glass); /* the navbar's glass over it */
+  /* The home hero's shapes, warm peach tones on its peach (lightest to
+     deepest): faces, deeper faces, shaded sides, details. */
+  --shape-light: var(--building-top);
+  --shape-mid: #f6c3a2;
+  --shape-shade: #e29f7c;
+  --shape-deep: #b9714d;
   --map-hero-veil: rgba(239, 230, 221, 0.6); /* --primary-color, partly see-through: behind the words over the home map */
   --primary-color1: #e56822;
   --accent-text-color: #b8501a; /* brand orange darkened for small text on light backgrounds */
@@ -19,23 +29,34 @@
   --primary-text-color: rgba(36, 36, 36, 0.9);
   --secondary-text-color: rgba(36, 36, 36, 0.7);
   --night-color: #1c1410;
+  --frame-dark: var(--night-color); /* obsidian: the dark frames round photos (How it works' faces and prints) */
   --night-text-color: #f3e9df;
+  --app-dark: #333333; /* the app's own text colours (pureDark, midDark), for its screens in the phone mockups */
+  --app-mid: #5f5f5f;
+  --app-peach: #ffeadd; /* the app's panel round an event's small map (its meeting location) */
+  --app-pill: #e8e8e8; /* the app's grey tag ("Public") */
+  --done-color: #e6e4e1; /* a soft warm grey: things done (How it works' finished steps' blobs) */
   --radius: 20px;
+  --radius-sm: 8px; /* small boxes, a little round (the hero's social buttons) */
   --radius-lg: 28px; /* rounder, for big panels (the Appro panel on home) */
   --section-space: clamp(48px, 7vw, 88px);
   --band-space: clamp(64px, 9vw, 120px); /* above and below each home band's content */
   --band-gutter: clamp(24px, 5vw, 64px); /* and at its sides */
-  --content-width: 1280px;
+  --content-width: 1520px;
+  --hero-inset: 0px; /* how far the home hero sits in from the content column, each side (desktop); 0 = the full column, lined up with the navbar */
   /* Type scale: every text on the site uses one of these five sizes. */
   --text-page: clamp(1.9rem, 4vw, 3rem); /* page title (hero) */
   --text-section: clamp(1.5rem, 3vw, 2.1rem); /* section title */
   --text-item: clamp(1.15rem, 2vw, 1.35rem); /* titles inside a section: blocks, cards, questions, steps */
   --text-info: clamp(1.125rem, calc(1.6vw + 0.125rem), 1.275rem); /* all info text */
   --text-chip: 0.9rem; /* labels, badges, tags */
-  /* Modern System Font Stack */
+  --text-cue: 1rem; /* one-off: the home page's "See how it works" (between --text-chip and --text-info) */
+  --text-hero: clamp(2.1rem, 4.5vw, 3.4rem); /* the home hero's title, a step above --text-page */
+  /* Poppins (Google Fonts, public/index.html), the device's own font while
+     it loads */
   --font-stack:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+    "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
   /* Handwritten, for the odd note (e.g. the quote under the Appro cards). */
   --font-hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
   /* The 3D character (/character, figureScene.js). Matte colours: light and shade come
@@ -78,6 +99,12 @@
   --world-accent-d: #b57ba6;
   --world-accent-e: #8fbf6a;
 }
+/* (The navbar is 64px tall on phones and small tablets, NavBar/index.css) */
+@media (max-width: 800px) {
+  :root {
+    --nav-height: 64px;
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -89,6 +116,14 @@ body {
   font-family: var(--font-stack);
   color: var(--primary-text-color);
   overflow-x: hidden;
+}
+
+/* (Buttons and form fields don't take the page's font by themselves) */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 /* Main Layout: Forces footer to bottom */

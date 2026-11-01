@@ -1,8 +1,9 @@
 import "./layout.css";
-import { asset } from "../content/content";
+import { image } from "../content/content";
+import Heading from "./Heading";
 
 // Partner logos (or names) scrolling right to left in an endless loop.
-// items: [{ name, logo?, url? }] — without a logo, the name is shown as text.
+// items: [{ name, logo?, url? }]; cta: the "Grab yours" tile after them (Cta) — without a logo, the name is shown as text.
 // The list is repeated so one pass is always wider than the screen, then drawn
 // twice; sliding by exactly one copy makes the loop seamless. With only a few
 // partners the repeats would be obvious, so they show as a still, centred row.
@@ -11,7 +12,11 @@ const MIN_TO_SCROLL = 6;
 
 const Mark = ({ item }) => {
   const mark = item.logo ? (
-    <img src={asset(item.logo)} alt={item.name} loading="lazy" />
+    <img
+      src={image(item.logo)}
+      alt={item.name}
+      loading="lazy"
+    />
   ) : (
     <span className="logo-name">{item.name}</span>
   );
@@ -24,17 +29,35 @@ const Mark = ({ item }) => {
   );
 };
 
-const LogoStrip = ({ title, items }) => {
+// "Grab yours": a dashed tile after the logos inviting the next association
+// (a mailto: link), { text, label, href }.
+const Cta = ({ cta }) => (
+  <a className="logo-cta" href={cta.href}>
+    <span className="logo-cta-text">{cta.text}</span>
+    <span className="logo-cta-label">{cta.label}</span>
+  </a>
+);
+
+const LogoStrip = ({ title, items, cta }) => {
   if (items.length < MIN_TO_SCROLL) {
     return (
       <div className="logo-strip">
-        {title && <p className="logo-strip-title">{title}</p>}
+        {title && (
+          <Heading as="h2" size="section" className="logo-strip-title">
+            {title}
+          </Heading>
+        )}
         <ul className="logo-list logo-row">
           {items.map((item) => (
             <li key={item.name}>
               <Mark item={item} />
             </li>
           ))}
+          {cta && (
+            <li>
+              <Cta cta={cta} />
+            </li>
+          )}
         </ul>
       </div>
     );
@@ -45,7 +68,11 @@ const LogoStrip = ({ title, items }) => {
 
   return (
     <div className="logo-strip">
-      {title && <p className="logo-strip-title">{title}</p>}
+      {title && (
+          <Heading as="h2" size="section" className="logo-strip-title">
+            {title}
+          </Heading>
+        )}
       <div className="marquee" style={{ "--duration": `${pass.length * 3}s` }}>
         <div className="marquee-track">
           {[0, 1].map((copy) => (
@@ -60,6 +87,7 @@ const LogoStrip = ({ title, items }) => {
           ))}
         </div>
       </div>
+      {cta && <Cta cta={cta} />}
     </div>
   );
 };

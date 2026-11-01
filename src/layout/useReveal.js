@@ -5,7 +5,9 @@ import { useEffect, useRef, useState } from "react";
 // With `{ watch: true }` it keeps watching after that and also returns
 // whether it's in view right now, and how many times it has come into view
 // (e.g. to play something only while it's seen, from the start each time).
-const useReveal = ({ watch = false } = {}) => {
+// `margin` (a rootMargin, e.g. "0px 0px 25% 0px") counts it as in view that
+// much before it reaches the screen, so it's already coming in when it's seen.
+const useReveal = ({ watch = false, margin = "0px" } = {}) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   const [inView, setInView] = useState(false);
@@ -33,12 +35,12 @@ const useReveal = ({ watch = false } = {}) => {
           });
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.15, rootMargin: margin },
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [watch]);
+  }, [watch, margin]);
 
   return [ref, visible, inView, entries];
 };

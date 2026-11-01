@@ -8,6 +8,8 @@ import Heading from "./Heading";
 // Wrap words in the title with {braces} to show them in the accent colour.
 // layout: "center" (default) | "left" (the same, aligned left). Anything passed inside
 // (a map, a list) goes below; `before` (e.g. a link) goes above the heading.
+// `stagger`: the title's words come in one after another as it scrolls into
+// view (Heading).
 const Intro = ({
   title,
   text = [],
@@ -15,6 +17,7 @@ const Intro = ({
   size = "section",
   layout = "center",
   before,
+  stagger = false,
   children,
 }) => {
   const [ref, visible] = useReveal();
@@ -25,7 +28,7 @@ const Intro = ({
       className={`intro intro--${layout} reveal ${visible ? "is-visible" : ""}`}
     >
       {before}
-      <Heading as={as} size={size} className="title">
+      <Heading as={as} size={size} className="title" stagger={stagger}>
         {title}
       </Heading>
       {text.map((line) => (

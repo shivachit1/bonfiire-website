@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Buildings, GameName, Person, Scripted } from "./eventMap";
 import { Bar as BarBuilding, BarSign, COLORS, HeldPint } from "./BarCrawlMap";
 import { image } from "../content/content";
+import { walkKeyframes } from "./approWalk";
 
 // Drinks, standing with their base at (x, y): a beer, a glass of red wine, a martini
 // with its olive, a whiskey on the rocks. Or, at a birthday, a wrapped present
@@ -3575,9 +3576,58 @@ export const APPRO_MAP = {
   credit: "© OpenStreetMap",
 };
 
-const approRound = (flow, photoGround) => ({
+// (walk) The green "Checked in" over you as you wait at a checkpoint, just
+// above its marker (about 41 tall); bigger on phones (layout.css), where
+// the map is drawn smaller.
+const MeTag = ({ text }) => {
+  const width = text.length * 7.6 + 22;
+  return (
+    <g transform="translate(0 -48)">
+      <g className="map-me-tag">
+        <rect
+          x={-width / 2}
+          y="-24"
+          width={width}
+          height="24"
+          rx="12"
+          fill="var(--yes-color)"
+        />
+        <text
+          y="-7.5"
+          textAnchor="middle"
+          fontSize="13"
+          fontWeight="700"
+          fill="#fff"
+        >
+          {text}
+        </text>
+      </g>
+    </g>
+  );
+};
+// (walk) When you pop in: just after the last marker is down (a marker's
+// drop is 0.9s), and the round: till you're back at the meeting point, a
+// moment there, and the fade.
+const ME_IN = SIGNS_IN + 7 * SIGN_STEP + 1.1;
+const walkRound = (walk) => ME_IN + walk.round + 1.2 + ROUND_FADE;
+// (`me`: where the person looking at it is, [x, y] on the map: a blue dot
+// with a light ring, pulsing, as on a phone's map; left out: none.
+// `notes`: where short notes sit on the map, { desktop, phone }: [x, y] each
+// (the middle of the note's top edge), for `labels.notes` ([{ Icon, text
+// }]): small pills, an icon and a few words, on the map (zooming with it)
+// once it has zoomed in, all popping in together as the markers start
+// dropping, and going with the round; on phones (only a narrow crop of the map shows)
+// their own spots)
+// `walk`: once the markers are down, you (the blue dot) pop in at the
+// meeting point and walk the way round the checkpoints once (walkKeyframes'
+// { round, css }, approWalk.js, the same walk as the participants' map); the
+// round lasts till you're back, then starts again. At the meeting point,
+// still, with reduced motion.
+const approRound = (flow, photoGround, { me, notes, walk } = {}) => ({
   empty: true,
   photoGround,
+  // (walk) Waits till it's in view to start, as the zooming maps do
+  waitInView: !!walk,
   // How long a round is (the map zooms in and out with each, GatheringMap)
   zoomRound: APPRO_FLOWS[flow].round,
   // On phones it starts at the left, the meeting point first, like the Appro maps.
@@ -3603,7 +3653,10 @@ const approRound = (flow, photoGround) => ({
       0,
       full ? 5 : undefined,
     );
-    const [round, fading] = useRounds(APPRO_FLOWS[flow].round, ready);
+    const [round, fading] = useRounds(
+      walk ? walkRound(walk) : APPRO_FLOWS[flow].round,
+      ready,
+    );
     const stats = useStats(round);
     // Tells the page a new round has started (a "map-round" event bubbling up
     // from the map), e.g. so the home page's button can wiggle once it's done.
@@ -3817,6 +3870,36 @@ const approRound = (flow, photoGround) => ({
                 );
               },
             )}
+          {/* (notes) The notes: once the map has zoomed in, all popping in
+              together as the first marker drops, going with the round */}
+          {notes &&
+            ready &&
+            (labels.notes || []).map(({ Icon, text }, i) => {
+              const spot = (phone ? notes.phone : notes.desktop)[i];
+              return spot ? (
+                <g key={text} className="map-note-hold">
+                <foreignObject
+                  className="map-note"
+                  x={spot[0] - 400}
+                  y={spot[1]}
+                  width="800"
+                  height="120"
+                >
+                  <div xmlns="http://www.w3.org/1999/xhtml" className="map-note-row">
+                    <span
+                      className="map-note-pill"
+                      style={{
+                        animationDelay: `${SIGNS_IN}s`,
+                      }}
+                    >
+                      {Icon && <Icon aria-hidden="true" />}
+                      {text}
+                    </span>
+                  </div>
+                </foreignObject>
+                </g>
+              ) : null;
+            })}
           {full && ready && (
             <StatsBox
               x={STATS_AT[0]}
@@ -3825,7 +3908,47 @@ const approRound = (flow, photoGround) => ({
               labels={labels}
             />
           )}
+          {/* (walk) You, walking the way once the markers are down: drawn
+              round 0 0 and moved by its animation */}
+          {walk && ready && (
+            <g className="map-me" aria-hidden="true">
+              <style>{walk.css}</style>
+              <g
+                className="map-me-walk"
+                style={{
+                  animationDuration: `${walk.round}s`,
+                  animationDelay: `${ME_IN}s`,
+                }}
+              >
+                <g
+                  className="map-me-in"
+                  style={{ animationDelay: `${ME_IN}s` }}
+                >
+                  <circle className="map-me-pulse" r="9" />
+                  <circle className="map-me-dot" r="9" />
+                </g>
+                {labels?.checkedIn && (
+                  <g
+                    className="map-me-tag-show"
+                    style={{
+                      animationDuration: `${walk.round}s`,
+                      animationDelay: `${ME_IN}s`,
+                    }}
+                  >
+                    <MeTag text={labels.checkedIn} />
+                  </g>
+                )}
+              </g>
+            </g>
+          )}
         </g>
+        {/* (me) You, on the map: there all along, outside the rounds */}
+        {me && (
+          <g className="map-me" aria-hidden="true">
+            <circle className="map-me-pulse" cx={me[0]} cy={me[1]} r="9" />
+            <circle className="map-me-dot" cx={me[0]} cy={me[1]} r="9" />
+          </g>
+        )}
       </g>
     );
   },
@@ -3835,6 +3958,73 @@ const yourApproFull = approRound("full");
 // (No zooming: the map's picture without its wider one round it)
 const yourApproHosts = approRound("hosts", { ...APPRO_MAP, wide: undefined });
 const yourApproSigns = approRound("signs", APPRO_MAP);
+// (Home, "Hosting an Appro has never been easier": the same, the whole map,
+// with you walking on it once the markers are down (everything on the map
+// is drawn 181 to the left of the map's picture, GatheringMap's SHIFT))
+// The notes (in the order of home.json's popular.notes: eco-friendly,
+// digital map, check-in): on the right halfway down, at the top left, at
+// the bottom in the middle; on phones (just the middle of the map shows)
+// the same, closer in: on the right halfway down (just over you), at the
+// top, under the checkpoints.
+// (No zooming: the map's picture without its wider one round it.) You walk
+// as on the participants' map (approWalk.js), along the streets: checked in
+// first at the meeting point (the Central Station, the orange marker), then
+// at Jone's karaoke bar, Molly Malone's and Pino, and back; in the map
+// picture's units (so 181 across too).
+const ME_WALK = walkKeyframes({
+  walk: "map-me-walk",
+  tag: "map-me-tag",
+  shift: 181,
+  legs: [
+    [
+      [526, 376],
+      [563, 392],
+      [608, 390],
+      [625, 382],
+      [697, 377],
+      [720, 364],
+    ],
+    [
+      [720, 364],
+      [700, 398],
+      [659, 442],
+    ],
+    [
+      [659, 442],
+      [625, 462],
+      [600, 466],
+      [510, 470],
+      [507, 480],
+    ],
+    [
+      [507, 480],
+      [510, 470],
+      [565, 468],
+      [565, 395],
+      [563, 392],
+      [526, 376],
+    ],
+  ],
+});
+const yourApproSignsMe = approRound(
+  "signs",
+  { ...APPRO_MAP, wide: undefined },
+  {
+    walk: ME_WALK,
+    notes: {
+      desktop: [
+        [1140, 270],
+        [480, 80],
+        [781, 518],
+      ],
+      phone: [
+        [860, 226],
+        [700, 52],
+        [758, 505],
+      ],
+    },
+  },
+);
 
 const gatheringVenues = {
   concert,
@@ -3846,6 +4036,7 @@ const gatheringVenues = {
   yourApproFull,
   yourApproHosts,
   yourApproSigns,
+  yourApproSignsMe,
 };
 
 export default gatheringVenues;

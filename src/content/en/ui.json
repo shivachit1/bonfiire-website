@@ -1,12 +1,17 @@
 {
   "nav": {
     "label": "Main",
+    "brand": "Bonfiire.io",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "language": "Language",
-    "help": "Help",
+    "home": "Home",
+    "organizers": "Organizers",
+    "faq": "FAQ",
+    "help": "Support",
     "docs": "Docs",
-    "download": "Download"
+    "about": "About",
+    "download": "Download app"
   },
   "footer": {
     "features": "Features",
@@ -32,6 +37,7 @@
     "or": "or"
   },
   "download": {
+    "heading": "Scan to {download}",
     "title": "Bonfiire is {available} in\n App Store and Play Store",
     "subtitle": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city."
   },

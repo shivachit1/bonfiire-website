@@ -1,25 +1,27 @@
 import "./index.css";
 import { NavLink } from "react-router-dom";
-import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
 import { useContent } from "../../i18n";
+import SocialLinks from "../../layout/SocialLinks";
 
-// Social accounts, by id (ui.json lists them with their links; one without a
-// link yet shows as a plain icon).
-const SOCIAL_ICONS = {
-  instagram: FaInstagram,
-  tiktok: FaTiktok,
-  linkedin: FaLinkedin,
-};
-
-// Like the navbar (but not sticky): on the left one line of small links
-// (terms, privacy, help, download, support), on the right the social accounts, and the copyright on
-// its own line at the bottom. Stacked on phones.
+// A light band at the bottom of every page, rising into the page above with a
+// soft wave along its top (no line). On it: on the left one line of small links
+// (terms, privacy, help, download, support), on the right the social
+// accounts, and the copyright on its own line at the bottom. Stacked on
+// phones.
 const Footer = () => {
   const { footer } = useContent("ui");
   const social = footer.social || [];
 
   return (
     <div className="footer-container">
+      <svg
+        className="footer-wave"
+        viewBox="0 0 1440 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d="M0 64C170 30 340 22 520 44C700 66 860 86 1040 66C1220 46 1330 30 1440 38V100H0Z" />
+      </svg>
       <footer id="footer" className="footer-content">
         {/* One line of small links: terms, privacy, help, download and support */}
         <div className="footer-start">
@@ -42,35 +44,10 @@ const Footer = () => {
         <div className="footer-end">
           {social.length > 0 && (
             <div className="footer-social">
-              <ul className="footer-social-list">
-                {social.map(({ id, label, href }) => {
-                  const Icon = SOCIAL_ICONS[id];
-                  const icon = Icon && <Icon aria-hidden="true" />;
-                  return (
-                    <li key={id}>
-                      {href ? (
-                        <a
-                          className="footer-social-link"
-                          href={href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={label}
-                        >
-                          {icon}
-                        </a>
-                      ) : (
-                        <span
-                          className="footer-social-link"
-                          role="img"
-                          aria-label={label}
-                        >
-                          {icon}
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
+              <SocialLinks
+                listClass="footer-social-list"
+                linkClass="footer-social-link"
+              />
             </div>
           )}
         </div>

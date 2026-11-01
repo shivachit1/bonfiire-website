@@ -21,6 +21,9 @@ import {
   LuMapPinned,
   LuMap,
   LuHistory,
+  LuTrees,
+  LuBeer,
+  LuLandmark,
 } from "react-icons/lu";
 
 // Icon names usable as "icon" in the content files.
@@ -48,6 +51,9 @@ const icons = {
   map: LuMap,
   history: LuHistory,
   invitation: LuMailOpen,
+  park: LuTrees,
+  bar: LuBeer,
+  city: LuLandmark,
 };
 
 export default icons;

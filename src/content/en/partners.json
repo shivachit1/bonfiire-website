@@ -1,41 +1,38 @@
 {
-  "title": "Trusted By",
+  "title": "Trusted by",
   "items": [
     {
-      "name": "Example Student Union",
-      "logo": "",
-      "url": "",
-      "example": true
+      "name": "ATKINS",
+      "logo": "association-atkins",
+      "url": ""
     },
     {
-      "name": "Example Guild",
-      "logo": "",
-      "url": "",
-      "example": true
+      "name": "HEPO ry",
+      "logo": "association-hepo-ry",
+      "url": ""
     },
     {
-      "name": "Example Tutor Team",
-      "logo": "",
-      "url": "",
-      "example": true
-    },
-    {
-      "name": "Example Sports Club",
-      "logo": "",
-      "url": "",
-      "example": true
-    },
-    {
-      "name": "Example Running Club",
-      "logo": "",
-      "url": "",
-      "example": true
-    },
-    {
-      "name": "Example Board Game Society",
-      "logo": "",
-      "url": "",
-      "example": true
+      "name": "IDS Helga",
+      "logo": "association-ids-helga",
+      "url": ""
     }
-  ]
+  ],
+  "cta": {
+    "text": "Your association here",
+    "label": "Grab yours",
+    "emailSubject": "Let’s connect and collaborate",
+    "emailBody": [
+      "Hi Bonfiire team,",
+      "",
+      "We would love to connect and collaborate with Bonfiire.",
+      "",
+      "Name:",
+      "Association or organization:",
+      "Website or social media:",
+      "Number of members:",
+      "How would you like to work together:",
+      "",
+      "Thanks!"
+    ]
+  }
 }

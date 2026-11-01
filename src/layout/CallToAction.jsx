@@ -13,7 +13,11 @@ import LinkLabel from "./LinkLabel";
 // `apps={false}` leaves out the app store buttons; `games` is an optional list shown
 // as pills that rise in one after another. `helpLabel={false}` shows the support
 // email without "Need a hand?" in front (when the text above already says to ask).
-// `id` lets links jump to it.
+// `ask` ({ label, subject, body: [lines] }) shows a button that opens an email to
+// the support address, its subject and outline filled in, in place of the plain
+// support line. `actions` ({ primary: { label, to }, demo: { label, href } }) shows
+// two buttons, one to a page and one to an email (the demo request), in place
+// of both. `id` lets links jump to it.
 const CallToAction = ({
   id,
   doodles,
@@ -26,6 +30,8 @@ const CallToAction = ({
   games = [],
   supportEmail = "support@bonfiire.io",
   helpLabel = true,
+  ask,
+  actions,
 }) => {
   const { cta } = useContent("ui");
   const [gamesRef, gamesVisible] = useReveal();
@@ -65,10 +71,34 @@ const CallToAction = ({
             ))}
           </ul>
         )}
-        <p className={`support-line${helpLabel ? "" : " support-line--plain"}`}>
-          {helpLabel && `${cta.needHelp} `}
-          <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
-        </p>
+        {actions ? (
+          <div className="host-cta-actions cta-actions">
+            <Link className="button-primary" to={actions.primary.to}>
+              {actions.primary.label}
+            </Link>
+            <a className="button-secondary" href={actions.demo.href}>
+              {actions.demo.label}
+            </a>
+          </div>
+        ) : ask ? (
+          <p className="cta-link">
+            <a
+              className="button-primary"
+              href={`mailto:${supportEmail}?subject=${encodeURIComponent(
+                ask.subject,
+              )}&body=${encodeURIComponent(ask.body.join("\n"))}`}
+            >
+              {ask.label}
+            </a>
+          </p>
+        ) : (
+          <p
+            className={`support-line${helpLabel ? "" : " support-line--plain"}`}
+          >
+            {helpLabel && `${cta.needHelp} `}
+            <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+          </p>
+        )}
       </Intro>
     </Section>
   );
