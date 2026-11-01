@@ -5,106 +5,236 @@
   align-items: center;
   justify-content: center; /* Vertically centers content */
   flex: 1; /* fill the space between navbar and footer so the background reaches both */
-  padding: 40px 20px;
+  position: relative;
+  padding: 56px 20px;
+  /* (The cream, the footer under it the light colour: Footer/index.css) */
   background: var(--primary-color);
 }
 
-/* 2. Content Wrapper */
+/* 2. Content Wrapper: one column in the middle, the QR code over the
+   title and text, everything centred */
 .download-content {
-  max-width: 1000px;
+  max-width: 640px;
   width: 100%;
   display: flex;
-  flex-direction: column; /* narrow windows: text, "or", QR stacked */
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 32px;
+  text-align: center;
 }
 
-@media (min-width: 820px) {
-  .download-content {
-    flex-direction: row; /* side by side with "or" in the middle */
-    gap: 56px;
-  }
+/* "Scan to download" over the QR code as a handwritten note (the
+   handwriting font, a little tilted, like the home page's note), its last
+   word in the orange; an orange arrow as thick as the QR's corners (its
+   head turned to the curve's own direction, its tip rounded like their
+   bends) sweeps in one smooth curve from its end down to the QR code,
+   drawing itself in over and over (see below). */
+.download-note {
+  position: relative;
+  margin: 0 0 8px;
 }
 
-/* "or" between the store buttons and the QR, with a line on each side:
-   vertical when side by side, horizontal when stacked */
-.download-or {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 240px;
-  color: var(--secondary-text-color);
-  font-size: var(--text-info);
+.download-heading.heading {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-page);
+  font-weight: 700;
+  line-height: 1.1;
+  transform: rotate(-3deg);
   animation: download-qr-in 0.5s ease-out both;
 }
 
-.download-or::before,
-.download-or::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--building-base);
+.download-arrow {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 8px);
+  width: 64px;
+  height: 73px;
+  overflow: visible;
 }
 
-@media (min-width: 820px) {
-  .download-or {
-    flex-direction: column;
-    align-self: stretch;
-    width: auto;
-    max-width: none;
-  }
+/* (About 7.5px thick at any size) */
+.download-arrow path {
+  fill: none;
+  stroke: var(--primary-color1);
+  stroke-width: 7.5px;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: download-arrow-line 3.4s ease-in-out 0.5s infinite;
+}
 
-  .download-or::before,
-  .download-or::after {
-    width: 1px;
-    height: auto;
+.download-arrow .download-arrow-head {
+  animation-name: download-arrow-head;
+}
+
+/* Over and over (3.4s a round, shared with the corners below): the line
+   draws itself in, then its head; it holds while the corners breathe once;
+   then it fades out and starts again. */
+@keyframes download-arrow-line {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  28%,
+  82% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  94%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
   }
 }
+
+@keyframes download-arrow-head {
+  0%,
+  28% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  40%,
+  82% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  94%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* (Narrow screens: the arrow smaller, its line a little thinner so it
+   doesn't crowd the QR's frame) */
+@media (max-width: 480px) {
+  .download-arrow {
+    top: 22%;
+    left: calc(100% + 4px);
+    width: 40px;
+    height: 46px;
+  }
+  .download-arrow path,
+  .download-qr-corner path {
+    stroke-width: 5px;
+  }
+}
+
 
 .download-text {
   width: 100%;
-  max-width: 640px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  animation: download-qr-in 0.5s ease-out 0.3s both;
 }
 
-@media (min-width: 820px) {
-  .download-text {
-    flex: 1 1 0;
+/* 4. QR code: for visitors to open the page on their phone (shown on
+   phones too, while they're sent on to their app store). Straight on the
+   page (no box behind it), framed by a camera's four corners (thick strokes
+   in the highlight orange, bending round in a curve, with round ends). The
+   card comes in first, growing a little, then the words rise in. */
+.download-qr {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0 0 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-qr-card {
+  position: relative;
+  animation: download-card-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  padding: 18px;
+}
+
+/* The camera's corners: a curved L at each corner, just outside the card
+   (one drawing, turned for each corner), always shown. In the arrow's
+   round (the same 3.4s, from the same start), once its head has landed
+   they breathe once (all four drifting a little out from the code, each
+   along its own diagonal --dx, --dy, and back in), then rest while the
+   arrow fades and draws itself in again. */
+.download-qr-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  overflow: visible;
+  pointer-events: none;
+  animation: download-corner-breathe 3.4s ease-in-out 0.5s infinite both;
+}
+
+
+@keyframes download-corner-breathe {
+  0%,
+  40%,
+  60%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: calc(var(--dx) * 6px) calc(var(--dy) * 6px);
   }
 }
 
-
-/* 3. Links Wrapper */
-.download-links-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
+.download-qr-corner path {
+  fill: none;
+  /* (The highlight orange, like the arrow) */
+  stroke: var(--primary-color1);
+  /* (As thick as the arrow: 7.5px) */
+  stroke-width: 7.5px;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
 }
 
-/* 4. QR code: for desktop visitors to open the page on their phone */
-.download-qr {
-  flex: 0 0 auto;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  animation: download-qr-in 0.5s ease-out both;
+.download-qr-corner--tl {
+  --dx: -1;
+  --dy: -1;
+  top: -12px;
+  left: -12px;
+}
+
+.download-qr-corner--tr {
+  --dx: 1;
+  --dy: -1;
+  top: -12px;
+  right: -12px;
+  transform: rotate(90deg);
+}
+
+.download-qr-corner--br {
+  --dx: 1;
+  --dy: 1;
+  right: -12px;
+  bottom: -12px;
+  transform: rotate(180deg);
+}
+
+.download-qr-corner--bl {
+  --dx: -1;
+  --dy: 1;
+  bottom: -12px;
+  left: -12px;
+  transform: rotate(270deg);
 }
 
 .download-qr-code {
+  position: relative;
   line-height: 0;
 }
 
-.download-qr-svg {
-  width: 200px;
-  height: 200px;
+@keyframes download-card-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .download-qr-dots {
@@ -121,19 +251,6 @@
   fill: var(--accent-text-color);
 }
 
-.download-qr figcaption {
-  font-size: var(--text-info);
-  color: var(--secondary-text-color);
-}
-
-/* Phones and tablets are the device to download on, so no QR there */
-@media (hover: none) and (pointer: coarse) {
-  .download-or,
-  .download-qr {
-    display: none;
-  }
-}
-
 @keyframes download-qr-in {
   from {
     opacity: 0;
@@ -146,8 +263,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .download-or,
-  .download-qr {
+  .download-arrow path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .download-heading,
+  .download-qr-corner,
+  .download-text,
+  .download-qr-card {
     animation: none;
   }
 }

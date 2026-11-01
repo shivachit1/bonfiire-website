@@ -1,0 +1,126 @@
+{
+  "hero": {
+    "title": "Plan events people {remember}",
+    "text": "Create an event in minutes, invite your people, bring in hosts and run the whole day from one app, from a house party to an Appro across the city.",
+    "photos": [
+      {
+        "image": "tug-of-war",
+        "alt": "Students pulling a rope in a tug of war on a lawn, one of the games on an Appro."
+      },
+      {
+        "image": "group-meetup",
+        "alt": "A group of friends gathered in a circle outdoors in the autumn sun."
+      }
+    ],
+    "primary": {
+      "label": "Create an event",
+      "to": "/download"
+    },
+    "demo": "Request Demo",
+    "email": "support@bonfiire.io",
+    "emailSubject": "Demo request for Bonfiire",
+    "emailBody": [
+      "Hi Bonfiire team,",
+      "",
+      "I would like to request a demo of Bonfiire.",
+      "",
+      "Name:",
+      "Organization or student association:",
+      "Type of event (Appro or single location):",
+      "Expected number of participants:",
+      "Preferred dates and times for the demo:",
+      "",
+      "Anything else we should know:",
+      "",
+      "Thanks!"
+    ]
+  },
+  "steps": {
+    "title": "Plan it in four steps"
+  },
+  "kinds": {
+    "title": "{Bonfiire} support events",
+    "rows": [
+      {
+        "kind": "single",
+        "title": "Organized in one venue",
+        "note": "Best for house parties, meetups and game nights. Everyone comes to one place, checks in at the entrance.",
+        "link": {
+          "label": "See instructions →",
+          "to": "/help-docs/event-creation/create-single-location-event"
+        },
+        "mapLabel": "A map with one sign, a single-location event",
+        "markers": ["Your event"]
+      },
+      {
+        "kind": "appro",
+        "title": "Organized in multiple checkpoints",
+        "note": "Best for Appro and Fuksiaiset. Attendees walk to multiple checkpoints, each with its own host, collecting points and stamps.",
+        "link": {
+          "label": "See instructions →",
+          "to": "/help-docs/event-creation/create-multi-checkpoint-event"
+        },
+        "mapLabel": "A map with a meeting point and three checkpoints, an Appro",
+        "markers": [
+          "Meeting point",
+          "Checkpoint 1",
+          "Checkpoint 2",
+          "Checkpoint 3"
+        ]
+      }
+    ],
+    "learn": {
+      "title": "Learn how {Multi locations} \nevents works",
+      "titles": {
+        "tickets": "Keep track of ticket sales",
+        "scan": "Check in attendees",
+        "score": "Make it fun with activities and scoring",
+        "album": "Share memories in one album",
+        "history": "See who did what"
+      }
+    },
+    "guides": {
+      "label": "Some quick guides for you",
+      "featured": {
+        "title": "Some quick guides for you",
+        "items": [
+          {
+            "title": "How to create your first event?",
+            "to": "/help-docs/event-creation/create-single-location-event"
+          },
+          {
+            "title": "How to invite people?",
+            "to": "/help-docs/sending-invitations/invite-people"
+          },
+          {
+            "title": "How to add a co-host?",
+            "to": "/help-docs/sending-invitations/add-cohost"
+          },
+          {
+            "title": "How to add a checkpoint host?",
+            "to": "/help-docs/sending-invitations/add-checkpoint-host"
+          },
+          {
+            "title": "How to check in attendees?",
+            "to": "/help-docs/running-the-day/scanning-tickets"
+          },
+          {
+            "title": "How to activate scoring for an Appro?",
+            "to": "/help-docs/running-the-day/score-participants"
+          }
+        ]
+      }
+    }
+  },
+  "cta": {
+    "title": "Planning an upcoming {Appro}?",
+    "text": [
+      "Tell us about it. We'll walk you through Bonfiire and help you set up your first event."
+    ],
+    "primary": {
+      "label": "Try it out",
+      "to": "/download"
+    },
+    "demo": "Request Demo"
+  }
+}

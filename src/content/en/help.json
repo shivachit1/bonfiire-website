@@ -4,6 +4,52 @@
     "title": "How can we help?",
     "text": "Learn how Bonfiire works, find quick answers and get help with your events."
   },
+  "start": {
+    "label": "Choose who you are",
+    "audiences": [
+      {
+        "id": "participants",
+        "title": "For Participants",
+        "text": "Find events, join them and get the most out of the day, from your ticket to the checkpoints.",
+        "to": "/help-docs/finding-events/explore-events"
+      },
+      {
+        "id": "organizers",
+        "title": "For Organizers",
+        "text": "Create and run your events: invite people, add hosts, check guests in and give scores.",
+        "to": "/help-docs/event-creation/create-single-location-event"
+      }
+    ],
+    "featured": {
+      "title": "Featured articles",
+      "items": [
+        {
+          "title": "How to create a Bonfiire account?",
+          "to": "/help-docs/account/create-your-profile"
+        },
+        {
+          "title": "How to create your first event?",
+          "to": "/help-docs/event-creation/create-single-location-event"
+        },
+        {
+          "title": "How to explore event?",
+          "to": "/help-docs/finding-events/explore-events"
+        },
+        {
+          "title": "How to find my ticket?",
+          "to": "/help-docs/at-the-event/find-tickets"
+        },
+        {
+          "title": "How to check in attendees?",
+          "to": "/help-docs/running-the-day/scanning-tickets"
+        },
+        {
+          "title": "How to activate scoring for an Appro?",
+          "to": "/help-docs/running-the-day/score-participants"
+        }
+      ]
+    }
+  },
   "tabs": [
     {
       "id": "attending",
@@ -569,6 +615,23 @@
     "title": "Still have questions?",
     "text": [
       "Contact us and we'll help you out."
-    ]
+    ],
+    "ask": {
+      "label": "Ask for help",
+      "subject": "I need help with Bonfiire",
+      "body": [
+        "Hi Bonfiire team,",
+        "",
+        "I need help with Bonfiire.",
+        "",
+        "Name:",
+        "I am a (participant or organizer):",
+        "Event name, if it is about an event:",
+        "My phone (iPhone or Android):",
+        "What I need help with:",
+        "",
+        "Thanks!"
+      ]
+    }
   }
 }

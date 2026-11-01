@@ -3,12 +3,28 @@ import { Fragment } from "react";
 // Turns a title from the content files into text with highlights:
 // every {word or phrase} in braces shows in the accent colour, and a new line (\n)
 // becomes a line break. "Find {events}, meet {people}" highlights both.
-const highlight = (text = "") =>
-  text.split(/[{}]/).map((part, index) => {
+// With `{ stagger: true }` each word is its own span (.stagger-word, its
+// place in the title as --i), so the words can come in one after another
+// (layout.css).
+const highlight = (text = "", { stagger = false } = {}) => {
+  let count = 0;
+  const words = (line) =>
+    stagger
+      ? line.split(/(\s+)/).map((word, k) =>
+          word.trim() ? (
+            <span key={k} className="stagger-word" style={{ "--i": count++ }}>
+              {word}
+            </span>
+          ) : (
+            word
+          ),
+        )
+      : line;
+  return text.split(/[{}]/).map((part, index) => {
     const lines = part.split("\n").map((line, lineIndex) => (
       <Fragment key={lineIndex}>
         {lineIndex > 0 && <br />}
-        {line}
+        {words(line)}
       </Fragment>
     ));
     // Parts at odd positions were inside braces.
@@ -20,5 +36,6 @@ const highlight = (text = "") =>
       <Fragment key={index}>{lines}</Fragment>
     );
   });
+};
 
 export default highlight;

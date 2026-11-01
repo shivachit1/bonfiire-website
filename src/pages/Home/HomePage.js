@@ -1,28 +1,30 @@
-import { Link } from "react-router-dom";
 import Section from "../../layout/Section";
+import HostCta from "../../layout/HostCta";
 import Intro from "../../layout/Intro";
 import LogoStrip from "../../layout/LogoStrip";
-import GatheringShowcase from "../../layout/GatheringShowcase";
 import ApproHero from "../../layout/ApproHero";
 import ApproMapNew from "../../layout/ApproMapNew";
 import PhotoHero from "../../layout/PhotoHero";
-import PhotoBlobs from "../../layout/PhotoBlobs";
-import CheckpointStory from "../../layout/CheckpointStory";
-import PartyScene from "../../layout/PartyScene";
-import BlobPanel from "../../layout/BlobPanel";
+import { MoreRow } from "../../layout/CheckpointStory";
 import Testimonials from "../../layout/Testimonials";
-import Faq from "../../layout/Faq";
+import AppLinks from "../../components/AppLinks/AppLinks";
 import { useContent } from "../../i18n";
 import { visible } from "../../content/content";
-import LinkLabel from "../../layout/LinkLabel";
+import PhotoPile from "../../layout/PhotoPile";
+import PlanFlow from "../../layout/PlanFlow";
+import HowSteps from "../../layout/HowSteps";
 
-// Home, top to bottom: the promise with the app store buttons beside the
-// app's screenshots sliding past → the visitor's own Appro on its map, its title over it → what you get when you host an Appro
-// (a row of cards) → the promise (light the Bonfiire of connection) with the app
-// store buttons → or keep it in one place (the single-location event) →
-// planning a party in one place? (the organizing guide) → photos from events
-// in blob shapes →
-// who trusts us → what people say → questions.
+// Home, top to bottom: the promise with the app store buttons and the social
+// accounts beside the app's screenshots sliding past → build endless memories
+// with friends (photos from student events as overlapping prints, a light
+// band) → plan your next gathering ("Host an event" with the kinds of events
+// round it as chips; the steps story, PlanGathering, before it; How it works, the steps in a row sliding along, was after it
+// and removed 2026-10-28; What you can do in Bonfiire, the phones' scroll
+// story, AppHighlights, was next, removed 2026-10-28 and kept for later)
+// → hosting an Appro (the
+// complete Appro map, and under it in the same band more for your Appro, a
+// row you scroll sideways) → need a demo or help?
+// → what people say and who trusts us (one band) → the app store buttons.
 // The cream (warm) background throughout, the odd section on the light one.
 // Section titles line up on the left, like the hero (the Appro map's is centred).
 // Sections sit still (no scroll animation); small drawings drift beside them
@@ -32,28 +34,30 @@ import LinkLabel from "../../layout/LinkLabel";
 // The Appro map near the top: the new one being worked on (ApproMapNew), or
 // the one before it (ApproHero, kept as it is). false brings the old one back.
 const NEW_APPRO_MAP = false;
-// Whether that map is shown at all: hidden for now (2026-10-14), its title
-// ("Hosting an Appro has never been easier") heading the Appro flow below
-// instead (CheckpointStory). true brings the map back.
+// Whether that map is shown at all, here: hidden (2026-10-14). The complete
+// map (ApproHero) is shown in the Hosting an Appro section above instead
+// (2026-10-26), so true would show it twice.
 const SHOW_APPRO_MAP = false;
 
 const HomePage = () => {
   const {
     contact,
-    hostGathering,
+    hero,
     onePlace,
     photoHero,
-    eventPhotos,
     popular,
     checkpoint,
+    memories,
+    hostEvent,
+    planBoard,
+    howSteps,
+    hostCta,
   } = useContent("home");
   const partners = useContent("partners");
   const testimonials = useContent("testimonials");
-  const faq = useContent("faq");
 
   const partnerItems = visible(partners.items);
   const testimonialItems = visible(testimonials.items);
-  const faqItems = visible(faq.items);
 
   return (
     <div className="sections--light-first">
@@ -66,7 +70,72 @@ const HomePage = () => {
         text={photoHero.text}
         screens={photoHero.screens}
         screensLabel={photoHero.screensLabel}
+        cta={photoHero.cta}
+        socialLabel={photoHero.socialLabel}
+        follow={photoHero.follow}
       />
+
+      {/* Build endless memories with friends: its title, then photos from
+          student events as prints in an overlapping row, dealt in as it
+          scrolls into view (PhotoPile). A band of its own, right after the hero
+          (2026-10-31, in place of the "Events are where friendships begin"
+          title band, kept as WhoFor, unused); the bands take turns, cream and
+          light. */}
+      <PhotoPile
+        title={memories.title}
+        label={memories.photosLabel}
+        photos={memories.photos}
+      />
+
+      {/* Plan your next gathering (PlanFlow): the arc of events with the title.
+          (The card with invite friends and track RSVPs under it was removed
+          2026-10-30, kept as InviteRsvpCards. PlanBoard, HostEvent and
+          PlanGathering are kept for now.) */}
+      <PlanFlow
+        title={planBoard.title}
+        arc={planBoard.arc}
+        people={hostEvent.invite.people}
+        text={hostCta.text}
+        primary={hostCta.primary}
+        demo={hostCta.demo}
+        mailto={`mailto:${contact.email}?subject=${encodeURIComponent(
+          contact.emailSubject,
+        )}&body=${encodeURIComponent(contact.emailBody.join("\n"))}`}
+      />
+
+      {/* How it works: create an event, invite friends, track RSVPs, in a row
+          you scroll sideways with dots under it (HowSteps). */}
+      <HowSteps {...howSteps} />
+
+      {/* (The "Are you hosting a gathering?" band with a photo was removed
+          2026-10-30, kept as HostCta, unused. Its buttons and line are under
+          "Host your next gathering" above.) */}
+
+      {/* Hosting an Appro: its title, then the complete Appro map
+          (ApproHero: the checkpoints dropping in, their hosts invited and
+          accepting, groups walking the route, with its status line and guest
+          list). (ApproFullMap, the map with you walking the route and
+          checking in, was here before; kept for now.) */}
+      <ApproHero
+        title={popular.title}
+        text={popular.text}
+        next={{
+          ...popular.next,
+          labels: {
+            ...popular.next.labels,
+            swipe: onePlace.map.labels.swipe,
+          },
+        }}
+        titleAs="h2"
+      >
+        {/* In the same section, right under the map: more for your Appro
+            (CheckpointStory's MoreRow): the participants' map, ticket sales,
+            check-in with a QR code, scoring, photos and the history, in a
+            row you scroll sideways. ("Are you hosting next Appro?"
+            (HostKinds) and the steps of how it works (CheckpointStory) were
+            after the map before; removed 2026-10-26.) */}
+        <MoreRow {...checkpoint.more} />
+      </ApproHero>
 
       {/* Then: the title and a few lines, the visitor's own Appro on its map
           (signs dropping in). On a cream band, like the navbar above it. */}
@@ -99,108 +168,53 @@ const HomePage = () => {
         />
       )}
 
-      {/* Hosting an Appro, step by step (CheckpointStory): managing the
-          checkpoints on the map, inviting participants, their map, check-in,
-          scoring and the rest, each in a row of its own with its picture */}
-      <Section className="section--services">
-        <CheckpointStory
-          title={checkpoint.title}
-          text={checkpoint.text}
-          steps={checkpoint.steps}
-          label={checkpoint.stepsLabel}
-        />
-      </Section>
+      {/* Need a demo or help? After what organizers get, with no panel behind
+          it: the question and a line on the left, the button to request a demo
+          (an email to us, its subject and an outline already filled in) under the
+          line, and a real photo on the right (HostCta, as the gathering band had). */}
+      <HostCta
+        title={contact.title}
+        text={contact.text}
+        photos={contact.photos}
+        primary={contact.primary}
+        demo={contact.demo}
+        mailto={`mailto:${contact.email}?subject=${encodeURIComponent(
+          contact.emailSubject,
+        )}&body=${encodeURIComponent(contact.emailBody.join("\n"))}`}
+      />
 
-      {/* Need a demo or help? After what organizers get, a bold band in the
-          brand orange: the question and a line on the left, the button to email
-          us and the link to the help center on the right (stacked on phones). */}
-      <Section className="section--compact section--get-app">
-        <div className="contact-band">
-          <Intro layout="left" title={contact.title} text={[contact.text]} />
-          <div className="contact-band-actions">
-            <a className="contact-band-button" href={`mailto:${contact.email}`}>
-              {contact.button}
-            </a>
-            <Link className="contact-band-link" to={contact.help.to}>
-              <LinkLabel text={contact.help.label} />
-            </Link>
-          </div>
-        </div>
-      </Section>
-
-      {/* Not just Appro, keep it in one place too: the other kind of event, right
-          after the app store buttons. On a cream band: a map of guests arriving,
-          checking in at the entrance and filling the venue, at one kind of event
-          after another (house party, birthday…), under its heading; over the map's
-          bottom edge the dots that switch them and each venue's name and lines. */}
-      <Section className="section--map-feature">
-        <Intro title={onePlace.title} text={onePlace.text} />
-        <GatheringShowcase
-          venues={onePlace.venues}
-          labels={onePlace.map.labels}
-          venuesLabel={onePlace.venuesLabel}
-        />
-      </Section>
-
-      {/* Planning a party in one place? On the cream band, a light rounded panel
-          like the download one: the question, a line and the link to the
-          organizing guide under them on the left, the party hat, present and
-          balloons on a soft breathing blob on the right (stacked on phones). */}
-      <Section className="section--compact section--get-app">
-        <div className="get-app get-app--scene">
-          <div className="host-invite">
-            <Intro
-              layout="left"
-              title={hostGathering.title}
-              text={hostGathering.text}
-            >
-              <p className="host-invite-actions">
-                <Link className="text-link" to={hostGathering.instructions.to}>
-                  <LinkLabel text={hostGathering.instructions.label} />
-                </Link>
-              </p>
+      {/* Who trusts us and, in the same band under it, what people say */}
+      {(testimonialItems.length > 0 || partnerItems.length > 0) && (
+        <Section className="section--cream section--voices" doodles="stories">
+          {partnerItems.length > 0 && (
+            <LogoStrip
+              title={partners.title}
+              items={partnerItems}
+              cta={{
+                text: partners.cta.text,
+                label: partners.cta.label,
+                href: `mailto:${contact.email}?subject=${encodeURIComponent(
+                  partners.cta.emailSubject,
+                )}&body=${encodeURIComponent(partners.cta.emailBody.join("\n"))}`,
+              }}
+            />
+          )}
+          {testimonialItems.length > 0 && (
+            <Intro title={testimonials.title} as="h3" size="item">
+              <Testimonials items={testimonialItems} />
             </Intro>
-            <BlobPanel
-              className="blob-panel--scene blob-panel--beat"
-              shape="trefoil"
-              beat={6}
-            >
-              <PartyScene alt={hostGathering.sceneAlt} />
-            </BlobPanel>
-          </div>
+          )}
+        </Section>
+      )}
+
+      {/* Last: where to get the app (the hero's words, in place of the
+          questions removed 2026-10-31, Faq kept) and the two store buttons beside them (under the words on phones). */}
+      <Section className="section--cream">
+        <div className="contact-band">
+          <Intro layout="left" title={hero.title} text={[hero.text]} />
+          <AppLinks />
         </div>
       </Section>
-
-      {/* Real photos from events, in breathing blob shapes taking turns in the
-          middle, after the party panel */}
-      <Section className="section--compact section--event-photos">
-        <PhotoBlobs
-          photos={eventPhotos.photos}
-          label={eventPhotos.photosLabel}
-        />
-      </Section>
-
-      {partnerItems.length > 0 && (
-        <Section className="section--compact section--cream">
-          <LogoStrip title={partners.title} items={partnerItems} />
-        </Section>
-      )}
-
-      {testimonialItems.length > 0 && (
-        <Section className="section--cream" doodles="stories">
-          <Intro title={testimonials.title}>
-            <Testimonials items={testimonialItems} />
-          </Intro>
-        </Section>
-      )}
-
-      {faqItems.length > 0 && (
-        <Section className="section--cream">
-          <Intro layout="left" title={faq.title}>
-            <Faq items={faqItems} />
-          </Intro>
-        </Section>
-      )}
     </div>
   );
 };

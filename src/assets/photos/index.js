@@ -6,6 +6,10 @@ import tugOfWar from "./tug-of-war.jpeg";
 import groupMeetup from "./group-meetup.jpeg";
 import friendsPhones from "./friends-phones.jpeg";
 import nightGroup from "./night-group.jpeg";
+// A student association's logo (src/assets/associations), for "Trusted by".
+import hepoRy from "../associations/hepo_ry.avif";
+import atkins from "../associations/atkins.jpg";
+import idsHelga from "../associations/ids.jpg";
 import plainMap from "./plain_map.jpg";
 // Central Helsinki in the owner's map style (from OpenStreetMap data, made
 // with MapLibre; 3600 × 1800), under the home page's Appro map.
@@ -30,6 +34,13 @@ import screenExplore from "./app-screens/explore.webp";
 import screenEventParticipating from "./app-screens/event-participating.webp";
 import screenETicket from "./app-screens/e-ticket.webp";
 import screenCheckpoints from "./app-screens/checkpoints.webp";
+// A blank phone (from blank-mock-up-portrait.png, 720 wide) with its screen
+// cut out, to draw app screens into (PhoneFrame).
+import phoneFrame from "./app-screens/phone-frame.webp";
+// The same, tilted (from blank-mock-up-tilt.png, 900 wide, screen cut out):
+// facing left as in that picture, and mirrored, facing right.
+import phoneFrameTiltRight from "./app-screens/phone-frame-tilt-right.webp";
+import phoneFrameTiltLeft from "./app-screens/phone-frame-tilt-left.webp";
 
 const photos = {
   gathering,
@@ -38,6 +49,9 @@ const photos = {
   "group-meetup": groupMeetup,
   "friends-phones": friendsPhones,
   "night-group": nightGroup,
+  "association-hepo-ry": hepoRy,
+  "association-atkins": atkins,
+  "association-ids-helga": idsHelga,
   "plain-map": plainMap,
   "appro-map": approMap,
   "appro-map-wide": approMapWide,
@@ -45,6 +59,9 @@ const photos = {
   "screen-event-participating": screenEventParticipating,
   "screen-e-ticket": screenETicket,
   "screen-checkpoints": screenCheckpoints,
+  "phone-frame": phoneFrame,
+  "phone-frame-tilt-right": phoneFrameTiltRight,
+  "phone-frame-tilt-left": phoneFrameTiltLeft,
   "avatar-beanie": avatarBeanie,
   "avatar-curly-hair": avatarCurlyHair,
   "avatar-short-dark-hair": avatarShortDarkHair,

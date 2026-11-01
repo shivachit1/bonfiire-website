@@ -598,7 +598,16 @@ const ZOOM = 1.3;
 
 // (`venue`: a venue's name in gatheringVenues, or a venue itself, made
 // elsewhere, e.g. ApproMapNew.jsx.)
-const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
+// (`replay`: for a map that waits till it's in view (`photoGround.wide` or
+// `waitInView`), it starts over, from the very beginning, each time it's
+// scrolled back to: once it's wholly off the screen it's reset, zoomed out
+// and waiting again.)
+const GatheringMap = ({
+  venue: id = "concert",
+  imageAlt,
+  labels,
+  replay = false,
+}) => {
   const venue = typeof id === "string" ? gatheringVenues[id] : id;
   const { Ground, empty, startAtLeft, photoGround } = venue;
 
@@ -641,12 +650,17 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
   // round begins (its Ground waits for it). Every round (its "map-round"), the
   // map zooms in (ZOOM, as the first marker drops), stays, and zooms back out
   // over the round's last ZOOM seconds (`zoomRound` long), to zoom in again
-  // with the next. Zoomed in and still with reduced motion.
+  // with the next. Zoomed in and still with reduced motion. (`waitInView`:
+  // the same wait, without the zoom.)
   const zooms = !!photoGround?.wide;
+  const waits = zooms || !!venue.waitInView;
   const [zoomedIn, setZoomedIn] = useState(!zooms);
-  const [ready, setReady] = useState(!zooms);
+  const [ready, setReady] = useState(!waits);
+  // (replay) How many times it has come into view: its Ground starts afresh
+  // with each
+  const [entries, setEntries] = useState(0);
   useEffect(() => {
-    if (!zooms) return undefined;
+    if (!waits) return undefined;
     const node = ref.current;
     const still = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
@@ -666,13 +680,24 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
       );
     };
     node.addEventListener("map-round", round);
+    let shown = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-        setReady(true);
+        // (In: half of it on the screen; then, with `replay`, out once none
+        // of it is)
+        if (!shown && entry.intersectionRatio >= 0.5) {
+          shown = true;
+          if (!replay) observer.disconnect();
+          setEntries((n) => n + 1);
+          setReady(true);
+        } else if (shown && replay && !entry.isIntersecting) {
+          shown = false;
+          clearTimeout(timer);
+          setReady(false);
+          setZoomedIn(!zooms);
+        }
       },
-      { threshold: 0.5 },
+      { threshold: [0, 0.5] },
     );
     observer.observe(node);
     return () => {
@@ -680,7 +705,7 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
       node.removeEventListener("map-round", round);
       clearTimeout(timer);
     };
-  }, [zooms, venue]);
+  }, [waits, venue, replay, zooms]);
 
   return (
     <div
@@ -755,7 +780,11 @@ const GatheringMap = ({ venue: id = "concert", imageAlt, labels }) => {
             </>
           )}
           <g transform={`translate(${SHIFT} 0)`}>
-            <Ground labels={labels} ready={ready} />
+            <Ground
+              key={replay ? entries : undefined}
+              labels={labels}
+              ready={ready}
+            />
 
             {/* The guests, the entrance and the counter (an empty venue has none) */}
             {!empty && <Gathering id={id} venue={venue} labels={labels} />}

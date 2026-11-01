@@ -1,0 +1,229 @@
+{
+  "hero": {
+    "title": "About {Bonfiire}",
+    "text": "Bonfiire is where students find things to do, host their own events and bring people together, from a park hangout to an Appro across the city."
+  },
+  "values": {
+    "title": "What we are {building}",
+    "text": [
+      "Everyone is busy with their own life, and technology keeps changing how we live. We want to use that technology to do something simple: bring people together.",
+      "Bonfiire helps you meet new people, make memories and find friends that last. From a small hangout to a big Appro, it is made for the moments you share face to face.",
+      "We build it for you, and we keep adding features based on what you need."
+    ]
+  },
+  "cta": {
+    "title": "Try the app and tell us what comes {next}",
+    "text": [
+      "Download Bonfiire and try it out. Let us know what you want the app to include in the next version."
+    ],
+    "primary": {
+      "label": "Try it out",
+      "to": "/download"
+    },
+    "demo": "Request Demo",
+    "email": "support@bonfiire.io",
+    "emailSubject": "Question about Bonfiire",
+    "emailBody": [
+      "Hi Bonfiire team,",
+      "",
+      "I would like to know more about Bonfiire.",
+      "",
+      "Name:",
+      "Organization or student association:",
+      "What I would like to know:",
+      "",
+      "Thanks!"
+    ]
+  },
+  "versions": {
+    "title": "From day one to today",
+    "text": "See where we started and what we have shipped in the app, based on the feedback and requests you have given us.",
+    "ask": {
+      "text": "Do you have anything you want to add?",
+      "label": "Reach out to us",
+      "email": "support@bonfiire.io",
+      "subject": "My idea for Bonfiire",
+      "body": [
+        "Hi Bonfiire team,",
+        "",
+        "I have an idea or request for Bonfiire.",
+        "",
+        "Name:",
+        "Organization or student association:",
+        "My idea or request:",
+        "Why it would help:",
+        "",
+        "Thanks!"
+      ]
+    },
+    "platformsLabel": "Choose the app",
+    "platforms": [
+      {
+        "id": "ios",
+        "label": "iOS",
+        "versions": [
+          {
+            "version": "1.0",
+            "date": "22 Feb 2026",
+            "notes": [
+              {
+                "heading": "First launch",
+                "text": "The very first version of Bonfiire, released on the App Store."
+              }
+            ]
+          },
+          {
+            "version": "1.1.0",
+            "date": "23 Feb 2026",
+            "notes": [
+              {
+                "heading": "Ticket Scanner Optimization",
+                "text": "Fixed a bug where the camera would constantly re-scan invalid tickets QR codes. The scanner now handles errors gracefully, improving performance and battery life."
+              },
+              {
+                "heading": "Real-Time Connectivity",
+                "text": "Live syncing is now active for Events, Participants, Notifications, and Messages. Information updates instantly across devices."
+              },
+              {
+                "heading": "Map & Marker UI",
+                "text": "Improved marker logic for smoother zooming. Pins now stay crisp, scale correctly, and remain easy to click without overlapping."
+              },
+              {
+                "heading": "UI & Navigation Fixes",
+                "text": "General layout improvements across the app, specifically focusing on the Calendar and Event Details pages."
+              }
+            ]
+          },
+          {
+            "version": "1.1.1",
+            "date": "9 Apr 2026",
+            "notes": [
+              {
+                "heading": "UI Improvements",
+                "text": "Corrected layout constraints in the QR code view. Fixed interface bugs across multi-location selection screens."
+              }
+            ]
+          },
+          {
+            "version": "2.0.0",
+            "date": "23 Sept 2026",
+            "notes": [
+              {
+                "text": "Ready for your next event? We’ve upgraded the app to make Appros smoother and more fun than ever!"
+              },
+              {
+                "heading": "Group Participation & Shared Points:",
+                "text": "Squad up! Join events as a group, complete group tasks, and perform check-ins as a team, earning and pooling score points collectively."
+              },
+              {
+                "heading": "Color-Coded Checkpoints:",
+                "text": "Never lose your way on the route. Checkpoints now feature color-coded markers so you can see at a glance which stops you've completed and where to head next."
+              },
+              {
+                "heading": "Interactive Mini Map:",
+                "text": "Preview the event map right from the Event Details page, just tap it anytime to open the full interactive map view to see all checkpoints."
+              },
+              {
+                "text": "Enjoying the new updates? Leave us a review and let us know how your team did!"
+              }
+            ]
+          },
+          {
+            "version": "3.0.0",
+            "date": "Planned, development ongoing",
+            "tag": "Coming up",
+            "upcoming": true,
+            "notes": [
+              {
+                "heading": "Ticket sales",
+                "text": "Tickets are currently free, so participants can join immediately. Paid ticketing within the app is coming soon."
+              },
+              {
+                "heading": "Shared album for events",
+                "text": "Bring the whole day together. Hosts and participants can upload their photos to one shared album so no moment gets lost."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "android",
+        "label": "Android",
+        "versions": [
+          {
+            "version": "1.0",
+            "date": "25 Jan 2026",
+            "notes": [
+              {
+                "heading": "First launch",
+                "text": "The very first version of Bonfiire, released on Google Play."
+              }
+            ]
+          },
+          {
+            "version": "1.1.0",
+            "date": "23 Feb 2026",
+            "notes": [
+              {
+                "heading": "Ticket Scanner Optimization",
+                "text": "Fixed a bug where the camera would constantly re-scan invalid tickets QR codes. The scanner now handles errors gracefully, improving performance and battery life."
+              },
+              {
+                "heading": "Real-Time Connectivity",
+                "text": "Live syncing is now active for Events, Participants, Notifications, and Messages. Information updates instantly across devices."
+              },
+              {
+                "heading": "Map & Marker UI",
+                "text": "Improved marker logic for smoother zooming. Pins now stay crisp, scale correctly, and remain easy to click without overlapping."
+              },
+              {
+                "heading": "UI & Navigation Fixes",
+                "text": "General layout improvements across the app, specifically focusing on the Calendar and Event Details pages."
+              }
+            ]
+          },
+          {
+            "version": "2.0.0",
+            "date": "21 Sept 2026",
+            "notes": [
+              {
+                "text": "Ready for your next event? We’ve upgraded the app to make Appros smoother and more fun than ever!"
+              },
+              {
+                "heading": "Group Participation & Shared Points:",
+                "text": "Squad up! Join events as a group, complete group tasks, and perform check-ins as a team, earning and pooling score points collectively."
+              },
+              {
+                "heading": "Color-Coded Checkpoints:",
+                "text": "Never lose your way on the route. Checkpoints now feature color-coded markers so you can see at a glance which stops you've completed and where to head next."
+              },
+              {
+                "heading": "Interactive Mini Map:",
+                "text": "Preview the event map right from the Event Details page, just tap it anytime to open the full interactive map view to see all checkpoints."
+              },
+              {
+                "text": "Enjoying the new updates? Leave us a review and let us know how your team did!"
+              }
+            ]
+          },
+          {
+            "version": "3.0.0",
+            "date": "Planned, development ongoing",
+            "tag": "Coming up",
+            "upcoming": true,
+            "notes": [
+              {
+                "heading": "Ticket sales",
+                "text": "Tickets are currently free, so participants can join immediately. Paid ticketing within the app is coming soon."
+              },
+              {
+                "heading": "Shared album for events",
+                "text": "Bring the whole day together. Hosts and participants can upload their photos to one shared album so no moment gets lost."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

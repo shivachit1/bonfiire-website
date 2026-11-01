@@ -8,13 +8,25 @@ import highlight from "./highlight";
 // Any {word or phrase} in braces shows in the accent colour and a \n breaks the line
 // (see highlight.js). `as` changes the element (e.g. "span" inside a link card)
 // without changing the size; `className` adds a class for layout.
+// `stagger`: its words come in one after another once the Intro round it
+// is in view (.heading--stagger, layout.css; use it through Intro).
 const TAGS = { page: "h1", section: "h2", item: "h3" };
 
-const Heading = ({ size = "section", as, className = "", children }) => {
+const Heading = ({
+  size = "section",
+  as,
+  className = "",
+  stagger = false,
+  children,
+}) => {
   const Tag = as || TAGS[size];
   return (
-    <Tag className={`heading heading--${size} ${className}`.trim()}>
-      {typeof children === "string" ? highlight(children) : children}
+    <Tag
+      className={`heading heading--${size}${stagger ? " heading--stagger" : ""} ${className}`.trim()}
+    >
+      {typeof children === "string"
+        ? highlight(children, { stagger })
+        : children}
     </Tag>
   );
 };

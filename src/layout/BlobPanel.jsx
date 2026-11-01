@@ -49,7 +49,7 @@ export const blobPath = (seed, shape = "soft") => {
 };
 
 // `shape`: "soft" (default, to put content inside), "weird" (a splodge behind a
-// drawing) or a hand-drawn one (DRAWN: "trefoil"). `beat` (seconds): instead of
+// drawing), "pebble" (PEBBLES, below) or a hand-drawn one (DRAWN: "trefoil"). `beat` (seconds): instead of
 // breathing on its own, it moves in time with the drawing's cycle: its outline
 // shifts a little and back as the drawing jumps (with .blob-panel--beat the whole
 // shape squashes, stretches and wobbles like jelly too; see layout.css).
@@ -91,6 +91,19 @@ export const jiggle = (d, amount, phase) => {
     .join(" ")} Z`;
 };
 
+// Hand-drawn pebbles (200 × 200, shape "pebble"): rounded but uneven, each
+// with a soft dent or two, like river stones; `seed` picks one (they take
+// turns), and each breathes into a slightly jiggled outline of itself.
+export const PEBBLES = [
+  "M 52 22 C 88 2 140 8 168 34 C 196 60 194 100 182 128 C 170 156 176 182 140 192 C 104 202 80 178 54 176 C 24 174 4 150 8 116 C 12 82 32 70 30 52 C 28 38 36 30 52 22 Z",
+  "M 96 10 C 138 4 176 26 186 64 C 196 100 170 116 172 146 C 174 178 140 196 106 190 C 76 185 62 168 38 164 C 12 160 2 128 10 100 C 18 72 40 66 50 44 C 60 24 72 14 96 10 Z",
+  "M 40 40 C 62 12 110 2 150 16 C 186 30 198 70 186 104 C 176 132 186 156 166 178 C 142 202 104 192 78 186 C 46 180 14 168 8 134 C 2 104 20 92 22 74 C 24 58 28 54 40 40 Z",
+];
+const pebble = (seed) => {
+  const d = PEBBLES[seed % PEBBLES.length];
+  return [d, jiggle(d, 6, seed)];
+};
+
 const BlobPanel = ({
   seed = 5,
   shape = "soft",
@@ -104,11 +117,22 @@ const BlobPanel = ({
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false,
     );
   }, []);
-  const [from, to] = DRAWN[shape] || [
-    blobPath(seed, shape),
-    blobPath(seed + 101, shape),
-  ];
+  const [from, to] =
+    shape === "pebble"
+      ? pebble(seed)
+      : DRAWN[shape] || [blobPath(seed, shape), blobPath(seed + 101, shape)];
   const ease = "0.45 0 0.55 1";
+  const breathe = !still && !beat && (
+    <animate
+      attributeName="d"
+      values={`${from};${to};${from}`}
+      keyTimes="0;0.5;1"
+      calcMode="spline"
+      keySplines={`${ease};${ease}`}
+      dur="14s"
+      repeatCount="indefinite"
+    />
+  );
   return (
     <div className={`blob-panel ${className}`.trim()}>
       <svg
@@ -141,17 +165,7 @@ const BlobPanel = ({
               repeatCount="indefinite"
             />
           )}
-          {!still && !beat && (
-            <animate
-              attributeName="d"
-              values={`${from};${to};${from}`}
-              keyTimes="0;0.5;1"
-              calcMode="spline"
-              keySplines={`${ease};${ease}`}
-              dur="14s"
-              repeatCount="indefinite"
-            />
-          )}
+          {breathe}
         </path>
       </svg>
       <div className="blob-panel-content">{children}</div>

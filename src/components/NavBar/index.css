@@ -1,30 +1,67 @@
-/* A plain full-width bar in solid cream, its content lined up with the page's
-   content column; a hairline appears under it once the page scrolls. */
+/* A floating pill: the bar itself (.navbar) is a rounded light pill with the
+   page showing round it (no full-width band, no line under it). It stays at the
+   top, always fully shown, with a soft shadow so it lifts off what's under it.
+   The container itself lets clicks through; only the pill takes them. */
 .navbar-container {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  padding: 0 24px;
-  background: var(--primary-color);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  padding: 12px 24px 0;
+  background: transparent;
+  pointer-events: none;
+  transition:
+    background-color 0.3s ease,
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.navbar-container.is-scrolled {
-  border-bottom-color: rgba(89, 65, 43, 0.1);
+/* Scrolling down: the bar slides up out of the way, and comes back on scrolling up. */
+.navbar-container.is-hidden {
+  transform: translateY(calc(-100% - 8px));
+}
+/* Over a light band the pill turns cream, over a cream band it is light
+   (data-over, set from the band under it). */
+.navbar-container[data-over="light"] {
+  --nav-pill: var(--primary-color);
+}
+.navbar-container .navbar {
+  pointer-events: auto;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 24px rgba(89, 65, 43, 0.12);
 }
 
+/* Three zones: the icon and name left, the links centred, flag, language and
+   Download right. */
 .navbar {
   max-width: var(--content-width);
-  height: 72px;
+  height: 64px;
   margin: 0 auto;
-  display: flex;
+  padding: 0 24px;
+  border-radius: 12px;
+  background: var(--nav-pill, var(--building-top));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
 }
+.nav-logo {
+  justify-self: start;
+}
+.nav-actions {
+  display: contents;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
 
-/* ---------- Logo: the icon with the name beside it ---------- */
+/* ---------- Logo: the icon and the name beside it ---------- */
 .nav-logo {
   display: flex;
   align-items: center;
@@ -36,6 +73,12 @@
   color: var(--secondary-color);
 }
 
+.nav-brand {
+  font-size: var(--text-info);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
 .nav-icon {
   width: 36px;
   height: 36px;
@@ -43,21 +86,40 @@
   object-fit: contain;
 }
 
-.logo-text {
-  font-size: var(--text-item);
+/* Download: a flat filled button after the language picker. */
+.nav-download,
+.nav-download:hover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  background: var(--primary-color1);
+  color: var(--primary-color);
   font-weight: 700;
   white-space: nowrap;
 }
-
-/* ---------- Right side: languages, then Download ---------- */
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-shrink: 0;
+.nav-download {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+.nav-download:hover {
+  background: var(--secondary-color);
+  transform: scale(1.04);
+}
+.nav-download:active {
+  transform: scale(0.97);
 }
 
+
 /* The language picker: just the dropdown of short codes (EN ▾), no outline. */
+.nav-flag {
+  width: 22px;
+  height: 15px;
+  margin-right: 8px;
+  flex: none;
+}
 .nav-language {
   display: flex;
   align-items: center;
@@ -157,21 +219,25 @@
 /* ---------- Phones ---------- */
 @media (max-width: 800px) {
   .navbar-container {
-    padding: 0 16px;
+    padding: 8px 16px 0;
   }
   .navbar {
-    height: 64px;
+    height: 56px;
+    padding: 0 16px;
   }
-  .nav-actions {
-    gap: 12px;
+  .nav-links,
+  .nav-end {
+    gap: 16px;
   }
 }
 
 /* Phones: the links and the languages fold into a panel under the bar that
    slides down (and fades) when the ☰ button is pressed. */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .navbar {
     position: relative;
+    display: flex;
+    justify-content: space-between;
   }
   .nav-toggle {
     display: block;
@@ -181,16 +247,18 @@
     height: 32px;
   }
   .nav-actions {
+    display: flex;
     position: absolute;
-    top: 100%;
-    left: -16px;
-    right: -16px;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    border-radius: var(--radius);
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     padding: 8px 16px 20px;
-    background: var(--primary-color);
-    border-bottom: 1px solid rgba(89, 65, 43, 0.1);
+    background: var(--nav-pill, var(--building-top));
+    box-shadow: 0 6px 24px rgba(89, 65, 43, 0.12);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
@@ -208,6 +276,12 @@
       transform 0.25s ease,
       visibility 0s;
   }
+  .nav-links,
+  .nav-end {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
   .nav-link {
     padding: 14px 0;
     font-size: var(--text-info);
@@ -217,10 +291,17 @@
     margin-top: 14px;
     font-size: var(--text-info);
   }
+  .nav-download {
+    align-self: flex-start;
+    margin-top: 16px;
+    font-size: var(--text-info);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .navbar-container,
   .nav-toggle span,
+  .navbar-container .navbar,
   .nav-actions,
   .nav-actions.is-open {
     transition: none;

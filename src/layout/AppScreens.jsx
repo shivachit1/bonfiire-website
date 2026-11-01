@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./layout.css";
 import { image } from "../content/content";
 import useReveal from "./useReveal";
@@ -7,8 +7,10 @@ import useReveal from "./useReveal";
 // fanned out like a hand of cards: one upright in front, one tilted either
 // side behind it (smaller, under a cream veil), the rest hidden behind (see
 // .app-screen in layout.css), each with a light wash of the page's cream over
-// it. Every few seconds it moves on one: the front one swings back to the
-// left, the right one comes to the front and the next fans out on the right.
+// it. Every few seconds they turn one place, like a carousel: the front one
+// swings back to the left, the right one comes to the front, and the left
+// one glides back behind the front one (smaller, fading) to come out again
+// on the right. Every card only ever glides one place, so nothing jumps.
 // You can move through them yourself too: swipe or drag sideways, scroll
 // sideways (a trackpad) or the arrow keys; after that it waits a while before
 // moving on by itself again. They rise in one after another when they come
@@ -22,19 +24,32 @@ const REST = 8000;
 // How far a swipe, drag or sideways scroll has to go (px) to move on.
 const SWIPE = 40;
 
+// A card's place, kept between -1 (left) and count - 2: 0 in front, 1 on the
+// right, 2 and up out of sight behind the front one.
+const wrap = (place, count) => (((place + 1) % count) + count) % count - 1;
+
 const reducedMotion = () =>
   typeof window !== "undefined" &&
   !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 const AppScreens = ({ screens, label }) => {
   const count = screens.length;
-  // Which screenshot is in front.
-  const [active, setActive] = useState(0);
+  // Where each screenshot is (see `wrap`); the one at 0 is in front.
+  const [places, setPlaces] = useState(() =>
+    screens.map((_, i) => wrap(i, count)),
+  );
   const [ref, revealed] = useReveal();
   const [paused, setPaused] = useState(false);
   const [onScreen, setOnScreen] = useState(true);
   // When you last moved it yourself (it then rests for REST).
   const [touchedAt, setTouchedAt] = useState(0);
+
+  // Turns them all on by `step` places (1 on, -1 back), round the carousel.
+  const move = useCallback(
+    (step) =>
+      setPlaces((list) => list.map((place) => wrap(place - step, count))),
+    [count],
+  );
 
   useEffect(() => {
     const node = ref.current;
@@ -50,17 +65,17 @@ const AppScreens = ({ screens, label }) => {
     if (paused || !onScreen || !revealed || reducedMotion()) return undefined;
     let timer;
     const tick = () => {
-      if (!document.hidden) setActive((a) => (a + 1) % count);
+      if (!document.hidden) move(1);
       timer = setTimeout(tick, EVERY);
     };
     timer = setTimeout(tick, Math.max(EVERY, touchedAt + REST - Date.now()));
     return () => clearTimeout(timer);
-  }, [paused, onScreen, revealed, count, touchedAt]);
+  }, [paused, onScreen, revealed, move, touchedAt]);
 
   // Moving it yourself, by `step` places.
   const go = ({ step }) => {
     setTouchedAt(Date.now());
-    setActive((a) => (a + step + count) % count);
+    move(step);
   };
 
   // Swiping or dragging sideways (a pointer that goes down and moves).
@@ -80,6 +95,15 @@ const AppScreens = ({ screens, label }) => {
   const onPointerEnd = () => {
     drag.current = null;
   };
+  // Pausing while hovered: a mouse only. (A touch fires mouseenter but never
+  // mouseleave, which left it paused for good after a tap or a swipe.)
+  const onPointerEnter = (e) => {
+    if (e.pointerType === "mouse") setPaused(true);
+  };
+  const onPointerLeave = (e) => {
+    onPointerEnd();
+    if (e.pointerType === "mouse") setPaused(false);
+  };
 
   // Scrolling sideways (a trackpad or a sideways wheel): one place per
   // gesture, not one per scroll event. Up and down is left to the page.
@@ -97,12 +121,12 @@ const AppScreens = ({ screens, label }) => {
         const step = wheel.current.sum > 0 ? 1 : -1;
         wheel.current = { sum: 0, until: now + 700 };
         setTouchedAt(now);
-        setActive((a) => (a + step + count) % count);
+        move(step);
       }
     };
     node.addEventListener("wheel", onWheel, { passive: false });
     return () => node.removeEventListener("wheel", onWheel);
-  }, [ref, count]);
+  }, [ref, move]);
 
   const onKeyDown = (e) => {
     if (e.key === "ArrowRight") go({ step: 1 });
@@ -121,26 +145,26 @@ const AppScreens = ({ screens, label }) => {
         aria-label={label}
         tabIndex={0}
         onKeyDown={onKeyDown}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onPointerEnter={onPointerEnter}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerEnd}
         onPointerCancel={onPointerEnd}
-        onPointerLeave={onPointerEnd}
+        onPointerLeave={onPointerLeave}
       >
         {screens.map((screen, i) => {
-          // How many places from the front (-1 to 2 for four), and so its
-          // place, size and how much it shows.
-          let place = (i - active + count) % count;
-          if (place > count / 2) place -= count;
+          // How many places from the front, and so its place, size and how
+          // much it shows.
+          // The ones out of sight wait in the middle, behind the front one.
+          const place = places[i];
           const far = Math.abs(place);
+          const side = far > 1 ? 0 : place;
           const src = image(screen.image);
           return (
             <div
               key={screen.image}
               className={`app-screen${far === 0 ? " is-current" : ""}`}
-              style={{ "--place": place, "--far": far, "--i": far }}
+              style={{ "--side": side, "--far": far, "--i": far }}
               aria-hidden={far === 0 ? undefined : true}
             >
               <div className="app-screen-rise">

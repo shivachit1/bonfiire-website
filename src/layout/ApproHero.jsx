@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import "./layout.css";
 import GatheringMap from "./GatheringMap";
 import Intro from "./Intro";
+import useReveal from "./useReveal";
+import { ApproNotes } from "./ApproFullMap";
 import {
   ACCEPT_AT,
   ACCEPT_STEP,
@@ -23,6 +25,13 @@ import {
 //   title, text   the heading and the lines under it
 //   titleAs       the heading's element: "h1" (default, the page's title) or
 //                 "h2" when something above is the page's title
+//   notes         a few short notes as chips under the title, [{ icon, text }]
+//                 (ApproNotes); left out: none
+//   children      more in the same section, under the map (e.g. the home
+//                 page's "More for your Appro" row)
+// Once participants are joining, the status line shows the disclaimer in
+// their place (`next.disclaimer`); with reduced motion (no round) it's
+// under the guest list instead.
 //   next          the visitor's own Appro: { imageAlt, labels, status } (`status`:
 //                 the status line's words for each step: creating,
 //                 checkpoints, created, hosts, waiting, helpers, set, inviting,
@@ -133,13 +142,15 @@ const Tick = () => (
   </svg>
 );
 
-const ApproHero = ({ title, text, next, titleAs = "h1" }) => {
+const ApproHero = ({ title, text, next, notes, titleAs = "h1", children }) => {
+  const [notesRef, notesVisible] = useReveal();
   // The status line follows the map's round, step by step (see
   // PHASES), ending on "All set" (just that with reduced motion, where the map
   // doesn't go round).
   // The guest list strip follows it too (statsAt, each frame while shown).
   const stageRef = useRef(null);
   const [phase, setPhase] = useState("creating");
+  const [still, setStill] = useState(false);
   const [stats, setStats] = useState(null);
   useEffect(() => {
     const stage = stageRef.current;
@@ -153,6 +164,7 @@ const ApproHero = ({ title, text, next, titleAs = "h1" }) => {
     );
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       setPhase("set");
+      setStill(true);
       setStats(statsAt(Infinity, list));
       return undefined;
     }
@@ -195,12 +207,19 @@ const ApproHero = ({ title, text, next, titleAs = "h1" }) => {
       <div className="container container--wide">
         <div className="map-hero-stage" ref={stageRef}>
           <Intro as={titleAs} size="section" title={title} text={text} />
+          {notes && (
+            <div ref={notesRef}>
+              <ApproNotes notes={notes} visible={notesVisible} />
+            </div>
+          )}
           {/* The map */}
           <div className="map-hero-map">
+            {/* (Starting over each time it's scrolled back to) */}
             <GatheringMap
               venue="yourAppro"
               imageAlt={next.imageAlt}
               labels={next.labels}
+              replay
             />
             {/* Just under the map: the status line, and the guest list
                 board under it */}
@@ -208,7 +227,9 @@ const ApproHero = ({ title, text, next, titleAs = "h1" }) => {
               {next.status && (
                 <p className="map-hero-status" aria-live="polite">
                   <span key={phase} className="map-hero-status-text">
-                    {next.status[phase]}
+                    {phase === "joining" && next.disclaimer
+                      ? next.disclaimer
+                      : next.status[phase]}
                     {DONE.includes(phase) && <Tick />}
                   </span>
                 </p>
@@ -218,12 +239,13 @@ const ApproHero = ({ title, text, next, titleAs = "h1" }) => {
                 labels={next.labels}
                 shown={!!stats}
               />
-              {next.disclaimer && (
+              {still && next.disclaimer && (
                 <p className="map-hero-disclaimer">{next.disclaimer}</p>
               )}
             </div>
           </div>
         </div>
+        {children}
       </div>
     </section>
   );
